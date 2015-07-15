@@ -6,24 +6,24 @@ package ub.juav.autopilot.math.structs;
 public abstract class Vect3<T> {
     private T x,y,z;
 
-    public T getX() {
-        return x;
+    public Number getX() {
+        return (Number) x;
     }
 
     public void setX(T x) {
         this.x = x;
     }
 
-    public T getY() {
-        return y;
+    public Number getY() {
+        return (Number) y;
     }
 
     public void setY(T y) {
         this.y = y;
     }
 
-    public T getZ() {
-        return z;
+    public Number getZ() {
+        return (Number) z;
     }
 
     public void setZ(T z) {

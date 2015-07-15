@@ -9,32 +9,32 @@ public abstract class Quat<T> {
     private T qy;
     private T qz;
 
-    public T getQi() {
-        return qi;
+    public Number getQi() {
+        return (Number) qi;
     }
 
     public void setQi(T qi) {
         this.qi = qi;
     }
 
-    public T getQx() {
-        return qx;
+    public Number getQx() {
+        return (Number) qx;
     }
 
     public void setQx(T qx) {
         this.qx = qx;
     }
 
-    public T getQy() {
-        return qy;
+    public Number getQy() {
+        return (Number) qy;
     }
 
     public void setQy(T qy) {
         this.qy = qy;
     }
 
-    public T getQz() {
-        return qz;
+    public Number getQz() {
+        return (Number) qz;
     }
 
     public void setQz(T qz) {

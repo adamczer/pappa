@@ -8,24 +8,24 @@ public abstract class Rates<T> {
     private T q;
     private T r;
 
-    public T getP() {
-        return p;
+    public Number getP() {
+        return (Number) p;
     }
 
     public void setP(T p) {
         this.p = p;
     }
 
-    public T getQ() {
-        return q;
+    public Number getQ() {
+        return (Number) q;
     }
 
     public void setQ(T q) {
         this.q = q;
     }
 
-    public T getR() {
-        return r;
+    public Number getR() {
+        return (Number) r;
     }
 
     public void setR(T r) {

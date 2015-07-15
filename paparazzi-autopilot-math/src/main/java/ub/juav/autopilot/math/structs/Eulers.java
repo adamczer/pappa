@@ -8,24 +8,24 @@ public abstract class Eulers<T> {
     private T theta;
     private T psi;
 
-    public T getPhi() {
-        return phi;
+    public Number getPhi() {
+        return (Number) phi;
     }
 
     public void setPhi(T phi) {
         this.phi = phi;
     }
 
-    public T getTheta() {
-        return theta;
+    public Number getTheta() {
+        return (Number) theta;
     }
 
     public void setTheta(T theta) {
         this.theta = theta;
     }
 
-    public T getPsi() {
-        return psi;
+    public Number getPsi() {
+        return (Number) psi;
     }
 
     public void setPsi(T psi) {

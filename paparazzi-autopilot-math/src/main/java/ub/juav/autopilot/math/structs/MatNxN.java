@@ -14,11 +14,13 @@ public abstract class MatNxN<T> {
         this.matrix = matrix;
     }
 
-    public void setElement(T d, int row, int col) {
-        matrix[row][col] = d;
+    public void setElement(Number d, int row, int col) {
+        matrix[row][col] = (T) d;
     }
 
-    public T getElement(int row,int column) {
-        return matrix[row][column];
+    public Number getElement(int row,int column) {
+        return (Number) matrix[row][column];
     }
+
+    public abstract void zero();
 }
