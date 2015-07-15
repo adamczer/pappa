@@ -1,35 +1,11 @@
 package ub.juav.autopilot.math.structs.doubles;
 
+import ub.juav.autopilot.math.structs.Rates;
+
 /**
  * Angular rates
  * units are in radians
  */
-public class DoubleRates {
-    private double p;
-    private double q;
-    private double r;
+public class DoubleRates extends Rates<Double>{
 
-    public double getP() {
-        return p;
-    }
-
-    public void setP(double p) {
-        this.p = p;
-    }
-
-    public double getQ() {
-        return q;
-    }
-
-    public void setQ(double q) {
-        this.q = q;
-    }
-
-    public double getR() {
-        return r;
-    }
-
-    public void setR(double r) {
-        this.r = r;
-    }
 }

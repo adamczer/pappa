@@ -3,16 +3,30 @@ package ub.juav.autopilot.math.structs;
 /**
  * Created by adamczer on 7/12/15.
  */
-public interface Vect3<T> {
-    public T getX();
+public abstract class Vect3<T> {
+    private T x,y,z;
 
-    public void setX(T x);
+    public T getX() {
+        return x;
+    }
 
-    public T getY();
+    public void setX(T x) {
+        this.x = x;
+    }
 
-    public void setY(T y);
+    public T getY() {
+        return y;
+    }
 
-    public T getZ();
+    public void setY(T y) {
+        this.y = y;
+    }
 
-    public void setZ(T z);
+    public T getZ() {
+        return z;
+    }
+
+    public void setZ(T z) {
+        this.z = z;
+    }
 }
