@@ -332,6 +332,12 @@ public class PprzAlgebra{
 //    public static Double MAT33_ELMT(Mat33 m, int row, int col) {
 //        return m.getMatrix()[row][col];
 //    }
+    public static void MAT33_DIAG(Mat33 mat, int d00,int d11,int d22) {
+        mat.zero();
+        mat.setElement(d00, 0, 0);
+        mat.setElement(d11,1,1);
+        mat.setElement(d22,2,2);
+    }
 
     public static void MAT33_COPY(Mat33 mat1, Mat33 mat2) {
         for(int i = 0; i < 3 ; i++) {

@@ -75,6 +75,9 @@ public class PprzAlgebraInt {
     public static int ANGLE_BFP_OF_REAL(double af)  {
         return BFP_OF_REAL((af), INT32_ANGLE_FRAC);
     }
+    public static int ANGLE_BFP_OF_REAL(float af)  {
+        return BFP_OF_REAL((af), INT32_ANGLE_FRAC);
+    }
     public static float ANGLE_FLOAT_OF_BFP(int af)  {
         return FLOAT_OF_BFP((af), INT32_ANGLE_FRAC);
     }
@@ -169,69 +172,16 @@ public class PprzAlgebraInt {
     }
 
     public static void INT32_MAT33_DIAG(IntMat33 mat, int d00,int d11,int d22) {
-        mat.zero();
-        mat.setElement(d00, 0, 0);
-        mat.setElement(d11,1,1);
-        mat.setElement(d22,2,2);
+        PprzAlgebra.MAT33_DIAG(mat,d00,d11,d22);
     }
+
 
     /************** Rotation Matricies ***************/
 
     /* initialises a rotation matrix to identity */
     public static void int32_rmat_identity(IntRMat mat) {
-        INT32_MAT33_DIAG(mat,TRIG_BFP_OF_REAL(1.),TRIG_BFP_OF_REAL(1.),TRIG_BFP_OF_REAL(1.));
+        PprzAlgebra.MAT33_DIAG(mat, TRIG_BFP_OF_REAL(1.), TRIG_BFP_OF_REAL(1.), TRIG_BFP_OF_REAL(1.));
     }
-
-    /*
-//   /** Composition (multiplication) of two rotation matrices.
-// * m_a2b = m_a2c comp_inv m_b2c , aka  m_a2b = inv(_m_b2c) * m_a2c
-// */
-//    extern void int32_rmat_comp_inv(struct Int32RMat *m_a2b, struct Int32RMat *m_a2c,
-//                                    struct Int32RMat *m_b2c);
-//
-///** rotate 3D vector by rotation matrix.
-// * vb = m_a2b * va
-// */
-//    extern void int32_rmat_vmult(struct Int32Vect3 *vb, struct Int32RMat *m_a2b,
-//                                 struct Int32Vect3 *va);
-//
-///** rotate 3D vector by transposed rotation matrix.
-// * vb = m_b2a^T * va
-// */
-//    extern void int32_rmat_transp_vmult(struct Int32Vect3 *vb, struct Int32RMat *m_b2a,
-//                                        struct Int32Vect3 *va);
-//
-///** rotate anglular rates by rotation matrix.
-// * rb = m_a2b * ra
-// */
-//    extern void int32_rmat_ratemult(struct Int32Rates *rb, struct Int32RMat *m_a2b,
-//                                    struct Int32Rates *ra);
-//
-///** rotate anglular rates by transposed rotation matrix.
-// * rb = m_b2a^T * ra
-// */
-//    extern void int32_rmat_transp_ratemult(struct Int32Rates *rb, struct Int32RMat *m_b2a,
-//                                           struct Int32Rates *ra);
-//
-///// Convert unit quaternion to rotation matrix.
-//    extern void int32_rmat_of_quat(struct Int32RMat *rm, struct Int32Quat *q);
-
-//    /** Rotation matrix from 321 Euler angles (int).
-//     * The Euler angles are interpreted as zy'x'' (intrinsic) rotation.
-//     * First rotate around z with psi, then around the new y' with theta,
-//     * then around new x'' with phi.
-//     * This is the same as a xyz (extrinsic) rotation,
-//     * rotating around the fixed x, then y then z axis.
-//     * - psi range: -pi < psi <= pi
-//     * - theta range: -pi/2 <= theta <= pi/2
-//     * - phi range: -pi < phi <= pi
-//     * @param[out] rm pointer to rotation matrix
-//     * @param[in]  e pointer to Euler angles
-//     */
-//    extern void int32_rmat_of_eulers_321(struct Int32RMat *rm, struct Int32Eulers *e);
-//
-///// Rotation matrix from 312 Euler angles.
-//    extern void int32_rmat_of_eulers_312(struct Int32RMat *rm, struct Int32Eulers *e);
 
     public static int QUAT1_BFP_OF_REAL(double qf)  {return BFP_OF_REAL((qf), INT32_QUAT_FRAC);}
     public static float QUAT1_FLOAT_OF_BFP(int qi) { return FLOAT_OF_BFP((qi), INT32_QUAT_FRAC);}
@@ -718,4 +668,106 @@ public class PprzAlgebraInt {
     }
 
     /********* Euler Angles *********/
+
+    public static void int32_eulers_of_rmat(IntEulers e, IntRMat rm) {
+        float dcm00 = TRIG_FLOAT_OF_BFP(rm.getElement(0,0).intValue());
+        float dcm01 = TRIG_FLOAT_OF_BFP(rm.getElement(0,1).intValue());
+        float dcm02 = TRIG_FLOAT_OF_BFP(rm.getElement(0,2).intValue());
+        float dcm12 = TRIG_FLOAT_OF_BFP(rm.getElement(1,2).intValue());
+        float dcm22 = TRIG_FLOAT_OF_BFP(rm.getElement(2,2).intValue());
+        float phi   = atan2f(dcm12, dcm22);
+        float theta = -asinf(dcm02);
+        float psi   = atan2f(dcm01, dcm00);
+        e.setPsi(ANGLE_BFP_OF_REAL(phi));
+        e.setTheta(ANGLE_BFP_OF_REAL(theta));
+        e.setPsi(ANGLE_BFP_OF_REAL(psi));
+    }
+
+    private static float asinf(float y) {
+        return (float) Math.asin(y);
+    }
+
+
+    private static float atan2f(float y, float x) {
+        return (float) Math.atan2(y,x);
+    }
+
+    public static void int32_eulers_of_quat(IntEulers e, IntQuat q) {
+        int qx2  = INT_MULT_RSHIFT(q.getQx().intValue(), q.getQx().intValue(), INT32_QUAT_FRAC);
+        int qy2  = INT_MULT_RSHIFT(q.getQy().intValue(), q.getQy().intValue(), INT32_QUAT_FRAC);
+        int qz2  = INT_MULT_RSHIFT(q.getQz().intValue(), q.getQz().intValue(), INT32_QUAT_FRAC);
+        int qiqx = INT_MULT_RSHIFT(q.getQi().intValue(), q.getQx().intValue(), INT32_QUAT_FRAC);
+        int qiqy = INT_MULT_RSHIFT(q.getQi().intValue(), q.getQy().intValue(), INT32_QUAT_FRAC);
+        int qiqz = INT_MULT_RSHIFT(q.getQi().intValue(), q.getQz().intValue(), INT32_QUAT_FRAC);
+        int qxqy = INT_MULT_RSHIFT(q.getQx().intValue(), q.getQy().intValue(), INT32_QUAT_FRAC);
+        int qxqz = INT_MULT_RSHIFT(q.getQx().intValue(), q.getQz().intValue(), INT32_QUAT_FRAC);
+        int qyqz = INT_MULT_RSHIFT(q.getQy().intValue(), q.getQz().intValue(), INT32_QUAT_FRAC);
+        int one = TRIG_BFP_OF_REAL(1);
+        int two = TRIG_BFP_OF_REAL(2);
+
+        /* dcm00 = 1.0 - 2.*(  qy2 +  qz2 ); */
+        int idcm00 =  one - INT_MULT_RSHIFT(two, (qy2 + qz2),
+                INT32_TRIG_FRAC + INT32_QUAT_FRAC - INT32_TRIG_FRAC);
+  /* dcm01 =       2.*( qxqy + qiqz ); */
+        int idcm01 = INT_MULT_RSHIFT(two, (qxqy + qiqz),
+                INT32_TRIG_FRAC + INT32_QUAT_FRAC - INT32_TRIG_FRAC);
+  /* dcm02 =       2.*( qxqz - qiqy ); */
+        int idcm02 = INT_MULT_RSHIFT(two, (qxqz - qiqy),
+                INT32_TRIG_FRAC + INT32_QUAT_FRAC - INT32_TRIG_FRAC);
+  /* dcm12 =       2.*( qyqz + qiqx ); */
+        int idcm12 = INT_MULT_RSHIFT(two, (qyqz + qiqx),
+                INT32_TRIG_FRAC + INT32_QUAT_FRAC - INT32_TRIG_FRAC);
+  /* dcm22 = 1.0 - 2.*(  qx2 +  qy2 ); */
+        int idcm22 = one - INT_MULT_RSHIFT(two, (qx2 + qy2),
+                INT32_TRIG_FRAC + INT32_QUAT_FRAC - INT32_TRIG_FRAC);
+        float dcm00 = (float)idcm00 / (1 << INT32_TRIG_FRAC);
+        float dcm01 = (float)idcm01 / (1 << INT32_TRIG_FRAC);
+        float dcm02 = (float)idcm02 / (1 << INT32_TRIG_FRAC);
+        float dcm12 = (float)idcm12 / (1 << INT32_TRIG_FRAC);
+        float dcm22 = (float)idcm22 / (1 << INT32_TRIG_FRAC);
+
+        float phi   = atan2f(dcm12, dcm22);
+        float theta = -asinf(dcm02);
+        float psi   = atan2f(dcm01, dcm00);
+        e.setPhi(ANGLE_BFP_OF_REAL(phi));
+        e.setTheta(ANGLE_BFP_OF_REAL(theta));
+        e.setPsi(ANGLE_BFP_OF_REAL(psi));
+    }
+
+    /****** Rotational Speeds *******/
+    public static void int32_rates_of_eulers_dot_321(IntRates r, IntEulers e, IntEulers ed) {
+        int sphi = PprzTrig.PPRZ_ITRIG_SIN(e.getPhi().intValue());
+        int cphi = PprzTrig.PPRZ_ITRIG_COS(e.getPhi().intValue());
+        int stheta = PprzTrig.PPRZ_ITRIG_SIN(e.getTheta().intValue());
+        int ctheta = PprzTrig.PPRZ_ITRIG_COS(e.getTheta().intValue());
+
+        int cphi_ctheta = INT_MULT_RSHIFT(cphi,   ctheta, INT32_TRIG_FRAC);
+        int sphi_ctheta = INT_MULT_RSHIFT(sphi,   ctheta, INT32_TRIG_FRAC);
+
+        r.setP(- INT_MULT_RSHIFT(stheta, ed.getPsi().intValue(), INT32_TRIG_FRAC) + ed.getPhi().intValue());
+        r.setQ(INT_MULT_RSHIFT(sphi_ctheta, ed.getPsi().intValue(), INT32_TRIG_FRAC) + INT_MULT_RSHIFT(cphi, ed.getTheta().intValue(), INT32_TRIG_FRAC));
+        r.setR(INT_MULT_RSHIFT(cphi_ctheta, ed.getPsi().intValue(), INT32_TRIG_FRAC) - INT_MULT_RSHIFT(sphi, ed.getTheta().intValue(), INT32_TRIG_FRAC));
+    }
+
+    public static void int32_eulers_dot_321_of_rates(IntEulers ed, IntEulers e, IntRates r) {
+        int sphi = PprzTrig.PPRZ_ITRIG_SIN(e.getPhi().intValue());
+        int cphi = PprzTrig.PPRZ_ITRIG_COS(e.getPhi().intValue());
+        int stheta = PprzTrig.PPRZ_ITRIG_SIN(e.getTheta().intValue());
+        long ctheta = PprzTrig.PPRZ_ITRIG_COS(e.getTheta().intValue());
+
+        if (ctheta != 0) {
+            long cphi_stheta = INT_MULT_RSHIFT(cphi, stheta, INT32_TRIG_FRAC);
+            long sphi_stheta = INT_MULT_RSHIFT(sphi, stheta, INT32_TRIG_FRAC);
+
+            ed.setPhi(r.getP().intValue() + (int)((sphi_stheta * (long)r.getQ().intValue()) / ctheta) + (int)((cphi_stheta * (long)r.getR().intValue()) / ctheta));
+            ed.setTheta(INT_MULT_RSHIFT(cphi, r.getQ().intValue(), INT32_TRIG_FRAC) - INT_MULT_RSHIFT(sphi, r.getR().intValue(), INT32_TRIG_FRAC));
+            ed.setPsi((int)(((long)sphi * (long)r.getQ().intValue()) / ctheta) + (int)(((long)cphi * (long)r.getR().intValue()) / ctheta));
+        }
+  /* FIXME: What do you wanna do when you hit the singularity ? */
+  /* probably not return an uninitialized variable, or ?        */
+        else {
+            PprzAlgebra.EULERS_ASSIGN(ed,0,0,0);
+        }
+    }
+
 }
