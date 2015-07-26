@@ -1,6 +1,9 @@
 package ub.juav.autopilot.math.functions;
 
 import ub.juav.autopilot.math.structs.*;
+import ub.juav.autopilot.math.structs.floats.FloatEulers;
+import ub.juav.autopilot.math.structs.floats.FloatQuat;
+import ub.juav.autopilot.math.structs.floats.FloatRates;
 import ub.juav.autopilot.math.util.NumberMath;
 
 /**
@@ -59,8 +62,12 @@ public class PprzAlgebra{
         return NumberMath.add(NumberMath.mul(v1.getX(),v2.getX()) , NumberMath.mul(v1.getY(),v2.getY()));
     }
 
-    public static Number VECT2_NORM(Vect2 v) {
+    public static Number VECT2_NORM2(Vect2 v) {
         return NumberMath.add(NumberMath.mul(v.getX(),v.getX()) , NumberMath.mul(v.getY(),v.getY()));
+    }
+
+    public static Number VECT2_NORM(Vect2 v) {
+        return NumberMath.sqrt(VECT2_NORM2(v));
     }
     /***************3D Vectors *************/
     /* a =  {x, y, z} */
@@ -187,6 +194,10 @@ public class PprzAlgebra{
 
     public static Number VECT3_NORM2 (Vect3 v) {
         return NumberMath.sum(NumberMath.sq(v.getX()),NumberMath.sq(v.getY()),NumberMath.sq(v.getZ()));
+    }
+
+    public static Number VECT3_NORM (Vect3 v) {
+        return NumberMath.sqrt(VECT3_NORM2(v));
     }
 
     public static void VECT3_RATES_CROSS_VECT3(Vect3 vo, Rates r, Vect3 v2) {
@@ -332,7 +343,7 @@ public class PprzAlgebra{
 //    public static Double MAT33_ELMT(Mat33 m, int row, int col) {
 //        return m.getMatrix()[row][col];
 //    }
-    public static void MAT33_DIAG(Mat33 mat, int d00,int d11,int d22) {
+    public static void MAT33_DIAG(Mat33 mat, Number d00,Number d11,Number d22) {
         mat.zero();
         mat.setElement(d00, 0, 0);
         mat.setElement(d11,1,1);
@@ -590,5 +601,27 @@ public static void RMAT_FLOAT_OF_BFP(RMat<Float> ef, RMat<Integer> ei) {
     }
 
 
+    public static Number RATES_NORM2(FloatRates w) {
+        return NumberMath.sum(NumberMath.sq(w.getP()), NumberMath.sq(w.getQ()), NumberMath.sq(w.getR()));
+    }
 
+    public static Number RATES_NORM(FloatRates w) {
+        return NumberMath.sqrt(RATES_NORM2(w));
+    }
+
+    public static Number QUAT_NORM2(Quat q) {
+        return NumberMath.sum(NumberMath.sq(q.getQi()),NumberMath.sq(q.getQx()),NumberMath.sq(q.getQy()),NumberMath.sq(q.getQz()));
+    }
+
+    public static Number QUAT_NORM(Quat q) {
+        return NumberMath.sqrt(QUAT_NORM2(q));
+    }
+
+    public static Number EULERS_NORM(Eulers e) {
+        return NumberMath.sqrt(EULERS_NORM2(e));
+    }
+
+    public static Number EULERS_NORM2(Eulers e) {
+        return NumberMath.sum(NumberMath.sq(e.getPhi()),NumberMath.sq(e.getPsi()),NumberMath.sq(e.getTheta()));
+    }
 }

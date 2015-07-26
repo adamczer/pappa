@@ -1,5 +1,7 @@
 package ub.juav.autopilot.math.util;
 
+import ub.juav.autopilot.math.functions.PprzAlgebraInt;
+
 /**
  * Created by adamczer on 7/15/15.
  */
@@ -99,5 +101,13 @@ public class NumberMath {
         } else if(num instanceof Integer) {
             return mul(num, - 1);
         } else throw new IllegalArgumentException("num1 = "+num.getClass());
+    }
+
+    public static Number sqrt(Number number) {
+        if(number instanceof Integer) {
+            return PprzAlgebraInt.int32_sqrt(number.intValue());
+        } else if (number instanceof Float) {
+            return (float)Math.sqrt(number.floatValue());
+        } else return Math.sqrt(number.doubleValue());
     }
 }

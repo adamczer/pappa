@@ -135,7 +135,7 @@ public class PprzAlgebraDouble {
 
     public static void double_quat_normalize(DoubleQuat q) {
         double qnorm = double_quat_norm(q);
-        if (qnorm > Float.MIN_VALUE) {
+        if (qnorm > PprzAlgebraFloat.FLT_MIN) {
             q.setQi(q.getQi().doubleValue() / qnorm);
             q.setQx(q.getQx().doubleValue() / qnorm);
             q.setQy(q.getQy().doubleValue() / qnorm);

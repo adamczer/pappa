@@ -99,7 +99,7 @@ public class PprzAlgebraInt {
         PprzAlgebra.VECT2_ASSIGN(v, 0, 0);
     }
     public static int INT32_VECT2_NORM(IntVect2 v) {
-        return (int) Math.sqrt((Integer)PprzAlgebra.VECT2_NORM(v));
+        return PprzAlgebraInt.int32_sqrt(PprzAlgebra.VECT2_NORM2(v).intValue());
     }
 
     public static int int32_vect2_norm2(IntVect2 v) {
@@ -143,7 +143,7 @@ public class PprzAlgebraInt {
     }
 
     public static int INT32_VECT2_NORM(IntVect3 v) {
-        return (int) Math.sqrt((Integer)PprzAlgebra.VECT3_NORM2(v));
+        return PprzAlgebraInt.int32_sqrt(PprzAlgebra.VECT3_NORM2(v).intValue());
     }
 
     public static void INT32_VECT3_RSHIFT(IntVect3 o, IntVect3 i, int r) {
