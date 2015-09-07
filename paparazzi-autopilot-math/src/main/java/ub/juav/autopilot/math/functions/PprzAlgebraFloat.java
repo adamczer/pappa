@@ -833,202 +833,203 @@ public class PprzAlgebraFloat {
 //
 // // TODO these seem to not be used .. they are untyped things vv
 
-///** a = 0 */
-//    static inline void float_vect_zero(float *a, const int n)
-//    {
-//        int i;
-//        for (i = 0; i < n; i++) { a[i] = 0.; }
-//    }
-//
-///** a = b */
-//    static inline void float_vect_copy(float *a, const float *b, const int n)
-//    {
-//        int i;
-//        for (i = 0; i < n; i++) { a[i] = b[i]; }
-//    }
-//
-///** o = a + b */
-//    static inline void float_vect_sum(float *o, const float *a, const float *b, const int n)
-//    {
-//        int i;
-//        for (i = 0; i < n; i++) { o[i] = a[i] + b[i]; }
-//    }
-//
-///** o = a - b */
-//    static inline void float_vect_diff(float *o, const float *a, const float *b, const int n)
-//    {
-//        int i;
-//        for (i = 0; i < n; i++) { o[i] = a[i] - b[i]; }
-//    }
-//
-///** o = a * b (element wise) */
-//    static inline void float_vect_mul(float *o, const float *a, const float *b, const int n)
-//    {
-//        int i;
-//        for (i = 0; i < n; i++) { o[i] = a[i] * b[i]; }
-//    }
-//
-///** a += b */
-//    static inline void float_vect_add(float *a, const float *b, const int n)
-//    {
-//        int i;
-//        for (i = 0; i < n; i++) { a[i] += b[i]; }
-//    }
-//
-///** a -= b */
-//    static inline void float_vect_sub(float *a, const float *b, const int n)
-//    {
-//        int i;
-//        for (i = 0; i < n; i++) { a[i] -= b[i]; }
-//    }
-//
-///** o = a * s */
-//    static inline void float_vect_smul(float *o, const float *a, const float s, const int n)
-//    {
-//        int i;
-//        for (i = 0; i < n; i++) { o[i] = a[i] * s; }
-//    }
-//
-///** o = a / s */
-//    static inline void float_vect_sdiv(float *o, const float *a, const float s, const int n)
-//    {
-//        int i;
-//        if (fabs(s) > 1e-5) {
-//            for (i = 0; i < n; i++) { o[i] = a[i] / s; }
-//        }
-//    }
-//
-///** ||a|| */
-//    static inline float float_vect_norm(const float *a, const int n)
-//    {
-//        int i;
-//        float sum = 0;
-//        for (i = 0; i < n; i++) { sum += a[i] * a[i]; }
-//        return sqrtf(sum);
-//    }
+/** a = 0 */
+    static void float_vect_zero(float[] a, int n)
+    {
+        int i;
+        for (i = 0; i < n; i++) { a[i] = (float) 0.; }
+    }
 
-//
-//
-// Generic matrix algebra
-//
+/** a = b */
+    static void float_vect_copy(float[] a, float[] b, int n)
+    {
+        int i;
+        for (i = 0; i < n; i++) { a[i] = b[i]; }
+    }
+
+/** o = a + b */
+    static void float_vect_sum(float[] o, float[] a, float[] b, int n)
+    {
+        int i;
+        for (i = 0; i < n; i++) { o[i] = a[i] + b[i]; }
+    }
+
+/** o = a - b */
+    static void float_vect_diff(float[] o, float[] a, float[] b, int n)
+    {
+        int i;
+        for (i = 0; i < n; i++) { o[i] = a[i] - b[i]; }
+    }
+
+/** o = a * b (element wise) */
+    static void float_vect_mul(float[] o, float[] a, float[] b, int n)
+    {
+        int i;
+        for (i = 0; i < n; i++) { o[i] = a[i] * b[i]; }
+    }
+
+/** a += b */
+    static void float_vect_add(float[] a, float[] b, int n)
+    {
+        int i;
+        for (i = 0; i < n; i++) { a[i] += b[i]; }
+    }
+
+/** a -= b */
+    static void float_vect_sub(float[] a, float[] b, int n)
+    {
+        int i;
+        for (i = 0; i < n; i++) { a[i] -= b[i]; }
+    }
+
+/** o = a * s */
+    static void float_vect_smul(float[] o, float[] a, float s, int n)
+    {
+        int i;
+        for (i = 0; i < n; i++) { o[i] = a[i] * s; }
+    }
+
+/** o = a / s */
+    static void float_vect_sdiv(float[] o, float[] a, float s, int n)
+    {
+        int i;
+        if (Math.abs(s) > 1e-5) {
+            for (i = 0; i < n; i++) { o[i] = a[i] / s; }
+        }
+    }
+
+/** ||a|| */
+    static float float_vect_norm(float[] a, int n)
+    {
+        int i;
+        float sum = 0;
+        for (i = 0; i < n; i++) { sum += a[i] * a[i]; }
+        return (float) Math.sqrt((float) sum);
+    }
 
 
-///** Make a pointer to a matrix of _rows lines */
+
+//Generic matrix algebra
+
+
+
+/** Make a pointer to a matrix of _rows lines */
+//    TODO I dont think this is used
 //    #define MAKE_MATRIX_PTR(_ptr, _mat, _rows) \
 //    float * _ptr[_rows]; \
 //    { \
 //        int i; \
 //        for (i = 0; i < _rows; i++) { _ptr[i] = &_mat[i][0]; } \
 //    }
-//
-///** a = 0 */
-//    static inline void float_mat_zero(float **a, int m, int n)
-//    {
-//        int i, j;
-//        for (i = 0; i < m; i++) {
-//            for (j = 0; j < n; j++) { a[i][j] = 0.; }
-//        }
-//    }
-//
-///** a = b */
-//    static inline void float_mat_copy(float **a, float **b, int m, int n)
-//    {
-//        int i, j;
-//        for (i = 0; i < m; i++) {
-//            for (j = 0; j < n; j++) { a[i][j] = b[i][j]; }
-//        }
-//    }
-//
-///** o = a + b */
-//    static inline void float_mat_sum(float **o, float **a, float **b, int m, int n)
-//    {
-//        int i, j;
-//        for (i = 0; i < m; i++) {
-//            for (j = 0; j < n; j++) { o[i][j] = a[i][j] + b[i][j]; }
-//        }
-//    }
-//
-///** o = a - b */
-//    static inline void float_mat_diff(float **o, float **a, float **b, int m, int n)
-//    {
-//        int i, j;
-//        for (i = 0; i < m; i++) {
-//            for (j = 0; j < n; j++) { o[i][j] = a[i][j] - b[i][j]; }
-//        }
-//    }
-//
-///** transpose square matrix */
-//    static inline void float_mat_transpose(float **a, int n)
-//    {
-//        int i, j;
-//        for (i = 0; i < n; i++) {
-//            for (j = 0; j < i; j++) {
-//                float t = a[i][j];
-//                a[i][j] = a[j][i];
-//                a[j][i] = t;
-//            }
-//        }
-//    }
-//
-///** o = a * b
-// *
-// * a: [m x n]
-// * b: [n x l]
-// * o: [m x l]
-// */
-//    static inline void float_mat_mul(float **o, float **a, float **b, int m, int n, int l)
-//    {
-//        int i, j, k;
-//        for (i = 0; i < m; i++) {
-//            for (j = 0; j < l; j++) {
-//                o[i][j] = 0.;
-//                for (k = 0; k < n; k++) {
-//                    o[i][j] += a[i][k] * b[k][j];
-//                }
-//            }
-//        }
-//    }
-//
-///** matrix minor
-// *
-// * a: [m x n]
-// * o: [I(d,d)     0     ]
-// *    [  0    a(d,m:d,n)]
-// */
-//    static inline void float_mat_minor(float **o, float **a, int m, int n, int d)
-//    {
-//        int i, j;
-//        float_mat_zero(o, m, n);
-//        for (i = 0; i < d; i++) { o[i][i] = 1.0; }
-//        for (i = d; i < m; i++) {
-//            for (j = d; j < n; j++) {
-//                o[i][j] = a[i][j];
-//            }
-//        }
-//    }
-//
-///** o = I - v v^T */
-//    static inline void float_mat_vmul(float **o, float *v, int n)
-//    {
-//        int i, j;
-//        for (i = 0; i < n; i++) {
-//            for (j = 0; j < n; j++) {
-//                o[i][j] = -2. *  v[i] * v[j];
-//            }
-//        }
-//        for (i = 0; i < n; i++) {
-//            o[i][i] += 1.;
-//        }
-//    }
-//
-///** o = c-th column of matrix a[m x n] */
-//    static inline void float_mat_col(float *o, float **a, int m, int c)
-//    {
-//        int i;
-//        for (i = 0; i < m; i++) {
-//            o[i] = a[i][c];
-//        }
-//    }
+
+/** a = 0 */
+    static void float_mat_zero(float[][] a, int m, int n)
+    {
+        int i, j;
+        for (i = 0; i < m; i++) {
+            for (j = 0; j < n; j++) { a[i][j] = (float) 0.; }
+        }
+    }
+
+/** a = b */
+    static void float_mat_copy(float[][] a, float[][] b, int m, int n)
+    {
+        int i, j;
+        for (i = 0; i < m; i++) {
+            for (j = 0; j < n; j++) { a[i][j] = b[i][j]; }
+        }
+    }
+
+/** o = a + b */
+    static void float_mat_sum(float[][] o, float[][] a, float[][] b, int m, int n)
+    {
+        int i, j;
+        for (i = 0; i < m; i++) {
+            for (j = 0; j < n; j++) { o[i][j] = a[i][j] + b[i][j]; }
+        }
+    }
+
+/** o = a - b */
+    static void float_mat_diff(float[][] o, float[][] a, float[][] b, int m, int n)
+    {
+        int i, j;
+        for (i = 0; i < m; i++) {
+            for (j = 0; j < n; j++) { o[i][j] = a[i][j] - b[i][j]; }
+        }
+    }
+
+/** transpose square matrix */
+    static void float_mat_transpose(float[][] a, int n)
+    {
+        int i, j;
+        for (i = 0; i < n; i++) {
+            for (j = 0; j < i; j++) {
+                float t = a[i][j];
+                a[i][j] = a[j][i];
+                a[j][i] = t;
+            }
+        }
+    }
+
+/** o = a * b
+*
+* a: [m x n]
+* b: [n x l]
+* o: [m x l]
+*/
+    static void float_mat_mul(float[][] o, float[][] a, float[][] b, int m, int n, int l)
+    {
+        int i, j, k;
+        for (i = 0; i < m; i++) {
+            for (j = 0; j < l; j++) {
+                o[i][j] = (float) 0.;
+                for (k = 0; k < n; k++) {
+                    o[i][j] += a[i][k] * b[k][j];
+                }
+            }
+        }
+    }
+
+/** matrix minor
+*
+* a: [m x n]
+* o: [I(d,d)     0     ]
+*    [  0    a(d,m:d,n)]
+*/
+    static void float_mat_minor(float[][] o, float[][] a, int m, int n, int d)
+    {
+        int i, j;
+        float_mat_zero(o, m, n);
+        for (i = 0; i < d; i++) { o[i][i] = (float) 1.0; }
+        for (i = d; i < m; i++) {
+            for (j = d; j < n; j++) {
+                o[i][j] = a[i][j];
+            }
+        }
+    }
+
+/** o = I - v v^T */
+    static void float_mat_vmul(float[][] o, float[] v, int n)
+    {
+        int i, j;
+        for (i = 0; i < n; i++) {
+            for (j = 0; j < n; j++) {
+                o[i][j] = (float) (-2. *  v[i] * v[j]);
+            }
+        }
+        for (i = 0; i < n; i++) {
+            o[i][i] += 1.;
+        }
+    }
+
+/** o = c-th column of matrix a[m x n] */
+    static void float_mat_col(float[] o, float[][] a, int m, int c)
+    {
+        int i;
+        for (i = 0; i < m; i++) {
+            o[i] = a[i][c];
+        }
+    }
 
     public static final float FLT_MIN = Float.MIN_VALUE;
 
