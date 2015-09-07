@@ -1,5 +1,7 @@
 package ub.juav.autopilot.math.functions;
 
+import ub.juav.autopilot.math.functions.algebra.PprzAlgebraInt;
+
 /**
  * Created by adamczer on 7/25/15.
  */
