@@ -24,4 +24,23 @@ public abstract class RMat<T extends Number> extends Mat33<T> {
         }
         setElement(val,x,y);
     }
+
+    public T getFlattendElement(int index) {
+        int x=-1,y=-1;
+        int count = 0;
+        for(int i = 0; i < 3; i++) {
+            for(int j = 0; j < 3; j++) {
+                if (count==index) {
+                    return getElement(i,j);
+                }
+                else {
+                    count++;
+                }
+            }
+            if (count==index) {
+                break;
+            }
+        }
+        throw new IllegalArgumentException("Invalid index.");
+    }
 }

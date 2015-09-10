@@ -8,7 +8,7 @@ public abstract class LlaCoor<T extends Number> {
     private T lon;
     private T alt;
 
-    public Number getLat() {
+    public T getLat() {
         return lat;
     }
 
@@ -16,7 +16,7 @@ public abstract class LlaCoor<T extends Number> {
         this.lat = lat;
     }
 
-    public Number getLon() {
+    public T getLon() {
         return lon;
     }
 
@@ -24,7 +24,7 @@ public abstract class LlaCoor<T extends Number> {
         this.lon = lon;
     }
 
-    public Number getAlt() {
+    public T getAlt() {
         return alt;
     }
 

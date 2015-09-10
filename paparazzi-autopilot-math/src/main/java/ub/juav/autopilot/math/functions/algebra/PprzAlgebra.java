@@ -390,6 +390,10 @@ public class PprzAlgebra{
         vo.setY(NumberMath.sum(NumberMath.mul(mat.getElement(1, 0), vi.getX()), NumberMath.mul(mat.getElement(1, 1), vi.getY()), NumberMath.mul(mat.getElement(1, 2), vi.getZ())));
         vo.setZ(NumberMath.sum(NumberMath.mul(mat.getElement(2, 0), vi.getX()), NumberMath.mul(mat.getElement(2, 1), vi.getY()), NumberMath.mul(mat.getElement(2,2), vi.getZ())));
     }
+
+    public static void MAT33_VECT3_MULT(FloatVect3 vo, FloatMat33 mat, FloatVect3 vi) {
+        MAT33_VECT3_MULT((Vect3)vo,(Mat33)mat,(Vect3)vi);
+    }
     /* multiply _vin by transpose of _mat, store in _vout */
     public static void MAT33_VECT3_TRANSP_MUL(Vect3 vo, Mat33 mat, Vect3 vi) {
         vo.setX(NumberMath.sum(NumberMath.mul(mat.getElement(0,0) , vi.getX()) , NumberMath.mul(mat.getElement(1,0), vi.getY()), NumberMath.mul(mat.getElement(2,0), vi.getZ())));

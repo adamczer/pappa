@@ -9,7 +9,7 @@ public abstract class UtmCoor<T extends Number> {
     private T alt;
     private int zone;
 
-    public Number getNorth() {
+    public T getNorth() {
         return north;
     }
 
@@ -17,7 +17,7 @@ public abstract class UtmCoor<T extends Number> {
         this.north = north;
     }
 
-    public Number getEast() {
+    public T getEast() {
         return east;
     }
 
@@ -25,7 +25,7 @@ public abstract class UtmCoor<T extends Number> {
         this.east = east;
     }
 
-    public Number getAlt() {
+    public T getAlt() {
         return alt;
     }
 
