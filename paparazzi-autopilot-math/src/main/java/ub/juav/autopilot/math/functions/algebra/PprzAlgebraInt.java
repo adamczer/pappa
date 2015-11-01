@@ -1,6 +1,7 @@
 package ub.juav.autopilot.math.functions.algebra;
 
 import ub.juav.autopilot.math.functions.PprzTrig;
+import ub.juav.autopilot.math.structs.algebra.Vect3;
 import ub.juav.autopilot.math.structs.algebra.ints.*;
 import ub.juav.autopilot.math.structs.algebra.longs.LongQuat;
 import ub.juav.autopilot.math.util.LlDiv;
@@ -10,7 +11,7 @@ import ub.juav.autopilot.math.util.NumberMath;
  * Created by adamczer on 7/12/15.
  */
 public class PprzAlgebraInt {
-    private static final int  INT32_POS_FRAC =8;
+    public static final int  INT32_POS_FRAC =8;
     private static final double  INT32_POS_OF_CM =2.56;
     private static final int  INT32_POS_OF_CM_NUM =64;
     private static final int  INT32_POS_OF_CM_DEN =25;
@@ -147,13 +148,13 @@ public class PprzAlgebraInt {
         return PprzAlgebraInt.int32_sqrt(PprzAlgebra.VECT3_NORM2(v));
     }
 
-    public static void INT32_VECT3_RSHIFT(IntVect3 o, IntVect3 i, int r) {
+    public static void INT32_VECT3_RSHIFT(Vect3<Integer> o, Vect3<Integer> i, int r) {
         o.setX(i.getX()>>r);
         o.setY(i.getY() >> r);
         o.setZ(i.getZ() >> r);
     }
 
-    public static void INT32_VECT3_LSHIFT(IntVect3 o, IntVect3 i, int r) {
+    public static void INT32_VECT3_LSHIFT(Vect3<Integer> o, Vect3<Integer> i, int r) {
         o.setX(i.getX()<<r);
         o.setY(i.getY() << r);
         o.setZ(i.getZ() << r);

@@ -78,7 +78,7 @@ public class PprzGeodeticDouble {
 
     }
 
-    public static void ecef_of_lla_d(EcefCoorDouble ecef, LlaCoorDouble lla)
+    public static void ecef_of_lla_d(EcefCoor<Double> ecef, LlaCoor<Double> lla)
     {
 
         // FIXME : make an ellipsoid struct
