@@ -33,4 +33,16 @@ public class UtilityFunctions{
     public static double CM_OF_M(double m) {
         return m*100;
     }
+
+    public static float DegOfRad(float rad) {
+        return (float) (rad * (180. / Constants.M_PI));
+    }
+
+    public static float Bound(float _x, float _min, float _max) {
+        if (_x > (_max))
+            return (_max);
+        else if (_x < (_min))
+            return (_min);
+        else return _x;
+    }
 }
