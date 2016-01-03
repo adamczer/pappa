@@ -1,6 +1,9 @@
 package ub.juav.autopilot.math.functions.algebra;
 
 import ub.juav.autopilot.math.functions.PprzTrig;
+import ub.juav.autopilot.math.structs.algebra.Eulers;
+import ub.juav.autopilot.math.structs.algebra.Quat;
+import ub.juav.autopilot.math.structs.algebra.RMat;
 import ub.juav.autopilot.math.structs.algebra.Vect3;
 import ub.juav.autopilot.math.structs.algebra.ints.*;
 import ub.juav.autopilot.math.structs.algebra.longs.LongQuat;
@@ -288,8 +291,10 @@ public class PprzAlgebraInt {
 
     /** Convert unit quaternion to rotation matrix.
      * http://www.mathworks.com/access/helpdesk_r13/help/toolbox/aeroblks/quaternionstodirectioncosinematrix.html
+     * @param rm
+     * @param q
      */
-    public static void int32_rmat_of_quat(IntRMat rm, IntQuat q) {
+    public static void int32_rmat_of_quat(RMat<Integer> rm, Quat<Integer> q) {
         int _2qi2_m1 =  INT_MULT_RSHIFT(q.getQi(), q.getQi(), INT32_QUAT_FRAC + INT32_QUAT_FRAC - INT32_TRIG_FRAC - 1) - TRIG_BFP_OF_REAL(1);
         rm.setElement(INT_MULT_RSHIFT(q.getQx(), q.getQx(), INT32_QUAT_FRAC + INT32_QUAT_FRAC - INT32_TRIG_FRAC - 1),0,0);
         rm.setElement(INT_MULT_RSHIFT(q.getQy(), q.getQy(), INT32_QUAT_FRAC + INT32_QUAT_FRAC - INT32_TRIG_FRAC - 1), 1, 1);
@@ -351,8 +356,10 @@ public class PprzAlgebraInt {
         rm.setElement(cphi_stheta_spsi - sphi_cpsi,2,1);
         rm.setElement(cphi_ctheta,2,2);
     }
-
-    public static void int32_rmat_of_eulers_312(IntRMat rm, IntEulers e) {
+    public static void int32_rmat_of_eulers(RMat<Integer> rm, Eulers<Integer> e) {
+        int32_rmat_of_eulers_312(rm,e);
+    }
+    public static void int32_rmat_of_eulers_312(RMat<Integer> rm, Eulers<Integer> e) {
         int sphi = PprzTrig.PPRZ_ITRIG_SIN(e.getPhi());
         int cphi = PprzTrig.PPRZ_ITRIG_COS(e.getPhi());
         int stheta = PprzTrig.PPRZ_ITRIG_SIN(e.getTheta());
@@ -566,7 +573,7 @@ public class PprzAlgebraInt {
     /*
  * http://www.mathworks.com/access/helpdesk_r13/help/toolbox/aeroblks/euleranglestoquaternions.html
  */
-    public static void int32_quat_of_eulers(IntQuat q, IntEulers e) {
+    public static void int32_quat_of_eulers(Quat<Integer> q, Eulers<Integer> e) {
         int phi2   = e.getPhi()   / 2;
         int theta2 = e.getTheta() / 2;
         int psi2   = e.getPsi()   / 2;
@@ -602,8 +609,8 @@ public class PprzAlgebraInt {
         q.setQz(san2 * uv.getZ());
     }
 
-    public static void int32_quat_of_rmat(IntQuat q, IntRMat r) {
-        int tr = PprzAlgebra.RMAT_TRACE(r);
+    public static void int32_quat_of_rmat(Quat<Integer> q, RMat<Integer> r) {
+        int tr = PprzAlgebra.RMAT_TRACE(r).intValue();
         if (tr > 0) {
             int two_qi_two = TRIG_BFP_OF_REAL(1.) + tr;
             long two_qi = int32_sqrt(two_qi_two << INT32_TRIG_FRAC);
@@ -671,7 +678,7 @@ public class PprzAlgebraInt {
 
     /********* Euler Angles *********/
 
-    public static void int32_eulers_of_rmat(IntEulers e, IntRMat rm) {
+    public static void int32_eulers_of_rmat(Eulers<Integer> e, RMat<Integer> rm) {
         float dcm00 = TRIG_FLOAT_OF_BFP(rm.getElement(0, 0));
         float dcm01 = TRIG_FLOAT_OF_BFP(rm.getElement(0, 1));
         float dcm02 = TRIG_FLOAT_OF_BFP(rm.getElement(0, 2));
@@ -694,7 +701,7 @@ public class PprzAlgebraInt {
         return (float) Math.atan2(y,x);
     }
 
-    public static void int32_eulers_of_quat(IntEulers e, IntQuat q) {
+    public static void int32_eulers_of_quat(Eulers<Integer> e, Quat<Integer> q) {
         int qx2  = INT_MULT_RSHIFT(q.getQx(), q.getQx(), INT32_QUAT_FRAC);
         int qy2  = INT_MULT_RSHIFT(q.getQy(), q.getQy(), INT32_QUAT_FRAC);
         int qz2  = INT_MULT_RSHIFT(q.getQz(), q.getQz(), INT32_QUAT_FRAC);

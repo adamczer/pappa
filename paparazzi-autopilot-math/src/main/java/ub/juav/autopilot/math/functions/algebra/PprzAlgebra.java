@@ -543,13 +543,13 @@ public class PprzAlgebra{
         ef.setPsi(PprzAlgebraInt.ANGLE_FLOAT_OF_BFP((ei.getPsi().intValue())));
     }
 //
-    public static void EULERS_BFP_OF_REAL(Eulers<Integer> ei, Eulers<Double> ef) {
+    public static void EULERS_BFP_OF_REAL(Eulers<Integer> ei, Eulers<Float> ef) {
         ei.setPhi(PprzAlgebraInt.ANGLE_BFP_OF_REAL(ef.getPhi().doubleValue()));
         ei.setTheta(PprzAlgebraInt.ANGLE_BFP_OF_REAL(ef.getTheta().doubleValue()));
         ei.setPsi(PprzAlgebraInt.ANGLE_BFP_OF_REAL(ef.getPsi().doubleValue()));
     }
 //
-    public static void RMAT_BFP_OF_REAL(RMat<Integer> ei, RMat<Double> ef) {
+    public static void RMAT_BFP_OF_REAL(RMat<Integer> ei, RMat<Float> ef) {
         for(int i = 0; i<3; i++){
             for(int j = 0; j<3; j++) {
                 ei.setElement(PprzAlgebraInt.TRIG_BFP_OF_REAL(ef.getElement(i,j).doubleValue()),i,j);
@@ -573,11 +573,11 @@ public static void RMAT_FLOAT_OF_BFP(RMat<Float> ef, RMat<Integer> ei) {
         qf.setQz(PprzAlgebraInt.QUAT1_FLOAT_OF_BFP(qi.getQz().intValue()));
     }
 //
-    public static void QUAT_BFP_OF_REAL(Quat<Integer> qi, Quat<Double> qf) {
-        qi.setQi(PprzAlgebraInt.QUAT1_BFP_OF_REAL(qf.getQi().doubleValue()));
-        qi.setQx(PprzAlgebraInt.QUAT1_BFP_OF_REAL(qf.getQx().doubleValue()));
-        qi.setQy(PprzAlgebraInt.QUAT1_BFP_OF_REAL(qf.getQy().doubleValue()));
-        qi.setQz(PprzAlgebraInt.QUAT1_BFP_OF_REAL(qf.getQz().doubleValue()));
+    public static void QUAT_BFP_OF_REAL(Quat<Integer> qi, Quat<Float> qf) {
+        qi.setQi(PprzAlgebraInt.QUAT1_BFP_OF_REAL(qf.getQi().floatValue()));
+        qi.setQx(PprzAlgebraInt.QUAT1_BFP_OF_REAL(qf.getQx().floatValue()));
+        qi.setQy(PprzAlgebraInt.QUAT1_BFP_OF_REAL(qf.getQy().floatValue()));
+        qi.setQz(PprzAlgebraInt.QUAT1_BFP_OF_REAL(qf.getQz().floatValue()));
     }
 //
     public static void RATES_FLOAT_OF_BFP(Rates<Float> rf, Rates<Integer> ri) {

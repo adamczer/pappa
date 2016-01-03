@@ -1,5 +1,9 @@
 package ub.juav.autopilot.math.util;
 
+import ub.juav.autopilot.math.primitive.wrappers.PrimitiveWrapper;
+
+import java.math.BigInteger;
+
 /**
  * Created by adamczer on 9/9/15.
  */
@@ -44,5 +48,13 @@ public class UtilityFunctions{
         else if (_x < (_min))
             return (_min);
         else return _x;
+    }
+
+    public static boolean bit_is_set(PrimitiveWrapper<Integer> status, int orrepQuatI) {
+        return BigInteger.valueOf(status.getPrimitive()).testBit(orrepQuatI);
+    }
+
+    public static void SetBit(PrimitiveWrapper<Integer> status, int orrepRmatI) {
+        status.setPrimitive(BigInteger.valueOf(status.getPrimitive()).setBit(orrepRmatI).intValue());
     }
 }

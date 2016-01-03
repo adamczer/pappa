@@ -26,8 +26,8 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="juav-autopilot" target="1.8" />
-      <module name="paparazzi-autopilot-math" target="1.8" />
+      <module name="juav-autopilot" target="1.7" />
+      <module name="paparazzi-autopilot-math" target="1.7" />
     </bytecodeTargetLevel>
   </component>
 </project>

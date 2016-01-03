@@ -1,6 +1,10 @@
 package ub.juav.autopilot.math.functions.algebra;
 
+import ub.juav.autopilot.math.primitive.wrappers.PrimitiveWrapper;
+import ub.juav.autopilot.math.structs.algebra.Eulers;
 import ub.juav.autopilot.math.structs.algebra.Mat33;
+import ub.juav.autopilot.math.structs.algebra.Quat;
+import ub.juav.autopilot.math.structs.algebra.RMat;
 import ub.juav.autopilot.math.structs.algebra.floats.*;
 import ub.juav.autopilot.math.util.NumberMath;
 
@@ -220,8 +224,12 @@ public class PprzAlgebraFloat {
         rm.setElement((float) (uz2 + (1. - uz2) * can),2, 2);
     }
 
+    public static void float_rmat_of_eulers(RMat<Float> rm, Eulers<Float> e) {
+        float_rmat_of_eulers_321(rm,e);
+    }
+
     /* C n->b rotation matrix */
-    public static void float_rmat_of_eulers_321(FloatRMat rm, FloatEulers e)
+    public static void float_rmat_of_eulers_321(RMat<Float> rm, Eulers<Float> e)
     {
         float sphi   = (float) Math.sin(e.getPhi());
         float cphi   = (float) Math.cos(e.getPhi());
@@ -262,7 +270,7 @@ public class PprzAlgebraFloat {
     }
 
     /* C n->b rotation matrix */
-    public static void float_rmat_of_quat(FloatRMat rm, FloatQuat q)
+    public static void float_rmat_of_quat(RMat<Float> rm, Quat<Float> q)
     {
         float _a = (float) (M_SQRT2 * q.getQi());
         float _b = (float) (M_SQRT2 * q.getQx());
@@ -491,7 +499,7 @@ public class PprzAlgebraFloat {
         qd.setQz((float) (-0.5 * (-r.getR() * q.getQi() - r.getQ() * q.getQx() + r.getP() * q.getQy() +      c * q.getQz())));
     }
 
-    public static void float_quat_of_eulers(FloatQuat q, FloatEulers e)
+    public static void float_quat_of_eulers(Quat<Float> q, Eulers<Float> e)
     {
         float phi2   = e.getPhi() / (float)2.0;
         float theta2 = e.getTheta() / (float)2.0;
@@ -536,9 +544,9 @@ public class PprzAlgebraFloat {
         }
     }
 
-    public static void float_quat_of_rmat(FloatQuat q, FloatRMat rm)
+    public static void float_quat_of_rmat(Quat<Float> q, RMat<Float> rm)
     {
-        float tr = PprzAlgebra.RMAT_TRACE(rm);
+        float tr = PprzAlgebra.RMAT_TRACE(rm).floatValue();
         if (tr > 0) {
             float two_qi = (float) Math.sqrt(1. + tr);
             float four_qi = (float)2. * two_qi;
@@ -582,7 +590,7 @@ public class PprzAlgebraFloat {
 
     /** Euler angle functions ***/
 
-    public static void float_eulers_of_rmat(FloatEulers e, FloatRMat rm)
+    public static void float_eulers_of_rmat(Eulers<Float> e, RMat<Float> rm)
     {
         float dcm00 = rm.getElement(0,0);
         float dcm01 = rm.getElement(0,1);
@@ -594,7 +602,7 @@ public class PprzAlgebraFloat {
         e.setPsi((float) Math.atan2(dcm01, dcm00));
     }
 
-    public static void float_eulers_of_quat(FloatEulers e, FloatQuat q)
+    public static void float_eulers_of_quat(Eulers<Float> e, Quat<Float> q)
     {
         float qx2  = q.getQx() * q.getQx();
         float qy2  = q.getQy() * q.getQy();
@@ -833,10 +841,10 @@ public class PprzAlgebraFloat {
 // // TODO these seem to not be used .. they are untyped things vv
 
 /** a = 0 */
-    static void float_vect_zero(float[] a, int n)
+    public static void float_vect_zero(PrimitiveWrapper<Float[]> a, int n)
     {
         int i;
-        for (i = 0; i < n; i++) { a[i] = (float) 0.; }
+        for (i = 0; i < n; i++) { a.getPrimitive()[i] = (float) 0.; }
     }
 
 /** a = b */
@@ -889,21 +897,21 @@ public class PprzAlgebraFloat {
     }
 
 /** o = a / s */
-    static void float_vect_sdiv(float[] o, float[] a, float s, int n)
+    public static void float_vect_sdiv(PrimitiveWrapper<Float[]> o, PrimitiveWrapper<Float[]> a, float s, int n)
     {
         int i;
         if (Math.abs(s) > 1e-5) {
-            for (i = 0; i < n; i++) { o[i] = a[i] / s; }
+            for (i = 0; i < n; i++) { o.getPrimitive()[i] = a.getPrimitive()[i] / s; }
         }
     }
 
 /** ||a|| */
-    static float float_vect_norm(float[] a, int n)
+    public static float float_vect_norm(PrimitiveWrapper<Float[]> a, int n)
     {
         int i;
         float sum = 0;
-        for (i = 0; i < n; i++) { sum += a[i] * a[i]; }
-        return (float) Math.sqrt((float) sum);
+        for (i = 0; i < n; i++) { sum += a.getPrimitive()[i] * a.getPrimitive()[i]; }
+        return (float) Math.sqrt(sum);
     }
 
 
@@ -922,20 +930,20 @@ public class PprzAlgebraFloat {
 //    }
 
 /** a = 0 */
-    static void float_mat_zero(float[][] a, int m, int n)
+    public static void float_mat_zero(PrimitiveWrapper<Float[][]> a, int m, int n)
     {
         int i, j;
         for (i = 0; i < m; i++) {
-            for (j = 0; j < n; j++) { a[i][j] = (float) 0.; }
+            for (j = 0; j < n; j++) { a.getPrimitive()[i][j] = (float) 0.; }
         }
     }
 
 /** a = b */
-    static void float_mat_copy(float[][] a, float[][] b, int m, int n)
+    public static void float_mat_copy(PrimitiveWrapper<Float[][]> a, PrimitiveWrapper<Float[][]> b, int m, int n)
     {
         int i, j;
         for (i = 0; i < m; i++) {
-            for (j = 0; j < n; j++) { a[i][j] = b[i][j]; }
+            for (j = 0; j < n; j++) { a.getPrimitive()[i][j] = b.getPrimitive()[i][j]; }
         }
     }
 
@@ -958,14 +966,14 @@ public class PprzAlgebraFloat {
     }
 
 /** transpose square matrix */
-    static void float_mat_transpose(float[][] a, int n)
+    public static void float_mat_transpose(PrimitiveWrapper<Float[][]> a, int n)
     {
         int i, j;
         for (i = 0; i < n; i++) {
             for (j = 0; j < i; j++) {
-                float t = a[i][j];
-                a[i][j] = a[j][i];
-                a[j][i] = t;
+                float t = a.getPrimitive()[i][j];
+                a.getPrimitive()[i][j] = a.getPrimitive()[j][i];
+                a.getPrimitive()[j][i] = t;
             }
         }
     }
@@ -976,14 +984,14 @@ public class PprzAlgebraFloat {
 * b: [n x l]
 * o: [m x l]
 */
-    static void float_mat_mul(float[][] o, float[][] a, float[][] b, int m, int n, int l)
+    public static void float_mat_mul(PrimitiveWrapper<Float[][]> o, PrimitiveWrapper<Float[][]> a, PrimitiveWrapper<Float[][]> b, int m, int n, int l)
     {
         int i, j, k;
         for (i = 0; i < m; i++) {
             for (j = 0; j < l; j++) {
-                o[i][j] = (float) 0.;
+                o.getPrimitive()[i][j] = (float) 0.;
                 for (k = 0; k < n; k++) {
-                    o[i][j] += a[i][k] * b[k][j];
+                    o.getPrimitive()[i][j] += a.getPrimitive()[i][k] * b.getPrimitive()[k][j];
                 }
             }
         }
@@ -995,38 +1003,38 @@ public class PprzAlgebraFloat {
 * o: [I(d,d)     0     ]
 *    [  0    a(d,m:d,n)]
 */
-    static void float_mat_minor(float[][] o, float[][] a, int m, int n, int d)
+    public static void float_mat_minor(PrimitiveWrapper<Float[][]> o, PrimitiveWrapper<Float[][]> a, int m, int n, int d)
     {
         int i, j;
         float_mat_zero(o, m, n);
-        for (i = 0; i < d; i++) { o[i][i] = (float) 1.0; }
+        for (i = 0; i < d; i++) { o.getPrimitive()[i][i] = (float) 1.0; }
         for (i = d; i < m; i++) {
             for (j = d; j < n; j++) {
-                o[i][j] = a[i][j];
+                o.getPrimitive()[i][j] = a.getPrimitive()[i][j];
             }
         }
     }
 
 /** o = I - v v^T */
-    static void float_mat_vmul(float[][] o, float[] v, int n)
+    public static void float_mat_vmul(PrimitiveWrapper<Float[][]> o, PrimitiveWrapper<Float[]> v, int n)
     {
         int i, j;
         for (i = 0; i < n; i++) {
             for (j = 0; j < n; j++) {
-                o[i][j] = (float) (-2. *  v[i] * v[j]);
+                o.getPrimitive()[i][j] = (float) (-2. *  v.getPrimitive()[i] * v.getPrimitive()[j]);
             }
         }
         for (i = 0; i < n; i++) {
-            o[i][i] += 1.;
+            o.getPrimitive()[i][i] += (float)1.;
         }
     }
 
 /** o = c-th column of matrix a[m x n] */
-    static void float_mat_col(float[] o, float[][] a, int m, int c)
+    public static void float_mat_col(PrimitiveWrapper<Float[]> o, PrimitiveWrapper<Float[][]> a, int m, int c)
     {
         int i;
         for (i = 0; i < m; i++) {
-            o[i] = a[i][c];
+            o.getPrimitive()[i] = a.getPrimitive()[i][c];
         }
     }
 
