@@ -9,7 +9,8 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
-        <module>paparazzi-autopilot-math</module>
+        <module>paparazzi-airborne</module>
+        <module>paparazzi-simulator</module>
     </modules>
 
     <repositories>

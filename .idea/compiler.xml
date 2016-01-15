@@ -24,10 +24,34 @@
         <processorPath useClasspath="true" />
         <module name="paparazzi-autopilot-math" />
       </profile>
+      <profile default="false" name="Annotation profile for paparazzi-nps" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="paparazzi-nps" />
+      </profile>
+      <profile default="false" name="Annotation profile for paparazzi-simulator" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="paparazzi-simulator" />
+      </profile>
+      <profile default="false" name="Annotation profile for paparazzi-airborne" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="paparazzi-airborne" />
+      </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="juav-autopilot" target="1.7" />
+      <module name="paparazzi-airborne" target="1.7" />
       <module name="paparazzi-autopilot-math" target="1.7" />
+      <module name="paparazzi-nps" target="1.7" />
+      <module name="paparazzi-simulator" target="1.7" />
     </bytecodeTargetLevel>
   </component>
 </project>

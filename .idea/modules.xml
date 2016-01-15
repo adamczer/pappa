@@ -3,7 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/juav-autopilot.iml" filepath="$PROJECT_DIR$/juav-autopilot.iml" />
-      <module fileurl="file://$PROJECT_DIR$/paparazzi-autopilot-math/paparazzi-autopilot-math.iml" filepath="$PROJECT_DIR$/paparazzi-autopilot-math/paparazzi-autopilot-math.iml" />
+      <module fileurl="file://$PROJECT_DIR$/paparazzi-airborne/paparazzi-airborne.iml" filepath="$PROJECT_DIR$/paparazzi-airborne/paparazzi-airborne.iml" />
+      <module fileurl="file://$PROJECT_DIR$/paparazzi-simulator/paparazzi-simulator.iml" filepath="$PROJECT_DIR$/paparazzi-simulator/paparazzi-simulator.iml" />
     </modules>
   </component>
 </project>

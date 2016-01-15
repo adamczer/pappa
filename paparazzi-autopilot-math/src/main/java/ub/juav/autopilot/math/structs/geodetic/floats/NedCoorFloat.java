@@ -1,9 +1,0 @@
-package ub.juav.autopilot.math.structs.geodetic.floats;
-
-import ub.juav.autopilot.math.structs.geodetic.NedCoor;
-
-/**
- * Created by adamczer on 9/9/15.
- */
-public class NedCoorFloat extends NedCoor<Float> {
-}
