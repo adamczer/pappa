@@ -23,10 +23,8 @@
 package ub.juav.airborne.math.functions.geodetic;
 
 import ub.juav.airborne.math.functions.algebra.PprzAlgebra;
-import ub.juav.airborne.math.structs.algebra.doubles.DoubleVect2;
-import ub.juav.airborne.math.structs.geodetic.EcefCoor;
-import ub.juav.airborne.math.structs.geodetic.LlaCoor;
-import ub.juav.airborne.math.structs.geodetic.doubles.*;
+import ub.juav.airborne.math.structs.algebra.Vect2;
+import ub.juav.airborne.math.structs.geodetic.*;
 import ub.juav.airborne.math.util.Constants;
 
 /**
@@ -36,11 +34,11 @@ public class PprzGeodeticDouble {
     // h file defines only structs
     // begining c file
 
-    public static void ltp_def_from_ecef_d(LtpDefDouble def, EcefCoorDouble ecef)
+    public static void ltp_def_from_ecef_d(LtpDef<Double> def, EcefCoor<Double> ecef)
     {
 
   /* store the origin of the tangeant plane       */
-        EcefCoorDouble v = new EcefCoorDouble();
+        EcefCoor<Double> v = new EcefCoor<Double>();
         PprzAlgebra.VECT3_COPY(v, ecef);
         def.setEcefCoor(ecef);
   /* compute the lla representation of the origin */
@@ -120,70 +118,70 @@ public class PprzGeodeticDouble {
         ecef.setZ(a_chi * (1. - e2) + lla.getAlt() * sin_lat);
     }
 
-    public static void enu_of_ecef_point_d(EnuCoorDouble enu, LtpDefDouble def, EcefCoorDouble ecef)
+    public static void enu_of_ecef_point_d(EnuCoor<Double> enu, LtpDef<Double> def, EcefCoor<Double> ecef)
     {
-        EcefCoorDouble delta = new EcefCoorDouble();
+        EcefCoor<Double> delta = new EcefCoor<Double>();
         PprzAlgebra.VECT3_DIFF(delta, ecef, def.getEcefCoor());
         PprzAlgebra.MAT33_VECT3_MULT(enu, def.getLtp_of_ecef(), delta);
     }
 
-    public static void ned_of_ecef_point_d(NedCoorDouble ned, LtpDefDouble def, EcefCoorDouble ecef)
+    public static void ned_of_ecef_point_d(NedCoor<Double> ned, LtpDef<Double> def, EcefCoor<Double> ecef)
     {
-        EnuCoorDouble enu = new EnuCoorDouble();
+        EnuCoor<Double> enu = new EnuCoor<Double>();
         enu_of_ecef_point_d(enu, def, ecef);
         PprzGeodetic.ENU_OF_TO_NED(ned, enu);
     }
 
-    public static void enu_of_ecef_vect_d(EnuCoorDouble enu, LtpDefDouble def, EcefCoorDouble ecef)
+    public static void enu_of_ecef_vect_d(EnuCoor<Double> enu, LtpDef<Double> def, EcefCoor<Double> ecef)
     {
         PprzAlgebra.MAT33_VECT3_MULT(enu, def.getLtp_of_ecef(), ecef);
     }
 
-    public static void ned_of_ecef_vect_d(NedCoorDouble ned, LtpDefDouble def, EcefCoorDouble ecef)
+    public static void ned_of_ecef_vect_d(NedCoor<Double> ned, LtpDef<Double> def, EcefCoor<Double> ecef)
     {
-        EnuCoorDouble enu = new EnuCoorDouble();
+        EnuCoor<Double> enu = new EnuCoor<Double>();
         enu_of_ecef_vect_d(enu, def, ecef);
         PprzGeodetic.ENU_OF_TO_NED(ned, enu);
     }
 
 
 
-    public static void ecef_of_enu_point_d(EcefCoorDouble ecef, LtpDefDouble def, EnuCoorDouble enu)
+    public static void ecef_of_enu_point_d(EcefCoor<Double> ecef, LtpDef<Double> def, EnuCoor<Double> enu)
     {
         PprzAlgebra.MAT33_VECT3_TRANSP_MUL(ecef, def.getLtp_of_ecef(), enu);
         PprzAlgebra.VECT3_ADD(ecef, def.getEcefCoor());
     }
 
-    public static void ecef_of_ned_point_d(EcefCoorDouble ecef, LtpDefDouble def, NedCoorDouble ned)
+    public static void ecef_of_ned_point_d(EcefCoor<Double> ecef, LtpDef<Double> def, NedCoor<Double> ned)
     {
-        EnuCoorDouble enu = new EnuCoorDouble();
+        EnuCoor<Double> enu = new EnuCoor<Double>();
         PprzGeodetic.ENU_OF_TO_NED(enu, ned);
         ecef_of_enu_point_d(ecef, def, enu);
     }
 
-    public static void ecef_of_enu_vect_d(EcefCoorDouble ecef, LtpDefDouble def, EnuCoorDouble enu)
+    public static void ecef_of_enu_vect_d(EcefCoor<Double> ecef, LtpDef<Double> def, EnuCoor<Double> enu)
     {
         PprzAlgebra.MAT33_VECT3_TRANSP_MUL(ecef, def.getLtp_of_ecef(), enu);
     }
 
-    public static void ecef_of_ned_vect_d(EcefCoorDouble ecef, LtpDefDouble def, NedCoorDouble ned)
+    public static void ecef_of_ned_vect_d(EcefCoor<Double> ecef, LtpDef<Double> def, NedCoor<Double> ned)
     {
-        EnuCoorDouble enu = new EnuCoorDouble();
+        EnuCoor<Double> enu = new EnuCoor<Double>();
         PprzGeodetic.ENU_OF_TO_NED(enu, ned);
         ecef_of_enu_vect_d(ecef, def, enu);
     }
 
 
-    public static void enu_of_lla_point_d(EnuCoorDouble enu, LtpDefDouble def, LlaCoorDouble lla)
+    public static void enu_of_lla_point_d(EnuCoor<Double> enu, LtpDef<Double> def, LlaCoor<Double> lla)
     {
-        EcefCoorDouble ecef = new EcefCoorDouble();
+        EcefCoor<Double> ecef = new EcefCoor<Double>();
         ecef_of_lla_d(ecef, lla);
         enu_of_ecef_point_d(enu, def, ecef);
     }
 
-    public static void ned_of_lla_point_d(NedCoorDouble ned, LtpDefDouble def, LlaCoorDouble lla)
+    public static void ned_of_lla_point_d(NedCoor<Double> ned, LtpDef<Double> def, LlaCoor<Double> lla)
     {
-        EcefCoorDouble ecef = new EcefCoorDouble();
+        EcefCoor<Double> ecef = new EcefCoor<Double>();
         ecef_of_lla_d(ecef, lla);
         ned_of_ecef_point_d(ned, def, ecef);
     }
@@ -228,21 +226,21 @@ public class PprzGeodeticDouble {
         return phi0;
     }
 
-    public static void CI(DoubleVect2 v) {
+    public static void CI(Vect2<Double> v) {
         double tmp = v.getX();
         v.setX(-v.getY());
         v.setY(tmp);
     }
 
-    public static void CExp(DoubleVect2 v) {
+    public static void CExp(Vect2<Double> v) {
         double e = Math.exp(v.getX());
         v.setX(e*Math.cos(v.getY()));
         v.setY(e*Math.sin(v.getY()));
     }
 
-    public static void CSin(DoubleVect2 v) {
+    public static void CSin(Vect2<Double> v) {
         CI(v);
-        DoubleVect2 vstar = new DoubleVect2();
+        Vect2<Double> vstar = new Vect2<Double>();
         vstar.setX(-v.getX());
         vstar.setY(-v.getY());
         CExp(v);
@@ -252,16 +250,16 @@ public class PprzGeodeticDouble {
         CI(v);
     }
 
-    public static void lla_of_utm_d(LlaCoorDouble lla, UtmCoorDouble utm)
+    public static void lla_of_utm_d(LlaCoor<Double> lla, UtmCoor<Double> utm)
     {
-        DoubleVect2 v = new DoubleVect2();
+        Vect2<Double> v = new Vect2<Double>();
         v.setX(utm.getNorth() - PprzGeodeticUtm.DELTA_NORTH); //TODO is this correct
         v.setY(utm.getEast() - PprzGeodeticUtm.DELTA_EAST); //TODO is this correct
         double scale = 1 / PprzGeodeticUtm.N / PprzGeodeticUtm.serie_coeff_proj_mercator[0];
         PprzAlgebra.VECT2_SMUL(v, v, scale);
 
         // first order taylor serie of something ?
-        DoubleVect2 v1 = new DoubleVect2();
+        Vect2<Double> v1 = new Vect2<Double>();
         PprzAlgebra.VECT2_SMUL(v1, v, 2.);
         CSin(v1);
         PprzAlgebra.VECT2_SMUL(v1, v1, PprzGeodeticUtm.serie_coeff_proj_mercator[1]);

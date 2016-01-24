@@ -24,12 +24,7 @@
 package ub.juav.airborne.math.functions.algebra;
 
 import ub.juav.airborne.math.functions.trig.PprzTrig;
-import ub.juav.airborne.math.structs.algebra.Eulers;
-import ub.juav.airborne.math.structs.algebra.Quat;
-import ub.juav.airborne.math.structs.algebra.RMat;
-import ub.juav.airborne.math.structs.algebra.Vect3;
-import ub.juav.airborne.math.structs.algebra.ints.*;
-import ub.juav.airborne.math.structs.algebra.longs.LongQuat;
+import ub.juav.airborne.math.structs.algebra.*;
 import ub.juav.airborne.math.util.LlDiv;
 
 /**
@@ -122,18 +117,18 @@ public class PprzAlgebraInt {
     }
 
     /********** 2D Vectors **********/
-    public static void INT_VECT2_ZERO(IntVect2 v) {
+    public static void INT_VECT2_ZERO(Vect2<Integer> v) {
         PprzAlgebra.VECT2_ASSIGN(v, 0, 0);
     }
-    public static int INT32_VECT2_NORM(IntVect2 v) {
-        return PprzAlgebraInt.int32_sqrt(PprzAlgebra.VECT2_NORM2(v));
+    public static int INT32_VECT2_NORM(Vect2<Integer> v) {
+        return PprzAlgebraInt.int32_sqrt(PprzAlgebra.VECT2_NORM2(v).intValue());
     }
 
-    public static int int32_vect2_norm2(IntVect2 v) {
+    public static int int32_vect2_norm2(Vect2<Integer> v) {
         return INT32_VECT2_NORM(v);
     }
 
-    public static void int32_vect2_normalize(IntVect2 v, int frac) {
+    public static void int32_vect2_normalize(Vect2<Integer> v, int frac) {
         int n = int32_vect2_norm2(v);
         if (n>0) {
             int f = BFP_OF_REAL(1.,frac);
@@ -142,35 +137,35 @@ public class PprzAlgebraInt {
         }
     }
 
-    public static void INT32_VECT2_NORMALIZE(IntVect2 v, int frac) {
+    public static void INT32_VECT2_NORMALIZE(Vect2<Integer> v, int frac) {
         int32_vect2_normalize(v,frac);
     }
 
-    public static void INT32_VECT2_RSHIFT(IntVect2 o, IntVect2 i, int r) {
+    public static void INT32_VECT2_RSHIFT(Vect2<Integer> o, Vect2<Integer> i, int r) {
         o.setX(i.getX()>>r);
         o.setY(i.getY()>>r);
     }
 
-    public static void INT32_VECT2_LSHIFT(IntVect2 o, IntVect2 i, int r) {
+    public static void INT32_VECT2_LSHIFT(Vect2<Integer> o, Vect2<Integer> i, int r) {
         o.setX(i.getX()<<r);
         o.setY(i.getY()<<r);
     }
 
-    public static void INT32_VECT2_SCALE_2(IntVect2 a, IntVect2 b, int num, int den) {
+    public static void INT32_VECT2_SCALE_2(Vect2<Integer> a, Vect2<Integer> b, int num, int den) {
         a.setX(b.getX()*num/den);
         a.setY(b.getY()*num/den);
     }
 
     /***************** 3D VECTORS *****************/
 
-    public static void INT32_VECT3_SCALE_2(IntVect3 a, IntVect3 b, int num, int den) {
+    public static void INT32_VECT3_SCALE_2(Vect3<Integer> a, Vect3<Integer> b, int num, int den) {
         a.setX(b.getX()*num/den);
         a.setY(b.getY() * num / den);
         a.setZ(b.getZ() * num / den);
     }
 
-    public static int INT32_VECT2_NORM(IntVect3 v) {
-        return PprzAlgebraInt.int32_sqrt(PprzAlgebra.VECT3_NORM2(v));
+    public static int INT32_VECT2_NORM(Vect3<Integer> v) {
+        return PprzAlgebraInt.int32_sqrt(PprzAlgebra.VECT3_NORM2(v).intValue());
     }
 
     public static void INT32_VECT3_RSHIFT(Vect3<Integer> o, Vect3<Integer> i, int r) {
@@ -185,20 +180,20 @@ public class PprzAlgebraInt {
         o.setZ(i.getZ() << r);
     }
 
-    public static void INT_VECT3_ZERO(IntVect3 v) {
+    public static void INT_VECT3_ZERO(Vect3<Integer> v) {
         PprzAlgebra.VECT3_ASSIGN(v, 0, 0, 0);
     }
-    public static void INT32_VECT3_ZERO(IntVect3 v) {
+    public static void INT32_VECT3_ZERO(Vect3<Integer> v) {
         PprzAlgebra.VECT3_ASSIGN(v, 0, 0, 0);
     }
 
     /********** 3x3 Matricies **********/
 
-    public static void INT32_MAT33_ZERO(IntMat33 mat) {
+    public static void INT32_MAT33_ZERO(Mat33<Integer> mat) {
         mat.zero();
     }
 
-    public static void INT32_MAT33_DIAG(IntMat33 mat, int d00,int d11,int d22) {
+    public static void INT32_MAT33_DIAG(Mat33<Integer> mat, int d00,int d11,int d22) {
         PprzAlgebra.MAT33_DIAG(mat,d00,d11,d22);
     }
 
@@ -206,7 +201,7 @@ public class PprzAlgebraInt {
     /************** Rotation Matricies ***************/
 
     /* initialises a rotation matrix to identity */
-    public static void int32_rmat_identity(IntRMat mat) {
+    public static void int32_rmat_identity(RMat<Integer> mat) {
         PprzAlgebra.MAT33_DIAG(mat, TRIG_BFP_OF_REAL(1.), TRIG_BFP_OF_REAL(1.), TRIG_BFP_OF_REAL(1.));
     }
 
@@ -248,7 +243,7 @@ public class PprzAlgebraInt {
     /** Composition (multiplication) of two rotation matrices.
      * _m_a2c = _m_a2b comp _m_b2c , aka  _m_a2c = _m_b2c * _m_a2b
      */
-    public static void int32_rmat_comp(IntRMat ma2c, IntRMat ma2b, IntRMat mb2c) {
+    public static void int32_rmat_comp(RMat<Integer> ma2c, RMat<Integer> ma2b, RMat<Integer> mb2c) {
         ma2c.setElement((mb2c.getElement(0, 0)*ma2b.getElement(0, 0)+mb2c.getElement(0, 1)*ma2b.getElement(1, 0)+mb2c.getElement(0, 2)*ma2b.getElement(2, 0)) >> INT32_TRIG_FRAC,0,0);
         ma2c.setElement((mb2c.getElement(0, 0)*ma2b.getElement(0, 1)+mb2c.getElement(0, 1)*ma2b.getElement(1, 1)+mb2c.getElement(0, 2)*ma2b.getElement(2, 1)) >> INT32_TRIG_FRAC,0,1);
         ma2c.setElement((mb2c.getElement(0, 0)*ma2b.getElement(0, 2)+mb2c.getElement(0, 1)*ma2b.getElement(1, 2)+mb2c.getElement(0, 2)*ma2b.getElement(2, 2)) >> INT32_TRIG_FRAC,0,2);
@@ -263,7 +258,7 @@ public class PprzAlgebraInt {
     /** Composition (multiplication) of two rotation matrices.
      * _m_a2b = _m_a2c comp_inv _m_b2c , aka  _m_a2b = inv(_m_b2c) * _m_a2c
      */
-    public static void int32_rmat_comp_inv(IntRMat ma2b, IntRMat ma2c, IntRMat mb2c) {
+    public static void int32_rmat_comp_inv(RMat<Integer> ma2b, RMat<Integer> ma2c, RMat<Integer> mb2c) {
         ma2b.setElement((mb2c.getElement(0, 0)*ma2c.getElement(0, 0)+mb2c.getElement(1, 0)*ma2c.getElement(1, 0)+mb2c.getElement(2, 0)*ma2c.getElement(2, 0)) >> INT32_TRIG_FRAC,0,0);
         ma2b.setElement((mb2c.getElement(0, 0)*ma2c.getElement(0, 1)+mb2c.getElement(1, 0)*ma2c.getElement(1, 1)+mb2c.getElement(2, 0)*ma2c.getElement(2, 1)) >> INT32_TRIG_FRAC,0,1);
         ma2b.setElement((mb2c.getElement(0, 0)*ma2c.getElement(0, 2)+mb2c.getElement(1, 0)*ma2c.getElement(1, 2)+mb2c.getElement(2, 0)*ma2c.getElement(2, 2)) >> INT32_TRIG_FRAC,0,2);
@@ -278,7 +273,7 @@ public class PprzAlgebraInt {
     /** rotate 3D vector by rotation matrix.
      * vb = m_a2b * va
      */
-    public static void int32_rmat_vmult(IntVect3 vb, IntRMat ma2b, IntVect3 va) {
+    public static void int32_rmat_vmult(Vect3<Integer> vb, RMat<Integer> ma2b, Vect3<Integer> va) {
         vb.setX((ma2b.getElement(0, 0)*va.getX()+ma2b.getElement(0, 1) * va.getY() + ma2b.getElement(0, 2)*va.getZ())>> INT32_TRIG_FRAC);
         vb.setY((ma2b.getElement(1, 0)*va.getX()+ma2b.getElement(1, 1) * va.getY() + ma2b.getElement(1, 2)*va.getZ())>> INT32_TRIG_FRAC);
         vb.setZ((ma2b.getElement(2, 0)*va.getX()+ma2b.getElement(2, 1) * va.getY() + ma2b.getElement(2, 2)*va.getZ())>> INT32_TRIG_FRAC);
@@ -287,7 +282,7 @@ public class PprzAlgebraInt {
     /** rotate 3D vector by transposed rotation matrix.
      * vb = m_b2a^T * va
      */
-    public static void int32_rmat_transp_vmult(IntVect3 vb, IntRMat ma2b, IntVect3 va) {
+    public static void int32_rmat_transp_vmult(Vect3<Integer> vb, RMat<Integer> ma2b, Vect3<Integer> va) {
         vb.setX((ma2b.getElement(0, 0)*va.getX()+ma2b.getElement(1, 0) * va.getY() + ma2b.getElement(2, 0)*va.getZ())>> INT32_TRIG_FRAC);
         vb.setY((ma2b.getElement(0, 1)*va.getX()+ma2b.getElement(1, 1) * va.getY() + ma2b.getElement(2, 1)*va.getZ())>> INT32_TRIG_FRAC);
         vb.setZ((ma2b.getElement(0, 2)*va.getX()+ma2b.getElement(1, 2) * va.getY() + ma2b.getElement(2, 2)*va.getZ())>> INT32_TRIG_FRAC);
@@ -296,7 +291,7 @@ public class PprzAlgebraInt {
     /** rotate anglular rates by rotation matrix.
      * rb = m_a2b * ra
      */
-    public static void int32_rmat_ratemult(IntRates rb, IntRMat ma2b, IntRates ra) {
+    public static void int32_rmat_ratemult(Rates<Integer> rb, RMat<Integer> ma2b, Rates<Integer> ra) {
         rb.setP((ma2b.getElement(0, 0) * ra.getP() + ma2b.getElement(0, 1) * ra.getQ() + ma2b.getElement(0, 2) * ra.getR())>> INT32_TRIG_FRAC);
         rb.setQ((ma2b.getElement(1, 0) * ra.getP() + ma2b.getElement(1, 1) * ra.getQ() + ma2b.getElement(1, 2) * ra.getR())>> INT32_TRIG_FRAC);
         rb.setR((ma2b.getElement(2, 0) * ra.getP() + ma2b.getElement(2, 1) * ra.getQ() + ma2b.getElement(2, 2) * ra.getR())>> INT32_TRIG_FRAC);
@@ -305,7 +300,7 @@ public class PprzAlgebraInt {
     /** rotate anglular rates by transposed rotation matrix.
      * rb = m_b2a^T * ra
      */
-    public static void int32_rmat_transp_ratemult(IntRates rb, IntRMat mb2a, IntRates ra) {
+    public static void int32_rmat_transp_ratemult(Rates<Integer> rb, RMat<Integer> mb2a, Rates<Integer> ra) {
         rb.setP((mb2a.getElement(0, 0) * ra.getP() + mb2a.getElement(1, 0) * ra.getQ() + mb2a.getElement(2, 0) * ra.getR()) >> INT32_TRIG_FRAC);
         rb.setQ((mb2a.getElement(0, 1) * ra.getP() + mb2a.getElement(1, 1) * ra.getQ() + mb2a.getElement(2, 1) * ra.getR()) >> INT32_TRIG_FRAC);
         rb.setR((mb2a.getElement(0, 2) * ra.getP() + mb2a.getElement(1, 2) * ra.getQ() + mb2a.getElement(2, 2) * ra.getR()) >> INT32_TRIG_FRAC);
@@ -344,7 +339,7 @@ public class PprzAlgebraInt {
     /** Rotation matrix from 321 Euler angles.
      * http://www.mathworks.com/access/helpdesk_r13/help/toolbox/aeroblks/euleranglestodirectioncosinematrix.html
      */
-    public static void int32_rmat_of_eulers_321(IntRMat rm, IntEulers e) {
+    public static void int32_rmat_of_eulers_321(RMat<Integer> rm, Eulers<Integer> e) {
         int sphi = PprzTrig.PPRZ_ITRIG_SIN(e.getPhi());
         int cphi = PprzTrig.PPRZ_ITRIG_COS(e.getPhi());
         int stheta = PprzTrig.PPRZ_ITRIG_SIN(e.getTheta());
@@ -418,7 +413,7 @@ public class PprzAlgebraInt {
 
     /******** Quaternions ********/
 
-    public static void int32_quat_comp(IntQuat a2c, IntQuat a2b, IntQuat b2c) {
+    public static void int32_quat_comp(Quat<Integer> a2c, Quat<Integer> a2b, Quat<Integer> b2c) {
         a2c.setQi((
                 a2b.getQi() * b2c.getQi() -
                 a2b.getQx() * b2c.getQx() -
@@ -444,7 +439,7 @@ public class PprzAlgebraInt {
                         a2b.getQz() * b2c.getQi())
                 >> INT32_QUAT_FRAC);
     }
-    public static void int32_quat_comp_inv(IntQuat a2b, IntQuat a2c, IntQuat b2c) {
+    public static void int32_quat_comp_inv(Quat<Integer> a2b, Quat<Integer> a2c, Quat<Integer> b2c) {
         a2b.setQi((
                         a2c.getQi() * b2c.getQi() +
                         a2c.getQx() * b2c.getQx() +
@@ -471,7 +466,7 @@ public class PprzAlgebraInt {
                 >> INT32_QUAT_FRAC);
     }
 
-    public static void int32_quat_inv_comp(IntQuat b2c, IntQuat a2b, IntQuat a2c) {
+    public static void int32_quat_inv_comp(Quat<Integer> b2c, Quat<Integer> a2b, Quat<Integer> a2c) {
         b2c.setQi((
                         a2b.getQi() * a2c.getQi() +
                         a2b.getQx() * a2c.getQx() +
@@ -498,13 +493,13 @@ public class PprzAlgebraInt {
                 >> INT32_QUAT_FRAC);
     }
 
-    public static void int32_quat_comp_norm_shortest(IntQuat a2c, IntQuat a2b, IntQuat b2c) {
+    public static void int32_quat_comp_norm_shortest(Quat<Integer> a2c, Quat<Integer> a2b, Quat<Integer> b2c) {
         int32_quat_comp(a2c, a2b, b2c);
         int32_quat_wrap_shortest(a2c);
         int32_quat_normalize(a2c);
     }
 
-    private static void int32_quat_normalize(IntQuat q) {
+    private static void int32_quat_normalize(Quat<Integer> q) {
         int n = int32_quat_norm(q);
         if (n > 0) {
             q.setQi(q.getQi()*QUAT1_BFP_OF_REAL(1));
@@ -514,23 +509,23 @@ public class PprzAlgebraInt {
         }
     }
 
-    private static int int32_quat_norm(IntQuat q) {
+    private static int int32_quat_norm(Quat<Integer> q) {
         return int32_sqrt((q.getQi()*q.getQi())+(q.getQx()*q.getQx())+(q.getQy()*q.getQy())+(q.getQz()*q.getQz()));
     }
 
-    private static void int32_quat_wrap_shortest(IntQuat quat) {
+    private static void int32_quat_wrap_shortest(Quat<Integer> quat) {
         if (quat.getQi() < 0) {
             PprzAlgebra.QUAT_EXPLEMENTARY(quat, quat);
         }
     }
 
-    public static void int32_quat_comp_inv_norm_shortest(IntQuat a2b, IntQuat a2c, IntQuat b2c) {
+    public static void int32_quat_comp_inv_norm_shortest(Quat<Integer> a2b, Quat<Integer> a2c, Quat<Integer> b2c) {
         int32_quat_comp_inv(a2b, a2c, b2c);
         int32_quat_wrap_shortest(a2b);
         int32_quat_normalize(a2b);
     }
 
-    public static void int32_quat_inv_comp_norm_shortest(IntQuat b2c, IntQuat a2b, IntQuat a2c) {
+    public static void int32_quat_inv_comp_norm_shortest(Quat<Integer> b2c, Quat<Integer> a2b, Quat<Integer> a2c) {
         int32_quat_inv_comp(b2c, a2b, a2c);
         int32_quat_wrap_shortest(b2c);
         int32_quat_normalize(b2c);
@@ -543,7 +538,7 @@ public class PprzAlgebraInt {
      * Multiplication with 0.5 is done by shifting one more bit to the right.
      */
 
-    public static void int32_quat_derivative(IntQuat qd, IntRates r, IntQuat q) {
+    public static void int32_quat_derivative(Quat<Integer> qd, Rates<Integer> r, Quat<Integer> q) {
         qd.setQi((-(r.getP()*q.getQx()+r.getQ()*q.getQy()+r.getR()*q.getQz())) >> (INT32_RATE_FRAC+1));
         qd.setQx((-(-r.getP() * q.getQi() - r.getR() * q.getQy() + r.getQ() * q.getQz())) >> (INT32_RATE_FRAC + 1));
         qd.setQy((-(-r.getP() * q.getQi() + r.getR() * q.getQx() - r.getP() * q.getQz())) >> (INT32_RATE_FRAC + 1));
@@ -551,7 +546,7 @@ public class PprzAlgebraInt {
     }
 
     /** in place quaternion first order integration with constant rotational velocity. */
-    public static void int32_quat_integrate_fi(IntQuat q, LongQuat hr, IntRates omega, int freq) {
+    public static void int32_quat_integrate_fi(Quat<Integer> q, Quat<Long> hr, Rates<Integer> omega, int freq) {
         hr.setQi(omega.getP().longValue()*q.getQx().longValue() - omega.getQ().longValue() * q.getQy().longValue() - omega.getR().longValue()*q.getQz().longValue());
         hr.setQx(omega.getP().longValue() * q.getQi().longValue() - omega.getR().longValue() * q.getQy().longValue() - omega.getQ().longValue() * q.getQz().longValue());
         hr.setQy(omega.getQ().longValue() * q.getQi().longValue() - omega.getR().longValue() * q.getQx().longValue() - omega.getP().longValue() * q.getQz().longValue());
@@ -574,7 +569,7 @@ public class PprzAlgebraInt {
         hr.setQz(div.getRem());
     }
 
-    public static void int32_quat_vmult(IntVect3 vOut, IntQuat q, IntVect3 vIn) {
+    public static void int32_quat_vmult(Vect3<Integer> vOut, Quat<Integer> q, Vect3<Integer> vIn) {
         int _2qi2_m1 = ((q.getQi() * q.getQi()) >> (INT32_QUAT_FRAC - 1)) - QUAT1_BFP_OF_REAL(1);
         int _2qx2    = (q.getQx() * q.getQx()) >> (INT32_QUAT_FRAC - 1);
         int _2qy2    = (q.getQy() * q.getQy()) >> (INT32_QUAT_FRAC - 1);
@@ -622,7 +617,7 @@ public class PprzAlgebraInt {
                 INT_MULT_RSHIFT(-s_phi2, s_th_c_ps, INT32_TRIG_FRAC + INT32_TRIG_FRAC - INT32_QUAT_FRAC));
     }
 
-    public static void int32_quat_of_axis_angle(IntQuat q, IntVect3 uv, int angle) {
+    public static void int32_quat_of_axis_angle(Quat<Integer> q, Vect3<Integer> uv, int angle) {
         int san2 = PprzTrig.PPRZ_ITRIG_SIN((angle / 2));
         int can2 = PprzTrig.PPRZ_ITRIG_COS((angle / 2));
         q.setQi(can2);
@@ -766,7 +761,7 @@ public class PprzAlgebraInt {
     }
 
     /****** Rotational Speeds *******/
-    public static void int32_rates_of_eulers_dot_321(IntRates r, IntEulers e, IntEulers ed) {
+    public static void int32_rates_of_eulers_dot_321(Rates<Integer> r, Eulers<Integer> e, Eulers<Integer> ed) {
         int sphi = PprzTrig.PPRZ_ITRIG_SIN(e.getPhi());
         int cphi = PprzTrig.PPRZ_ITRIG_COS(e.getPhi());
         int stheta = PprzTrig.PPRZ_ITRIG_SIN(e.getTheta());
@@ -780,7 +775,7 @@ public class PprzAlgebraInt {
         r.setR(INT_MULT_RSHIFT(cphi_ctheta, ed.getPsi(), INT32_TRIG_FRAC) - INT_MULT_RSHIFT(sphi, ed.getTheta(), INT32_TRIG_FRAC));
     }
 
-    public static void int32_eulers_dot_321_of_rates(IntEulers ed, IntEulers e, IntRates r) {
+    public static void int32_eulers_dot_321_of_rates(Eulers<Integer> ed, Eulers<Integer> e, Rates<Integer> r) {
         int sphi = PprzTrig.PPRZ_ITRIG_SIN(e.getPhi());
         int cphi = PprzTrig.PPRZ_ITRIG_COS(e.getPhi());
         int stheta = PprzTrig.PPRZ_ITRIG_SIN(e.getTheta());

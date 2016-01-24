@@ -27,8 +27,6 @@ import ub.juav.airborne.math.functions.algebra.PprzAlgebra;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebraInt;
 import ub.juav.airborne.math.structs.algebra.RMat;
 import ub.juav.airborne.math.structs.geodetic.*;
-import ub.juav.airborne.math.structs.geodetic.doubles.EcefCoorDouble;
-import ub.juav.airborne.math.structs.geodetic.doubles.LlaCoorDouble;
 import ub.juav.airborne.math.util.Constants;
 import ub.juav.airborne.math.util.UtilityFunctions;
 
@@ -454,7 +452,7 @@ public class PprzGeodeticInt {
         in_d.setY(UtilityFunctions.M_OF_CM((double) in.getY()));
         in_d.setZ(UtilityFunctions.M_OF_CM((double) in.getZ()));
   /* calls the floating point transformation */
-        LlaCoor<Double> out_d = new LlaCoorDouble();
+        LlaCoor<Double> out_d = new LlaCoor<Double>();
         PprzGeodeticDouble.lla_of_ecef_d(out_d, in_d);
   /* convert the output to fixed point       */
         out.setLon((int)Math.rint(UtilityFunctions.EM7DEG_OF_RAD(out_d.getLon())));
@@ -467,12 +465,12 @@ public class PprzGeodeticInt {
     {
 
   /* convert our input to floating point */
-        LlaCoor<Double> in_d = new LlaCoorDouble();
+        LlaCoor<Double> in_d = new LlaCoor<Double>();
         in_d.setLon(UtilityFunctions.RAD_OF_EM7DEG((double) in.getLon()));
         in_d.setLat(UtilityFunctions.RAD_OF_EM7DEG((double) in.getLat()));
         in_d.setAlt(UtilityFunctions.M_OF_MM((double) in.getAlt()));
   /* calls the floating point transformation */
-        EcefCoor<Double> out_d = new EcefCoorDouble();
+        EcefCoor<Double> out_d = new EcefCoor<Double>();
         PprzGeodeticDouble.ecef_of_lla_d(out_d, in_d);
   /* convert the output to fixed point       */
         out.setX((int) UtilityFunctions.CM_OF_M(out_d.getX()));

@@ -28,7 +28,7 @@ import ub.juav.airborne.math.structs.algebra.RMat;
 /**
  * Created by adamczer on 9/7/15.
  */
-public abstract class LtpDef<T extends Number> {
+public class LtpDef<T extends Number> {
     private EcefCoor<T> ecefCoor;
     private LlaCoor<T> llaCoor;
     private RMat<T> ltp_of_ecef;

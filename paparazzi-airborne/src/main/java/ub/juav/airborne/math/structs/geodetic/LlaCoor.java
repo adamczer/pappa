@@ -25,7 +25,7 @@ package ub.juav.airborne.math.structs.geodetic;
 /**
  * Created by adamczer on 9/7/15.
  */
-public abstract class LlaCoor<T extends Number> {
+public class LlaCoor<T extends Number> {
     private T lat;
     private T lon;
     private T alt;

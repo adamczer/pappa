@@ -26,7 +26,7 @@ package ub.juav.airborne.math.structs.algebra;
 /**
  * Created by adamczer on 7/12/15.
  */
-public abstract class Vect2<T extends Number> {
+public class Vect2<T extends Number> {
     private T x, y;
 
     public T getX() {

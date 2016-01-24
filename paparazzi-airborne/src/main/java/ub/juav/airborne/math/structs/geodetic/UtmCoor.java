@@ -26,7 +26,7 @@ package ub.juav.airborne.math.structs.geodetic;
 /**
  * Created by adamczer on 9/7/15.
  */
-public abstract class UtmCoor<T extends Number> {
+public class UtmCoor<T extends Number> {
     private T north;
     private T east;
     private T alt;

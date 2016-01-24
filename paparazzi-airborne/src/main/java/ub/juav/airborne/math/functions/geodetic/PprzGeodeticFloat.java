@@ -23,11 +23,8 @@
 package ub.juav.airborne.math.functions.geodetic;
 
 import ub.juav.airborne.math.functions.algebra.PprzAlgebra;
-import ub.juav.airborne.math.structs.algebra.doubles.DoubleRMat;
-import ub.juav.airborne.math.structs.geodetic.EcefCoor;
-import ub.juav.airborne.math.structs.geodetic.LlaCoor;
-import ub.juav.airborne.math.structs.geodetic.doubles.EcefCoorDouble;
-import ub.juav.airborne.math.structs.geodetic.floats.*;
+import ub.juav.airborne.math.structs.algebra.RMat;
+import ub.juav.airborne.math.structs.geodetic.*;
 import ub.juav.airborne.math.util.Complex;
 import ub.juav.airborne.math.util.Constants;
 
@@ -37,7 +34,7 @@ import ub.juav.airborne.math.util.Constants;
 public class PprzGeodeticFloat {
     //h file only included structs
 
-    public static void ltp_def_from_ecef_f(LtpDefFloat def, EcefCoorFloat ecef)
+    public static void ltp_def_from_ecef_f(LtpDef<Float> def, EcefCoor<Float> ecef)
     {
 
   /* store the origin of the tangeant plane       */
@@ -62,7 +59,7 @@ public class PprzGeodeticFloat {
 
     }
 
-    public static void ltp_def_from_lla_f(LtpDefFloat def, LlaCoorFloat lla)
+    public static void ltp_def_from_lla_f(LtpDef<Float> def, LlaCoor<Float> lla)
     {
   /* store the origin of the tangeant plane */
         PprzGeodetic.LLA_COPY(def.getLlaCoor(), lla);
@@ -87,43 +84,43 @@ public class PprzGeodeticFloat {
         def.getLtp_of_ecef().setFlattendElement(8, sin_lat);
     }
 
-    public static void enu_of_ecef_point_f(EnuCoorFloat enu, LtpDefFloat def, EcefCoorFloat ecef)
+    public static void enu_of_ecef_point_f(EnuCoor<Float> enu, LtpDef<Float> def, EcefCoor<Float> ecef)
     {
-        EcefCoorFloat delta = new EcefCoorFloat();
+        EcefCoor<Float> delta = new EcefCoor<Float>();
         PprzAlgebra.VECT3_DIFF(delta, ecef, def.getEcefCoor());
         PprzAlgebra.MAT33_VECT3_MULT(enu, def.getLtp_of_ecef(), delta);
     }
 
-    public static void ned_of_ecef_point_f(NedCoorFloat ned, LtpDefFloat def, EcefCoorFloat ecef)
+    public static void ned_of_ecef_point_f(NedCoor<Float> ned, LtpDef<Float> def, EcefCoor<Float> ecef)
     {
-        EnuCoorFloat enu = new EnuCoorFloat();
+        EnuCoor<Float> enu = new EnuCoor<Float>();
         enu_of_ecef_point_f(enu, def, ecef);
         PprzGeodetic.ENU_OF_TO_NED(ned, enu);
     }
 
 
-    public static void enu_of_ecef_vect_f(EnuCoorFloat enu, LtpDefFloat def, EcefCoorFloat ecef)
+    public static void enu_of_ecef_vect_f(EnuCoor<Float> enu, LtpDef<Float> def, EcefCoor<Float> ecef)
     {
        PprzAlgebra.MAT33_VECT3_MULT(enu, def.getLtp_of_ecef(), ecef);
     }
 
-    public static void ned_of_ecef_vect_f(NedCoorFloat ned, LtpDefFloat def, EcefCoorFloat ecef)
+    public static void ned_of_ecef_vect_f(NedCoor<Float> ned, LtpDef<Float> def, EcefCoor<Float> ecef)
     {
-        EnuCoorFloat enu = new EnuCoorFloat();
+        EnuCoor<Float> enu = new EnuCoor<Float>();
         enu_of_ecef_vect_f(enu, def, ecef);
         PprzGeodetic.ENU_OF_TO_NED(ned, enu);
     }
 
-    public static void enu_of_lla_point_f(EnuCoorFloat enu, LtpDefFloat def, LlaCoorFloat lla)
+    public static void enu_of_lla_point_f(EnuCoor<Float> enu, LtpDef<Float> def, LlaCoor<Float> lla)
     {
-        EcefCoorFloat ecef = new EcefCoorFloat();
+        EcefCoor<Float> ecef = new EcefCoor<Float>();
         ecef_of_lla_f(ecef, lla);
         enu_of_ecef_point_f(enu, def, ecef);
     }
 
-    public static void ned_of_lla_point_f(NedCoorFloat ned, LtpDefFloat def, LlaCoorFloat lla)
+    public static void ned_of_lla_point_f(NedCoor<Float> ned, LtpDef<Float> def, LlaCoor<Float> lla)
     {
-        EcefCoorFloat ecef = new EcefCoorFloat();
+        EcefCoor<Float> ecef = new EcefCoor<Float>();
         ecef_of_lla_f(ecef, lla);
         ned_of_ecef_point_f(ned, def, ecef);
     }
@@ -131,10 +128,10 @@ public class PprzGeodeticFloat {
     /*
      * not enought precision with float - use double
      */
-    public static void ecef_of_enu_point_f(EcefCoorFloat ecef, LtpDefFloat def, EnuCoorFloat enu)
+    public static void ecef_of_enu_point_f(EcefCoor<Float> ecef, LtpDef<Float> def, EnuCoor<Float> enu)
     {
   /* convert used floats to double */
-        DoubleRMat ltp_of_ecef_d = new DoubleRMat();
+        RMat<Double> ltp_of_ecef_d = new RMat<Double>();
         ltp_of_ecef_d.setFlattendElement(0,(double) def.getLtp_of_ecef().getFlattendElement(0));
         ltp_of_ecef_d.setFlattendElement(1, (double) def.getLtp_of_ecef().getFlattendElement(1));
         ltp_of_ecef_d.setFlattendElement(2, (double) def.getLtp_of_ecef().getFlattendElement(2));
@@ -144,13 +141,13 @@ public class PprzGeodeticFloat {
         ltp_of_ecef_d.setFlattendElement(6, (double) def.getLtp_of_ecef().getFlattendElement(6));
         ltp_of_ecef_d.setFlattendElement(7, (double) def.getLtp_of_ecef().getFlattendElement(7));
         ltp_of_ecef_d.setFlattendElement(8, (double) def.getLtp_of_ecef().getFlattendElement(8));
-        EnuCoorFloat enu_d = new EnuCoorFloat();
+        EnuCoor<Float> enu_d = new EnuCoor<Float>();
         enu_d.setX(enu.getX());
         enu_d.setY(enu.getY());
         enu_d.setZ(enu.getZ());
 
   /* compute in double */
-        EcefCoorDouble ecef_d = new EcefCoorDouble();
+        EcefCoor<Double> ecef_d = new EcefCoor<Double>();
         PprzAlgebra.MAT33_VECT3_TRANSP_MUL(ecef_d, ltp_of_ecef_d, enu_d);
 
   /* convert result back to float and add it*/
@@ -159,17 +156,17 @@ public class PprzGeodeticFloat {
         ecef.setZ((float) (ecef_d.getZ() + def.getEcefCoor().getZ()));
     }
 
-    public static void ecef_of_ned_point_f(EcefCoorFloat ecef, LtpDefFloat def, NedCoorFloat ned)
+    public static void ecef_of_ned_point_f(EcefCoor<Float> ecef, LtpDef<Float> def, NedCoor<Float> ned)
     {
-        EnuCoorFloat enu = new EnuCoorFloat();
+        EnuCoor<Float> enu = new EnuCoor<Float>();
         PprzGeodetic.ENU_OF_TO_NED(enu, ned);
         ecef_of_enu_point_f(ecef, def, enu);
     }
 
-    public static void ecef_of_enu_vect_f(EcefCoorFloat ecef, LtpDefFloat def, EnuCoorFloat enu)
+    public static void ecef_of_enu_vect_f(EcefCoor<Float> ecef, LtpDef<Float> def, EnuCoor<Float> enu)
     {
   /* convert used floats to double */
-        DoubleRMat ltp_of_ecef_d = new DoubleRMat();
+        RMat<Double> ltp_of_ecef_d = new RMat<Double>();
         ltp_of_ecef_d.setFlattendElement(0,(double) def.getLtp_of_ecef().getFlattendElement(0));
         ltp_of_ecef_d.setFlattendElement(1,(double) def.getLtp_of_ecef().getFlattendElement(1));
         ltp_of_ecef_d.setFlattendElement(2,(double) def.getLtp_of_ecef().getFlattendElement(2));
@@ -179,13 +176,13 @@ public class PprzGeodeticFloat {
         ltp_of_ecef_d.setFlattendElement(6,(double) def.getLtp_of_ecef().getFlattendElement(6));
         ltp_of_ecef_d.setFlattendElement(7,(double) def.getLtp_of_ecef().getFlattendElement(7));
         ltp_of_ecef_d.setFlattendElement(8,(double) def.getLtp_of_ecef().getFlattendElement(8));
-        EnuCoorFloat enu_d = new EnuCoorFloat();
+        EnuCoor<Float> enu_d = new EnuCoor<Float>();
         enu_d.setX(enu.getX());
         enu_d.setY(enu.getY());
         enu_d.setZ(enu.getZ());
 
   /* compute in double */
-        EcefCoorDouble ecef_d = new EcefCoorDouble();
+        EcefCoor<Double> ecef_d = new EcefCoor<Double>();
         PprzAlgebra.MAT33_VECT3_TRANSP_MUL(ecef_d, ltp_of_ecef_d, enu_d);
         
   /* convert result back to float*/
@@ -194,9 +191,9 @@ public class PprzGeodeticFloat {
         ecef.setZ((float) (ecef_d.getZ()+0));
     }
 
-    public static void ecef_of_ned_vect_f(EcefCoorFloat ecef, LtpDefFloat def, NedCoorFloat ned)
+    public static void ecef_of_ned_vect_f(EcefCoor<Float> ecef, LtpDef<Float> def, NedCoor<Float> ned)
     {
-        EnuCoorFloat enu = new EnuCoorFloat();
+        EnuCoor<Float> enu = new EnuCoor<Float>();
         PprzGeodetic.ENU_OF_TO_NED(enu, ned);
         ecef_of_enu_vect_f(ecef, def, enu);
     }
@@ -301,7 +298,7 @@ public class PprzGeodeticFloat {
         return phi0;
     }
 
-    void utm_of_lla_f(UtmCoorFloat utm, LlaCoorFloat lla)
+    void utm_of_lla_f(UtmCoor<Float> utm, LlaCoor<Float> lla)
     {
         float lambda_c = (float) PprzGeodeticUtm.LambdaOfUtmZone(utm.getZone());
         float ll = isometric_latitude_f(lla.getLat() , (float) PprzGeodeticUtm.E);
@@ -327,7 +324,7 @@ public class PprzGeodeticFloat {
         utm.setAlt(lla.getAlt());
     }
 
-    void lla_of_utm_f(LlaCoorFloat lla, UtmCoorFloat utm)
+    void lla_of_utm_f(LlaCoor<Float> lla, UtmCoor<Float> utm)
     {
         float scale = (float) (1 / PprzGeodeticUtm.N / PprzGeodeticUtm.serie_coeff_proj_mercator[0]);
         float real = (float) ((utm.getNorth() - PprzGeodeticUtm.DELTA_NORTH) * scale);

@@ -24,10 +24,6 @@
 package ub.juav.airborne.math.functions.algebra;
 
 import ub.juav.airborne.math.structs.algebra.*;
-import ub.juav.airborne.math.structs.algebra.floats.*;
-import ub.juav.airborne.math.structs.algebra.ints.IntRMat;
-import ub.juav.airborne.math.structs.algebra.ints.IntVect2;
-import ub.juav.airborne.math.structs.algebra.ints.IntVect3;
 import ub.juav.airborne.math.util.NumberMath;
 
 /**
@@ -90,18 +86,8 @@ public class PprzAlgebra{
         return NumberMath.add(NumberMath.mul(v.getX(),v.getX()) , NumberMath.mul(v.getY(),v.getY()));
     }
 
-    public static Float VECT2_NORM2(FloatVect2 v) {
-        return VECT2_NORM2((Vect2)v).floatValue();
-    }
-    public static int VECT2_NORM2(IntVect2 v) {
-        return VECT2_NORM2((Vect2)v).intValue();
-    }
-
     public static Number VECT2_NORM(Vect2 v) {
         return NumberMath.sqrt(VECT2_NORM2(v));
-    }
-    public static Float VECT2_NORM(FloatVect2 v) {
-        return VECT2_NORM((Vect2) v).floatValue();
     }
     /***************3D Vectors *************/
     /* a =  {x, y, z} */
@@ -226,29 +212,21 @@ public class PprzAlgebra{
         return NumberMath.sum(NumberMath.mul(v1.getX(), v2.getX()), NumberMath.mul(v1.getY(), v2.getY()), NumberMath.mul(v1.getZ(), v2.getZ()));
     }
 
-    public static Float VECT3_DOT_PRODUCT(FloatVect3 v1, FloatVect3 v2) {
-        return VECT3_DOT_PRODUCT((Vect3)v1,(Vect3)v2).floatValue();
-    }
+//    public static Float VECT3_DOT_PRODUCT(Vect3<Float> v1, Vect3<Float> v2) {
+//        return VECT3_DOT_PRODUCT((Vect3)v1,(Vect3)v2).floatValue();
+//    }
 
     public static Number VECT3_NORM2 (Vect3 v) {
         return NumberMath.sum(NumberMath.sq(v.getX()),NumberMath.sq(v.getY()),NumberMath.sq(v.getZ()));
-    }
-
-    public static Float VECT3_NORM2 (FloatVect3 v) {
-        return VECT3_NORM2((Vect3)v).floatValue();
-    }
-
-    public static int VECT3_NORM2 (IntVect3 v) {
-        return VECT3_NORM2((Vect3)v).intValue();
     }
 
     public static Number VECT3_NORM (Vect3 v) {
         return NumberMath.sqrt(VECT3_NORM2(v));
     }
 
-    public static Float VECT3_NORM (FloatVect3 v) {
-        return VECT3_NORM((Vect3)v).floatValue();
-    }
+//    public static Float VECT3_NORM (FloatVect3 v) {
+//        return VECT3_NORM((Vect3)v).floatValue();
+//    }
 
     public static void VECT3_RATES_CROSS_VECT3(Vect3 vo, Rates r, Vect3 v2) {
         vo.setX(NumberMath.sub(NumberMath.mul(r.getQ() , v2.getZ()), NumberMath.mul(r.getR(), v2.getY())));
@@ -414,9 +392,6 @@ public class PprzAlgebra{
         vo.setZ(NumberMath.sum(NumberMath.mul(mat.getElement(2, 0), vi.getX()), NumberMath.mul(mat.getElement(2, 1), vi.getY()), NumberMath.mul(mat.getElement(2,2), vi.getZ())));
     }
 
-    public static void MAT33_VECT3_MULT(FloatVect3 vo, FloatMat33 mat, FloatVect3 vi) {
-        MAT33_VECT3_MULT((Vect3)vo,(Mat33)mat,(Vect3)vi);
-    }
     /* multiply _vin by transpose of _mat, store in _vout */
     public static void MAT33_VECT3_TRANSP_MUL(Vect3 vo, Mat33 mat, Vect3 vi) {
         vo.setX(NumberMath.sum(NumberMath.mul(mat.getElement(0,0) , vi.getX()) , NumberMath.mul(mat.getElement(1,0), vi.getY()), NumberMath.mul(mat.getElement(2,0), vi.getZ())));
@@ -528,14 +503,6 @@ public class PprzAlgebra{
 
     public static Number RMAT_TRACE(RMat rMat) {
         return NumberMath.sum(rMat.getElement(0, 0), rMat.getElement(1, 1), rMat.getElement(2, 2));
-    }
-
-    public static Float RMAT_TRACE(FloatRMat rMat) {
-        return RMAT_TRACE((RMat)rMat).floatValue();
-    }
-
-    public static int RMAT_TRACE(IntRMat rMat) {
-        return RMAT_TRACE((RMat)rMat).intValue();
     }
 
     //TODO does this seem correct?
@@ -664,33 +631,24 @@ public static void RMAT_FLOAT_OF_BFP(RMat<Float> ef, RMat<Integer> ei) {
     }
 
 
-    public static Float RATES_NORM2(FloatRates w) {
+    public static Float RATES_NORM2(Rates<Float> w) {
         return NumberMath.sum(NumberMath.sq(w.getP()), NumberMath.sq(w.getQ()), NumberMath.sq(w.getR())).floatValue();
     }
 
-    public static Float RATES_NORM(FloatRates w) {
+    public static Float RATES_NORM(Rates<Float> w) {
         return NumberMath.sqrt(RATES_NORM2(w)).floatValue();
     }
 
     public static Number QUAT_NORM2(Quat q) {
         return NumberMath.sum(NumberMath.sq(q.getQi()),NumberMath.sq(q.getQx()),NumberMath.sq(q.getQy()),NumberMath.sq(q.getQz()));
     }
-    public static Float QUAT_NORM2(FloatQuat q) {
-        return QUAT_NORM2((Quat)q).floatValue();
-    }
 
     public static Number QUAT_NORM(Quat q) {
         return NumberMath.sqrt(QUAT_NORM2(q));
     }
-    public static Float QUAT_NORM(FloatQuat q) {
-        return QUAT_NORM((Quat)q).floatValue();
-    }
 
     public static Number EULERS_NORM(Eulers e) {
         return NumberMath.sqrt(EULERS_NORM2(e));
-    }
-    public static Float EULERS_NORM(FloatEulers e) {
-        return NumberMath.sqrt(EULERS_NORM2(e)).floatValue();
     }
 
     public static Number EULERS_NORM2(Eulers e) {

@@ -26,7 +26,7 @@ package ub.juav.airborne.math.structs.algebra;
 /**
  * Created by adamczer on 7/15/15.
  */
-public abstract class Quat<T extends Number> {
+public class Quat<T extends Number> {
     private T qi;
     private T qx;
     private T qy;

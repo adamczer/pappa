@@ -22,7 +22,6 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="paparazzi-autopilot-math" />
       </profile>
       <profile default="false" name="Annotation profile for paparazzi-nps" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />

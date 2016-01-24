@@ -23,10 +23,11 @@
 
 package ub.juav.airborne.math.functions.algebra;
 
-import ub.juav.airborne.math.structs.algebra.doubles.DoubleEulers;
-import ub.juav.airborne.math.structs.algebra.doubles.DoubleQuat;
-import ub.juav.airborne.math.structs.algebra.doubles.DoubleRMat;
-import ub.juav.airborne.math.structs.algebra.doubles.DoubleVect3;
+
+import ub.juav.airborne.math.structs.algebra.Eulers;
+import ub.juav.airborne.math.structs.algebra.Quat;
+import ub.juav.airborne.math.structs.algebra.RMat;
+import ub.juav.airborne.math.structs.algebra.Vect3;
 
 /**
  * Created by adamczer on 7/12/15.
@@ -34,7 +35,7 @@ import ub.juav.airborne.math.structs.algebra.doubles.DoubleVect3;
 public class PprzAlgebraDouble {
 
     /******* c file ********/
-    public static void double_rmat_of_eulers_321(DoubleRMat rm, DoubleEulers e) {
+    public static void double_rmat_of_eulers_321(RMat<Double> rm, Eulers<Double> e) {
         double sphi   = Math.sin(e.getPhi());
         double cphi   = Math.cos(e.getPhi());
         double stheta = Math.sin(e.getTheta());
@@ -53,7 +54,7 @@ public class PprzAlgebraDouble {
         rm.setElement(cphi * ctheta,2,2);
     }
 
-    public static void double_quat_of_eulers(DoubleQuat q, DoubleEulers e) {
+    public static void double_quat_of_eulers(Quat<Double> q, Eulers<Double> e) {
         double phi2   = e.getPhi() / 2.0;
         double theta2 = e.getTheta() / 2.0;
         double psi2   = e.getPsi() / 2.0;
@@ -71,7 +72,7 @@ public class PprzAlgebraDouble {
         q.setQz(c_phi2 * c_theta2 * s_psi2 - s_phi2 * s_theta2 * c_psi2);
     }
 
-    public static void double_eulers_of_quat(DoubleEulers e, DoubleQuat q) {
+    public static void double_eulers_of_quat(Eulers<Double> e, Quat<Double> q) {
         double qx2  = q.getQx() * q.getQx();
         double qy2  = q.getQy() * q.getQy();
         double qz2  = q.getQz() * q.getQz();
@@ -92,7 +93,7 @@ public class PprzAlgebraDouble {
         e.setPsi(Math.atan2(dcm01, dcm00));
     }
 
-    public static void double_quat_vmult(DoubleVect3 vOut, DoubleQuat q, DoubleVect3 vIn) {
+    public static void double_quat_vmult(Vect3<Double> vOut, Quat<Double> q, Vect3<Double> vIn) {
         double qi2_M1_2  = q.getQi() * q.getQi() - 0.5;
         double qiqx = q.getQi() * q.getQx();
         double qiqy = q.getQi() * q.getQy();
@@ -117,22 +118,22 @@ public class PprzAlgebraDouble {
 
     /******* h file ********/
 
-    public static void DOUBLE_VECT3_ROUND(DoubleVect3 v) {
+    public static void DOUBLE_VECT3_ROUND(Vect3<Double> v) {
         DOUBLE_VECT3_RINT(v,v);
     }
 
-    public static void DOUBLE_VECT3_RINT(DoubleVect3 vOut, DoubleVect3 vIn) {
+    public static void DOUBLE_VECT3_RINT(Vect3<Double> vOut, Vect3<Double> vIn) {
         vOut.setX(Math.rint(vIn.getX()));
         vOut.setY(Math.rint(vIn.getY()));
         vOut.setZ(Math.rint(vIn.getZ()));
     }
 
-    public static double double_vect3_norm(DoubleVect3 v) {
+    public static double double_vect3_norm(Vect3<Double> v) {
         return Math.sqrt(PprzAlgebra.VECT3_NORM2(v).doubleValue());
     }
 
     /** normalize 3D vector in place */
-    public static void double_vect3_normalize(DoubleVect3 v) {
+    public static void double_vect3_normalize(Vect3<Double> v) {
         double n = double_vect3_norm(v);
         if (n > 0) {
             v.setX(v.getX() / n);
@@ -142,7 +143,7 @@ public class PprzAlgebraDouble {
     }
 
     /** initialises a quaternion to identity */
-    public static void double_quat_identity(DoubleQuat q)
+    public static void double_quat_identity(Quat<Double> q)
     {
         q.setQi(1.0);
         q.setQx(0.0);
@@ -150,12 +151,12 @@ public class PprzAlgebraDouble {
         q.setQz(0.0);
     }
 
-    public static  double double_quat_norm(DoubleQuat q)
+    public static  double double_quat_norm(Quat<Double> q)
     {
         return Math.sqrt((q.getQi()*q.getQi()) + (q.getQx()*q.getQx()) + (q.getQy()*q.getQy())  + (q.getQz()*q.getQz()));
     }
 
-    public static void double_quat_normalize(DoubleQuat q) {
+    public static void double_quat_normalize(Quat<Double> q) {
         double qnorm = double_quat_norm(q);
         if (qnorm > PprzAlgebraFloat.FLT_MIN) {
             q.setQi(q.getQi() / qnorm);
@@ -165,7 +166,7 @@ public class PprzAlgebraDouble {
         }
     }
 
-    public static void double_rmat_of_eulers(DoubleRMat rm, DoubleEulers e) {
+    public static void double_rmat_of_eulers(RMat<Double> rm, Eulers<Double> e) {
         double_rmat_of_eulers_321(rm, e);
     }
 

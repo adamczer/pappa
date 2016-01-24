@@ -26,7 +26,7 @@ package ub.juav.airborne.math.structs.algebra;
 /**
  * Created by adamczer on 7/15/15.
  */
-public abstract class MatNxN<T extends Number> {
+public class MatNxN<T extends Number> {
     private T[][] matrix;
 
     public T[][] getMatrix() {
@@ -45,5 +45,7 @@ public abstract class MatNxN<T extends Number> {
         return matrix[row][column];
     }
 
-    public abstract void zero();
+    public void zero() {
+
+    };
 }

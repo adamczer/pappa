@@ -23,12 +23,8 @@
 
 package ub.juav.airborne.math.functions.algebra;
 
+import ub.juav.airborne.math.structs.algebra.*;
 import ub.juav.airborne.math.wrappers.PrimitiveWrapper;
-import ub.juav.airborne.math.structs.algebra.Eulers;
-import ub.juav.airborne.math.structs.algebra.Mat33;
-import ub.juav.airborne.math.structs.algebra.Quat;
-import ub.juav.airborne.math.structs.algebra.RMat;
-import ub.juav.airborne.math.structs.algebra.floats.*;
 import ub.juav.airborne.math.util.NumberMath;
 
 /**
@@ -37,7 +33,7 @@ import ub.juav.airborne.math.util.NumberMath;
 public class PprzAlgebraFloat {
     /******* c file *******/
     /** in place first order integration of a 3D-vector */
-    public static void float_vect3_integrate_fi(FloatVect3 vec, FloatVect3 dv, float dt)
+    public static void float_vect3_integrate_fi(Vect3<Float> vec, Vect3<Float> dv, float dt)
     {
         vec.setX(vec.getX() + dv.getX() * dt);
         vec.setY(vec.getY() + dv.getY() * dt);
@@ -45,21 +41,21 @@ public class PprzAlgebraFloat {
     }
 
     /** in place first order integration of angular rates */
-    public static void float_rates_integrate_fi(FloatRates r, FloatRates dr, float dt)
+    public static void float_rates_integrate_fi(Rates<Float> r, Rates<Float> dr, float dt)
     {
         r.setP(r.getP() + dr.getP() * dt);
         r.setQ(r.getQ() + dr.getQ() * dt);
         r.setR(r.getR() + dr.getR() * dt);
     }
 
-    public static void float_rates_of_euler_dot(FloatRates r, FloatEulers e, FloatEulers edot)
+    public static void float_rates_of_euler_dot(Rates<Float> r, Eulers<Float> e, Eulers<Float> edot)
     {
         r.setP(edot.getPhi() - (float)Math.sin(e.getTheta()) * edot.getPsi());
         r.setQ((float)Math.cos(e.getPhi()) * edot.getTheta() + (float)Math.sin(e.getPhi()) * (float)Math.cos(e.getTheta()) * edot.getPsi());
         r.setR(-(float)Math.sin(e.getPhi()) * edot.getTheta() + (float)Math.cos(e.getPhi()) * (float)Math.cos(e.getTheta()) * edot.getPsi());
     }
 
-    public static void float_rmat_inv(FloatRMat b2a, FloatRMat a2b)
+    public static void float_rmat_inv(RMat<Float> b2a, RMat<Float> a2b)
     {
         b2a.setElement(a2b.getElement( 0, 0), 0, 0);
         b2a.setElement(a2b.getElement( 1, 0), 0, 1);
@@ -72,7 +68,7 @@ public class PprzAlgebraFloat {
         b2a.setElement(a2b.getElement(2, 2), 2, 2);
     }
 
-    public static float float_rmat_norm(FloatRMat rm)
+    public static float float_rmat_norm(RMat<Float> rm)
     {
         return (float) Math.sqrt(NumberMath.sum(NumberMath.sq(rm.getElement(0, 0)), NumberMath.sq(rm.getElement(0, 1)), NumberMath.sq(rm.getElement(0, 2)),
                 NumberMath.sq(rm.getElement(1, 0)), NumberMath.sq(rm.getElement(1, 1)), NumberMath.sq(rm.getElement(1, 2)),
@@ -82,7 +78,7 @@ public class PprzAlgebraFloat {
     /** Composition (multiplication) of two rotation matrices.
      * m_a2c = m_a2b comp m_b2c , aka  m_a2c = m_b2c * m_a2b
      */
-    public static void float_rmat_comp(FloatRMat m_a2c, FloatRMat m_a2b, FloatRMat m_b2c)
+    public static void float_rmat_comp(RMat<Float> m_a2c, RMat<Float> m_a2b, RMat<Float> m_b2c)
     {
         m_a2c.setElement(
                 m_b2c.getElement(0,0) * m_a2b.getElement(0,0) +
@@ -134,7 +130,7 @@ public class PprzAlgebraFloat {
     /** Composition (multiplication) of two rotation matrices.
      * m_a2b = m_a2c comp_inv m_b2c , aka  m_a2b = inv(_m_b2c) * m_a2c
      */
-    public static void float_rmat_comp_inv(FloatRMat m_a2b, FloatRMat m_a2c, FloatRMat m_b2c)
+    public static void float_rmat_comp_inv(RMat<Float> m_a2b, RMat<Float> m_a2c, RMat<Float> m_b2c)
     {
         m_a2b.setElement(
                 m_b2c.getElement(0,0) * m_a2c.getElement(0,0) +
@@ -186,7 +182,7 @@ public class PprzAlgebraFloat {
     /** rotate 3D vector by rotation matrix.
      * vb = m_a2b * va
      */
-    public static void float_rmat_vmult(FloatVect3 vb, FloatRMat m_a2b, FloatVect3 va)
+    public static void float_rmat_vmult(Vect3<Float> vb, RMat<Float> m_a2b, Vect3<Float> va)
     {
         vb.setX(m_a2b.getElement(0,0) * va.getX() + m_a2b.getElement(0,1) * va.getY() + m_a2b.getElement(0,2) * va.getZ());
         vb.setY(m_a2b.getElement(1, 0) * va.getX() + m_a2b.getElement(1, 1) * va.getY() + m_a2b.getElement(1, 2) * va.getZ());
@@ -196,7 +192,7 @@ public class PprzAlgebraFloat {
     /** rotate 3D vector by transposed rotation matrix.
      * vb = m_b2a^T * va
      */
-    public static void float_rmat_transp_vmult(FloatVect3 vb, FloatRMat m_b2a, FloatVect3 va)
+    public static void float_rmat_transp_vmult(Vect3<Float> vb, RMat<Float> m_b2a, Vect3<Float> va)
     {
         vb.setX(m_b2a.getElement(0,0) * va.getX() + m_b2a.getElement(1,0) * va.getY() + m_b2a.getElement(2,0) * va.getZ());
         vb.setY(m_b2a.getElement(0,1) * va.getX() + m_b2a.getElement(1, 1) * va.getY() + m_b2a.getElement(2, 1) * va.getZ());
@@ -206,7 +202,7 @@ public class PprzAlgebraFloat {
     /** rotate anglular rates by rotation matrix.
      * rb = m_a2b * ra
      */
-    public static void float_rmat_ratemult(FloatRates rb, FloatRMat m_a2b, FloatRates ra)
+    public static void float_rmat_ratemult(Rates<Float> rb, RMat<Float> m_a2b, Rates<Float> ra)
     {
         rb.setP(m_a2b.getElement(0, 0) * ra.getP() + m_a2b.getElement(0, 1) * ra.getQ() + m_a2b.getElement(0, 2) * ra.getR());
         rb.setQ(m_a2b.getElement(1, 0) * ra.getP() + m_a2b.getElement(1, 1) * ra.getQ() + m_a2b.getElement(1, 2) * ra.getR());
@@ -216,7 +212,7 @@ public class PprzAlgebraFloat {
     /** rotate anglular rates by transposed rotation matrix.
      * rb = m_b2a^T * ra
      */
-    public static void float_rmat_transp_ratemult(FloatRates rb, FloatRMat m_b2a, FloatRates ra)
+    public static void float_rmat_transp_ratemult(Rates<Float> rb, RMat<Float> m_b2a, Rates<Float> ra)
     {
         rb.setP(m_b2a.getElement(0, 0) * ra.getP() + m_b2a.getElement(1, 0) * ra.getQ() + m_b2a.getElement(2, 0) * ra.getR());
         rb.setQ(m_b2a.getElement(0, 1) * ra.getP() + m_b2a.getElement(1, 1) * ra.getQ() + m_b2a.getElement(2, 1) * ra.getR());
@@ -224,7 +220,7 @@ public class PprzAlgebraFloat {
     }
 
     /** initialises a rotation matrix from unit vector axis and angle */
-    public static void float_rmat_of_axis_angle(FloatRMat rm, FloatVect3 uv, float angle)
+    public static void float_rmat_of_axis_angle(RMat<Float> rm, Vect3<Float> uv, float angle)
     {
         float ux2  = (uv.getX()*uv.getX());
         float uy2  = (uv.getY()*uv.getY());
@@ -272,7 +268,7 @@ public class PprzAlgebraFloat {
         rm.setElement(cphi * ctheta, 2, 2);
     }
 
-    public static void float_rmat_of_eulers_312(FloatRMat rm, FloatEulers e)
+    public static void float_rmat_of_eulers_312(RMat<Float> rm, Eulers<Float> e)
     {
         float sphi   = (float) Math.sin(e.getPhi());
         float cphi   = (float) Math.cos(e.getPhi());
@@ -318,7 +314,7 @@ public class PprzAlgebraFloat {
     }
 
     /** in place first order integration of a rotation matrix */
-    public static void float_rmat_integrate_fi(FloatRMat rm, FloatRates omega, float dt)
+    public static void float_rmat_integrate_fi(RMat<Float> rm, Rates<Float> omega, float dt)
     {
         rm.setMatrix(new Float[][]{
                 {(float)1.0,dt * omega.getR(), -dt * omega.getQ()},
@@ -338,24 +334,24 @@ public class PprzAlgebraFloat {
         }
     }
 
-    public static float float_rmat_reorthogonalize(FloatRMat rm)
+    public static float float_rmat_reorthogonalize(RMat<Float> rm)
     {
-        FloatVect3 r0 = new FloatVect3();
+        Vect3<Float> r0 = new Vect3<Float>();
         r0.setX(rm.getElement(0,0));
         r0.setY(rm.getElement(0,1));
         r0.setZ(rm.getElement(0,2));
 
-        FloatVect3 r1 = new FloatVect3();
+        Vect3<Float> r1 = new Vect3<Float>();
         r1.setX(rm.getElement(1,0));
         r1.setY(rm.getElement(1,1));
         r1.setZ(rm.getElement(1,2));
 
-        float _err = (float) (-0.5 * PprzAlgebra.VECT3_DOT_PRODUCT(r0, r1));
-        FloatVect3 r0_t = new FloatVect3();
+        float _err = (float) (-0.5 * PprzAlgebra.VECT3_DOT_PRODUCT(r0, r1).floatValue());
+        Vect3<Float> r0_t = new Vect3<Float>();
         PprzAlgebra.VECT3_SUM_SCALED(r0_t, r0, r1, _err);
-        FloatVect3 r1_t = new FloatVect3();
+        Vect3<Float> r1_t = new Vect3<Float>();
         PprzAlgebra.VECT3_SUM_SCALED(r1_t, r1, r0, _err);
-        FloatVect3 r2_t = new FloatVect3();
+        Vect3<Float> r2_t = new Vect3<Float>();
         PprzAlgebra.VECT3_CROSS_PRODUCT(r2_t, r0_t, r1_t);
         float s = renorm_factor((float) PprzAlgebra.VECT3_NORM2(r0_t));
         PprzAlgebra.MAT33_ROW_VECT3_SMUL(rm, 0, r0_t, s);
@@ -371,7 +367,7 @@ public class PprzAlgebraFloat {
 
     /********* Quaternion functions **********/
 
-    public static void float_quat_comp(FloatQuat a2c, FloatQuat a2b, FloatQuat b2c)
+    public static void float_quat_comp(Quat<Float> a2c, Quat<Float> a2b, Quat<Float> b2c)
     {
         a2c.setQi((a2b.getQi() * b2c.getQi()) - (a2b.getQx() * b2c.getQx()) - (a2b.getQy() * b2c.getQy()) - (a2b.getQz() * b2c.getQz()));
         a2c.setQx((a2b.getQi() * b2c.getQx()) + (a2b.getQx() * b2c.getQi()) + (a2b.getQy() * b2c.getQz()) - (a2b.getQz() * b2c.getQy()));
@@ -379,7 +375,7 @@ public class PprzAlgebraFloat {
         a2c.setQz((a2b.getQi() * b2c.getQz()) + (a2b.getQx() * b2c.getQy()) - (a2b.getQy() * b2c.getQx()) + (a2b.getQz() * b2c.getQi()));
     }
 
-    public static void float_quat_comp_inv(FloatQuat a2b, FloatQuat a2c, FloatQuat b2c)
+    public static void float_quat_comp_inv(Quat<Float> a2b, Quat<Float> a2c, Quat<Float> b2c)
     {
         a2b.setQi((a2c.getQi() * b2c.getQi()) + (a2c.getQx() * b2c.getQx()) + (a2c.getQy() * b2c.getQy()) + (a2c.getQz() * b2c.getQz()));
         a2b.setQx((a2c.getQi() * b2c.getQx()) + (a2c.getQx() * b2c.getQi()) - (a2c.getQy() * b2c.getQz()) + (a2c.getQz() * b2c.getQy()));
@@ -387,7 +383,7 @@ public class PprzAlgebraFloat {
         a2b.setQz((a2c.getQi() * b2c.getQz()) - (a2c.getQx() * b2c.getQy()) + (a2c.getQy() * b2c.getQx()) + (a2c.getQz() * b2c.getQi()));
     }
 
-    public static void float_quat_inv_comp(FloatQuat b2c, FloatQuat a2b, FloatQuat a2c)
+    public static void float_quat_inv_comp(Quat<Float> b2c, Quat<Float> a2b, Quat<Float> a2c)
     {
         b2c.setQi((a2b.getQi() * a2c.getQi()) + (a2b.getQx() * a2c.getQx()) + (a2b.getQy() * a2c.getQy()) + (a2b.getQz() * a2c.getQz()));
         b2c.setQx((a2b.getQi() * a2c.getQx()) - (a2b.getQx() * a2c.getQi()) - (a2b.getQy() * a2c.getQz()) + (a2b.getQz() * a2c.getQy()));
@@ -395,28 +391,28 @@ public class PprzAlgebraFloat {
         b2c.setQz((a2b.getQi() * a2c.getQz()) - (a2b.getQx() * a2c.getQy()) + (a2b.getQy() * a2c.getQx()) - (a2b.getQz() * a2c.getQi()));
     }
 
-    public static void float_quat_comp_norm_shortest(FloatQuat a2c, FloatQuat a2b, FloatQuat b2c)
+    public static void float_quat_comp_norm_shortest(Quat<Float> a2c, Quat<Float> a2b, Quat<Float> b2c)
     {
         float_quat_comp(a2c, a2b, b2c);
         float_quat_wrap_shortest(a2c);
         float_quat_normalize(a2c);
     }
 
-    public static void float_quat_comp_inv_norm_shortest(FloatQuat a2b, FloatQuat a2c, FloatQuat b2c)
+    public static void float_quat_comp_inv_norm_shortest(Quat<Float> a2b, Quat<Float> a2c, Quat<Float> b2c)
     {
         float_quat_comp_inv(a2b, a2c, b2c);
         float_quat_wrap_shortest(a2b);
         float_quat_normalize(a2b);
     }
 
-    public static void float_quat_inv_comp_norm_shortest(FloatQuat b2c, FloatQuat a2b, FloatQuat a2c)
+    public static void float_quat_inv_comp_norm_shortest(Quat<Float> b2c, Quat<Float> a2b, Quat<Float> a2c)
     {
         float_quat_inv_comp(b2c, a2b, a2c);
         float_quat_wrap_shortest(b2c);
         float_quat_normalize(b2c);
     }
 
-    public static void float_quat_differential(FloatQuat q_out, FloatRates w, float dt)
+    public static void float_quat_differential(Quat<Float> q_out, Rates<Float> w, float dt)
     {
         float v_norm = NumberMath.sqrt(PprzAlgebra.RATES_NORM2(w)).floatValue();
         float c2 = (float) Math.cos(dt * v_norm / 2.0);
@@ -435,7 +431,7 @@ public class PprzAlgebraFloat {
     }
 
     /** in place first order quaternion integration with constant rotational velocity */
-    public static void float_quat_integrate_fi(FloatQuat q, FloatRates omega, float dt)
+    public static void float_quat_integrate_fi(Quat<Float> q, Rates<Float> omega, float dt)
     {
         float qi = q.getQi();
         float qx = q.getQx();
@@ -451,7 +447,7 @@ public class PprzAlgebraFloat {
     }
 
     /** in place quaternion integration with constant rotational velocity */
-    public static void float_quat_integrate(FloatQuat q, FloatRates omega, float dt)
+    public static void float_quat_integrate(Quat<Float> q, Rates<Float> omega, float dt)
     {
         float no = NumberMath.sqrt(PprzAlgebra.RATES_NORM2(omega)).floatValue();
         if (no > FLT_MIN) {
@@ -472,7 +468,7 @@ public class PprzAlgebraFloat {
         }
     }
 
-    public static void float_quat_vmult(FloatVect3 v_out, FloatQuat q, FloatVect3 v_in)
+    public static void float_quat_vmult(Vect3<Float> v_out, Quat<Float> q, Vect3<Float> v_in)
     {
         float qi2_M1_2  = (float) (q.getQi() * q.getQi() - 0.5);
         float qiqx = q.getQi() * q.getQx();
@@ -501,7 +497,7 @@ public class PprzAlgebraFloat {
      * or equally:
      * qd = 0.5 * q * omega(r)
      */
-    public static void float_quat_derivative(FloatQuat qd, FloatRates r, FloatQuat q)
+    public static void float_quat_derivative(Quat<Float> qd, Rates<Float> r, Quat<Float> q)
     {
         qd.setQi((float) (-0.5 * (r.getP() * q.getQx() + r.getQ() * q.getQy() + r.getR() * q.getQz())));
         qd.setQx((float) (-0.5 * (-r.getP() * q.getQi() - r.getR() * q.getQy() + r.getQ() * q.getQz())));
@@ -512,7 +508,7 @@ public class PprzAlgebraFloat {
     /** Quaternion derivative from rotational velocity.
      * qd = -0.5*omega(r) * q
      */
-    public static void float_quat_derivative_lagrange(FloatQuat qd, FloatRates r, FloatQuat q)
+    public static void float_quat_derivative_lagrange(Quat<Float> qd, Rates<Float> r, Quat<Float> q)
     {
         float K_LAGRANGE = (float) 1.;
         float c = (float) (K_LAGRANGE * (1 - float_quat_norm(q)) / -0.5);
@@ -541,7 +537,7 @@ public class PprzAlgebraFloat {
         q.setQz(c_phi2 * c_theta2 * s_psi2 - s_phi2 * s_theta2 * c_psi2);
     }
 
-    public static void float_quat_of_axis_angle(FloatQuat q, FloatVect3 uv, float angle)
+    public static void float_quat_of_axis_angle(Quat<Float> q, Vect3<Float> uv, float angle)
     {
         float san = (float) Math.sin(angle / 2.);
         q.setQi((float) Math.cos(angle/2.));
@@ -550,9 +546,9 @@ public class PprzAlgebraFloat {
         q.setQz(san * uv.getZ());
     }
 
-    public static void float_quat_of_orientation_vect(FloatQuat q, FloatVect3 ov)
+    public static void float_quat_of_orientation_vect(Quat<Float> q, Vect3<Float> ov)
     {
-        float ov_norm = PprzAlgebra.VECT3_NORM(ov);
+        float ov_norm = PprzAlgebra.VECT3_NORM(ov).floatValue();
         if (ov_norm < 1e-8) {
             q.setQi((float) 1);
             q.setQx((float) 0);
@@ -650,22 +646,22 @@ public class PprzAlgebraFloat {
 
     /******* h file ********/
 
-    public static float FLOAT_VECT2_NORM(FloatVect2 v) {
-        return PprzAlgebra.VECT2_NORM(v);
+    public static float FLOAT_VECT2_NORM(Vect2<Float> v) {
+        return PprzAlgebra.VECT2_NORM(v).floatValue();
     }
 
-    public static float float_vect2_norm2(FloatVect2 v)
+    public static float float_vect2_norm2(Vect2<Float> v)
     {
-        return PprzAlgebra.VECT2_NORM2(v);
+        return PprzAlgebra.VECT2_NORM2(v).floatValue();
     }
 
-    public static float float_vect2_norm(FloatVect2 v)
+    public static float float_vect2_norm(Vect2<Float> v)
     {
         return FLOAT_VECT2_NORM(v);
     }
 
     /** normalize 2D vector in place */
-    public static void float_vect2_normalize(FloatVect2 v)
+    public static void float_vect2_normalize(Vect2<Float> v)
     {
         float n = float_vect2_norm(v);
         if (n > 0) {
@@ -674,33 +670,33 @@ public class PprzAlgebraFloat {
         }
     }
 
-    public static void FLOAT_VECT2_NORMALIZE(FloatVect2 v) {
+    public static void FLOAT_VECT2_NORMALIZE(Vect2<Float> v) {
         float_vect2_normalize(v);
     }
 
     /// 3d Vectors
 
-    public static void FLOAT_VECT3_ZERO(FloatVect3 v) {
+    public static void FLOAT_VECT3_ZERO(Vect3<Float> v) {
         PprzAlgebra.VECT3_ASSIGN(v,0,0,0);
     }
 
-    /* macros also usable if _v is not a FloatVect3, but a different struct with x,y,z members */
-    public static float FLOAT_VECT3_NORM(FloatVect3 v) {
-        return PprzAlgebra.VECT3_NORM(v);
+    /* macros also usable if _v is not a Vect3<Float>, but a different struct with x,y,z members */
+    public static float FLOAT_VECT3_NORM(Vect3<Float> v) {
+        return PprzAlgebra.VECT3_NORM(v).floatValue();
     }
 
-    public static float float_vect3_norm2(FloatVect3 v)
+    public static float float_vect3_norm2(Vect3<Float> v)
     {
-        return PprzAlgebra.VECT3_NORM2(v);
+        return PprzAlgebra.VECT3_NORM2(v).floatValue();
     }
 
-    public static float float_vect3_norm(FloatVect3 v)
+    public static float float_vect3_norm(Vect3<Float> v)
     {
-        return PprzAlgebra.VECT3_NORM(v);
+        return PprzAlgebra.VECT3_NORM(v).floatValue();
     }
 
     /** normalize 3D vector in place */
-    public static void float_vect3_normalize(FloatVect3 v)
+    public static void float_vect3_normalize(Vect3<Float> v)
     {
         float n = float_vect3_norm(v);
         if (n > 0) {
@@ -710,37 +706,37 @@ public class PprzAlgebraFloat {
         }
     }
 
-    public static void FLOAT_VECT3_NORMALIZE(FloatVect3 v) {
+    public static void FLOAT_VECT3_NORMALIZE(Vect3<Float> v) {
         float_vect3_normalize(v);
     }
 
-    public static void FLOAT_RATES_ZERO(FloatRates r) {
+    public static void FLOAT_RATES_ZERO(Rates<Float> r) {
         PprzAlgebra.RATES_ASSIGN(r, 0., 0., 0.);
     }
 
-    public static float FLOAT_RATES_NORM(FloatRates r) {
+    public static float FLOAT_RATES_NORM(Rates<Float> r) {
         return PprzAlgebra.RATES_NORM(r);
     }
 
-    public static void FLOAT_RATES_LIN_CMB(FloatRates ro, FloatRates r1, float s1, FloatRates r2, float s2) {
+    public static void FLOAT_RATES_LIN_CMB(Rates<Float> ro, Rates<Float> r1, float s1, Rates<Float> r2, float s2) {
         ro.setP(s1 * r1.getP() + s2 * r2.getP());
         ro.setQ(s1 * r1.getQ() + s2 * r2.getQ());
         ro.setR(s1 * r1.getR() + s2 * r2.getR());
     }
 
     /* defines for backwards compatibility */
-    public static void FLOAT_VECT3_INTEGRATE_FI(FloatVect3 vo, FloatVect3 dv, float dt) {
+    public static void FLOAT_VECT3_INTEGRATE_FI(Vect3<Float> vo, Vect3<Float> dv, float dt) {
         float_vect3_integrate_fi(vo, dv, dt);
     }
-    public static void FLOAT_RATES_INTEGRATE_FI(FloatRates ra, FloatRates racc, float dt) {
+    public static void FLOAT_RATES_INTEGRATE_FI(Rates<Float> ra, Rates<Float> racc, float dt) {
         float_rates_integrate_fi(ra, racc, dt);
     }
-    public static void FLOAT_RATES_OF_EULER_DOT(FloatRates ra, FloatEulers e, FloatEulers ed) {
+    public static void FLOAT_RATES_OF_EULER_DOT(Rates<Float> ra, Eulers<Float> e, Eulers<Float> ed) {
         float_rates_of_euler_dot(ra, e, ed);
     }
 
     //** 3x3 Matrices *//
-    public static void FLOAT_MAT33_ZERO(FloatMat33 m) {
+    public static void FLOAT_MAT33_ZERO(Mat33<Float> m) {
         m.zero();
     }
 
@@ -752,31 +748,31 @@ public class PprzAlgebraFloat {
     ///***Rotation Matricies***///
 
     /** initialises a rotation matrix to identity */
-    public static void float_rmat_identity(FloatRMat rm)
+    public static void float_rmat_identity(RMat<Float> rm)
     {
         FLOAT_MAT33_DIAG(rm, (float)1., (float)1., (float)1.);
     }
 
     /* defines for backwards compatibility */
-    public static void FLOAT_RMAT_INV(FloatRMat _m_b2a, FloatRMat _m_a2b) {float_rmat_inv(_m_b2a, _m_a2b);}
-    public static void FLOAT_RMAT_NORM(FloatRMat  _m) {float_rmat_norm(_m);}
-    public static void FLOAT_RMAT_COMP(FloatRMat _m_a2c,FloatRMat  _m_a2b,FloatRMat  _m_b2c) {float_rmat_comp(_m_a2c, _m_a2b, _m_b2c);}
-    public static void FLOAT_RMAT_COMP_INV(FloatRMat _m_a2b,FloatRMat  _m_a2c,FloatRMat  _m_b2c) {float_rmat_comp_inv(_m_a2b, _m_a2c, _m_b2c);}
-    public static void FLOAT_RMAT_VMULT(FloatVect3 _vb, FloatRMat _m_a2b, FloatVect3 _va) {float_rmat_vmult(_vb, _m_a2b, _va);}
-    public static void FLOAT_RMAT_TRANSP_VMULT(FloatVect3 _vb, FloatRMat _m_b2a, FloatVect3 _va) {float_rmat_transp_vmult(_vb, _m_b2a, _va);}
-    public static void FLOAT_RMAT_RATEMULT(FloatRates _rb, FloatRMat _m_a2b, FloatRates _ra) {float_rmat_ratemult(_rb, _m_a2b, _ra);}
-    public static void FLOAT_RMAT_TRANSP_RATEMULT(FloatRates _rb, FloatRMat _m_b2a, FloatRates _ra) {float_rmat_ratemult(_rb, _m_b2a, _ra);}
-    public static void FLOAT_RMAT_OF_AXIS_ANGLE(FloatRMat _rm, FloatVect3 _uv, float _an) {float_rmat_of_axis_angle(_rm, _uv, _an);}
-    public static void FLOAT_RMAT_OF_EULERS(FloatRMat _rm, FloatEulers _e)     {float_rmat_of_eulers_321(_rm, _e);}
-    public static void FLOAT_RMAT_OF_EULERS_321(FloatRMat _rm, FloatEulers _e) {float_rmat_of_eulers_321(_rm, _e);}
-    public static void FLOAT_RMAT_OF_EULERS_312(FloatRMat _rm, FloatEulers _e) {float_rmat_of_eulers_312(_rm, _e);}
-    public static void FLOAT_RMAT_OF_QUAT(FloatRMat _rm, FloatQuat _q)       {float_rmat_of_quat(_rm, _q);}
-    public static void FLOAT_RMAT_INTEGRATE_FI(FloatRMat _rm, FloatRates _omega, float _dt) {float_rmat_integrate_fi(_rm, _omega, _dt);}
+    public static void FLOAT_RMAT_INV(RMat<Float> _m_b2a, RMat<Float> _m_a2b) {float_rmat_inv(_m_b2a, _m_a2b);}
+    public static void FLOAT_RMAT_NORM(RMat<Float>  _m) {float_rmat_norm(_m);}
+    public static void FLOAT_RMAT_COMP(RMat<Float> _m_a2c,RMat<Float>  _m_a2b,RMat<Float>  _m_b2c) {float_rmat_comp(_m_a2c, _m_a2b, _m_b2c);}
+    public static void FLOAT_RMAT_COMP_INV(RMat<Float> _m_a2b,RMat<Float>  _m_a2c,RMat<Float>  _m_b2c) {float_rmat_comp_inv(_m_a2b, _m_a2c, _m_b2c);}
+    public static void FLOAT_RMAT_VMULT(Vect3<Float> _vb, RMat<Float> _m_a2b, Vect3<Float> _va) {float_rmat_vmult(_vb, _m_a2b, _va);}
+    public static void FLOAT_RMAT_TRANSP_VMULT(Vect3<Float> _vb, RMat<Float> _m_b2a, Vect3<Float> _va) {float_rmat_transp_vmult(_vb, _m_b2a, _va);}
+    public static void FLOAT_RMAT_RATEMULT(Rates<Float> _rb, RMat<Float> _m_a2b, Rates<Float> _ra) {float_rmat_ratemult(_rb, _m_a2b, _ra);}
+    public static void FLOAT_RMAT_TRANSP_RATEMULT(Rates<Float> _rb, RMat<Float> _m_b2a, Rates<Float> _ra) {float_rmat_ratemult(_rb, _m_b2a, _ra);}
+    public static void FLOAT_RMAT_OF_AXIS_ANGLE(RMat<Float> _rm, Vect3<Float> _uv, float _an) {float_rmat_of_axis_angle(_rm, _uv, _an);}
+    public static void FLOAT_RMAT_OF_EULERS(RMat<Float> _rm, Eulers<Float> _e)     {float_rmat_of_eulers_321(_rm, _e);}
+    public static void FLOAT_RMAT_OF_EULERS_321(RMat<Float> _rm, Eulers<Float> _e) {float_rmat_of_eulers_321(_rm, _e);}
+    public static void FLOAT_RMAT_OF_EULERS_312(RMat<Float> _rm, Eulers<Float> _e) {float_rmat_of_eulers_312(_rm, _e);}
+    public static void FLOAT_RMAT_OF_QUAT(RMat<Float> _rm, Quat<Float> _q)       {float_rmat_of_quat(_rm, _q);}
+    public static void FLOAT_RMAT_INTEGRATE_FI(RMat<Float> _rm, Rates<Float> _omega, float _dt) {float_rmat_integrate_fi(_rm, _omega, _dt);}
 
     // Quaternion algebras
 
     /** initialises a quaternion to identity */
-    public static void float_quat_identity(FloatQuat q)
+    public static void float_quat_identity(Quat<Float> q)
     {
         q.setQi((float) 1.0);
         q.setQx((float) 0);
@@ -784,15 +780,15 @@ public class PprzAlgebraFloat {
         q.setQz((float) 0);
     }
 
-    public static float FLOAT_QUAT_NORM2(FloatQuat q) {
-        return PprzAlgebra.QUAT_NORM2(q);
+    public static float FLOAT_QUAT_NORM2(Quat<Float> q) {
+        return PprzAlgebra.QUAT_NORM2(q).floatValue();
     }
 
-    public static float float_quat_norm(FloatQuat q) {
-        return PprzAlgebra.QUAT_NORM(q);
+    public static float float_quat_norm(Quat<Float> q) {
+        return PprzAlgebra.QUAT_NORM(q).floatValue();
     }
 
-    public static void float_quat_normalize(FloatQuat q)
+    public static void float_quat_normalize(Quat<Float> q)
     {
         float qnorm = float_quat_norm(q);
         if (qnorm > FLT_MIN) {
@@ -803,60 +799,60 @@ public class PprzAlgebraFloat {
         }
     }
 
-    public static void float_quat_invert(FloatQuat qo, FloatQuat qi)
+    public static void float_quat_invert(Quat<Float> qo, Quat<Float> qi)
     {
         PprzAlgebra.QUAT_INVERT(qo, qi);
     }
 
-    public static void float_quat_wrap_shortest(FloatQuat q)
+    public static void float_quat_wrap_shortest(Quat<Float> q)
     {
         if (q.getQi() < 0.) {
             PprzAlgebra.QUAT_EXPLEMENTARY(q, q);
         }
     }
 
-    public static void FLOAT_QUAT_EXTRACT (FloatVect3 vo, FloatQuat qi) {
+    public static void FLOAT_QUAT_EXTRACT (Vect3<Float> vo, Quat<Float> qi) {
         PprzAlgebra.QUAT_EXTRACT_Q(vo,qi);
     }
 
     /* defines for backwards compatibility */
-    public static void FLOAT_QUAT_ZERO(FloatQuat _q) {float_quat_identity(_q);}
-    public static void FLOAT_QUAT_INVERT(FloatQuat _qo, FloatQuat _qi) {float_quat_invert(_qo, _qi);}
-    public static void FLOAT_QUAT_WRAP_SHORTEST(FloatQuat _q) {float_quat_wrap_shortest(_q);}
-    public static void FLOAT_QUAT_NORM(FloatQuat _q) {float_quat_norm(_q);}
-    public static void FLOAT_QUAT_NORMALIZE(FloatQuat _q) {float_quat_normalize(_q);}
-    public static void FLOAT_QUAT_COMP(FloatQuat _a2c, FloatQuat _a2b, FloatQuat _b2c) {float_quat_comp((_a2c), (_a2b), (_b2c));}
-    public static void FLOAT_QUAT_MULT(FloatQuat _a2c, FloatQuat _a2b, FloatQuat _b2c) {float_quat_comp((_a2c), (_a2b), (_b2c));}
-    public static void FLOAT_QUAT_INV_COMP(FloatQuat _b2c, FloatQuat _a2b, FloatQuat _a2c) {float_quat_inv_comp((_b2c), (_a2b), (_a2c));}
-    public static void FLOAT_QUAT_COMP_INV(FloatQuat _a2b, FloatQuat _a2c, FloatQuat _b2c) {float_quat_comp_inv((_a2b), (_a2c), (_b2c));}
-    public static void FLOAT_QUAT_COMP_NORM_SHORTEST(FloatQuat _a2c, FloatQuat _a2b, FloatQuat _b2c) {float_quat_comp_norm_shortest((_a2c), (_a2b), (_b2c));}
-    public static void FLOAT_QUAT_COMP_INV_NORM_SHORTEST(FloatQuat _a2b, FloatQuat _a2c, FloatQuat _b2c) {float_quat_comp_inv_norm_shortest((_a2b), (_a2c), (_b2c));}
-    public static void FLOAT_QUAT_INV_COMP_NORM_SHORTEST(FloatQuat _b2c, FloatQuat _a2b, FloatQuat _a2c) {float_quat_inv_comp_norm_shortest((_b2c), (_a2b), (_a2c));}
-    public static void FLOAT_QUAT_DIFFERENTIAL(FloatQuat q_out, FloatRates w, float dt) {float_quat_differential((q_out), (w), dt);}
-    public static void FLOAT_QUAT_INTEGRATE(FloatQuat _q, FloatRates _omega, float _dt) {float_quat_integrate((_q), (_omega), _dt);}
-    public static void FLOAT_QUAT_VMULT(FloatVect3 v_out, FloatQuat q, FloatVect3 v_in) {float_quat_vmult((v_out), (q), (v_in));}
-    public static void FLOAT_QUAT_DERIVATIVE(FloatQuat _qd, FloatRates _r, FloatQuat _q) {float_quat_derivative((_qd), (_r), (_q));}
-    public static void FLOAT_QUAT_DERIVATIVE_LAGRANGE(FloatQuat _qd, FloatRates _r, FloatQuat _q) {float_quat_derivative_lagrange((_qd), (_r), (_q));}
-    public static void FLOAT_QUAT_OF_EULERS(FloatQuat _q, FloatEulers _e) {float_quat_of_eulers((_q), (_e));}
-    public static void FLOAT_QUAT_OF_AXIS_ANGLE(FloatQuat _q, FloatVect3 _uv, float _an) {float_quat_of_axis_angle((_q), (_uv), _an);}
-    public static void FLOAT_QUAT_OF_ORIENTATION_VECT(FloatQuat _q, FloatVect3 _ov) {float_quat_of_orientation_vect((_q), (_ov));}
-    public static void FLOAT_QUAT_OF_RMAT(FloatQuat _q, FloatRMat _r) {float_quat_of_rmat((_q), (_r));}
+    public static void FLOAT_QUAT_ZERO(Quat<Float> _q) {float_quat_identity(_q);}
+    public static void FLOAT_QUAT_INVERT(Quat<Float> _qo, Quat<Float> _qi) {float_quat_invert(_qo, _qi);}
+    public static void FLOAT_QUAT_WRAP_SHORTEST(Quat<Float> _q) {float_quat_wrap_shortest(_q);}
+    public static void FLOAT_QUAT_NORM(Quat<Float> _q) {float_quat_norm(_q);}
+    public static void FLOAT_QUAT_NORMALIZE(Quat<Float> _q) {float_quat_normalize(_q);}
+    public static void FLOAT_QUAT_COMP(Quat<Float> _a2c, Quat<Float> _a2b, Quat<Float> _b2c) {float_quat_comp((_a2c), (_a2b), (_b2c));}
+    public static void FLOAT_QUAT_MULT(Quat<Float> _a2c, Quat<Float> _a2b, Quat<Float> _b2c) {float_quat_comp((_a2c), (_a2b), (_b2c));}
+    public static void FLOAT_QUAT_INV_COMP(Quat<Float> _b2c, Quat<Float> _a2b, Quat<Float> _a2c) {float_quat_inv_comp((_b2c), (_a2b), (_a2c));}
+    public static void FLOAT_QUAT_COMP_INV(Quat<Float> _a2b, Quat<Float> _a2c, Quat<Float> _b2c) {float_quat_comp_inv((_a2b), (_a2c), (_b2c));}
+    public static void FLOAT_QUAT_COMP_NORM_SHORTEST(Quat<Float> _a2c, Quat<Float> _a2b, Quat<Float> _b2c) {float_quat_comp_norm_shortest((_a2c), (_a2b), (_b2c));}
+    public static void FLOAT_QUAT_COMP_INV_NORM_SHORTEST(Quat<Float> _a2b, Quat<Float> _a2c, Quat<Float> _b2c) {float_quat_comp_inv_norm_shortest((_a2b), (_a2c), (_b2c));}
+    public static void FLOAT_QUAT_INV_COMP_NORM_SHORTEST(Quat<Float> _b2c, Quat<Float> _a2b, Quat<Float> _a2c) {float_quat_inv_comp_norm_shortest((_b2c), (_a2b), (_a2c));}
+    public static void FLOAT_QUAT_DIFFERENTIAL(Quat<Float> q_out, Rates<Float> w, float dt) {float_quat_differential((q_out), (w), dt);}
+    public static void FLOAT_QUAT_INTEGRATE(Quat<Float> _q, Rates<Float> _omega, float _dt) {float_quat_integrate((_q), (_omega), _dt);}
+    public static void FLOAT_QUAT_VMULT(Vect3<Float> v_out, Quat<Float> q, Vect3<Float> v_in) {float_quat_vmult((v_out), (q), (v_in));}
+    public static void FLOAT_QUAT_DERIVATIVE(Quat<Float> _qd, Rates<Float> _r, Quat<Float> _q) {float_quat_derivative((_qd), (_r), (_q));}
+    public static void FLOAT_QUAT_DERIVATIVE_LAGRANGE(Quat<Float> _qd, Rates<Float> _r, Quat<Float> _q) {float_quat_derivative_lagrange((_qd), (_r), (_q));}
+    public static void FLOAT_QUAT_OF_EULERS(Quat<Float> _q, Eulers<Float> _e) {float_quat_of_eulers((_q), (_e));}
+    public static void FLOAT_QUAT_OF_AXIS_ANGLE(Quat<Float> _q, Vect3<Float> _uv, float _an) {float_quat_of_axis_angle((_q), (_uv), _an);}
+    public static void FLOAT_QUAT_OF_ORIENTATION_VECT(Quat<Float> _q, Vect3<Float> _ov) {float_quat_of_orientation_vect((_q), (_ov));}
+    public static void FLOAT_QUAT_OF_RMAT(Quat<Float> _q, RMat<Float> _r) {float_quat_of_rmat((_q), (_r));}
 
     // Euler angles
 
-    public static void FLOAT_EULERS_ZERO(FloatEulers e) {
+    public static void FLOAT_EULERS_ZERO(Eulers<Float> e) {
         PprzAlgebra.EULERS_ASSIGN(e,0,0,0);
     }
 
-    public static float float_eulers_norm(FloatEulers e)
+    public static float float_eulers_norm(Eulers<Float> e)
     {
-        return PprzAlgebra.EULERS_NORM(e);
+        return PprzAlgebra.EULERS_NORM(e).floatValue();
     }
 
     /* defines for backwards compatibility */
-    public static void FLOAT_EULERS_OF_RMAT(FloatEulers _e, FloatRMat _rm) {float_eulers_of_rmat((_e), (_rm));}
-    public static void FLOAT_EULERS_OF_QUAT(FloatEulers _e, FloatQuat _q) {float_eulers_of_quat((_e), (_q));}
-    public static void FLOAT_EULERS_NORM(FloatEulers _e) {float_eulers_norm((_e));}
+    public static void FLOAT_EULERS_OF_RMAT(Eulers<Float> _e, RMat<Float> _rm) {float_eulers_of_rmat((_e), (_rm));}
+    public static void FLOAT_EULERS_OF_QUAT(Eulers<Float> _e, Quat<Float> _q) {float_eulers_of_quat((_e), (_q));}
+    public static void FLOAT_EULERS_NORM(Eulers<Float> _e) {float_eulers_norm((_e));}
 
 //
 // Generic vector algebra
