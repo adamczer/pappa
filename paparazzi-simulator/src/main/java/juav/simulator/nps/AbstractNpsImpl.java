@@ -1,8 +1,8 @@
-package juav.simulator.nps.nps;
+package juav.simulator.nps;
 
-import juav.airborne.firmwars.rotorcraft.periodic.IPeriodicTask;
-import juav.airborne.firmwars.rotorcraft.step.IStepFunction;
-import juav.simulator.nps.time.ITimeHandler;
+import juav.simulator.tasks.IFeedableTask;
+import juav.simulator.tasks.IPeriodicTask;
+import juav.simulator.time.ITimeHandler;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * Created by adamczer on 1/24/16.
  */
 public abstract class AbstractNpsImpl implements INps{
-    protected List<IStepFunction> stepFunctions;
+    protected List<IFeedableTask> stepFunctions;
     protected List<IPeriodicTask> periodicTasks;
     protected AtomicBoolean run = new AtomicBoolean(true);
     protected ITimeHandler timeHandler;
@@ -22,7 +22,7 @@ public abstract class AbstractNpsImpl implements INps{
      * @param stepFunctionList
      */
     @Override
-    public void setStepFunctions(List<IStepFunction> stepFunctionList) {
+    public void setFeedableTasks(List<IFeedableTask> stepFunctionList) {
         this.stepFunctions = stepFunctionList;
     }
 

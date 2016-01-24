@@ -1,4 +1,4 @@
-package juav.simulator.nps.time;
+package juav.simulator.time;
 
 import org.joda.time.DateTime;
 

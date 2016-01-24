@@ -1,8 +1,8 @@
-package juav.simulator.nps.nps.cyclic;
+package juav.simulator.nps.cyclic;
 
-import juav.airborne.firmwars.rotorcraft.periodic.IPeriodicTask;
-import juav.airborne.firmwars.rotorcraft.step.IStepFunction;
-import juav.simulator.nps.nps.AbstractNpsImpl;
+import juav.simulator.tasks.IFeedableTask;
+import juav.simulator.tasks.IPeriodicTask;
+import juav.simulator.nps.AbstractNpsImpl;
 import org.joda.time.DateTime;
 
 /**
@@ -21,14 +21,13 @@ public class NpsCyclicImpl extends AbstractNpsImpl {
         }
         while(run.get()) {
             DateTime now = timeHandler.getTime();
-            for (IStepFunction stepFunction : stepFunctions) {
-                if (stepFunction.isAvailable(now)) {
-                    stepFunction.feedData();
-                    stepFunction.mainEvent();
+            for (IFeedableTask task : stepFunctions) {
+                if (task.isAvailiable()) {
+                    task.execute();
                 }
             }
             for(IPeriodicTask periodicTask : periodicTasks) {
-                if(periodicTask.shouldExecute(now))
+                if(periodicTask.isAvailiable())
                     periodicTask.execute();
             }
         }

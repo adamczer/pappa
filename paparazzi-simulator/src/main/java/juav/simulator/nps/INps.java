@@ -1,8 +1,8 @@
-package juav.simulator.nps.nps;
+package juav.simulator.nps;
 
-import juav.airborne.firmwars.rotorcraft.periodic.IPeriodicTask;
-import juav.airborne.firmwars.rotorcraft.step.IStepFunction;
-import juav.simulator.nps.time.ITimeHandler;
+import juav.simulator.tasks.IFeedableTask;
+import juav.simulator.tasks.IPeriodicTask;
+import juav.simulator.time.ITimeHandler;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ public interface INps {
      * sets the periodic functions that run
      * @param stepFunctionList
      */
-    void setStepFunctions(List<IStepFunction> stepFunctionList);
+    void setFeedableTasks(List<IFeedableTask> stepFunctionList);
 
     /**
      * sets the periodic tasks that will be run
