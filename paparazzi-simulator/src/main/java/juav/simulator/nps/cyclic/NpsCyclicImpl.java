@@ -3,7 +3,10 @@ package juav.simulator.nps.cyclic;
 import juav.simulator.tasks.IFeedableTask;
 import juav.simulator.tasks.IPeriodicTask;
 import juav.simulator.nps.AbstractNpsImpl;
+import juav.simulator.time.JodaTimeHandler;
 import org.joda.time.DateTime;
+
+import java.util.ArrayList;
 
 /**
  * Created by adamczer on 1/24/16.
@@ -36,6 +39,14 @@ public class NpsCyclicImpl extends AbstractNpsImpl {
     @Override
     public void init() {
 
+    }
+
+    public static void main(String[] args) {
+        NpsCyclicImpl nps = new NpsCyclicImpl();
+        //TODO initialize nps
+//        ....
+
+        nps.run();
     }
 
 }
