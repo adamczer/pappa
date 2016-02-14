@@ -1,0 +1,5 @@
+Native        : purely native ports from paparazziUAV
+jni           : native interfaces
+jni/includes  : generated jni headers
+src/main/java : declaration of native functions in Java
+target/class  : compiled java class binaries

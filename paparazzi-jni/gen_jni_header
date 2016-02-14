@@ -1,0 +1,9 @@
+#javac  -sourcepath ./java/ -d ../bin jni.cse.buffalo.edu.Main
+# $1: input java binaries.
+
+MY_JNI_HEADER=./jni/includes
+MY_CLASS_PATH=./target/classes
+
+echo "javah -d $MY_JNI_HEADER -classpath $MY_CLASS_PATH $1"
+javah -d $MY_JNI_HEADER -classpath $MY_CLASS_PATH $1
+
