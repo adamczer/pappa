@@ -5,10 +5,14 @@
      src/main/java : declaration of native functions in Java
      target/class  : compiled java class binaries
 
--- How to compile and execute
+-- How to compile and execute:
      Prepara: Do "mvn install" under both of paparazzi-simulator, 
               then "cd paparazzi-jni"  
      1) mvn install
      2) make
      3) cd ../paparazzi-jni
      4) ./run.sh
+
+-- How to generate JNI header files:
+    ./gen_jni_header [package_name].[class_name]
+    eg., ./gen_jni_header jniexample.juav.NativeHelloWorld
