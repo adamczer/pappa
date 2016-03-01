@@ -1,12 +1,12 @@
 package juav.simulator.nps.cyclic;
 
+import jniexample.juav.NativeHelloworld;
 import juav.simulator.tasks.IFeedableTask;
 import juav.simulator.tasks.IPeriodicTask;
 import juav.simulator.nps.AbstractNpsImpl;
-import juav.simulator.time.JodaTimeHandler;
 import org.joda.time.DateTime;
 
-import java.util.ArrayList;
+import java.io.File;
 
 /**
  * Created by adamczer on 1/24/16.
@@ -42,11 +42,10 @@ public class NpsCyclicImpl extends AbstractNpsImpl {
     }
 
     public static void main(String[] args) {
-        NpsCyclicImpl nps = new NpsCyclicImpl();
-        //TODO initialize nps
-//        ....
-
-        nps.run();
+        File lib = new File("libpapa_native.so");
+        System.load(lib.getAbsolutePath());
+        NativeHelloworld.nativePrint1("1:helloworld");
+        NativeHelloworld.nativePrint2("2:helloworld");
     }
 
 }
