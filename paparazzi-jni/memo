@@ -1,7 +1,0 @@
-#javac  -sourcepath ./java/ -d ../bin jni.cse.buffalo.edu.Main
-#javah -d native -classpath ./java/ jni.cse.buffalo.edu.Mai.cse.buffalo.edu.Main
-
-gcc -O3 -fPIC -shared -I/usr/lib/jvm/java-6-openjdk-amd64/include/ \
-    -I/usr/lib/jvm/java-6-openjdk-amd64/include/linux/ \
-    jni/jnitest_juav_HelloWorld.c \
-    -o JNI_HelloWorld.so
