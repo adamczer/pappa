@@ -9,6 +9,8 @@ import juav.simulator.tasks.sensors.readings.GyroReading;
 public class GyroSensor extends ISensor<GyroReading> {
     @Override
     protected void executePeriodic() {
+        GyroReading reading = null;
 
+        setReading(reading);
     }
 }

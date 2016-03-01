@@ -11,12 +11,10 @@ package ub.cse.juav.sensor.polls;
  */
 
 public class SensorPolls {
-
     public static native String pollGyro();
     public static native String pollAccelerometer();
     public static native String pollMagnetic();
     public static native String pollBarometer();
     public static native String pollGps();
     public static native String pollSonar();
-
 }

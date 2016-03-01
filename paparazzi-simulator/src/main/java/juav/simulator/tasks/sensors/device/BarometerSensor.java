@@ -9,6 +9,8 @@ import juav.simulator.tasks.sensors.readings.BarometricReading;
 public class BarometerSensor extends ISensor<BarometricReading> {
     @Override
     protected void executePeriodic() {
+        BarometricReading reading = null;
 
+        setReading(reading);
     }
 }

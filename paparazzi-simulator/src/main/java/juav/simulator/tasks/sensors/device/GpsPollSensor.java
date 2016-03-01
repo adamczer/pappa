@@ -9,6 +9,8 @@ import juav.simulator.tasks.sensors.readings.GpsReading;
 public class GpsPollSensor extends ISensor<GpsReading> {
     @Override
     protected void executePeriodic() {
+        GpsReading reading = null;
 
+        setReading(reading);
     }
 }

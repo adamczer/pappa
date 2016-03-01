@@ -9,6 +9,8 @@ import juav.simulator.tasks.sensors.readings.SonarReading;
 public class SonarSensor extends ISensor<SonarReading> {
     @Override
     protected void executePeriodic() {
+        SonarReading reading = null;
 
+        setReading(reading);
     }
 }

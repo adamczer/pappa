@@ -9,6 +9,8 @@ import juav.simulator.tasks.sensors.readings.MagneticReading;
 public class MagneticSensor extends ISensor<MagneticReading> {
     @Override
     protected void executePeriodic() {
+        MagneticReading reading = null;
 
+        setReading(reading);
     }
 }
