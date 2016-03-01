@@ -1,7 +1,6 @@
 package juav.simulator.nps;
 
-import juav.simulator.tasks.IFeedableTask;
-import juav.simulator.tasks.IPeriodicTask;
+import juav.simulator.tasks.ITask;
 import juav.simulator.time.ITimeHandler;
 
 import java.util.List;
@@ -10,17 +9,12 @@ import java.util.List;
  * Created by adamczer on 1/24/16.
  */
 public interface INps {
-    /**
-     * sets the periodic functions that run
-     * @param stepFunctionList
-     */
-    void setFeedableTasks(List<IFeedableTask> stepFunctionList);
 
     /**
      * sets the periodic tasks that will be run
-     * @param periodicTasks
+     * @param tasks
      */
-    void setPeriodicTasks(List<IPeriodicTask> periodicTasks);
+    void setTasks(List<ITask> tasks);
 
     /**
      * Begin the execution of the simulation

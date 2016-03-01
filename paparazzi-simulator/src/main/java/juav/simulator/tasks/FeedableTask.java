@@ -6,6 +6,7 @@ import java.util.Queue;
 /**
  * Created by adamczer on 1/24/16.
  */
+@Deprecated
 public abstract class FeedableTask<T> implements IFeedableTask<T>{
     private Queue<T> data = new LinkedList<>();
     @Override
@@ -24,7 +25,7 @@ public abstract class FeedableTask<T> implements IFeedableTask<T>{
     }
 
     /**
-     * Execute task based on the the new values that have been feed
+     * Execute device based on the the new values that have been feed
      * to the object used for decision making in the main event.
      * @param poll
      */

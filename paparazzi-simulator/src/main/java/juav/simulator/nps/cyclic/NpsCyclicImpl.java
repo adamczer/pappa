@@ -1,12 +1,11 @@
 package juav.simulator.nps.cyclic;
 
-import juav.simulator.tasks.IFeedableTask;
-import juav.simulator.tasks.IPeriodicTask;
 import juav.simulator.nps.AbstractNpsImpl;
-import juav.simulator.time.JodaTimeHandler;
+import juav.simulator.tasks.ITask;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by adamczer on 1/24/16.
@@ -24,28 +23,36 @@ public class NpsCyclicImpl extends AbstractNpsImpl {
         }
         while(run.get()) {
             DateTime now = timeHandler.getTime();
-            for (IFeedableTask task : stepFunctions) {
+            for (ITask task : tasks) {
                 if (task.isAvailiable()) {
                     task.execute();
                 }
-            }
-            for(IPeriodicTask periodicTask : periodicTasks) {
-                if(periodicTask.isAvailiable())
-                    periodicTask.execute();
             }
         }
     }
 
     @Override
     public void init() {
+        List<ITask> taskList = new ArrayList<>();
+//        TODO
+        // Atmosphere // not needed
+
+        // JSBsim JNI call step state
+
+        // FDM
+
+        // Sensors
+
+        // Compute commands and send to jsb sim
+        setTasks(taskList);
+
+//        init c++ jni things
 
     }
 
     public static void main(String[] args) {
         NpsCyclicImpl nps = new NpsCyclicImpl();
-        //TODO initialize nps
-//        ....
-
+        nps.init();
         nps.run();
     }
 
