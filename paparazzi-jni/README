@@ -11,7 +11,7 @@
      1) mvn install
      2) make
      3) cd ../paparazzi-jni
-     4) ./run.sh
+     4) ./native_compile
 
 -- How to generate JNI header files:
     ./gen_jni_header [package_name].[class_name]
