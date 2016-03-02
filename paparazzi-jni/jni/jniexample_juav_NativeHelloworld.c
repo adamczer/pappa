@@ -1,7 +1,7 @@
 #include <jni.h>
 #include <stdio.h>
 #include "jniexample_juav_NativeHelloworld.h"
-#include "native_example.h"
+//#include "native_example.h"
 
 JNIEXPORT void JNICALL Java_jniexample_juav_NativeHelloworld_nativePrint1(JNIEnv *env,
     jobject thisObj, jstring str){
