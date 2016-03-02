@@ -35,19 +35,26 @@ public class NpsCyclicImpl extends AbstractNpsImpl {
         }
     }
 
+    /**
+     * creates periodic tasks and ensures that they exist in the list
+     * in the order they should execute.
+     */
     @Override
     public void init() {
         List<ITask> taskList = new ArrayList<>();
 //        TODO
         // Atmosphere // not needed
 
-        // JSBsim JNI call step state
+        // Auto pilot time sync
 
-        // FDM
+        // send commands computed in previous iter
+        // and FDM poll params to fdm object needed to populate sensors
 
-        // Sensors
+        // Sensors populate sensor values from FDM
 
-        // Compute commands and send to jsb sim
+        // Autopilot Compute commands to be sent to jsb sim based on current state
+
+
         setTasks(taskList);
 
 //        init c++ jni things
@@ -55,7 +62,7 @@ public class NpsCyclicImpl extends AbstractNpsImpl {
     }
 
     public static void main(String[] args) {
-        File lib = new File("libpapa_native.so");
+        File lib = new File("paparazzi-jni/bin/libpapa_native.so");
         System.load(lib.getAbsolutePath());
         NativeHelloworld.nativePrint1("1:helloworld");
         NativeHelloworld.nativePrint2("2:helloworld");
