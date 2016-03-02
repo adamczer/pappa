@@ -32,10 +32,6 @@ public class NpsCyclicImpl extends AbstractNpsImpl {
                     task.execute();
                 }
             }
-            for(IPeriodicTask periodicTask : periodicTasks) {
-                if(periodicTask.isAvailiable())
-                    periodicTask.execute();
-            }
         }
     }
 

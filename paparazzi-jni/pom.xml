@@ -13,4 +13,12 @@
     <groupId>ub.cse.juav</groupId>
     <artifactId>paparazzi-jni</artifactId>
     <version>1.0-SNAPSHOT</version>
+
+    <dependencies>
+        <dependency>
+            <groupId>ub.cse.juav</groupId>
+            <artifactId>paparazzi-airborne</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 </project>
