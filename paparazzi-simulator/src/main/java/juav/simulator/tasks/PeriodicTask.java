@@ -8,4 +8,9 @@ public abstract class PeriodicTask implements IPeriodicTask{
     public boolean isAvailiable() {
         return true;
     }
+
+    @Override
+    public void setInterval(int interval) {
+        interval = 0;
+    }
 }

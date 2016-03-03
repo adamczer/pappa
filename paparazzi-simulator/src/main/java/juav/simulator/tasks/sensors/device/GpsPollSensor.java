@@ -13,4 +13,9 @@ public class GpsPollSensor extends ISensor<GpsReading> {
 
         setReading(reading);
     }
+
+    @Override
+    public void init() {
+
+    }
 }

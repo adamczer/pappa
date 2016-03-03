@@ -13,4 +13,9 @@ public class BarometerSensor extends ISensor<BarometricReading> {
 
         setReading(reading);
     }
+
+    @Override
+    public void init() {
+
+    }
 }

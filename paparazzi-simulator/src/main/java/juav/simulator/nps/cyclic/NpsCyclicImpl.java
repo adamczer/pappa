@@ -1,15 +1,14 @@
 package juav.simulator.nps.cyclic;
 
 import jniexample.juav.NativeHelloworld;
-import juav.simulator.tasks.IFeedableTask;
-import juav.simulator.tasks.IPeriodicTask;
 import juav.simulator.nps.AbstractNpsImpl;
 import juav.simulator.tasks.ITask;
-import org.joda.time.DateTime;
+import juav.simulator.tasks.fdm.FlightDynamicModelJsbSim;
+import juav.simulator.time.JodaTimeHandler;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.io.File;
 
 /**
  * Created by adamczer on 1/24/16.
@@ -26,7 +25,6 @@ public class NpsCyclicImpl extends AbstractNpsImpl {
             throw new IllegalStateException("Time handler must be set on Nps simulator.");
         }
         while(run.get()) {
-            DateTime now = timeHandler.getTime();
             for (ITask task : tasks) {
                 if (task.isAvailiable()) {
                     task.execute();
@@ -41,6 +39,7 @@ public class NpsCyclicImpl extends AbstractNpsImpl {
      */
     @Override
     public void init() {
+        timeHandler = new JodaTimeHandler();
         List<ITask> taskList = new ArrayList<>();
 //        TODO
         // Atmosphere // not needed
@@ -49,11 +48,18 @@ public class NpsCyclicImpl extends AbstractNpsImpl {
 
         // send commands computed in previous iter
         // and FDM poll params to fdm object needed to populate sensors
+        FlightDynamicModelJsbSim flightDynamicModelJsbSim = new FlightDynamicModelJsbSim();
+        taskList.add(flightDynamicModelJsbSim);
+
 
         // Sensors populate sensor values from FDM
 
         // Autopilot Compute commands to be sent to jsb sim based on current state
 
+
+        // Initialize all tasks
+        for (ITask task:taskList)
+            task.init();
 
         setTasks(taskList);
 

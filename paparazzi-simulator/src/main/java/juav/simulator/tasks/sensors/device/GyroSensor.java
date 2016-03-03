@@ -13,4 +13,9 @@ public class GyroSensor extends ISensor<GyroReading> {
 
         setReading(reading);
     }
+
+    @Override
+    public void init() {
+
+    }
 }

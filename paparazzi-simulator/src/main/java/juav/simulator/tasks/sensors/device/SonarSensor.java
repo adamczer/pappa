@@ -13,4 +13,9 @@ public class SonarSensor extends ISensor<SonarReading> {
 
         setReading(reading);
     }
+
+    @Override
+    public void init() {
+
+    }
 }

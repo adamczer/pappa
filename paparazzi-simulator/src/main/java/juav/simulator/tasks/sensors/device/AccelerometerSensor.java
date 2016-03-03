@@ -14,4 +14,9 @@ public class AccelerometerSensor extends ISensor<AccelerometerReading>{
 
         setReading(accel);
     }
+
+    @Override
+    public void init() {
+
+    }
 }

@@ -13,4 +13,9 @@ public class MagneticSensor extends ISensor<MagneticReading> {
 
         setReading(reading);
     }
+
+    @Override
+    public void init() {
+
+    }
 }

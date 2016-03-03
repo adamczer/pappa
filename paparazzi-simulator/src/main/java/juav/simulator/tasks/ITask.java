@@ -15,4 +15,9 @@ public interface ITask {
      * by the amount of elapsed time
      */
     boolean isAvailiable();
+
+    /**
+     * Initialize task prior to flight.
+     */
+    void init();
 }
