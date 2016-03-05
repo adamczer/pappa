@@ -2,8 +2,8 @@ LOCAL_JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64
 JNI_FLAGS=-I$(LOCAL_JAVA_HOME)/include -I$(LOCAL_JAVA_HOME)/include/linux/
 
 ROOT=$(shell pwd)
-JNI_SRCS  := $(wildcard $(ROOT)/jni/*.c)
-JNI_OBJS  := $(addprefix $(ROOT)/bin/,$(notdir $(JNI_SRCS:.c=.o)))
+JNI_SRCS  := $(wildcard jni/*.c)
+JNI_OBJS  := $(addprefix bin/,$(notdir $(JNI_SRCS:.c=.o)))
 PAPA_SRCS := $(wildcard $(ROOT)/native/*.c)
 PAPA_OBJS := $(addprefix $(ROOT)/bin/,$(notdir $(PAPA_SRCS:.c=.o)))
 OUTPUT_DIR=$(ROOT)/bin
@@ -20,7 +20,7 @@ $(PAPA_OBJS): $(PAPA_SRCS)
 
 jni: $(JNI_OBJS)
 
-$(JNI_OBJS): $(JNI_SRCS)
+$(JNI_OBJS): bin/%.o: jni/%.c
 	gcc -Wall -c -fPIC -I$(ROOT)/native/includes -I$(ROOT)/jni/includes \
 		$(JNI_FLAGS) -o $@ $<
 

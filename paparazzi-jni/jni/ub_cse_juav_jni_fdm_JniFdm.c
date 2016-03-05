@@ -1,6 +1,6 @@
 #include <jni.h>
 #include <stdio.h>
-#include "ub_cse_juav_jni_fdm_JniFdm.h"
+#include "jniexample_juav_NativeHelloworld.h"
 
 JNIEXPORT void JNICALL Java_ub_cse_juav_jni_fdm_JniFdm_init
   (JNIEnv *env, jclass thisClass) {
