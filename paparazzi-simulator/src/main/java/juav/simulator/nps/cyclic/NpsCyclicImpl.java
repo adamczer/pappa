@@ -48,7 +48,10 @@ public class NpsCyclicImpl extends AbstractNpsImpl {
 
         // send commands computed in previous iter
         // and FDM poll params to fdm object needed to populate sensors
+        int sysTimeFreq = 2*512;
+        double simDt = 1/sysTimeFreq;
         FlightDynamicModelJsbSim flightDynamicModelJsbSim = new FlightDynamicModelJsbSim();
+        flightDynamicModelJsbSim.setTimeStep(simDt);
         taskList.add(flightDynamicModelJsbSim);
 
 
@@ -58,8 +61,10 @@ public class NpsCyclicImpl extends AbstractNpsImpl {
 
 
         // Initialize all tasks
-        for (ITask task:taskList)
+        for (ITask task:taskList) {
+            System.out.println("sfdsfsdfds");
             task.init();
+        }
 
         setTasks(taskList);
 
@@ -68,13 +73,13 @@ public class NpsCyclicImpl extends AbstractNpsImpl {
     }
 
     public static void main(String[] args) {
-        File lib = new File("paparazzi-jni/bin/libpapa_native.so");
+        File lib = new File("libpapa_native.so");
         System.load(lib.getAbsolutePath());
         NativeHelloworld.nativePrint1("1:helloworld");
         NativeHelloworld.nativePrint2("2:helloworld");
-//        NpsCyclicImpl nps = new NpsCyclicImpl();
-//        nps.init();
-//        nps.run();
+        NpsCyclicImpl nps = new NpsCyclicImpl();
+        nps.init();
+        nps.run();
     }
 
 }

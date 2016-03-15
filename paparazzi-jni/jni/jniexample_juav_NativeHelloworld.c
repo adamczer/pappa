@@ -6,7 +6,7 @@
 JNIEXPORT void JNICALL Java_jniexample_juav_NativeHelloworld_nativePrint1(JNIEnv *env,
     jobject thisObj, jstring str){
     const char* s = (*env)->GetStringUTFChars(env, str, NULL);
-    printf("%s\n", s);
+    printf("change: %s\n", s);
     return;
 }
 

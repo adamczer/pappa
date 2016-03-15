@@ -3,8 +3,17 @@ package ub.cse.juav.jni.fdm;
 /**
  * Created by adamczer on 3/1/16.
  */
-public class JniFdm {
-    public static native void init();
+public class JniJsbSim {
+    public static native void FGFDMExecInit();
+//    public static native void FGFDMExecSetsimTime(double d);
+//    public static native void FGFDMExecSetdt();
+//    public static native void FGFDMExecDisableOutput();
+//    public static native void FGFDMExecSetDebugLevel(int level); // 0-> no debug logs
+//    public static native
+
+
+
+//    public static native void init();
 //    public static native double fetchTime();
 //    public static native float fetchRudder();
 //    public static native float fetchLeftAileron();

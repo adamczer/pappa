@@ -10,6 +10,10 @@ OUTPUT_DIR=$(ROOT)/bin
 
 paparazzi-port: libpapa_native.so 
 
+papa_objs: 
+	gcc -shared -Wl,-soname,libpapa_port.so -I$(ROOT)/native/includes \
+                $(JNI_FLAGS) -o libpapa_port.so ./native/papa_objs/*.o 
+
 libpapa_native.so: $(PAPA_OBJS) $(JNI_OBJS)
 	gcc -shared -Wl,-soname,libpapa_native.so -I$(ROOT)/native/includes \
 		$(JNI_FLAGS) -o $@ $^
@@ -21,8 +25,9 @@ $(PAPA_OBJS): $(PAPA_SRCS)
 jni: $(JNI_OBJS)
 
 $(JNI_OBJS): bin/%.o: jni/%.c
-	gcc -Wall -c -fPIC -I$(ROOT)/native/includes -I$(ROOT)/jni/includes \
-		$(JNI_FLAGS) -o $@ $<
+	gcc -Wall -c -fPIC -I$(ROOT)/native/includes \
+	-I$(ROOT)/jni/includes \
+	$(JNI_FLAGS) -o $@ $<
 
 install:
 	cp ./bin/libpapa_native.so ../paparazzi-deploy/	
