@@ -1,0 +1,14 @@
+// This struct is populated by the acceleramoter code using the most up to date values from the 
+// FDM struct which has the most recent values from the JSBSim
+
+struct NpsSensorAccel {
+  struct DoubleVect3  value;
+  int min;
+  int max;
+  struct DoubleMat33  sensitivity;
+  struct DoubleVect3  neutral;
+  struct DoubleVect3  noise_std_dev;
+  struct DoubleVect3  bias;
+  double       next_update;
+  bool_t       data_available;
+};

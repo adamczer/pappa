@@ -1,0 +1,11 @@
+// This struct is used to feed input to the simulator it calls setters on the JSBSim through 
+// the FDM module. The values that are contained in this struct prior to the Atmospheres   
+// execution are set over the IVY bus from the Ground Station
+
+struct NpsAtmosphere {
+  double qnh;         ///< barometric pressure at sea level in Pascal
+  double wind_speed;  ///< horizontal wind magnitude in m/s
+  double wind_dir;    ///< horitzontal wind direction in radians north=0, increasing CCW
+  struct DoubleVect3 wind; ///< wind speed in NED in m/s
+  int turbulence_severity; ///< turbulence severity from 0-7
+};

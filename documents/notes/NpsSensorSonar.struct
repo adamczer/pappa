@@ -1,0 +1,10 @@
+// This struct is populated by the sonar code using the most up to date values from the 
+// FDM struct which has the most recent values from the JSBSim
+
+struct NpsSensorSonar {
+  double value;          ///< sonar reading in meters
+  double offset;         ///< offset in meters
+  double noise_std_dev;  ///< noise standard deviation
+  double next_update;
+  bool_t data_available;
+};

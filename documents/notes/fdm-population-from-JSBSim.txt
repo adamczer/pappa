@@ -1,0 +1,165 @@
+The fdm module makes a series of calls to the JSBSim api and converts the data structure returned to that used by papa, in the majority of cases this is taking a returned vector and 
+turining it into the struct exists within papa
+
+ex.
+
+/**
+ * Convert JSBSim vector format and struct to NPS vector format and struct.
+ *
+ * JSBSim is in feet by default, NPS in metres
+ *
+ * @param fdm_vector    Pointer to DoubleVect3 struct
+ * @param jsb_vector    Pointer to FGColumnVector3 struct
+ */
+static void jsbsimvec_to_vec(DoubleVect3 *fdm_vector, const FGColumnVector3 *jsb_vector)
+{
+
+  fdm_vector->x = MetersOfFeet(jsb_vector->Entry(1));
+  fdm_vector->y = MetersOfFeet(jsb_vector->Entry(2));
+  fdm_vector->z = MetersOfFeet(jsb_vector->Entry(3));
+
+}
+
+The below code is the series of api calls that are used to create the FdmStruct used by the sensors to populate their own structs. The FDM struct is FdmNps.struct for refrence.
+
+/**
+ * Populates the NPS fdm struct after a simulation step.
+ */
+static void fetch_state(void)
+{
+
+  fdm.time = FDMExec->GetPropertyManager()->GetNode("simulation/sim-time-sec")->getDoubleValue();
+
+#if DEBUG_NPS_JSBSIM
+  printf("%f,", fdm.time);
+#endif
+
+  FGPropagate *propagate = FDMExec->GetPropagate();
+  FGAccelerations *accelerations = FDMExec->GetAccelerations();
+
+  fdm.on_ground = FDMExec->GetGroundReactions()->GetWOW();
+
+  /*
+   * position
+   */
+  jsbsimloc_to_loc(&fdm.ecef_pos, &propagate->GetLocation());
+  fdm.hmsl = propagate->GetAltitudeASLmeters();
+
+  /*
+   * linear speed and accelerations
+   */
+
+  /* in body frame */
+  jsbsimvec_to_vec(&fdm.body_ecef_vel, &propagate->GetUVW());
+  jsbsimvec_to_vec(&fdm.body_ecef_accel, &accelerations->GetUVWdot());
+  jsbsimvec_to_vec(&fdm.body_inertial_accel, &accelerations->GetUVWidot());
+  jsbsimvec_to_vec(&fdm.body_accel, &accelerations->GetBodyAccel());
+
+#if DEBUG_NPS_JSBSIM
+  printf("%f,%f,%f,", fdm.body_ecef_accel.x, fdm.body_ecef_accel.y, fdm.body_ecef_accel.z);
+#endif
+
+  /* in LTP frame */
+  jsbsimvec_to_vec((DoubleVect3 *)&fdm.ltp_ecef_vel, &propagate->GetVel());
+  const FGColumnVector3 &fg_ltp_ecef_accel = propagate->GetTb2l() * accelerations->GetUVWdot();
+  jsbsimvec_to_vec((DoubleVect3 *)&fdm.ltp_ecef_accel, &fg_ltp_ecef_accel);
+
+#if DEBUG_NPS_JSBSIM
+  printf("%f,%f,%f,", fdm.ltp_ecef_accel.x, fdm.ltp_ecef_accel.y, fdm.ltp_ecef_accel.z);
+#endif
+
+  /* in ECEF frame */
+  const FGColumnVector3 &fg_ecef_ecef_vel = propagate->GetECEFVelocity();
+  jsbsimvec_to_vec((DoubleVect3 *)&fdm.ecef_ecef_vel, &fg_ecef_ecef_vel);
+
+  const FGColumnVector3 &fg_ecef_ecef_accel = propagate->GetTb2ec() * accelerations->GetUVWdot();
+  jsbsimvec_to_vec((DoubleVect3 *)&fdm.ecef_ecef_accel, &fg_ecef_ecef_accel);
+
+#if DEBUG_NPS_JSBSIM
+  printf("%f,%f,%f,", fdm.ecef_ecef_accel.x, fdm.ecef_ecef_accel.y, fdm.ecef_ecef_accel.z);
+#endif
+
+  /* in LTP pprz */
+  ned_of_ecef_point_d(&fdm.ltpprz_pos, &ltpdef, &fdm.ecef_pos);
+  ned_of_ecef_vect_d(&fdm.ltpprz_ecef_vel, &ltpdef, &fdm.ecef_ecef_vel);
+  ned_of_ecef_vect_d(&fdm.ltpprz_ecef_accel, &ltpdef, &fdm.ecef_ecef_accel);
+
+#if DEBUG_NPS_JSBSIM
+  printf("%f,%f,%f,", fdm.ltpprz_ecef_accel.z, fdm.ltpprz_ecef_accel.y, fdm.ltpprz_ecef_accel.z);
+#endif
+
+  /* llh */
+  llh_from_jsbsim(&fdm.lla_pos, propagate);
+
+  //for debug
+  lla_from_jsbsim_geodetic(&fdm.lla_pos_geod, propagate);
+  lla_from_jsbsim_geocentric(&fdm.lla_pos_geoc, propagate);
+  lla_of_ecef_d(&fdm.lla_pos_pprz, &fdm.ecef_pos);
+  fdm.agl = MetersOfFeet(propagate->GetDistanceAGL());
+
+#if DEBUG_NPS_JSBSIM
+  printf("%f\n", fdm.agl);
+#endif
+
+  /*
+   * attitude
+   */
+  const FGQuaternion jsb_quat = propagate->GetQuaternion();
+  jsbsimquat_to_quat(&fdm.ltp_to_body_quat, &jsb_quat);
+  /* convert to eulers */
+  DOUBLE_EULERS_OF_QUAT(fdm.ltp_to_body_eulers, fdm.ltp_to_body_quat);
+  /* the "false" pprz lpt */
+  /* FIXME: use jsbsim ltp for now */
+  EULERS_COPY(fdm.ltpprz_to_body_eulers, fdm.ltp_to_body_eulers);
+  QUAT_COPY(fdm.ltpprz_to_body_quat, fdm.ltp_to_body_quat);
+
+  /*
+   * rotational speed and accelerations
+   */
+  jsbsimvec_to_rate(&fdm.body_ecef_rotvel, &propagate->GetPQR());
+  jsbsimvec_to_rate(&fdm.body_ecef_rotaccel, &accelerations->GetPQRdot());
+
+  jsbsimvec_to_rate(&fdm.body_inertial_rotvel, &propagate->GetPQRi());
+  jsbsimvec_to_rate(&fdm.body_inertial_rotaccel, &accelerations->GetPQRidot());
+
+
+  /*
+   * wind
+   */
+  const FGColumnVector3 &fg_wind_ned = FDMExec->GetWinds()->GetTotalWindNED();
+  jsbsimvec_to_vec(&fdm.wind, &fg_wind_ned);
+
+  /*
+   * Control surface positions
+   *
+   */
+  fdm.rudder = (FDMExec->GetPropertyManager()->GetNode("fcs/rudder-pos-rad")->getDoubleValue()) /
+               NPS_JSBSIM_RUDDER_MAX_RAD;
+  fdm.left_aileron = (-1 * FDMExec->GetPropertyManager()->GetNode("fcs/left-aileron-pos-rad")->getDoubleValue()) /
+                     NPS_JSBSIM_AILERON_MAX_RAD;
+  fdm.right_aileron = (FDMExec->GetPropertyManager()->GetNode("fcs/right-aileron-pos-rad")->getDoubleValue()) /
+                      NPS_JSBSIM_AILERON_MAX_RAD;
+  fdm.elevator = (FDMExec->GetPropertyManager()->GetNode("fcs/elevator-pos-rad")->getDoubleValue()) /
+                 NPS_JSBSIM_ELEVATOR_MAX_RAD;
+  fdm.flap = (FDMExec->GetPropertyManager()->GetNode("fcs/flap-pos-rad")->getDoubleValue()) / NPS_JSBSIM_FLAP_MAX_RAD;
+
+  /*
+   * Propulsion
+   */
+  FGPropulsion *FGProp =  FDMExec->GetPropulsion();
+  fdm.num_engines = FGProp->GetNumEngines();
+
+  /*
+   * Note that JSBSim for some reason has very high momentum for the propeller
+   * (even when the moment of inertia of the propeller has the right value)
+   * As a result after switching the motor off
+   */
+  for (uint32_t k = 0; k < fdm.num_engines; k++) {
+    FGEngine *FGEng = FGProp->GetEngine(k);
+    FGThruster *FGThrst = FGEng->GetThruster();
+    fdm.eng_state[k] = FGEng->GetStarter();
+    fdm.rpm[k] = (float) FGThrst->GetRPM();
+    //printf("RPM: %f\n", fdm.rpm[k]);
+    //printf("STATE: %u\n", fdm.eng_state[k]);
+  }
+}

@@ -1,0 +1,9 @@
+// This struct is populated by the barometer code using the most up to date values from the 
+// FDM struct which has the most recent values from the JSBSim
+
+struct NpsSensorBaro {
+  double  value;          ///< pressure in Pascal
+  double  noise_std_dev;  ///< noise standard deviation
+  double  next_update;
+  bool_t  data_available;
+};

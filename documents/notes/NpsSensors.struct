@@ -1,0 +1,12 @@
+// Sensors overarching struct holder for each of the individual sensors.
+
+
+struct NpsSensors {
+  struct DoubleRMat body_to_imu_rmat;
+  struct NpsSensorGyro  gyro;
+  struct NpsSensorAccel accel;
+  struct NpsSensorMag   mag;
+  struct NpsSensorBaro  baro;
+  struct NpsSensorGps   gps;
+  struct NpsSensorSonar sonar;
+};
