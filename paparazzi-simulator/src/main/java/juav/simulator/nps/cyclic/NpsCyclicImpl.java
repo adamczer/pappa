@@ -44,6 +44,8 @@ public class NpsCyclicImpl extends AbstractNpsImpl {
     public static void main(String[] args) {
         File lib = new File("libpapa_native.so");
         System.load(lib.getAbsolutePath());
+        File pprzLib = new File("libpprz.so");
+        System.load(pprzLib.getAbsolutePath());
         NativeHelloworld.nativePrint1("1:helloworld");
         NativeHelloworld.nativePrint2("2:helloworld");
     }
