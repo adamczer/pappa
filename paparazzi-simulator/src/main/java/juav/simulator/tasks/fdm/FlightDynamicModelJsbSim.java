@@ -2,7 +2,7 @@ package juav.simulator.tasks.fdm;
 
 import juav.simulator.tasks.PeriodicTask;
 import juav.simulator.tasks.fdm.data.FlightData;
-import ub.cse.juav.jni.fdm.JniJsbSim;
+import ub.cse.juav.jni.fdm.JniFdm;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebra;
 import ub.juav.airborne.math.structs.geodetic.EcefCoor;
 
@@ -40,8 +40,9 @@ public class FlightDynamicModelJsbSim extends PeriodicTask {
     private void initJsbsim(double dt) {
         String rootDir = System.getenv("PAPARAZZI_HOME");
         System.out.println("PAPARAZZI_HOME="+rootDir);
-        JniJsbSim.FGFDMExecInit();
-
+        System.out.println("calling JNI");
+        JniFdm.FGFDMExecInit();
+        System.out.println("called JNI");
     }
 
     @Override
@@ -69,6 +70,6 @@ public class FlightDynamicModelJsbSim extends PeriodicTask {
 //        init_ltp();
 
 //        System.out.println("ssssssssss");
-//        JniJsbSim.init();
+//        JniFdm.init();
     }
 }

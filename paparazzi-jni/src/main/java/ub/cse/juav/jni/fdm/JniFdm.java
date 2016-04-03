@@ -3,7 +3,7 @@ package ub.cse.juav.jni.fdm;
 /**
  * Created by adamczer on 3/1/16.
  */
-public class JniJsbSim {
+public class JniFdm {
     public static native void FGFDMExecInit();
 //    public static native void FGFDMExecSetsimTime(double d);
 //    public static native void FGFDMExecSetdt();

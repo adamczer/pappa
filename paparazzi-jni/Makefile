@@ -25,9 +25,8 @@ $(PAPA_OBJS): $(PAPA_SRCS)
 jni: $(JNI_OBJS)
 
 $(JNI_OBJS): bin/%.o: jni/%.c
-	gcc -Wall -c -fPIC -I$(ROOT)/native/includes \
-	-I$(ROOT)/jni/includes \
-	$(JNI_FLAGS) -o $@ $<
+	gcc -Wall -c -fPIC -I$(ROOT)/native/includes -I$(ROOT)/jni/includes \
+		$(JNI_FLAGS) -o $@ $<
 
 install:
 	cp ./bin/libpapa_native.so ../paparazzi-deploy/	
