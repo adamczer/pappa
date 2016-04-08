@@ -1,18 +1,31 @@
 -- Directory structures
-     Native        : purely native ports from paparazziUAV
-     jni           : native interfaces
-     jni/includes  : generated jni headers
-     src/main/java : declaration of native functions in Java
-     target/class  : compiled java class binaries
+    Native        : purely native ports from paparazziUAV
+    jni           : native interfaces
+    jni/includes  : generated jni headers
+    src/main/java : declaration of native functions in Java
+    target/class  : compiled java class binaries
+
+-- How to generate libpprzmath.so
+   cd ${PAPARAZZI_HOME}/sw/airborne/math 
+   make install_shared_lib
+   cp ${PAPARAZZO_HOME}/var/build/math/libpprzmath.so ./libs/
 
 -- How to compile and execute:
-     Prepara: Do "mvn install" under both of paparazzi-simulator, 
-              then "cd paparazzi-jni"  
-     1) mvn install
-     2) make
-     3) cd ../paparazzi-jni
-     4) ./native_compile
+    Prepara: Do "mvn install" under both of paparazzi-simulator, 
+                 then "cd paparazzi-jni"  
+    1) mvn install
+    2) make
+    3) cd ../paparazzi-jni
+    4) ./native_compile
 
 -- How to generate JNI header files:
     ./gen_jni_header [package_name].[class_name]
     eg., ./gen_jni_header jniexample.juav.NativeHelloWorld
+
+
+-- Misc for gcc:
+    refs1: http://www.cprogramming.com/tutorial/shared-libraries-linux-gcc.html
+    -L: lib path
+    -I: include path
+    -D_VAR: _VAR gcc pre-processor variable
+

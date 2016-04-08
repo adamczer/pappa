@@ -1,0 +1,131 @@
+RUN 'make -C /home/gassa/paparazzi -f Makefile.ac AIRCRAFT=Quad_LisaM_2 clean_ac '
+make: Entering directory `/home/gassa/paparazzi'
+CLEANING Quad_LisaM_2
+make: Leaving directory `/home/gassa/paparazzi'
+
+DONE 'make -C /home/gassa/paparazzi -f Makefile.ac AIRCRAFT=Quad_LisaM_2 clean_ac'
+
+RUN 'make -C /home/gassa/paparazzi -f Makefile.ac AIRCRAFT=Quad_LisaM_2 nps.compile '
+make: Entering directory `/home/gassa/paparazzi'
+-----------------------------------------------------------------------
+Paparazzi version v5.8.0_stable-16-g83ba28a-dirty
+-----------------------------------------------------------------------
+#######################################
+# BUILD AIRCRAFT=Quad_LisaM_2, TARGET nps
+#######################################
+Info: module '/home/gassa/paparazzi/conf/modules/gps_ubx_ucenter.xml' unloaded for target 'nps'
+make[1]: Entering directory `/home/gassa/paparazzi'
+GENERATE /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/generated/airframe.h from airframes/examples/quadrotor_lisa_m_2_pwm_spektrum.xml
+GENERATE /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/generated/modules.h
+GENERATE /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/generated/periodic_telemetry.h from telemetry/default_rotorcraft.xml
+GENERATE /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/generated/settings.h
+GENERATE autopilots in /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/generated/
+make[1]: Leaving directory `/home/gassa/paparazzi'
+make[1]: Entering directory `/home/gassa/paparazzi'
+GENERATE /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/generated/radio.h from radios/dummy.xml
+make[1]: Leaving directory `/home/gassa/paparazzi'
+make[1]: Entering directory `/home/gassa/paparazzi'
+GENERATE /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/generated/flight_plan.h from flight_plans/rotorcraft_basic.xml
+No SRTM data found to check altitude.
+GENERATE /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/flight_plan.xml from flight_plans/rotorcraft_basic.xml
+make[1]: Leaving directory `/home/gassa/paparazzi'
+cd sw/airborne; make -j8 TARGET=nps all
+make[1]: Entering directory `/home/gassa/paparazzi/sw/airborne'
+Paparazzi jsbsim package found: yes
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/mcu.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/arch/sim/mcu_arch.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/mcu_periph/sys_time.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/arch/sim/mcu_periph/sys_time_arch.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/math/pprz_geodetic_int.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/math/pprz_geodetic_float.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/math/pprz_geodetic_double.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/math/pprz_trig_int.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/math/pprz_orientation_conversion.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/math/pprz_algebra_int.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/math/pprz_algebra_float.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/math/pprz_algebra_double.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/subsystems/settings.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/arch/sim/subsystems/settings_arch.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/subsystems/actuators.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/subsystems/commands.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/state.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/firmwares/rotorcraft/stabilization.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/firmwares/rotorcraft/stabilization/stabilization_none.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/firmwares/rotorcraft/stabilization/stabilization_rate.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/firmwares/rotorcraft/guidance/guidance_h.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/firmwares/rotorcraft/guidance/guidance_h_ref.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/firmwares/rotorcraft/guidance/guidance_v.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/firmwares/rotorcraft/guidance/guidance_v_ref.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/firmwares/rotorcraft/guidance/guidance_v_adapt.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/firmwares/rotorcraft/guidance/guidance_flip.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/firmwares/rotorcraft/navigation.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/subsystems/navigation/waypoints.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/subsystems/navigation/common_flight_plan.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/firmwares/rotorcraft/main.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/firmwares/rotorcraft/autopilot.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/mcu_periph/i2c.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/arch/sim/mcu_periph/i2c_arch.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/mcu_periph/uart.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/arch/sim/mcu_periph/uart_arch.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/arch/linux/serial_port.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/arch/sim/mcu_periph/adc_arch.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/subsystems/electrical.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/modules/geo_mag/geo_mag.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/math/pprz_geodetic_wmm2015.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/modules/air_data/air_data.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/nps/nps_main.o
+CXX /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/nps/nps_fdm_jsbsim.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/nps/nps_random.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/nps/nps_sensors.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/nps/nps_sensors_utils.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/nps/nps_sensor_gyro.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/nps/nps_sensor_accel.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/nps/nps_sensor_mag.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/nps/nps_sensor_baro.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/nps/nps_sensor_sonar.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/nps/nps_sensor_gps.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/nps/nps_electrical.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/nps/nps_atmosphere.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/nps/nps_radio_control.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/nps/nps_radio_control_joystick.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/nps/nps_radio_control_spektrum.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/nps/nps_autopilot_rotorcraft.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/nps/nps_ivy.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/nps/nps_flightgear.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/mcu_periph/udp.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/arch/sim/mcu_periph/udp_arch.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/arch/linux/udp_socket.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/subsystems/datalink/downlink.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/subsystems/datalink/pprz_transport.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/subsystems/datalink/telemetry.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/firmwares/rotorcraft/rotorcraft_telemetry.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/firmwares/rotorcraft/datalink.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/subsystems/radio_control.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/subsystems/radio_control/spektrum.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/arch/sim/subsystems/radio_control/spektrum_arch.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/subsystems/actuators/motor_mixing.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/arch/sim/subsystems/actuators/actuators_pwm_arch.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/mcu_periph/spi.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/arch/sim/mcu_periph/spi_arch.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/subsystems/imu.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/subsystems/imu/imu_nps.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/subsystems/gps.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/subsystems/gps/gps_sim_nps.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/firmwares/rotorcraft/stabilization/stabilization_attitude_ref_quat_int.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/firmwares/rotorcraft/stabilization/stabilization_attitude_quat_int.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/firmwares/rotorcraft/stabilization/stabilization_attitude_quat_transformations.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/firmwares/rotorcraft/stabilization/stabilization_attitude_rc_setpoint.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/subsystems/ahrs.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/subsystems/ahrs/ahrs_int_cmpl_quat.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/subsystems/ahrs/ahrs_int_cmpl_quat_wrapper.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/subsystems/ahrs/ahrs_aligner.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/subsystems/ins.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/subsystems/ins/ins_int.o
+CC /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/subsystems/ins/vf_float.o
+LD /home/gassa/paparazzi/var/aircrafts/Quad_LisaM_2/nps/simsitl
+make[1]: Leaving directory `/home/gassa/paparazzi/sw/airborne'
+make: Leaving directory `/home/gassa/paparazzi'
+
+DONE 'make -C /home/gassa/paparazzi -f Makefile.ac AIRCRAFT=Quad_LisaM_2 nps.compile'
+
+
