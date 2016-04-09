@@ -1,10 +1,12 @@
 LOCAL_JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64
 JNI_FLAGS=-I$(LOCAL_JAVA_HOME)/include -I$(LOCAL_JAVA_HOME)/include/linux/
-PPRZ_HOME=/home/gassa/paparazzi
+PPRZ_HOME=${PAPARAZZI_HOME}
 
 ROOT=$(shell pwd)
-JNI_SRCS  := $(wildcard $(ROOT)/jni/*.c)
-JNI_OBJS  := $(addprefix $(ROOT)/bin/,$(notdir $(JNI_SRCS:.c=.o)))
+#JNI_SRCS  := $(wildcard $(ROOT)/jni/*.c)
+#JNI_OBJS  := $(addprefix $(ROOT)/bin/,$(notdir $(JNI_SRCS:.c=.o)))
+JNI_SRCS  := $(wildcard jni/*.c)
+JNI_OBJS  := $(addprefix bin/,$(notdir $(JNI_SRCS:.c=.o)))
 PAPA_SRCS := $(wildcard $(ROOT)/native/*.c)
 PAPA_OBJS := $(addprefix $(ROOT)/bin/,$(notdir $(PAPA_SRCS:.c=.o)))
 OUTPUT_DIR=$(ROOT)/bin
@@ -18,7 +20,7 @@ CFLAGS=-I$(PPRZ_HOME)/modules -I$(PPRZ_HOME)/arch/sim/modules \
 	   -I$(PPRZ_HOME)/sw/include/ -I$(PPRZ_HOME)/sw/airborne/ \
 	   -I/usr/include/JSBSim -I/usr/lib/x86_64-linux-gnu/glib-2.0/include \
 	   -I/usr/include/glib-2.0 -DBOARD_CONFIG="$(PPRZ_HOME)/sw/airborne/boards/pc_sim.h" \
-	   -L/home/gassa/workspace/juav-pappa/paparazzi-jni/libs/
+	   -L./libs/
 
 LDFLAGS=-lglib-2.0 -lm -lglibivy -lpcre -lgsl -lgslcblas -L/usr/lib/x86_64-linux-gnu -lSDL -lJSBSim
 
@@ -37,7 +39,7 @@ $(PAPA_OBJS): $(PAPA_SRCS)
 jni: $(JNI_OBJS)
 
 # Compile JNI interfaces
-$(JNI_OBJS): $(JNI_SRCS)
+$(JNI_OBJS): bin/%.o: jni/%.c
 	gcc -Wall -c -fPIC $(CFLAGS) -I$(ROOT)/native/includes -I$(ROOT)/jni/includes \
 		$(JNI_FLAGS) $(LDFLAGS) -o $@ $<
 
