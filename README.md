@@ -9,7 +9,10 @@ git push origin development <-- push to remote development repo
 
 ## Configure local machine for development
 - modify /etc/security/limits.conf with the following line:
-```<your_username> hard rtprio 99```
-
+```
+<your_username> hard rtprio 99
+```
 - create file /etc/ld.so.conf.d/juav.conf with the following line:
-```<your_juav_repo_root>/paparazzi-jni/lib```
+```
+<your_juav_repo_root>/paparazzi-jni/lib
+```
