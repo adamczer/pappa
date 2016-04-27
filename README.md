@@ -1,3 +1,10 @@
+## How to checkout repo with development branch
+git clone git@github.com:adamczer/pappa.git
+git checkout -b development origin/development
+modification; git add ...; git commit ...
+git pull origin development <-- before each git push
+git push origin development <-- push to remote development repo
+
 modify /etc/security/limits.conf with the following line:
 <your_username> hard rtprio 99
 
