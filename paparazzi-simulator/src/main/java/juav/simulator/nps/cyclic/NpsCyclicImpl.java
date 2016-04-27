@@ -28,8 +28,8 @@ public class NpsCyclicImpl extends AbstractNpsImpl {
         while(run.get()) {
             PaparazziNps.npsMainPeriodicJuavNative();
             int cnt = 0;
-            System.out.println("Simtime = " + PaparazziNps.getNpsMainSimTime());
-            System.out.println("HostElapsed = " + PaparazziNps.getNpsMainHostTimeElapsed());
+            //System.out.println("Simtime = " + PaparazziNps.getNpsMainSimTime());
+            //System.out.println("HostElapsed = " + PaparazziNps.getNpsMainHostTimeElapsed());
             while (PaparazziNps.getNpsMainSimTime() <= PaparazziNps.getNpsMainHostTimeElapsed()) {
                 /**vv*** Entry point for periodic tasks***vv**/
                 for (ITask task : tasks) {
