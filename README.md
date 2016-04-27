@@ -42,12 +42,19 @@ cd ..
 * make sure your paparazzi is compiled correctly. [https://wiki.paparazziuav.org/wiki/Installation]
 ```
 we will use a modified paparazzi, here is a break-down of the commands you need to run, once you checkout our paparazzi repo with development branch.
-```
 sudo apt-get -f -y install paparazzi-dev paparazzi-jsbsim gcc-arm-none-eabi
 sudo cp conf/system/udev/rules/*.rules /etc/udev/rules.d/
 make clean && make
 ```
+* run paparazzi by executing ```./paparazzi```
+* build A/C: Quad_LisaM_2, Target:nps
+* click `Execute` button to run simulation
+* `stop` the "Simulator"
+* change the command in "Simulator" command:
+```
+/home/gassa/paparazzi/sw/simulator/pprzsim-launch -a Quad_LisaM_2 -t nps --java yes
 
+```
 
 
 
