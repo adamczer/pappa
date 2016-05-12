@@ -2,8 +2,10 @@ package juav.simulator.nps.cyclic;
 
 import juav.simulator.nps.AbstractNpsImpl;
 import juav.simulator.tasks.ITask;
+import juav.simulator.tasks.jni.*;
 import juav.simulator.time.JodaTimeHandler;
 import ub.cse.juav.jni.nps.PaparazziNps;
+import ub.cse.juav.jni.tasks.NativeTasks;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -76,6 +78,11 @@ public class NpsCyclicImpl extends AbstractNpsImpl {
         timeHandler = new JodaTimeHandler();
 
         List<ITask> taskList = new ArrayList<>();
+        taskList.add(new JniNpsAtmosphereUpdate());
+        taskList.add(new JniNpsAutoPilotRunSystimeStep());
+        taskList.add(new JniNpsFdmRunStep());
+        taskList.add(new JniNpsSensorsRunStep());
+        taskList.add(new JniNpsAutoPilotRunStep());
 
 
 
