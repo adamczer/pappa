@@ -1,10 +1,15 @@
 package juav.simulator.tasks.sensors.jni;
 
+import juav.simulator.nps.random.NpsRandom;
 import juav.simulator.tasks.sensors.ISensor;
 import juav.simulator.tasks.sensors.readings.AccelerometerReading;
+import ub.cse.juav.jni.fdm.JniFdm;
+import ub.cse.juav.jni.nps.PaparazziNps;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebra;
+import ub.juav.airborne.math.functions.algebra.PprzAlgebraDouble;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebraInt;
 import ub.juav.airborne.math.structs.algebra.Mat33;
+import ub.juav.airborne.math.structs.algebra.RMat;
 import ub.juav.airborne.math.structs.algebra.Vect3;
 
 /**
@@ -54,7 +59,54 @@ public class JniAccelSensor extends ISensor<AccelerometerReading> {
 
     @Override
     protected void executePeriodic() {
+        double time = PaparazziNps.getNpsMainSimTime();
 
+        if(time<data.getNext_update())
+            return;
+
+        RMat<Double> bodyToImu = new RMat<>();
+        for(int i = 0; i<3; i++)
+            for(int j = 0; j<3 ; j++)
+                bodyToImu.setElement(JniFdm.getFdmBodyToImu(i,j),i,j);
+
+// aquire required vector over jni
+        Vect3<Double> bodyAccel = new Vect3<>();
+        bodyAccel.setX(JniFdm.getFdmBodyAccelX());
+        bodyAccel.setY(JniFdm.getFdmBodyAccelY());
+        bodyAccel.setZ(JniFdm.getFdmBodyAccelZ());
+
+  /* transform to imu frame */
+        Vect3<Double> accelero_imu = new Vect3<>();
+        PprzAlgebra.MAT33_VECT3_MULT(accelero_imu, bodyToImu, bodyAccel);
+
+
+  /* compute accelero readings */
+        PprzAlgebra.MAT33_VECT3_MULT(data.getValue(), data.getSensitivity(), accelero_imu);
+        PprzAlgebra.VECT3_ADD(data.getValue(), data.getNeutral());
+
+  /* Compute sensor error */
+        Vect3<Double> accelero_error = new Vect3<>();
+  /* constant bias */
+        PprzAlgebra.VECT3_COPY(accelero_error, data.getBias());
+  /* white noise   */
+        NpsRandom.double_vect3_add_gaussian_noise(accelero_error, data.getNoise_std_dev());
+  /* scale */
+        Vect3<Double> gain = new Vect3<>();
+        gain.setX(data.getSensitivity().getElement(0,0));
+        gain.setY(data.getSensitivity().getElement(1,1));
+        gain.setZ(data.getSensitivity().getElement(2,2));
+
+        PprzAlgebra.VECT3_EW_MUL(accelero_error, accelero_error, gain);
+  /* add error */
+        PprzAlgebra.VECT3_ADD(data.getValue(), accelero_error);
+
+  /* round signal to account for adc discretisation */
+        PprzAlgebraDouble.DOUBLE_VECT3_ROUND(data.getValue());
+  /* saturate                                       */
+        PprzAlgebra.VECT3_BOUND_CUBE(data.getValue(), data.getMin(), data.getMax());
+
+        data.setNext_update(data.getNext_update()+ NPS_ACCEL_DT);
+        data.setData_available(true);
     }
 
     @Override

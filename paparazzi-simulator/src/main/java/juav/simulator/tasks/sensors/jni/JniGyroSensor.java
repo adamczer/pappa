@@ -51,7 +51,7 @@ public class JniGyroSensor extends ISensor<GyroReading> {
     protected void executePeriodic() {
         double time = PaparazziNps.getNpsMainSimTime();
 
-        if(time<getReading().getNext_update())
+        if(time<data.getNext_update())
             return;
 
         RMat<Double> bodyToImu = new RMat<>();
