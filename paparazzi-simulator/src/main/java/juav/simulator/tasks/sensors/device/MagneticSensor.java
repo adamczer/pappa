@@ -11,7 +11,6 @@ public class MagneticSensor extends ISensor<MagneticReading> {
     protected void executePeriodic() {
         MagneticReading reading = null;
 
-        setReading(reading);
     }
 
     @Override

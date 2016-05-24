@@ -11,7 +11,6 @@ public class GyroSensor extends ISensor<GyroReading> {
     protected void executePeriodic() {
         GyroReading reading = null;
 
-        setReading(reading);
     }
 
     @Override

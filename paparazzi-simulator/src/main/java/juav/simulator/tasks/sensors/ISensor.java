@@ -6,7 +6,7 @@ import juav.simulator.tasks.TimerBasedPeriodicTask;
  * Created by adamczer on 2/29/16.
  */
 public abstract class ISensor<T> extends TimerBasedPeriodicTask {
-    T data;
+    protected T data;
     protected T getReading() {
         if(data==null) {
             throw new RuntimeException("The sensor has not been polled yet.");
@@ -14,7 +14,7 @@ public abstract class ISensor<T> extends TimerBasedPeriodicTask {
         return data;
     }
 
-    protected void setReading(T newData) {
-        this.data = newData;
+    public T getData() {
+        return data;
     }
 }

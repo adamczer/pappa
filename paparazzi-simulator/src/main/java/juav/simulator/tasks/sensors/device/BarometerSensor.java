@@ -11,7 +11,6 @@ public class BarometerSensor extends ISensor<BarometricReading> {
     protected void executePeriodic() {
         BarometricReading reading = null;
 
-        setReading(reading);
     }
 
     @Override

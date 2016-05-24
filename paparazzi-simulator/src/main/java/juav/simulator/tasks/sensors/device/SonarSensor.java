@@ -11,7 +11,6 @@ public class SonarSensor extends ISensor<SonarReading> {
     protected void executePeriodic() {
         SonarReading reading = null;
 
-        setReading(reading);
     }
 
     @Override

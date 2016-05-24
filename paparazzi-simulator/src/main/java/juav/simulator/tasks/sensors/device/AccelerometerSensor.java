@@ -12,7 +12,6 @@ public class AccelerometerSensor extends ISensor<AccelerometerReading>{
     protected void executePeriodic() {
         AccelerometerReading accel = null;
 
-        setReading(accel);
     }
 
     @Override

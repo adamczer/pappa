@@ -11,7 +11,6 @@ public class GpsPollSensor extends ISensor<GpsReading> {
     protected void executePeriodic() {
         GpsReading reading = null;
 
-        setReading(reading);
     }
 
     @Override
