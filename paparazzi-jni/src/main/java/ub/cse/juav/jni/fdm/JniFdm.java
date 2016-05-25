@@ -7,15 +7,24 @@ public class JniFdm {
     public static native void FGFDMExecInit();
 
     //TODO used to get components over jni for roational veloicty ie gyro
-    public static native Double getFdmBodyInertialRotVelP();
-    public static native Double getFdmBodyInertialRotVelQ();
-    public static native Double getFdmBodyInertialRotVelR();
+    public static native double getFdmBodyInertialRotVelP();
+    public static native double getFdmBodyInertialRotVelQ();
+    public static native double getFdmBodyInertialRotVelR();
 
     //TODO used to get components over jni for liniar motion ie acceleration
-    public static native Double getFdmBodyAccelX();
-    public static native Double getFdmBodyAccelY();
-    public static native Double getFdmBodyAccelZ();
+    public static native double getFdmBodyAccelX();
+    public static native double getFdmBodyAccelY();
+    public static native double getFdmBodyAccelZ();
 
-    public static native Double getFdmBodyToImu(int row, int col);
+    //TODO used to get components over jni for liniar motion ie acceleration
+    public static native double getFdmBodyToImu(int row, int col);
 
+    public static native double getFdmLtpToBodyQuatQi();
+    public static native double getFdmLtpToBodyQuatQx();
+    public static native double getFdmLtpToBodyQuatQy();
+    public static native double getFdmLtpToBodyQuatQz();
+
+    public static native double getFdmLtpHX();
+    public static native double getFdmLtpHY();
+    public static native double getFdmLtpHZ();
 }
