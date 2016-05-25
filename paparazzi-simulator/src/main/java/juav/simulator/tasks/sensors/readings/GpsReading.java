@@ -25,4 +25,108 @@ public class GpsReading {
 //    GSList *speed_history;TODO I dont think this is used
     double next_update;
     boolean data_available;
+
+    public EcefCoor<Double> getEcef_pos() {
+        return ecef_pos;
+    }
+
+    public void setEcef_pos(EcefCoor<Double> ecef_pos) {
+        this.ecef_pos = ecef_pos;
+    }
+
+    public EcefCoor<Double> getEcef_vel() {
+        return ecef_vel;
+    }
+
+    public void setEcef_vel(EcefCoor<Double> ecef_vel) {
+        this.ecef_vel = ecef_vel;
+    }
+
+    public LlaCoor<Double> getLla_pos() {
+        return lla_pos;
+    }
+
+    public void setLla_pos(LlaCoor<Double> lla_pos) {
+        this.lla_pos = lla_pos;
+    }
+
+    public double getHmsl() {
+        return hmsl;
+    }
+
+    public void setHmsl(double hmsl) {
+        this.hmsl = hmsl;
+    }
+
+    public Vect3<Double> getPos_noise_std_dev() {
+        return pos_noise_std_dev;
+    }
+
+    public void setPos_noise_std_dev(Vect3<Double> pos_noise_std_dev) {
+        this.pos_noise_std_dev = pos_noise_std_dev;
+    }
+
+    public Vect3<Double> getSpeed_noise_std_dev() {
+        return speed_noise_std_dev;
+    }
+
+    public void setSpeed_noise_std_dev(Vect3<Double> speed_noise_std_dev) {
+        this.speed_noise_std_dev = speed_noise_std_dev;
+    }
+
+    public Vect3<Double> getPos_bias_initial() {
+        return pos_bias_initial;
+    }
+
+    public void setPos_bias_initial(Vect3<Double> pos_bias_initial) {
+        this.pos_bias_initial = pos_bias_initial;
+    }
+
+    public Vect3<Double> getPos_bias_random_walk_std_dev() {
+        return pos_bias_random_walk_std_dev;
+    }
+
+    public void setPos_bias_random_walk_std_dev(Vect3<Double> pos_bias_random_walk_std_dev) {
+        this.pos_bias_random_walk_std_dev = pos_bias_random_walk_std_dev;
+    }
+
+    public Vect3<Double> getPos_bias_random_walk_value() {
+        return pos_bias_random_walk_value;
+    }
+
+    public void setPos_bias_random_walk_value(Vect3<Double> pos_bias_random_walk_value) {
+        this.pos_bias_random_walk_value = pos_bias_random_walk_value;
+    }
+
+    public double getPos_latency() {
+        return pos_latency;
+    }
+
+    public void setPos_latency(double pos_latency) {
+        this.pos_latency = pos_latency;
+    }
+
+    public double getSpeed_latency() {
+        return speed_latency;
+    }
+
+    public void setSpeed_latency(double speed_latency) {
+        this.speed_latency = speed_latency;
+    }
+
+    public double getNext_update() {
+        return next_update;
+    }
+
+    public void setNext_update(double next_update) {
+        this.next_update = next_update;
+    }
+
+    public boolean isData_available() {
+        return data_available;
+    }
+
+    public void setData_available(boolean data_available) {
+        this.data_available = data_available;
+    }
 }
