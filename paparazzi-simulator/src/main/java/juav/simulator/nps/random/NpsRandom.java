@@ -42,7 +42,7 @@ public class NpsRandom {
         vect.setZ( get_gaussian_noise() * std_dev.getZ());
     }
 
-    private static double get_gaussian_noise() {
+    public static double get_gaussian_noise() {
         return random.nextGaussian();
     }
 

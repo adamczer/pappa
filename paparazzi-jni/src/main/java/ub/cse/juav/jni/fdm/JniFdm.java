@@ -19,12 +19,17 @@ public class JniFdm {
     //TODO used to get components over jni for liniar motion ie acceleration
     public static native double getFdmBodyToImu(int row, int col);
 
+    //TODO used to get components over jni for magnetics
     public static native double getFdmLtpToBodyQuatQi();
     public static native double getFdmLtpToBodyQuatQx();
     public static native double getFdmLtpToBodyQuatQy();
     public static native double getFdmLtpToBodyQuatQz();
 
+    //TODO used to get components over jni for magnetics
     public static native double getFdmLtpHX();
     public static native double getFdmLtpHY();
     public static native double getFdmLtpHZ();
+
+    //TODO used to get components over jni for barometer
+    public static native float getHmsl();
 }

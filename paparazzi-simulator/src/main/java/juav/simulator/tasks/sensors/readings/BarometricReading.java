@@ -8,4 +8,36 @@ public class BarometricReading {
     double  noise_std_dev;  ///< noise standard deviation
     double  next_update;
     boolean  data_available;
+
+    public double getValue() {
+        return value;
+    }
+
+    public void setValue(double value) {
+        this.value = value;
+    }
+
+    public double getNoise_std_dev() {
+        return noise_std_dev;
+    }
+
+    public void setNoise_std_dev(double noise_std_dev) {
+        this.noise_std_dev = noise_std_dev;
+    }
+
+    public double getNext_update() {
+        return next_update;
+    }
+
+    public void setNext_update(double next_update) {
+        this.next_update = next_update;
+    }
+
+    public boolean isData_available() {
+        return data_available;
+    }
+
+    public void setData_available(boolean data_available) {
+        this.data_available = data_available;
+    }
 }
