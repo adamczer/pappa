@@ -41,4 +41,6 @@ public class JniFdm {
     public static native double getFdmEcefPosX();
     public static native double getFdmEcefPosY();
     public static native double getFdmEcefPosZ();
+
+    public static native double getFdmAgl();
 }
