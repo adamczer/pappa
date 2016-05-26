@@ -94,6 +94,11 @@ public class Pprz_isa {
         return (PPRZ_ISA_SEA_LEVEL_PRESSURE * (float)Math.exp((-1. / PPRZ_ISA_M_OF_P_CONST) * altitude));
     }
 
+    public static double pprz_isa_pressure_of_altitude(double altitude)
+    {
+        return (PPRZ_ISA_SEA_LEVEL_PRESSURE * Math.exp((-1. / PPRZ_ISA_M_OF_P_CONST) * altitude));
+    }
+
 /**
  * Get pressure in Pa from height (using simplified equation).
  *

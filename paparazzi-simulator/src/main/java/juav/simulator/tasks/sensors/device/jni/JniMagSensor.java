@@ -1,4 +1,4 @@
-package juav.simulator.tasks.sensors.jni;
+package juav.simulator.tasks.sensors.device.jni;
 
 import juav.simulator.tasks.sensors.ISensor;
 import juav.simulator.tasks.sensors.readings.MagneticReading;

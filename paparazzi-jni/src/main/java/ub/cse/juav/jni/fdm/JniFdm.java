@@ -31,7 +31,7 @@ public class JniFdm {
     public static native double getFdmLtpHZ();
 
     //TODO used to get components over jni for barometer
-    public static native float getHmsl();
+    public static native double getHmsl();
 
     public static native double getFdmEcefEcefVelX();
     public static native double getFdmEcefEcefVelY();

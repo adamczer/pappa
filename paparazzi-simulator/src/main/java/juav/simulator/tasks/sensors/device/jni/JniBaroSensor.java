@@ -1,4 +1,4 @@
-package juav.simulator.tasks.sensors.jni;
+package juav.simulator.tasks.sensors.device.jni;
 
 import juav.simulator.nps.random.NpsRandom;
 import juav.simulator.tasks.sensors.ISensor;
@@ -20,8 +20,8 @@ public class JniBaroSensor extends ISensor<BarometricReading> {
         if(time<data.getNext_update())
             return;
 
-  /* pressure in Pascal */
-        float tmp =Pprz_isa.pprz_isa_pressure_of_altitude(JniFdm.getHmsl());
+  /* pressure in Pascal TODO this was a float*/
+        double tmp =Pprz_isa.pprz_isa_pressure_of_altitude(JniFdm.getHmsl());
   /* add noise with std dev Pascal */
         data.setValue(tmp + NpsRandom.get_gaussian_noise() * data.getNoise_std_dev());
 

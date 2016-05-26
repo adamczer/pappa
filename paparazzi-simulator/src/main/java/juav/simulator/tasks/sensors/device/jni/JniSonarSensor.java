@@ -1,4 +1,4 @@
-package juav.simulator.tasks.sensors.jni;
+package juav.simulator.tasks.sensors.device.jni;
 
 import juav.simulator.nps.random.NpsRandom;
 import juav.simulator.tasks.sensors.ISensor;
