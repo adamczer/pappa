@@ -30,7 +30,7 @@ public class NpsAutoPilotRotorCraft extends PeriodicTask {
     private void npsAutopilotRunStep(double time) {
 
             //Not needed it should decrement battery
-//            nps_electrical_run_step(time);
+            NativeTasks.npsElectricalRunStep(time);
 
 
         NativeTasks.npsAutopilotRunStepRadio(time);
@@ -68,6 +68,7 @@ public class NpsAutoPilotRotorCraft extends PeriodicTask {
 
             if (gpsSensor.getData().isData_available()) {
                 gpsSimNps.gpsFeedValue(gpsSensor.getData());
+                gpsSensor.getData().setData_available(false);
                 main_event();
             }
 

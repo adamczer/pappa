@@ -21,6 +21,7 @@ CFLAGS=-I$(PPRZ_HOME)/modules -I$(PPRZ_HOME)/arch/sim/modules \
 	   -I$(PPRZ_HOME)/sw/airborne/firmwares/rotorcraft \
 	   -I$(PPRZ_HOME)/sw/airborne \
 	   -I$(PPRZ_HOME)/sw/airborne/subsystems/imu \
+	   -I$(PPRZ_HOME)/sw/airborne/subsystems/gps \
 	   -I$(PPRZ_HOME)/var/aircrafts/Quad_LisaM_2/nps/generated \
 	   -I$(PPRZ_HOME)/var/aircrafts/Quad_LisaM_2/nps \
 	   -I$(PPRZ_HOME)/sw/airborne/ \

@@ -29,6 +29,14 @@ import ub.juav.airborne.math.structs.algebra.RMat;
  * Created by adamczer on 9/7/15.
  */
 public class LtpDef<T extends Number> {
+    public static LtpDef<Double> LtpDefDouble() {
+        LtpDef<Double> ret = new LtpDef<>();
+        ret.setLlaCoor(LlaCoor.LlaCoorDouble());
+        ret.setEcefCoor(EcefCoor.EcefCoorDouble());
+        ret.setHmsl(0.d);
+        ret.setLtp_of_ecef(RMat.RMatDouble());
+        return ret;
+    }
     private EcefCoor<T> ecefCoor;
     private LlaCoor<T> llaCoor;
     private RMat<T> ltp_of_ecef;

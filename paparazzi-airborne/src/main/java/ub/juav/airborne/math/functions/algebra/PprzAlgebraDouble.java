@@ -112,8 +112,8 @@ public class PprzAlgebraDouble {
         double m11  = qi2_M1_2 + q.getQy() * q.getQy();
         double m22  = qi2_M1_2 + q.getQz() * q.getQz();
         vOut.setX(2 * (m00 * vIn.getX() + m01 * vIn.getY() + m02 * vIn.getZ()));
-        vOut.setX(2 * (m10 * vIn.getX() + m11 * vIn.getY() + m12 * vIn.getZ()));
-        vOut.setX(2 * (m20 * vIn.getX() + m21 * vIn.getY() + m22 * vIn.getZ()));
+        vOut.setY(2 * (m10 * vIn.getX() + m11 * vIn.getY() + m12 * vIn.getZ()));
+        vOut.setZ(2 * (m20 * vIn.getX() + m21 * vIn.getY() + m22 * vIn.getZ()));
     }
 
     /******* h file ********/

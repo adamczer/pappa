@@ -21,7 +21,8 @@ public class GpsSimNps implements IGpsNps{
         GpsNative.gps_feed_value_hmsl_juav(reading.getHmsl());
 
         /* calc NED speed from ECEF */
-        LtpDef<Double> ref_ltp = new LtpDef<>();
+        LtpDef<Double> ref_ltp = LtpDef.LtpDefDouble();
+
         PprzGeodeticDouble.ltp_def_from_ecef_d(ref_ltp, reading.getEcef_pos());
         NedCoor<Double> ned_vel_d = new NedCoor<>();
         PprzGeodeticDouble.ned_of_ecef_vect_d(ned_vel_d, ref_ltp, reading.getEcef_vel());

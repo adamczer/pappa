@@ -27,7 +27,7 @@ public class JniGpsSensor extends ISensor<GpsReading> {
     private static final double NPS_GPS_POS_BIAS_RANDOM_WALK_STD_DEV_Z = 0.;
     private static final double NPS_GPS_POS_LATENCY = 0.;
 
-    private static final double NPS_GPS_DT = (1. / 4.);
+    private static final double NPS_GPS_DT = (1.d / 4.d);
 
 
     @Override

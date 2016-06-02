@@ -41,9 +41,9 @@ public class JniMagSensor extends ISensor<MagneticReading> {
     private static final double NPS_MAG_SENSITIVITY_YY = (IMU_MAG_Y_SIGN*PprzAlgebraInt.MAG_BFP_OF_REAL(1./IMU_MAG_Y_SENS));
     private static final double NPS_MAG_SENSITIVITY_ZZ = (IMU_MAG_Z_SIGN*PprzAlgebraInt.MAG_BFP_OF_REAL(1./IMU_MAG_Z_SENS));
 
-    private static final int  NPS_MAG_NEUTRAL_X = IMU_MAG_X_NEUTRAL;
-    private static final int  NPS_MAG_NEUTRAL_Y = IMU_MAG_Y_NEUTRAL;
-    private static final int  NPS_MAG_NEUTRAL_Z = IMU_MAG_Z_NEUTRAL;
+    private static final double  NPS_MAG_NEUTRAL_X = IMU_MAG_X_NEUTRAL;
+    private static final double  NPS_MAG_NEUTRAL_Y = IMU_MAG_Y_NEUTRAL;
+    private static final double  NPS_MAG_NEUTRAL_Z = IMU_MAG_Z_NEUTRAL;
 
     private static final double NPS_MAG_NOISE_STD_DEV_X = 2e-3;
     private static final double NPS_MAG_NOISE_STD_DEV_Y = 2e-3;
@@ -96,7 +96,7 @@ public class JniMagSensor extends ISensor<MagneticReading> {
   /* round signal to account for adc discretisation */
         PprzAlgebraDouble.DOUBLE_VECT3_ROUND(data.getValue());
   /* saturate                                       */
-        PprzAlgebra.VECT3_BOUND_CUBE(data.getValue(), data.getMin(), data.getMax());
+        PprzAlgebra.VECT3_BOUND_CUBE(data.getValue(), (double)data.getMin(), (double)data.getMax());
 
         data.setNext_update(data.getNext_update()+ NPS_MAG_DT);
         data.setData_available(true);

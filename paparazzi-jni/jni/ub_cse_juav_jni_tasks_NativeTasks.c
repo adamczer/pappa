@@ -56,3 +56,8 @@ nps_autopilot_run_step(doub);
         (JNIEnv *env, jclass thisClass) {
 		convert_motor_mixing_commands_to_autopilot_commands();
         }
+
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_npsElectricalRunStep
+  (JNIEnv *env, jclass thisClass, jdouble time) {
+  	nps_electrical_run_step_juav(time);
+  }

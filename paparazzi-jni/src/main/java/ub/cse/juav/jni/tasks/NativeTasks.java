@@ -15,4 +15,5 @@ public class NativeTasks {
     public static native void npsAutopilotRunStepHandelPeriodicTasks();
     public static native void npsAutopilotRunStepConvertMotorMixingCommandsToAutopilotCommands();
 
+    public static native void npsElectricalRunStep(double time);
 }

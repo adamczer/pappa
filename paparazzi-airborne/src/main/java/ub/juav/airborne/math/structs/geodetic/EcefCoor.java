@@ -26,4 +26,11 @@ package ub.juav.airborne.math.structs.geodetic;
  * Created by adamczer on 9/7/15.
  */
 public class EcefCoor<T extends Number> extends XyzCoord<T>{
+    public static EcefCoor<Double> EcefCoorDouble() {
+        EcefCoor<Double> ret = new EcefCoor<>();
+        ret.setX(0.d);
+        ret.setY(0.d);
+        ret.setZ(0.d);
+        return ret;
+    }
 }
