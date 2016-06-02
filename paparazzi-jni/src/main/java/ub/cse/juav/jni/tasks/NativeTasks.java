@@ -16,4 +16,6 @@ public class NativeTasks {
     public static native void npsAutopilotRunStepConvertMotorMixingCommandsToAutopilotCommands();
 
     public static native void npsElectricalRunStep(double time);
+    public static native void sendBarometricReading(float pressure);
+
 }

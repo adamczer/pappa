@@ -95,6 +95,14 @@ JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_npsAutopilotRunSte
 JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_npsElectricalRunStep
   (JNIEnv *, jclass, jdouble);
 
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    sendBarometricReading
+ * Signature: (F)V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_sendBarometricReading
+  (JNIEnv *, jclass, jfloat);
+
 #ifdef __cplusplus
 }
 #endif

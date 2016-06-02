@@ -3,10 +3,7 @@ package juav.autopilot;
 import juav.autopilot.gps.GpsSimNps;
 import juav.autopilot.imu.JniImuNps;
 import juav.simulator.tasks.PeriodicTask;
-import juav.simulator.tasks.sensors.device.jni.JniAccelSensor;
-import juav.simulator.tasks.sensors.device.jni.JniGpsSensor;
-import juav.simulator.tasks.sensors.device.jni.JniGyroSensor;
-import juav.simulator.tasks.sensors.device.jni.JniMagSensor;
+import juav.simulator.tasks.sensors.device.jni.*;
 import ub.cse.juav.jni.nps.PaparazziNps;
 import ub.cse.juav.jni.tasks.NativeTasks;
 
@@ -18,6 +15,7 @@ public class NpsAutoPilotRotorCraft extends PeriodicTask {
     JniMagSensor magSensor;
     JniGpsSensor gpsSensor;
     JniAccelSensor accelSensor;
+    JniBaroSensor baroSensor;
     JniImuNps jniImuNps;
     GpsSimNps gpsSimNps;
 
@@ -46,12 +44,12 @@ public class NpsAutoPilotRotorCraft extends PeriodicTask {
                 main_event();
             }
 
-        // Not used for this aircraft
-//            if (barometricReading.isData_available()) {
-//                float pressure = (float) sensors.baro.value;
-//                AbiSendMsgBARO_ABS(BARO_SIM_SENDER_ID, pressure);
-//                main_event();
-//            }
+
+            if (baroSensor.getData().isData_available()) {
+                float pressure = (float) baroSensor.getData().getValue();
+                NativeTasks.sendBarometricReading(pressure);
+                main_event();
+            }
 
             //not used
 //            #if USE_SONAR
@@ -117,5 +115,9 @@ public class NpsAutoPilotRotorCraft extends PeriodicTask {
 
     public void setGpsSimNps(GpsSimNps gpsSimNps) {
         this.gpsSimNps = gpsSimNps;
+    }
+
+    public void setBaroSensor(JniBaroSensor baroSensor) {
+        this.baroSensor = baroSensor;
     }
 }

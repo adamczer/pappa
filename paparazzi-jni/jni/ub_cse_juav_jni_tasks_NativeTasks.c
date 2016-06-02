@@ -61,3 +61,8 @@ JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_npsElectricalRunSt
   (JNIEnv *env, jclass thisClass, jdouble time) {
   	nps_electrical_run_step_juav(time);
   }
+
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_sendBarometricReading
+  (JNIEnv *env, jclass thisClass, jfloat pressure) {
+  nps_send_baro_reading_juav(pressure);
+  }

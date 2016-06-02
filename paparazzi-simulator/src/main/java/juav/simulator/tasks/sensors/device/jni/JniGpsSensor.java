@@ -67,11 +67,12 @@ public class JniGpsSensor extends ISensor<GpsReading> {
         PprzAlgebra.VECT3_ADD(pos_error, data.getPos_bias_random_walk_value());
 
   /* add error to current pos reading */
-        Vect3<Double> cur_pos_reading = new Vect3<>();
+        EcefCoor<Double> cur_pos_reading = EcefCoor.EcefCoorDouble();
         cur_pos_reading.setX(JniFdm.getFdmEcefPosX());
         cur_pos_reading.setY(JniFdm.getFdmEcefPosY());
         cur_pos_reading.setZ(JniFdm.getFdmEcefPosZ());
         PprzAlgebra.VECT3_ADD(cur_pos_reading, pos_error);
+        data.setEcef_pos(cur_pos_reading);
 
   /* store that for later and retrieve a previously stored data */
         //TODO is this required????
@@ -84,6 +85,7 @@ public class JniGpsSensor extends ISensor<GpsReading> {
   /* convert current ecef reading to lla */
         LlaCoor<Double> cur_lla_reading = new LlaCoor<>();
         PprzGeodeticDouble.lla_of_ecef_d(cur_lla_reading, cur_pos_reading);
+        data.setLla_pos(cur_lla_reading);
 
   /* store that for later and retrieve a previously stored data */
         //TODO is this required????
