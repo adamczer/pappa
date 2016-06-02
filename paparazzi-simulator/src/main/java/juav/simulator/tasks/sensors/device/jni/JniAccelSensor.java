@@ -18,9 +18,9 @@ import ub.juav.airborne.math.structs.algebra.Vect3;
 public class JniAccelSensor extends ISensor<AccelerometerReading> {
 
 
-    private static final int IMU_ACCEL_X_SIGN = -1;//imu_b2.h
+    private static final int IMU_ACCEL_X_SIGN = 1;//imu_b2.h
     private static final int IMU_ACCEL_Y_SIGN = -1; //imu_b2.h
-    private static final int IMU_ACCEL_Z_SIGN = -1;//imu_b2.h
+    private static final int IMU_ACCEL_Z_SIGN = 1;//imu_b2.h
 
     private static final double IMU_ACCEL_X_SENS = 37.91;//imu_nps.h
     private static final double IMU_ACCEL_Y_SENS = 37.91;//imu_nps.h

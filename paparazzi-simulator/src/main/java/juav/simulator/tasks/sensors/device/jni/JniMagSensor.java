@@ -14,9 +14,9 @@ import ub.juav.airborne.math.structs.algebra.*;
  */
 public class JniMagSensor extends ISensor<MagneticReading> {
 
-    private static final double IMU_MAG_X_SIGN = 1;//imu_b2.h
-    private static final double IMU_MAG_Y_SIGN = -1;//imu_b2.h
-    private static final double IMU_MAG_Z_SIGN = -1;//imu_b2.h
+    private static final double IMU_MAG_X_SIGN = 1;
+    private static final double IMU_MAG_Y_SIGN = -1;
+    private static final double IMU_MAG_Z_SIGN = 1;
 
     private static final double IMU_MAG_X_SENS =4.17334785618;//airframe.h
     private static final double IMU_MAG_Y_SENS =3.98885954135;//airframe.h

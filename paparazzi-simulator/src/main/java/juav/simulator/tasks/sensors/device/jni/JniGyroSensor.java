@@ -17,8 +17,8 @@ import ub.juav.airborne.math.util.UtilityFunctions;
  * Created by adamczer on 5/23/16.
  */
 public class JniGyroSensor extends ISensor<GyroReading> {
-    private static final double NPS_GYRO_MIN = -2047;
-    private static final double NPS_GYRO_MAX = 2047;
+    private static final double NPS_GYRO_MIN = -32767;
+    private static final double NPS_GYRO_MAX =  32767;
     private static final double IMU_GYRO_P_SENS = 4.359; //imu_nps.h
     private static final double IMU_GYRO_Q_SENS = 4.359; //imu_nps.h
     private static final double IMU_GYRO_R_SENS = 4.359; //imu_nps.h
@@ -93,7 +93,6 @@ public class JniGyroSensor extends ISensor<GyroReading> {
 
         data.setNext_update( data.getNext_update()+ NPS_GYRO_DT);
         data.setData_available(true);
-
     }
 
     @Override

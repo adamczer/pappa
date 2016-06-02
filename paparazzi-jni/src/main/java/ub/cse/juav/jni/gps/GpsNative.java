@@ -12,4 +12,8 @@ public class GpsNative {
     public static native void gps_feed_value_hmsl_juav(double hmsl);
     public static native void gps_feed_value_ned_speed(double ned_vel_x, double ned_vel_y, double ned_vel_z);
     public static native void gps_feed_value_finalize_juav();
+    public static native void gps_feed_latency_speed_juav(double time,double x,double y, double z);
+    public static native void gps_feed_latency_pos_juav(double time,double x,double y, double z);
+    public static native void gps_feed_latency_lla_juav(double time,double lat,double lon, double alt);
+    public static native void gps_feed_latency_hmsl_juav(double time,double hmsl);
 }

@@ -4,6 +4,7 @@ import juav.simulator.nps.random.NpsRandom;
 import juav.simulator.tasks.sensors.ISensor;
 import juav.simulator.tasks.sensors.readings.GpsReading;
 import ub.cse.juav.jni.fdm.JniFdm;
+import ub.cse.juav.jni.gps.GpsNative;
 import ub.cse.juav.jni.nps.PaparazziNps;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebra;
 import ub.juav.airborne.math.functions.geodetic.PprzGeodeticDouble;
@@ -51,7 +52,7 @@ public class JniGpsSensor extends ISensor<GpsReading> {
   /* store that for later and retrieve a previously stored data */
         //TODO is this required ????
 //        UpdateSensorLatency(time, &cur_speed_reading, &gps->speed_history, gps->speed_latency, &gps->ecef_vel);
-
+        GpsNative.gps_feed_latency_speed_juav(time,cur_speed_reading.getX(),cur_speed_reading.getY(),cur_speed_reading.getZ());
 
   /*
    * simulate position sensor
@@ -77,7 +78,7 @@ public class JniGpsSensor extends ISensor<GpsReading> {
   /* store that for later and retrieve a previously stored data */
         //TODO is this required????
 //        UpdateSensorLatency(time, & cur_pos_reading,&gps -> pos_history, gps -> pos_latency,&gps -> ecef_pos);
-
+        GpsNative.gps_feed_latency_pos_juav(time,cur_pos_reading.getX(),cur_pos_reading.getY(),cur_pos_reading.getZ());
 
   /*
    * simulate lla pos
@@ -90,10 +91,13 @@ public class JniGpsSensor extends ISensor<GpsReading> {
   /* store that for later and retrieve a previously stored data */
         //TODO is this required????
 //        UpdateSensorLatency(time, & cur_lla_reading,&gps -> lla_history, gps -> pos_latency,&gps -> lla_pos);
+        GpsNative.gps_feed_latency_lla_juav(time,cur_lla_reading.getLat(),cur_lla_reading.getLon(),cur_lla_reading.getAlt());
 
         double cur_hmsl_reading = JniFdm.getHmsl();
+//        data.setHmsl(cur_hmsl_reading);
         //TODO is this required????
 //        UpdateSensorLatency_Single(time, & cur_hmsl_reading,&gps -> hmsl_history, gps -> pos_latency,&gps -> hmsl);
+        GpsNative.gps_feed_latency_hmsl_juav(time,cur_hmsl_reading);
 
         data.setNext_update(data.getNext_update()+NPS_GPS_DT);
         data.setData_available(true);

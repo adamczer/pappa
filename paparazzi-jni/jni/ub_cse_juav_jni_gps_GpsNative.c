@@ -1,7 +1,7 @@
 #include <jni.h>
 #include <stdio.h>
 #include "ub_cse_juav_jni_gps_GpsNative.h"
-#include <gps_sim_nps.h>
+#include <nps_sensors.h>
 
 JNIEXPORT void JNICALL Java_ub_cse_juav_jni_gps_GpsNative_gps_1feed_1value_1week_1juav
   (JNIEnv *env, jclass thisClass, jint week) {
@@ -41,5 +41,26 @@ JNIEXPORT void JNICALL Java_ub_cse_juav_jni_gps_GpsNative_gps_1feed_1value_1ned_
 JNIEXPORT void JNICALL Java_ub_cse_juav_jni_gps_GpsNative_gps_1feed_1value_1finalize_1juav
   (JNIEnv *env, jclass thisClass) {
 	gps_feed_value_finalize_juav();
+  }
+
+
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_gps_GpsNative_gps_1feed_1latency_1speed_1juav
+  (JNIEnv *env, jclass thisClass, jdouble time, jdouble x, jdouble y, jdouble z) {
+	UpdateSensorLatencySpeedJuav(time, x, y, z);
+  }
+
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_gps_GpsNative_gps_1feed_1latency_1pos_1juav
+  (JNIEnv *env, jclass thisClass, jdouble time, jdouble x, jdouble y, jdouble z) {
+    UpdateSensorLatencyPosJuav( time, x, y, z);
+  }
+
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_gps_GpsNative_gps_1feed_1latency_1lla_1juav
+  (JNIEnv *env, jclass thisClass, jdouble time, jdouble lat, jdouble lon, jdouble alt) {
+    UpdateSensorLatencyLlaJuav( time, lat, lon, alt);
+  }
+
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_gps_GpsNative_gps_1feed_1latency_1hmsl_1juav
+  (JNIEnv *env, jclass thisClass, jdouble time, jdouble hmsl){
+	UpdateSensorLatency_Single_Hmsl(time, hmsl);
   }
 

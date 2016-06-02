@@ -71,6 +71,38 @@ JNIEXPORT void JNICALL Java_ub_cse_juav_jni_gps_GpsNative_gps_1feed_1value_1ned_
 JNIEXPORT void JNICALL Java_ub_cse_juav_jni_gps_GpsNative_gps_1feed_1value_1finalize_1juav
   (JNIEnv *, jclass);
 
+/*
+ * Class:     ub_cse_juav_jni_gps_GpsNative
+ * Method:    gps_feed_latency_speed_juav
+ * Signature: (DDDD)V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_gps_GpsNative_gps_1feed_1latency_1speed_1juav
+  (JNIEnv *, jclass, jdouble, jdouble, jdouble, jdouble);
+
+/*
+ * Class:     ub_cse_juav_jni_gps_GpsNative
+ * Method:    gps_feed_latency_pos_juav
+ * Signature: (DDDD)V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_gps_GpsNative_gps_1feed_1latency_1pos_1juav
+  (JNIEnv *, jclass, jdouble, jdouble, jdouble, jdouble);
+
+/*
+ * Class:     ub_cse_juav_jni_gps_GpsNative
+ * Method:    gps_feed_latency_lla_juav
+ * Signature: (DDDD)V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_gps_GpsNative_gps_1feed_1latency_1lla_1juav
+  (JNIEnv *, jclass, jdouble, jdouble, jdouble, jdouble);
+
+/*
+ * Class:     ub_cse_juav_jni_gps_GpsNative
+ * Method:    gps_feed_latency_hmsl_juav
+ * Signature: (DD)V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_gps_GpsNative_gps_1feed_1latency_1hmsl_1juav
+  (JNIEnv *, jclass, jdouble, jdouble);
+
 #ifdef __cplusplus
 }
 #endif
