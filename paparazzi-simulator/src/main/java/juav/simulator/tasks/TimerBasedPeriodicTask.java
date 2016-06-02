@@ -8,17 +8,17 @@ import org.joda.time.DateTime;
  */
 public abstract class TimerBasedPeriodicTask extends AbstractPeriodicTask {
     protected ITimeHandler timeHadler;
-    protected DateTime lastExecution;
+    protected double lastExecution = -1;
     @Override
     public boolean isAvailiable() {
-        DateTime now = timeHadler.getTime();
-        if(lastExecution ==null || (now.getMillis()-lastExecution.getMillis())>interval) {
+        double now = timeHadler.getTime();
+        if(lastExecution <0 || (now-lastExecution)>interval) {
             return true;
         }
         return false;
     }
 
-    void setTimeHandler(ITimeHandler timeHandler) {
+    public void setTimeHandler(ITimeHandler timeHandler) {
         this.timeHadler = timeHandler;
     }
 

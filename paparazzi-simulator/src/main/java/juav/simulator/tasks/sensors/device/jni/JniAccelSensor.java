@@ -35,25 +35,25 @@ public class JniAccelSensor extends ISensor<AccelerometerReading> {
  * Accelerometer
  */
 /* ADXL345 configured to +-16g with 13bit resolution */
-    private static final int NPS_ACCEL_MIN = -4095;
-    private static final int NPS_ACCEL_MAX = 4095;
+    private static final double NPS_ACCEL_MIN = -4095;
+    private static final double NPS_ACCEL_MAX = 4095;
     /* ms-2 */
 /* aka 2^10/ACCEL_X_SENS  */
     private static final double NPS_ACCEL_SENSITIVITY_XX = (IMU_ACCEL_X_SIGN * PprzAlgebraInt.ACCEL_BFP_OF_REAL(1. / IMU_ACCEL_X_SENS));
     private static final double NPS_ACCEL_SENSITIVITY_YY = (IMU_ACCEL_Y_SIGN * PprzAlgebraInt.ACCEL_BFP_OF_REAL(1. / IMU_ACCEL_Y_SENS));
     private static final double NPS_ACCEL_SENSITIVITY_ZZ = (IMU_ACCEL_Z_SIGN * PprzAlgebraInt.ACCEL_BFP_OF_REAL(1. / IMU_ACCEL_Z_SENS));
     //
-    private static final int NPS_ACCEL_NEUTRAL_X = IMU_ACCEL_X_NEUTRAL;
-    private static final int NPS_ACCEL_NEUTRAL_Y = IMU_ACCEL_Y_NEUTRAL;
-    private static final int NPS_ACCEL_NEUTRAL_Z = IMU_ACCEL_Z_NEUTRAL;
+    private static final double NPS_ACCEL_NEUTRAL_X = IMU_ACCEL_X_NEUTRAL;
+    private static final double NPS_ACCEL_NEUTRAL_Y = IMU_ACCEL_Y_NEUTRAL;
+    private static final double NPS_ACCEL_NEUTRAL_Z = IMU_ACCEL_Z_NEUTRAL;
     ///* m2s-4 */
     private static final double NPS_ACCEL_NOISE_STD_DEV_X = 5.e-2;
     private static final double NPS_ACCEL_NOISE_STD_DEV_Y = 5.e-2;
     private static final double NPS_ACCEL_NOISE_STD_DEV_Z = 5.e-2;
     ///* ms-2 */
-    private static final int NPS_ACCEL_BIAS_X = 0;
-    private static final int NPS_ACCEL_BIAS_Y = 0;
-    private static final int NPS_ACCEL_BIAS_Z = 0;
+    private static final double NPS_ACCEL_BIAS_X = 0;
+    private static final double NPS_ACCEL_BIAS_Y = 0;
+    private static final double NPS_ACCEL_BIAS_Z = 0;
     ///* s */
     private static final double NPS_ACCEL_DT = (1. / 512.);
 
@@ -64,7 +64,7 @@ public class JniAccelSensor extends ISensor<AccelerometerReading> {
         if(time<data.getNext_update())
             return;
 
-        RMat<Double> bodyToImu = new RMat<>();
+        RMat<Double> bodyToImu = RMat.RMatDouble();
         for(int i = 0; i<3; i++)
             for(int j = 0; j<3 ; j++)
                 bodyToImu.setElement(JniFdm.getFdmBodyToImu(i,j),i,j);
@@ -113,13 +113,13 @@ public class JniAccelSensor extends ISensor<AccelerometerReading> {
     public void init() {
         data = new AccelerometerReading();
         Vect3<Double> value = new Vect3<>();
-        PprzAlgebra.VECT3_ASSIGN(value, 0, 0, 0);
+        PprzAlgebra.VECT3_ASSIGN(value, 0.d, 0.d, 0.d);
         data.setValue(value);
 
         data.setMin(NPS_ACCEL_MIN);
         data.setMax(NPS_ACCEL_MAX);
 
-        Mat33<Double> sensitivity = new Mat33<>();
+        Mat33<Double> sensitivity = Mat33.Mat33Double();
         PprzAlgebra.MAT33_DIAG(sensitivity, NPS_ACCEL_SENSITIVITY_XX, NPS_ACCEL_SENSITIVITY_YY, NPS_ACCEL_SENSITIVITY_ZZ);
         data.setSensitivity(sensitivity);
 

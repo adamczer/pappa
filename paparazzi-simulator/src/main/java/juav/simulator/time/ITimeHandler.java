@@ -15,7 +15,7 @@ public interface ITimeHandler {
      * returns the current simulation time for the system to use
      * @return
      */
-    DateTime getTime();
+    double getTime();
 
     /**
      * Set the factor for wich the time is scaled for the system time

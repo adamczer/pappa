@@ -9,4 +9,10 @@ public class NativeTasks {
     public static native void fdmRunStep();
     public static native void sensorsRunStep(double simTime);
     public static native void autoPilotRunStep(double simTime);
+    public static native void npsAutopilotRunStepRadio(double simTime);
+    public static native void npsAutopilotRunStepOverwriteIns();
+    public static native void npsAutopilotRunStepOverwriteAhrs();
+    public static native void npsAutopilotRunStepHandelPeriodicTasks();
+    public static native void npsAutopilotRunStepConvertMotorMixingCommandsToAutopilotCommands();
+
 }

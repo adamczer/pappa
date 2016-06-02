@@ -1,55 +1,48 @@
 package juav.autopilot;
 
 import juav.autopilot.gps.GpsSimNps;
-import juav.autopilot.imu.ImuNps;
+import juav.autopilot.imu.JniImuNps;
 import juav.simulator.tasks.PeriodicTask;
-import juav.simulator.tasks.sensors.readings.BarometricReading;
-import juav.simulator.tasks.sensors.readings.GpsReading;
-import juav.simulator.tasks.sensors.readings.GyroReading;
-import juav.simulator.tasks.sensors.readings.MagneticReading;
+import juav.simulator.tasks.sensors.device.jni.JniAccelSensor;
+import juav.simulator.tasks.sensors.device.jni.JniGpsSensor;
+import juav.simulator.tasks.sensors.device.jni.JniGyroSensor;
+import juav.simulator.tasks.sensors.device.jni.JniMagSensor;
 import ub.cse.juav.jni.nps.PaparazziNps;
-import ub.juav.airborne.math.structs.orientation.OrientationReps;
+import ub.cse.juav.jni.tasks.NativeTasks;
 
 /**
  * Created by adamczer on 5/30/16.
  */
 public class NpsAutoPilotRotorCraft extends PeriodicTask {
-    OrientationReps orientation;
-
-    BarometricReading barometricReading;
-    GyroReading gyroReading;
-    MagneticReading magneticReading;
-    GpsReading gpsReading;
-
-    ImuNps imuNps;
+    JniGyroSensor gyroSensor;
+    JniMagSensor magSensor;
+    JniGpsSensor gpsSensor;
+    JniAccelSensor accelSensor;
+    JniImuNps jniImuNps;
     GpsSimNps gpsSimNps;
 
     @Override
     public void execute() {
         double time = PaparazziNps.getNpsMainSimTime();
-        nps_autopilot_run_step(time);
+        npsAutopilotRunStep(time);
     }
 
-    private void nps_autopilot_run_step(double time) {
+    private void npsAutopilotRunStep(double time) {
 
             //Not needed it should decrement battery
-            // Actually not implemented in paparazzi
 //            nps_electrical_run_step(time);
 
-//            #if RADIO_CONTROL && !RADIO_CONTROL_TYPE_DATALINK
-            if (nps_radio_control_available(time)) {
-                radio_control_feed();
-                main_event();
-            }
-//            #endif
 
-            if (gyroReading.isData_available()) {
-                imuNps.imu_feed_gyro_accel();
+        NativeTasks.npsAutopilotRunStepRadio(time);
+
+            if (gyroSensor.getData().isData_available()) {
+                jniImuNps.imuFeedGyro(gyroSensor.getData());
+                jniImuNps.imuFeedAccel(accelSensor.getData());
                 main_event();
             }
 
-            if (magneticReading.isData_available()) {
-                imuNps.imu_feed_mag();
+            if (magSensor.getData().isData_available()) {
+                jniImuNps.imuFeedMag(magSensor.getData());
                 main_event();
             }
 
@@ -73,32 +66,25 @@ public class NpsAutoPilotRotorCraft extends PeriodicTask {
 //            }
 //            #endif
 
-            if (gpsReading.isData_available()) {
-                gpsSimNps.gps_feed_value();
+            if (gpsSensor.getData().isData_available()) {
+                gpsSimNps.gpsFeedValue(gpsSensor.getData());
                 main_event();
             }
 
 
-//  These were skipped for config.
-//            if (nps_bypass_ahrs) {
-//                sim_overwrite_ahrs();
-//            }
-//
-//            if (nps_bypass_ins) {
-//                sim_overwrite_ins();
-//            }
 
-            handle_periodic_tasks();
+        NativeTasks.npsAutopilotRunStepOverwriteAhrs();
 
-  /* scale final motor commands to 0-1 for feeding the fdm */
-            for (uint8_t i = 0; i < NPS_COMMANDS_NB; i++) {
-                autopilot.commands[i] = (double)motor_mixing.commands[i] / MAX_PPRZ;
-            }
+        NativeTasks.npsAutopilotRunStepOverwriteIns();
+
+        NativeTasks.npsAutopilotRunStepHandelPeriodicTasks();
+
+        NativeTasks.npsAutopilotRunStepConvertMotorMixingCommandsToAutopilotCommands();
 
     }
 
     private void main_event() {
-
+        PaparazziNps.mainEvent();
     }
 
 
@@ -106,5 +92,29 @@ public class NpsAutoPilotRotorCraft extends PeriodicTask {
     @Override
     public void init() {
 
+    }
+
+    public void setGyroSensor(JniGyroSensor gyroSensor) {
+        this.gyroSensor = gyroSensor;
+    }
+
+    public void setMagSensor(JniMagSensor magSensor) {
+        this.magSensor = magSensor;
+    }
+
+    public void setGpsSensor(JniGpsSensor gpsSensor) {
+        this.gpsSensor = gpsSensor;
+    }
+
+    public void setAccelSensor(JniAccelSensor accelSensor) {
+        this.accelSensor = accelSensor;
+    }
+
+    public void setJniImuNps(JniImuNps jniImuNps) {
+        this.jniImuNps = jniImuNps;
+    }
+
+    public void setGpsSimNps(GpsSimNps gpsSimNps) {
+        this.gpsSimNps = gpsSimNps;
     }
 }

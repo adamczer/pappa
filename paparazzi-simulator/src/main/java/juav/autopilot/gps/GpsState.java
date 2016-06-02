@@ -28,7 +28,7 @@ public class GpsState {
     long tow;                  ///< GPS time of week in ms
 
     short nb_channels;           ///< Number of scanned satellites
-    struct SVinfo svinfos[GPS_NB_CHANNELS]; ///< holds information from the Space Vehicles (Satellites)
+//    struct SVinfo svinfos[GPS_NB_CHANNELS]; ///< holds information from the Space Vehicles (Satellites)
 
     long last_3dfix_ticks;     ///< cpu time ticks at last valid 3D fix
     long last_3dfix_time;      ///< cpu time in sec at last valid 3D fix

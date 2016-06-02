@@ -9,14 +9,6 @@ extern "C" {
 #endif
 /*
  * Class:     ub_cse_juav_jni_fdm_JniFdm
- * Method:    FGFDMExecInit
- * Signature: ()V
- */
-JNIEXPORT void JNICALL Java_ub_cse_juav_jni_fdm_JniFdm_FGFDMExecInit
-  (JNIEnv *, jclass);
-
-/*
- * Class:     ub_cse_juav_jni_fdm_JniFdm
  * Method:    getFdmBodyInertialRotVelP
  * Signature: ()D
  */
@@ -130,7 +122,7 @@ JNIEXPORT jdouble JNICALL Java_ub_cse_juav_jni_fdm_JniFdm_getFdmLtpHZ
 /*
  * Class:     ub_cse_juav_jni_fdm_JniFdm
  * Method:    getHmsl
- * Signature: ()F
+ * Signature: ()D
  */
 JNIEXPORT jdouble JNICALL Java_ub_cse_juav_jni_fdm_JniFdm_getHmsl
   (JNIEnv *, jclass);

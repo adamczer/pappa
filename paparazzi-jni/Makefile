@@ -12,12 +12,18 @@ PAPA_OBJS := $(addprefix $(ROOT)/bin/,$(notdir $(PAPA_SRCS:.c=.o)))
 OUTPUT_DIR=$(ROOT)/bin
 
 CFLAGS=-I$(PPRZ_HOME)/modules -I$(PPRZ_HOME)/arch/sim/modules \
+	   -I$(PPRZ_HOME)/sw/include/ \
 	   -I$(PPRZ_HOME)/firmwares/rotorcraft -I$(PPRZ_HOME)/boards/pc \
-	   -I$(PPRZ_HOME)/arch/linux \
+	   -I$(PPRZ_HOME)/sw/airborne/arch/sim \
 	   -I$(PPRZ_HOME)/boards/pc -I$(PPRZ_HOME)/sw/simulator \
 	   -I$(PPRZ_HOME)/sw/simulator/nps \
-	   -I$(PPRZ_HOME)/conf/simulator/nps -I$(PPRZ_HOME)/firmwares/rotorcraft \
-	   -I$(PPRZ_HOME)/sw/include/ -I$(PPRZ_HOME)/sw/airborne/ \
+	   -I$(PPRZ_HOME)/conf/simulator/nps \
+	   -I$(PPRZ_HOME)/sw/airborne/firmwares/rotorcraft \
+	   -I$(PPRZ_HOME)/sw/airborne \
+	   -I$(PPRZ_HOME)/sw/airborne/subsystems/imu \
+	   -I$(PPRZ_HOME)/var/aircrafts/Quad_LisaM_2/nps/generated \
+	   -I$(PPRZ_HOME)/var/aircrafts/Quad_LisaM_2/nps \
+	   -I$(PPRZ_HOME)/sw/airborne/ \
 	   -I/usr/include/JSBSim -I/usr/lib/x86_64-linux-gnu/glib-2.0/include \
 	   -I/usr/include/glib-2.0 -DBOARD_CONFIG="$(PPRZ_HOME)/sw/airborne/boards/pc_sim.h" \
 	   -L./libs/

@@ -1,5 +1,6 @@
 package juav.simulator.tasks.sensors.readings;
 
+import ub.juav.airborne.math.functions.algebra.PprzAlgebra;
 import ub.juav.airborne.math.structs.algebra.Vect3;
 import ub.juav.airborne.math.structs.geodetic.EcefCoor;
 import ub.juav.airborne.math.structs.geodetic.LlaCoor;
@@ -8,7 +9,7 @@ import ub.juav.airborne.math.structs.geodetic.LlaCoor;
  * Created by adamczer on 2/29/16.
  */
 public class GpsReading {
-    EcefCoor<Double> ecef_pos;
+    EcefCoor<Double> ecef_pos ;
     EcefCoor<Double> ecef_vel;
     LlaCoor<Double>  lla_pos;
     double hmsl;
@@ -25,6 +26,38 @@ public class GpsReading {
 //    GSList *speed_history;TODO I dont think this is used
     double next_update;
     boolean data_available;
+
+    public GpsReading() {
+        ecef_pos = new EcefCoor<>();
+        PprzAlgebra.VECT3_ASSIGN(ecef_pos,0.d,0.d,0.d);
+        ecef_vel = new EcefCoor<>();
+        PprzAlgebra.VECT3_ASSIGN(ecef_vel,0.d,0.d,0.d);
+        lla_pos = new LlaCoor<>();
+        lla_pos.setAlt(0.d);
+        lla_pos.setLat(0.d);
+        lla_pos.setLon(0.d);
+
+        double hmsl = 0.d;
+        pos_noise_std_dev = new Vect3<>();
+        PprzAlgebra.VECT3_ASSIGN(pos_noise_std_dev,0.d,0.d,0.d);
+        speed_noise_std_dev = new Vect3<>();
+        PprzAlgebra.VECT3_ASSIGN(speed_noise_std_dev,0.d,0.d,0.d);
+
+        pos_bias_initial = new Vect3<>();
+        PprzAlgebra.VECT3_ASSIGN(pos_bias_initial,0.d,0.d,0.d);
+        pos_bias_random_walk_std_dev = new Vect3<>();
+        PprzAlgebra.VECT3_ASSIGN(pos_bias_random_walk_std_dev,0.d,0.d,0.d);
+        pos_bias_random_walk_value = new Vect3<>();
+        PprzAlgebra.VECT3_ASSIGN(pos_bias_random_walk_value,0.d,0.d,0.d);
+        double pos_latency = 0.d;
+        double speed_latency = 0.d;
+//    GSList *hmsl_history; TODO I dont think this is used
+//    GSList *pos_history;  TODO I dont think this is used
+//    GSList *lla_history;  TODO I dont think this is used
+//    GSList *speed_history;TODO I dont think this is used
+        double next_update = 0.d;
+        boolean data_available = false;
+    }
 
     public EcefCoor<Double> getEcef_pos() {
         return ecef_pos;

@@ -24,6 +24,7 @@ package ub.juav.airborne.math.functions.geodetic;
 
 import ub.juav.airborne.math.functions.algebra.PprzAlgebra;
 import ub.juav.airborne.math.structs.algebra.Vect2;
+import ub.juav.airborne.math.structs.algebra.Vect3;
 import ub.juav.airborne.math.structs.geodetic.*;
 import ub.juav.airborne.math.util.Constants;
 
@@ -61,7 +62,7 @@ public class PprzGeodeticDouble {
     }
 
     /* http://en.wikipedia.org/wiki/Geodetic_system */
-    public static void lla_of_ecef_d(LlaCoor<Double> lla, EcefCoor<Double> ecef)
+    public static void lla_of_ecef_d(LlaCoor<Double> lla, Vect3<Double> ecef)
     {
 
         // FIXME : make an ellipsoid struct

@@ -14,9 +14,9 @@ import ub.juav.airborne.math.structs.algebra.*;
  */
 public class JniMagSensor extends ISensor<MagneticReading> {
 
-    private static final int IMU_MAG_X_SIGN = 1;//imu_b2.h
-    private static final int IMU_MAG_Y_SIGN = -1;//imu_b2.h
-    private static final int IMU_MAG_Z_SIGN = -1;//imu_b2.h
+    private static final double IMU_MAG_X_SIGN = 1;//imu_b2.h
+    private static final double IMU_MAG_Y_SIGN = -1;//imu_b2.h
+    private static final double IMU_MAG_Z_SIGN = -1;//imu_b2.h
 
     private static final double IMU_MAG_X_SENS =4.17334785618;//airframe.h
     private static final double IMU_MAG_Y_SENS =3.98885954135;//airframe.h
@@ -37,9 +37,9 @@ public class JniMagSensor extends ISensor<MagneticReading> {
     private static final double NPS_MAG_IMU_TO_SENSOR_THETA = 0.;
     private static final double NPS_MAG_IMU_TO_SENSOR_PSI = 0.;
 
-    private static final int NPS_MAG_SENSITIVITY_XX = (IMU_MAG_X_SIGN*PprzAlgebraInt.MAG_BFP_OF_REAL(1./IMU_MAG_X_SENS));
-    private static final int NPS_MAG_SENSITIVITY_YY = (IMU_MAG_Y_SIGN*PprzAlgebraInt.MAG_BFP_OF_REAL(1./IMU_MAG_Y_SENS));
-    private static final int NPS_MAG_SENSITIVITY_ZZ = (IMU_MAG_Z_SIGN*PprzAlgebraInt.MAG_BFP_OF_REAL(1./IMU_MAG_Z_SENS));
+    private static final double NPS_MAG_SENSITIVITY_XX = (IMU_MAG_X_SIGN*PprzAlgebraInt.MAG_BFP_OF_REAL(1./IMU_MAG_X_SENS));
+    private static final double NPS_MAG_SENSITIVITY_YY = (IMU_MAG_Y_SIGN*PprzAlgebraInt.MAG_BFP_OF_REAL(1./IMU_MAG_Y_SENS));
+    private static final double NPS_MAG_SENSITIVITY_ZZ = (IMU_MAG_Z_SIGN*PprzAlgebraInt.MAG_BFP_OF_REAL(1./IMU_MAG_Z_SENS));
 
     private static final int  NPS_MAG_NEUTRAL_X = IMU_MAG_X_NEUTRAL;
     private static final int  NPS_MAG_NEUTRAL_Y = IMU_MAG_Y_NEUTRAL;
@@ -60,7 +60,7 @@ public class JniMagSensor extends ISensor<MagneticReading> {
             return;
 
         //TODO refactor this to be object updated prior to mag,gyro,accel and set on these sesors.
-        RMat<Double> bodyToImu = new RMat<>();
+        RMat<Double> bodyToImu = RMat.RMatDouble();
         for(int i = 0; i<3; i++)
             for(int j = 0; j<3 ; j++)
                 bodyToImu.setElement(JniFdm.getFdmBodyToImu(i,j),i,j);
@@ -107,13 +107,13 @@ public class JniMagSensor extends ISensor<MagneticReading> {
         data = new MagneticReading();
 
         Vect3<Double> value = new Vect3<>();
-        PprzAlgebra.VECT3_ASSIGN(value, 0, 0, 0);
+        PprzAlgebra.VECT3_ASSIGN(value, 0.d, 0.d, 0.d);
         data.setValue(value);
 
         data.setMin(NPS_MAG_MIN);
         data.setMax(NPS_MAG_MAX);
 
-        Mat33<Double> sensitivity = new Mat33<>();
+        Mat33<Double> sensitivity = Mat33.Mat33Double();
         PprzAlgebra.MAT33_DIAG( sensitivity, NPS_MAG_SENSITIVITY_XX, NPS_MAG_SENSITIVITY_YY, NPS_MAG_SENSITIVITY_ZZ);
         data.setSensitivity(sensitivity);
 
@@ -129,7 +129,7 @@ public class JniMagSensor extends ISensor<MagneticReading> {
         imu_to_sensor_eulers.setPhi(NPS_MAG_IMU_TO_SENSOR_PHI);
         imu_to_sensor_eulers.setTheta(NPS_MAG_IMU_TO_SENSOR_THETA);
         imu_to_sensor_eulers.setPsi(NPS_MAG_IMU_TO_SENSOR_PSI);
-        RMat<Double> imu_to_sensor_rmat = new RMat<>();
+        RMat<Double> imu_to_sensor_rmat = RMat.RMatDouble();
         PprzAlgebraDouble.double_rmat_of_eulers(imu_to_sensor_rmat, imu_to_sensor_eulers);
         data.setImu_to_sensor_rmat(imu_to_sensor_rmat);
 

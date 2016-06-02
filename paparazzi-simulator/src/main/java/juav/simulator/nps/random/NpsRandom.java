@@ -52,7 +52,7 @@ public class NpsRandom {
         Vect3<Double> drw = new Vect3<>();
         double_vect3_get_gaussian_noise(drw, std_dev);
         Vect3<Double> tmp = new Vect3<>();
-        PprzAlgebra.VECT3_SMUL(tmp, rw, (-1. / thau));
+        PprzAlgebra.VECT3_SMUL(tmp, rw, (-1.d / thau));
         PprzAlgebra.VECT3_ADD(drw, tmp);
         PprzAlgebra.VECT3_SMUL(drw, drw, dt);
         PprzAlgebra.VECT3_ADD(rw, drw);

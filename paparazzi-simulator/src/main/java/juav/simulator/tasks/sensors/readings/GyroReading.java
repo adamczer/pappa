@@ -8,8 +8,8 @@ import ub.juav.airborne.math.structs.algebra.Vect3;
  */
 public class GyroReading {
     Vect3<Double> value;
-    int min;
-    int max;
+    double min;
+    double max;
     Mat33<Double> sensitivity;
     Vect3<Double> neutral;
     Vect3<Double> noise_std_dev;
@@ -27,19 +27,19 @@ public class GyroReading {
         this.value = value;
     }
 
-    public int getMin() {
+    public double getMin() {
         return min;
     }
 
-    public void setMin(int min) {
+    public void setMin(double min) {
         this.min = min;
     }
 
-    public int getMax() {
+    public double getMax() {
         return max;
     }
 
-    public void setMax(int max) {
+    public void setMax(double max) {
         this.max = max;
     }
 

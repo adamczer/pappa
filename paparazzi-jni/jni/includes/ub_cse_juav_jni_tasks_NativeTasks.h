@@ -47,6 +47,46 @@ JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_sensorsRunStep
 JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_autoPilotRunStep
   (JNIEnv *, jclass, jdouble);
 
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    npsAutopilotRunStepRadio
+ * Signature: (D)V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_npsAutopilotRunStepRadio
+  (JNIEnv *, jclass, jdouble);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    npsAutopilotRunStepOverwriteIns
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_npsAutopilotRunStepOverwriteIns
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    npsAutopilotRunStepOverwriteAhrs
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_npsAutopilotRunStepOverwriteAhrs
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    npsAutopilotRunStepHandelPeriodicTasks
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_npsAutopilotRunStepHandelPeriodicTasks
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    npsAutopilotRunStepConvertMotorMixingCommandsToAutopilotCommands
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_npsAutopilotRunStepConvertMotorMixingCommandsToAutopilotCommands
+  (JNIEnv *, jclass);
+
 #ifdef __cplusplus
 }
 #endif

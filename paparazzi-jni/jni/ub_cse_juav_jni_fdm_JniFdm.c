@@ -1,19 +1,7 @@
 #include <jni.h>
 #include <stdio.h>
 #include "ub_cse_juav_jni_fdm_JniFdm.h"
-#include <FGFDMExec.h>
-
-using namespace JSBSim;
-using namespace std;
-
-static FGFDMExec *FDMExec;
-//TODO remove not used
-JNIEXPORT void JNICALL Java_ub_cse_juav_jni_fdm_JniFdm_FGFDMExecInit
-  (JNIEnv *env, jclass thisClass) {
-    printf("This is a Test!\n");
-    FDMExec = new FGFDMExec();
-  	return;
-  }
+#include <nps_main.h>
   
   ///////////////////////////////////////////
   JNIEXPORT jdouble JNICALL Java_ub_cse_juav_jni_fdm_JniFdm_getFdmBodyInertialRotVelP
@@ -47,28 +35,28 @@ JNIEXPORT void JNICALL Java_ub_cse_juav_jni_fdm_JniFdm_FGFDMExecInit
     }
 
   JNIEXPORT jdouble JNICALL Java_ub_cse_juav_jni_fdm_JniFdm_getFdmBodyToImu
-    (JNIEnv *env, jclass, jint row, jint col) {
+    (JNIEnv *env, jclass thisClass , jint row, jint col) {
     	return get_fdm_body_to_imu_juav(row,col);
     }
 
   JNIEXPORT jdouble JNICALL Java_ub_cse_juav_jni_fdm_JniFdm_getFdmLtpToBodyQuatQi
     (JNIEnv *env, jclass thisClass) {
-		return get_fdm_ltp_to_body_quat_qi_juav()
+		return get_fdm_ltp_to_body_quat_qi_juav();
     }
 
   JNIEXPORT jdouble JNICALL Java_ub_cse_juav_jni_fdm_JniFdm_getFdmLtpToBodyQuatQx
     (JNIEnv *env, jclass thisClass) {
-		return get_fdm_ltp_to_body_quat_qx_juav()
+		return get_fdm_ltp_to_body_quat_qx_juav();
     }
 
   JNIEXPORT jdouble JNICALL Java_ub_cse_juav_jni_fdm_JniFdm_getFdmLtpToBodyQuatQy
     (JNIEnv *env, jclass thisClass) {
-		return get_fdm_ltp_to_body_quat_qy_juav()
+		return get_fdm_ltp_to_body_quat_qy_juav();
     }
 
   JNIEXPORT jdouble JNICALL Java_ub_cse_juav_jni_fdm_JniFdm_getFdmLtpToBodyQuatQz
     (JNIEnv *env, jclass thisClass) {
-		return get_fdm_ltp_to_body_quat_qz_juav()
+		return get_fdm_ltp_to_body_quat_qz_juav();
     }
 
   JNIEXPORT jdouble JNICALL Java_ub_cse_juav_jni_fdm_JniFdm_getFdmLtpHX

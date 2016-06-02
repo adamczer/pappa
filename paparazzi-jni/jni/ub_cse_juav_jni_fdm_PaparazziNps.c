@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "ub_cse_juav_jni_nps_PaparazziNps.h"
 #include <nps_main.h>
+#include <main.h>
 
 #include <nps_fdm.h>
 
@@ -79,4 +80,9 @@ JNIEXPORT void JNICALL Java_ub_cse_juav_jni_nps_PaparazziNps_setNpsMainDisplayTi
       (JNIEnv *env, jclass thisClass) {
         return fake_nps_main_periodic();
       }
+
+  JNIEXPORT void JNICALL Java_ub_cse_juav_jni_nps_PaparazziNps_mainEvent
+    (JNIEnv *env, jclass thisClass) {
+    	main_event_juav();
+    }
 

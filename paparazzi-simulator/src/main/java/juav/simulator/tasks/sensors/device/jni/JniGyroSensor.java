@@ -17,14 +17,14 @@ import ub.juav.airborne.math.util.UtilityFunctions;
  * Created by adamczer on 5/23/16.
  */
 public class JniGyroSensor extends ISensor<GyroReading> {
-    private static final int NPS_GYRO_MIN = -2047;
-    private static final int NPS_GYRO_MAX = 2047;
+    private static final double NPS_GYRO_MIN = -2047;
+    private static final double NPS_GYRO_MAX = 2047;
     private static final double IMU_GYRO_P_SENS = 4.359; //imu_nps.h
     private static final double IMU_GYRO_Q_SENS = 4.359; //imu_nps.h
     private static final double IMU_GYRO_R_SENS = 4.359; //imu_nps.h
-    private static final int NPS_GYRO_SENSITIVITY_PP = PprzAlgebraInt.RATE_BFP_OF_REAL(1. / IMU_GYRO_P_SENS);
-    private static final int NPS_GYRO_SENSITIVITY_QQ = PprzAlgebraInt.RATE_BFP_OF_REAL(1. / IMU_GYRO_Q_SENS);
-    private static final int NPS_GYRO_SENSITIVITY_RR = PprzAlgebraInt.RATE_BFP_OF_REAL(1. / IMU_GYRO_R_SENS);
+    private static final double NPS_GYRO_SENSITIVITY_PP = PprzAlgebraInt.RATE_BFP_OF_REAL(1. / IMU_GYRO_P_SENS);
+    private static final double NPS_GYRO_SENSITIVITY_QQ = PprzAlgebraInt.RATE_BFP_OF_REAL(1. / IMU_GYRO_Q_SENS);
+    private static final double NPS_GYRO_SENSITIVITY_RR = PprzAlgebraInt.RATE_BFP_OF_REAL(1. / IMU_GYRO_R_SENS);
 
     private static final int IMU_GYRO_Q_NEUTRAL =0;//imu_analog.h
     private static final int IMU_GYRO_R_NEUTRAL =0;//imu_analog.h
@@ -54,7 +54,7 @@ public class JniGyroSensor extends ISensor<GyroReading> {
         if(time<data.getNext_update())
             return;
 
-        RMat<Double> bodyToImu = new RMat<>();
+        RMat<Double> bodyToImu = RMat.RMatDouble();
         for(int i = 0; i<3; i++)
             for(int j = 0; j<3 ; j++)
                 bodyToImu.setElement(JniFdm.getFdmBodyToImu(i,j),i,j);
@@ -101,7 +101,8 @@ public class JniGyroSensor extends ISensor<GyroReading> {
         data = new GyroReading();
         data.setMin(NPS_GYRO_MIN);
         data.setMax(NPS_GYRO_MAX);
-        Mat33<Double> sensitivity = new Mat33<>();
+        Mat33<Double> sensitivity = Mat33.Mat33Double();
+
         PprzAlgebra.MAT33_DIAG(sensitivity, NPS_GYRO_SENSITIVITY_PP, NPS_GYRO_SENSITIVITY_QQ, NPS_GYRO_SENSITIVITY_RR);
         data.setSensitivity(sensitivity);
 
@@ -122,9 +123,13 @@ public class JniGyroSensor extends ISensor<GyroReading> {
         data.setBias_random_walk_std_dev(bias_random_walk_std_dev);
 
         Vect3<Double> bias_random_walk_value = new Vect3<>();
-        PprzAlgebra.VECT3_ASSIGN(bias_random_walk_value,0,0,0);
+        PprzAlgebra.VECT3_ASSIGN(bias_random_walk_value,0.d,0.d,0.d);
         data.setBias_random_walk_value(bias_random_walk_value);
         data.setNext_update(0);//initial start should be at 0
         data.setData_available(false);
+
+        Vect3<Double> value = new Vect3<>();
+        PprzAlgebra.VECT3_ASSIGN(value,0.d,0.d,0.d);
+        data.setValue(value);
     }
 }

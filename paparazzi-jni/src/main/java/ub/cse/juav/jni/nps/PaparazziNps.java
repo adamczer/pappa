@@ -29,4 +29,8 @@ public class PaparazziNps {
     public static native void setNpsMainDisplayTime(double newDisplayTime);
 
 
+    // mainEvent function located within the rotorcraft`s main.c
+    public static native void mainEvent();
+
+
 }

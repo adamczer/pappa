@@ -27,7 +27,14 @@ package ub.juav.airborne.math.structs.algebra;
  * Created by adamczer on 7/15/15.
  */
 public class Mat33<T extends Number> extends MatNxN<T>{
-    public Mat33() {
-        setMatrix((T[][])new Number[3][3]);
+    public Mat33() {}
+
+    public static Mat33<Double> Mat33Double() {
+        Mat33<Double> ret = new Mat33<>();
+        ret.setMatrix(new Double[3][3]);
+        for(int i = 0; i<3;i++)
+            for(int j = 0; j<3;j++)
+                ret.getMatrix()[i][j]=0.d;
+        return ret;
     }
 }

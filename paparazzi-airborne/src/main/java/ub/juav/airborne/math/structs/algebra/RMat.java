@@ -27,6 +27,14 @@ package ub.juav.airborne.math.structs.algebra;
  * Created by adamczer on 7/15/15.
  */
 public class RMat<T extends Number> extends Mat33<T> {
+    public static RMat<Double> RMatDouble() {
+        RMat<Double> ret = new RMat<>();
+        ret.setMatrix(new Double[3][3]);
+        for(int i = 0; i<3;i++)
+            for(int j = 0; j<3;j++)
+                ret.getMatrix()[i][j]=0.d;
+        return ret;
+    }
     public void setFlattendElement(int index, T val) {
         int x=-1,y=-1;
         int count = 0;

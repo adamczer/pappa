@@ -63,7 +63,7 @@ public class JniGpsSensor extends ISensor<GpsReading> {
   /* add a gaussian noise */
         NpsRandom.double_vect3_add_gaussian_noise(pos_error, data.getSpeed_noise_std_dev());
   /* update random walk bias and add it to error*/
-        NpsRandom.double_vect3_update_random_walk(data.getPos_bias_random_walk_value(), data.getPos_bias_random_walk_std_dev(), NPS_GPS_DT, 5.);
+        NpsRandom.double_vect3_update_random_walk(data.getPos_bias_random_walk_value(), data.getPos_bias_random_walk_std_dev(), NPS_GPS_DT, 5.d);
         PprzAlgebra.VECT3_ADD(pos_error, data.getPos_bias_random_walk_value());
 
   /* add error to current pos reading */
@@ -83,7 +83,7 @@ public class JniGpsSensor extends ISensor<GpsReading> {
    */
   /* convert current ecef reading to lla */
         LlaCoor<Double> cur_lla_reading = new LlaCoor<>();
-        PprzGeodeticDouble.lla_of_ecef_d(cur_lla_reading, (EcefCoor<Double>) cur_pos_reading);
+        PprzGeodeticDouble.lla_of_ecef_d(cur_lla_reading, cur_pos_reading);
 
   /* store that for later and retrieve a previously stored data */
         //TODO is this required????
@@ -102,14 +102,14 @@ public class JniGpsSensor extends ISensor<GpsReading> {
         data = new GpsReading();
 
         EcefCoor<Double> ecef_pos = new EcefCoor<>();
-        PprzAlgebra.VECT3_ASSIGN(ecef_pos, 0, 0, 0);
+        PprzAlgebra.VECT3_ASSIGN(ecef_pos, 0.d, 0.d, 0.d);
         data.setEcef_pos(ecef_pos);
 
         EcefCoor<Double> ecef_vel = new EcefCoor<>();
-        PprzAlgebra.VECT3_ASSIGN(ecef_vel, 0, 0, 0);
+        PprzAlgebra.VECT3_ASSIGN(ecef_vel, 0.d, 0.d, 0.d);
         data.setEcef_vel(ecef_vel);
 
-        data.setHmsl(0.0);
+        data.setHmsl(0.d);
         data.setPos_latency(NPS_GPS_POS_LATENCY);
         data.setSpeed_latency(NPS_GPS_SPEED_LATENCY);
 
@@ -131,10 +131,11 @@ public class JniGpsSensor extends ISensor<GpsReading> {
         data.setPos_bias_random_walk_std_dev(pos_bias_random_walk_std_dev);
 
         Vect3<Double> pos_bias_random_walk_value = new Vect3<>();
-        PprzAlgebra.VECT3_ASSIGN(pos_bias_random_walk_value, 0, 0, 0);
+        PprzAlgebra.VECT3_ASSIGN(pos_bias_random_walk_value, 0.d, 0.d, 0.d);
         data.setPos_bias_random_walk_value(pos_bias_random_walk_value);
 
         data.setNext_update(0);
         data.setData_available(false);
+        PprzAlgebra.VECT3_ASSIGN(data.getPos_bias_random_walk_value(),0.d,0.d,0.d);
     }
 }

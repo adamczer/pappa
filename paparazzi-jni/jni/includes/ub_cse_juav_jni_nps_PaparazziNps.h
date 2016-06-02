@@ -105,18 +105,10 @@ JNIEXPORT void JNICALL Java_ub_cse_juav_jni_nps_PaparazziNps_setNpsMainDisplayTi
 
 /*
  * Class:     ub_cse_juav_jni_nps_PaparazziNps
- * Method:    npsMainRunSimStepTest
+ * Method:    mainEvent
  * Signature: ()V
  */
-JNIEXPORT void JNICALL Java_ub_cse_juav_jni_nps_PaparazziNps_npsMainRunSimStepTest
-  (JNIEnv *, jclass);
-
-/*
- * Class:     ub_cse_juav_jni_nps_PaparazziNps
- * Method:    fakeNpsPeriodic
- * Signature: ()I
- */
-JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_nps_PaparazziNps_fakeNpsPeriodic
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_nps_PaparazziNps_mainEvent
   (JNIEnv *, jclass);
 
 #ifdef __cplusplus
