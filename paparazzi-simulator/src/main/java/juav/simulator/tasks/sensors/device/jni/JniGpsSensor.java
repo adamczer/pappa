@@ -6,6 +6,7 @@ import juav.simulator.tasks.sensors.readings.GpsReading;
 import ub.cse.juav.jni.fdm.JniFdm;
 import ub.cse.juav.jni.gps.GpsNative;
 import ub.cse.juav.jni.nps.PaparazziNps;
+import ub.cse.juav.jni.tasks.NativeTasks;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebra;
 import ub.juav.airborne.math.functions.geodetic.PprzGeodeticDouble;
 import ub.juav.airborne.math.structs.algebra.Vect3;
@@ -34,15 +35,17 @@ public class JniGpsSensor extends ISensor<GpsReading> {
     @Override
     protected void executePeriodic() {
         double time = PaparazziNps.getNpsMainSimTime();
+        NativeTasks.npsSensorFdmCopyGps(time);
 
-        if (time < data.getNext_update())
+        if (time < data.getNext_update()) {
             return;
+        }
 
 
   /*
    * simulate speed sensor
    */
-        Vect3<Double> cur_speed_reading = new Vect3<>();
+        EcefCoor<Double> cur_speed_reading = new EcefCoor<>();
         cur_speed_reading.setX(JniFdm.getFdmEcefEcefVelX());
         cur_speed_reading.setY(JniFdm.getFdmEcefEcefVelY());
         cur_speed_reading.setZ(JniFdm.getFdmEcefEcefVelZ());
@@ -50,6 +53,7 @@ public class JniGpsSensor extends ISensor<GpsReading> {
         NpsRandom.double_vect3_add_gaussian_noise(cur_speed_reading, data.getSpeed_noise_std_dev());
 
   /* store that for later and retrieve a previously stored data */
+        data.setEcef_vel(cur_speed_reading);
         //TODO is this required ????
 //        UpdateSensorLatency(time, &cur_speed_reading, &gps->speed_history, gps->speed_latency, &gps->ecef_vel);
         GpsNative.gps_feed_latency_speed_juav(time,cur_speed_reading.getX(),cur_speed_reading.getY(),cur_speed_reading.getZ());
@@ -62,12 +66,12 @@ public class JniGpsSensor extends ISensor<GpsReading> {
         Vect3<Double> pos_error = new Vect3<>();
         PprzAlgebra.VECT3_COPY(pos_error, data.getPos_bias_initial());
   /* add a gaussian noise */
-        NpsRandom.double_vect3_add_gaussian_noise(pos_error, data.getSpeed_noise_std_dev());
+        //NpsRandom.double_vect3_add_gaussian_noise(pos_error, data.getSpeed_noise_std_dev());
   /* update random walk bias and add it to error*/
-        NpsRandom.double_vect3_update_random_walk(data.getPos_bias_random_walk_value(), data.getPos_bias_random_walk_std_dev(), NPS_GPS_DT, 5.d);
+        //NpsRandom.double_vect3_update_random_walk(data.getPos_bias_random_walk_value(), data.getPos_bias_random_walk_std_dev(), NPS_GPS_DT, 5.d);
         PprzAlgebra.VECT3_ADD(pos_error, data.getPos_bias_random_walk_value());
-
-  /* add error to current pos reading */
+//
+//  /* add error to current pos reading */
         EcefCoor<Double> cur_pos_reading = EcefCoor.EcefCoorDouble();
         cur_pos_reading.setX(JniFdm.getFdmEcefPosX());
         cur_pos_reading.setY(JniFdm.getFdmEcefPosY());
@@ -78,12 +82,12 @@ public class JniGpsSensor extends ISensor<GpsReading> {
   /* store that for later and retrieve a previously stored data */
         //TODO is this required????
 //        UpdateSensorLatency(time, & cur_pos_reading,&gps -> pos_history, gps -> pos_latency,&gps -> ecef_pos);
-        GpsNative.gps_feed_latency_pos_juav(time,cur_pos_reading.getX(),cur_pos_reading.getY(),cur_pos_reading.getZ());
-
-  /*
-   * simulate lla pos
-   */
-  /* convert current ecef reading to lla */
+//        GpsNative.gps_feed_latency_pos_juav(time,cur_pos_reading.getX(),cur_pos_reading.getY(),cur_pos_reading.getZ());
+//
+//  /*
+//   * simulate lla pos
+//   */
+//  /* convert current ecef reading to lla */
         LlaCoor<Double> cur_lla_reading = new LlaCoor<>();
         PprzGeodeticDouble.lla_of_ecef_d(cur_lla_reading, cur_pos_reading);
         data.setLla_pos(cur_lla_reading);
@@ -91,13 +95,13 @@ public class JniGpsSensor extends ISensor<GpsReading> {
   /* store that for later and retrieve a previously stored data */
         //TODO is this required????
 //        UpdateSensorLatency(time, & cur_lla_reading,&gps -> lla_history, gps -> pos_latency,&gps -> lla_pos);
-        GpsNative.gps_feed_latency_lla_juav(time,cur_lla_reading.getLat(),cur_lla_reading.getLon(),cur_lla_reading.getAlt());
+//        GpsNative.gps_feed_latency_lla_juav(time,cur_lla_reading.getLat(),cur_lla_reading.getLon(),cur_lla_reading.getAlt());
 
         double cur_hmsl_reading = JniFdm.getHmsl();
-//        data.setHmsl(cur_hmsl_reading);
+        data.setHmsl(cur_hmsl_reading);
         //TODO is this required????
 //        UpdateSensorLatency_Single(time, & cur_hmsl_reading,&gps -> hmsl_history, gps -> pos_latency,&gps -> hmsl);
-        GpsNative.gps_feed_latency_hmsl_juav(time,cur_hmsl_reading);
+//        GpsNative.gps_feed_latency_hmsl_juav(time,cur_hmsl_reading);
 
         data.setNext_update(data.getNext_update()+NPS_GPS_DT);
         data.setData_available(true);
@@ -105,6 +109,7 @@ public class JniGpsSensor extends ISensor<GpsReading> {
 
     @Override
     public void init() {
+        NativeTasks.npsSensorInitGps(0);
         data = new GpsReading();
 
         EcefCoor<Double> ecef_pos = new EcefCoor<>();

@@ -64,3 +64,17 @@ JNIEXPORT void JNICALL Java_ub_cse_juav_jni_gps_GpsNative_gps_1feed_1latency_1hm
 	UpdateSensorLatency_Single_Hmsl(time, hmsl);
   }
 
+  JNIEXPORT void JNICALL Java_ub_cse_juav_jni_gps_GpsNative_gps_1feed_1all_1data_1juav
+    (JNIEnv *env, jclass thisClass, jint week, jdouble time,
+    jdouble ecef_pos_x, jdouble ecef_pos_y, jdouble ecef_pos_z,
+    jdouble ecef_vel_x, jdouble ecef_vel_y, jdouble ecef_vel_z,
+    jdouble lla_pos_lat, jdouble lla_pos_lon, jdouble lla_pos_alt,
+    jdouble hmsl) {
+		gps_feed_value_juav( week,  time,  ecef_pos_x,  ecef_pos_y,  ecef_pos_z,
+                                   ecef_vel_x,  ecef_vel_y,  ecef_vel_z,
+                                   lla_pos_lat,  lla_pos_lon,  lla_pos_alt,
+                                   hmsl
+        );
+    }
+
+

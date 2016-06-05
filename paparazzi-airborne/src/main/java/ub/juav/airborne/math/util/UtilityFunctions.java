@@ -61,8 +61,12 @@ public class UtilityFunctions{
     }
 
     public static float DegOfRad(float rad) {
-        return (float) (rad * (180. / Constants.M_PI));
+        return (float) (rad * (180.d / Constants.M_PI));
     }
+    public static double DegOfRad(double rad) {
+        return  (rad * (180.d / Constants.M_PI));
+    }
+
 
     public static float Bound(float _x, float _min, float _max) {
         if (_x > (_max))

@@ -4,6 +4,7 @@ import juav.simulator.tasks.sensors.ISensor;
 import juav.simulator.tasks.sensors.readings.MagneticReading;
 import ub.cse.juav.jni.fdm.JniFdm;
 import ub.cse.juav.jni.nps.PaparazziNps;
+import ub.cse.juav.jni.tasks.NativeTasks;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebra;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebraDouble;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebraInt;
@@ -55,11 +56,13 @@ public class JniMagSensor extends ISensor<MagneticReading> {
     protected void executePeriodic() {
 
         double time = PaparazziNps.getNpsMainSimTime();
+//        NativeTasks.npsSensorFdmCopyMag(time);
 
-        if(time<data.getNext_update())
+        if(time<data.getNext_update()) {
             return;
+        }
 
-        //TODO refactor this to be object updated prior to mag,gyro,accel and set on these sesors.
+//        //TODO refactor this to be object updated prior to mag,gyro,accel and set on these sesors.
         RMat<Double> bodyToImu = RMat.RMatDouble();
         for(int i = 0; i<3; i++)
             for(int j = 0; j<3 ; j++)
@@ -104,6 +107,7 @@ public class JniMagSensor extends ISensor<MagneticReading> {
 
     @Override
     public void init() {
+//        NativeTasks.npsSensorInitMag(0);
         data = new MagneticReading();
 
         Vect3<Double> value = new Vect3<>();

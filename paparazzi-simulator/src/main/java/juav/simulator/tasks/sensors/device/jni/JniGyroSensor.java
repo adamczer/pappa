@@ -5,6 +5,7 @@ import juav.simulator.tasks.sensors.ISensor;
 import juav.simulator.tasks.sensors.readings.GyroReading;
 import ub.cse.juav.jni.fdm.JniFdm;
 import ub.cse.juav.jni.nps.PaparazziNps;
+import ub.cse.juav.jni.tasks.NativeTasks;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebra;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebraDouble;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebraInt;
@@ -50,9 +51,11 @@ public class JniGyroSensor extends ISensor<GyroReading> {
     @Override
     protected void executePeriodic() {
         double time = PaparazziNps.getNpsMainSimTime();
+//        NativeTasks.npsSensorFdmCopyGyro(time);
 
-        if(time<data.getNext_update())
+        if(time<data.getNext_update()) {
             return;
+        }
 
         RMat<Double> bodyToImu = RMat.RMatDouble();
         for(int i = 0; i<3; i++)
@@ -97,6 +100,7 @@ public class JniGyroSensor extends ISensor<GyroReading> {
 
     @Override
     public void init() {
+//        NativeTasks.npsSensorInitGyro(0);
         data = new GyroReading();
         data.setMin(NPS_GYRO_MIN);
         data.setMax(NPS_GYRO_MAX);

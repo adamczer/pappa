@@ -27,28 +27,45 @@ public class NpsAutoPilotRotorCraft extends PeriodicTask {
 
     private void npsAutopilotRunStep(double time) {
 
-            //Not needed it should decrement battery
+//        System.out.println("sensors.accel = {x="+accelSensor.getData().getValue().getX()+",y="+accelSensor.getData().getValue().getY()+",z="+accelSensor.getData().getValue().getZ()+"}");
+//        System.out.println("sensors.gyro = {x="+gyroSensor.getData().getValue().getX()+",y="+gyroSensor.getData().getValue().getY()+",z="+gyroSensor.getData().getValue().getZ()+"}");
+//        System.out.println("sensors.accel = {x="+magSensor.getData().getValue().getX()+",y="+magSensor.getData().getValue().getY()+",z="+magSensor.getData().getValue().getZ()+"}");
+//        System.out.println("sensors.accel = {x="+gpsSensor.getData().getEcef_pos().getX()+",y="+gpsSensor.getData().getEcef_pos().getY()+",z="+gpsSensor.getData().getEcef_pos().getZ()+"}");
+
+        //Not needed it should decrement battery
             NativeTasks.npsElectricalRunStep(time);
 
 
         NativeTasks.npsAutopilotRunStepRadio(time);
 
+//        NativeTasks.npsSensorFeedStepGyro();
             if (gyroSensor.getData().isData_available()) {
                 jniImuNps.imuFeedGyro(gyroSensor.getData());
-                jniImuNps.imuFeedAccel(accelSensor.getData());
                 main_event();
+                gyroSensor.getData().setData_available(false);
             }
 
+//        NativeTasks.npsSensorFeedStepAccel();
+        if (accelSensor.getData().isData_available()) {
+            jniImuNps.imuFeedAccel(accelSensor.getData());
+            main_event();
+            gyroSensor.getData().setData_available(false);
+        }
+
+
+//        NativeTasks.npsSensorFeedStepMag();
             if (magSensor.getData().isData_available()) {
                 jniImuNps.imuFeedMag(magSensor.getData());
                 main_event();
+                magSensor.getData().setData_available(false);
             }
 
-
+//        NativeTasks.npsSensorFeedStepBaro();
             if (baroSensor.getData().isData_available()) {
                 float pressure = (float) baroSensor.getData().getValue();
                 NativeTasks.sendBarometricReading(pressure);
                 main_event();
+                baroSensor.getData().setData_available(false);
             }
 
             //not used
@@ -64,11 +81,13 @@ public class NpsAutoPilotRotorCraft extends PeriodicTask {
 //            }
 //            #endif
 
-            if (gpsSensor.getData().isData_available()) {
-                gpsSimNps.gpsFeedValue(gpsSensor.getData());
-                gpsSensor.getData().setData_available(false);
-                main_event();
-            }
+        NativeTasks.npsSensorFeedStepGps();
+//            if (gpsSensor.getData().isData_available()) {
+//                gpsSimNps.gpsFeedValue(gpsSensor.getData());
+//                gpsSensor.getData().setData_available(false);
+//                main_event();
+//                gpsSensor.getData().setData_available(false);
+//            }
 
 
 

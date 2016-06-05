@@ -5,6 +5,7 @@ import juav.simulator.tasks.sensors.ISensor;
 import juav.simulator.tasks.sensors.readings.AccelerometerReading;
 import ub.cse.juav.jni.fdm.JniFdm;
 import ub.cse.juav.jni.nps.PaparazziNps;
+import ub.cse.juav.jni.tasks.NativeTasks;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebra;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebraDouble;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebraInt;
@@ -18,18 +19,18 @@ import ub.juav.airborne.math.structs.algebra.Vect3;
 public class JniAccelSensor extends ISensor<AccelerometerReading> {
 
 
-    private static final int IMU_ACCEL_X_SIGN = 1;//imu_b2.h
-    private static final int IMU_ACCEL_Y_SIGN = -1; //imu_b2.h
-    private static final int IMU_ACCEL_Z_SIGN = 1;//imu_b2.h
+    private static final double IMU_ACCEL_X_SIGN = 1.d;
+    private static final double IMU_ACCEL_Y_SIGN = 1.d;
+    private static final double IMU_ACCEL_Z_SIGN = 1.d;
 
-    private static final double IMU_ACCEL_X_SENS = 37.91;//imu_nps.h
-    private static final double IMU_ACCEL_Y_SENS = 37.91;//imu_nps.h
-    private static final double IMU_ACCEL_Z_SENS = 39.24;//imu_nps.h
+    private static final double IMU_ACCEL_X_SENS = 37.91d;
+    private static final double IMU_ACCEL_Y_SENS = 37.91d;
+    private static final double IMU_ACCEL_Z_SENS = 39.24d;
 
 
-    private static final int IMU_ACCEL_X_NEUTRAL = 11;//airframe.h in lisam_2
-    private static final int IMU_ACCEL_Y_NEUTRAL = 11;//airframe.h in lisam_2
-    private static final int IMU_ACCEL_Z_NEUTRAL = -25;//airframe.h in lisam_2
+    private static final double IMU_ACCEL_X_NEUTRAL =  26.095821;
+    private static final double IMU_ACCEL_Y_NEUTRAL =  26.095821;
+    private static final double IMU_ACCEL_Z_NEUTRAL =  26.095821;
     //nps-sensor-params-default
     /*
  * Accelerometer
@@ -60,9 +61,11 @@ public class JniAccelSensor extends ISensor<AccelerometerReading> {
     @Override
     protected void executePeriodic() {
         double time = PaparazziNps.getNpsMainSimTime();
+//        NativeTasks.npsSensorFdmCopyAccel(time);
 
-        if(time<data.getNext_update())
+        if(time<data.getNext_update()) {
             return;
+        }
 
         RMat<Double> bodyToImu = RMat.RMatDouble();
         for(int i = 0; i<3; i++)
@@ -111,6 +114,7 @@ public class JniAccelSensor extends ISensor<AccelerometerReading> {
 
     @Override
     public void init() {
+//        NativeTasks.npsSensorInitAccel(0);
         data = new AccelerometerReading();
         Vect3<Double> value = new Vect3<>();
         PprzAlgebra.VECT3_ASSIGN(value, 0.d, 0.d, 0.d);

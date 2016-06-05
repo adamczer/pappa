@@ -103,6 +103,14 @@ JNIEXPORT void JNICALL Java_ub_cse_juav_jni_gps_GpsNative_gps_1feed_1latency_1ll
 JNIEXPORT void JNICALL Java_ub_cse_juav_jni_gps_GpsNative_gps_1feed_1latency_1hmsl_1juav
   (JNIEnv *, jclass, jdouble, jdouble);
 
+/*
+ * Class:     ub_cse_juav_jni_gps_GpsNative
+ * Method:    gps_feed_all_data_juav
+ * Signature: (IDDDDDDDDDDD)V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_gps_GpsNative_gps_1feed_1all_1data_1juav
+  (JNIEnv *, jclass, jint, jdouble, jdouble, jdouble, jdouble, jdouble, jdouble, jdouble, jdouble, jdouble, jdouble, jdouble);
+
 #ifdef __cplusplus
 }
 #endif

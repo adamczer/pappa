@@ -5,6 +5,7 @@ import juav.simulator.tasks.sensors.ISensor;
 import juav.simulator.tasks.sensors.readings.BarometricReading;
 import ub.cse.juav.jni.fdm.JniFdm;
 import ub.cse.juav.jni.nps.PaparazziNps;
+import ub.cse.juav.jni.tasks.NativeTasks;
 import ub.juav.airborne.math.functions.isa.Pprz_isa;
 
 /**
@@ -17,8 +18,10 @@ public class JniBaroSensor extends ISensor<BarometricReading> {
     protected void executePeriodic() {
         double time = PaparazziNps.getNpsMainSimTime();
 
-        if(time<data.getNext_update())
+//        NativeTasks.npsSensorFdmCopyBaro(time);
+        if(time<data.getNext_update()) {
             return;
+        }
 
   /* pressure in Pascal TODO this was a float*/
         double tmp =Pprz_isa.pprz_isa_pressure_of_altitude(JniFdm.getHmsl());
@@ -31,6 +34,7 @@ public class JniBaroSensor extends ISensor<BarometricReading> {
 
     @Override
     public void init() {
+//        NativeTasks.npsSensorInitBaro(0);
         data = new BarometricReading();
         data.setValue(0.);
         data.setNoise_std_dev(NPS_BARO_NOISE_STD_DEV);
