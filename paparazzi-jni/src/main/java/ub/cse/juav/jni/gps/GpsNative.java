@@ -20,4 +20,7 @@ public class GpsNative {
                                                      double ecef_vel_x, double ecef_vel_y, double ecef_vel_z,
                                                      double lla_pos_lat, double lla_pos_lon, double lla_pos_alt,
                                                      double hmsl);
+
+    public static native double gps_get_selected_value_speed_juav();
+
 }

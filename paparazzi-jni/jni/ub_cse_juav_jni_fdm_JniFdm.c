@@ -86,12 +86,12 @@
 
   JNIEXPORT jdouble JNICALL Java_ub_cse_juav_jni_fdm_JniFdm_getFdmEcefEcefVelY
     (JNIEnv *env, jclass thisClass) {
-		get_fdm_ecef_ecef_vel_y_juav();
+		return get_fdm_ecef_ecef_vel_y_juav();
     }
 
   JNIEXPORT jdouble JNICALL Java_ub_cse_juav_jni_fdm_JniFdm_getFdmEcefEcefVelZ
     (JNIEnv *env, jclass thisClass) {
-		get_fdm_ecef_ecef_vel_z_juav();
+		return get_fdm_ecef_ecef_vel_z_juav();
     }
 
   JNIEXPORT jdouble JNICALL Java_ub_cse_juav_jni_fdm_JniFdm_getFdmEcefPosX
