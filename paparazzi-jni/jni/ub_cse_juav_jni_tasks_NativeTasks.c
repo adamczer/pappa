@@ -4,6 +4,10 @@
 #include <nps_main.h>
 #include <nps_fdm.h>
 #include <nps_autopilot.h>
+#include <guidance.h>
+#include <main.h>
+#include <autopilot.h>
+
 
 #define SIM_DT (1./1000)
 
@@ -212,3 +216,127 @@ JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_sendBarometricRead
     (JNIEnv *env, jclass thisClass) {
 		npsGpsFeedStepJuav();
     }
+
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    mainPeriodicJuavAutopilotPrior
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_mainPeriodicJuavAutopilotPrior
+  (JNIEnv *env, jclass thisClass) {
+  	main_periodic_juav_autopilot_prior();
+  }
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    sysTimeCheckAndAckTimerMainPeriodicJuav
+ * Signature: ()Z
+ */
+JNIEXPORT jboolean JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_sysTimeCheckAndAckTimerMainPeriodicJuav
+  (JNIEnv *env, jclass thisClass) {
+  	return sys_time_check_and_ack_timer_main_periodic_juav();
+  }
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    handlePeriodicTasksFollowingMainPeriodicJuav
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_handlePeriodicTasksFollowingMainPeriodicJuav
+  (JNIEnv *env, jclass thisClass) {
+  	handle_periodic_tasks_following_main_periodic_juav();
+  }
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    autopilotPeriodicPriorJuav
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_autopilotPeriodicPriorJuav
+  (JNIEnv *env, jclass thisClass) {
+  	autopilot_periodic_prior_juav();
+  }
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    isAutopilotModeApModeKillJuav
+ * Signature: ()Z
+ */
+JNIEXPORT jboolean JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_isAutopilotModeApModeKillJuav
+  (JNIEnv *env, jclass thisClass) {
+  	return is_autopilot_mode_ap_mode_kill_juav();
+  }
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    autopilotPeriodicPostJuav
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_autopilotPeriodicPostJuav
+  (JNIEnv *env, jclass thisClass) {
+  	autopilot_periodic_post_juav();
+  }
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    guidanceHRunJuav
+ * Signature: (Z)V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_guidanceHRunJuav
+  (JNIEnv *env, jclass thisClass, jboolean in_flight) {
+  	guidance_h_run_juav(in_flight);
+  }
+
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    getAutopilotInFlightJuav
+ * Signature: ()Z
+ */
+JNIEXPORT jboolean JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAutopilotInFlightJuav
+  (JNIEnv *env, jclass thisClass) {
+  	return get_autopilot_in_flight_juav();
+  }
+
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    runStabilizationAttitudeRunJuav
+ * Signature: ()Z
+ */
+JNIEXPORT jboolean JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_runStabilizationAttitudeRunJuav
+  (JNIEnv *env, jclass thisClass) {
+  	return run_stabilization_attitude_run_juav();
+  }
+
+  /*
+   * Class:     ub_cse_juav_jni_tasks_NativeTasks
+   * Method:    guidanceHRunNativeTestJuav
+   * Signature: ()V
+   */
+  JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_guidanceHRunNativeTestJuav
+    (JNIEnv *env, jclass thisClass, jboolean in_flight) {
+    	guidance_h_run_native_test_juav(in_flight);
+    }
+
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    mainPeriodicJuavAutopilotPost
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_mainPeriodicJuavAutopilotPost
+  (JNIEnv *env, jclass thisClass) {
+  	main_periodic_juav_autopilot_post();
+  }
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    mainPeriodicJuavTest
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_mainPeriodicJuavTest
+  (JNIEnv *env, jclass thisClass) {
+    main_periodic_juav_test();
+  }

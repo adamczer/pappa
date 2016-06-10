@@ -2,6 +2,7 @@ package juav.autopilot;
 
 import juav.autopilot.gps.GpsSimNps;
 import juav.autopilot.imu.JniImuNps;
+import juav.autopilot.stabilization.JniStabilizationAttitudeComputation;
 import juav.simulator.tasks.PeriodicTask;
 import juav.simulator.tasks.sensors.device.jni.*;
 import ub.cse.juav.jni.nps.PaparazziNps;
@@ -87,11 +88,30 @@ public class NpsAutoPilotRotorCraft extends PeriodicTask {
         NativeTasks.npsAutopilotRunStepOverwriteAhrs();
 
         NativeTasks.npsAutopilotRunStepOverwriteIns();
-
-        NativeTasks.npsAutopilotRunStepHandelPeriodicTasks();
-
+/***************************************************************/
+//        NativeTasks.npsAutopilotRunStepHandelPeriodicTasks(); //-> all c for this task
+//        below -> guidance attitude compuatation in java then passed back.
+        NativeTasks.mainPeriodicJuavAutopilotPrior();
+        if(NativeTasks.sysTimeCheckAndAckTimerMainPeriodicJuav()) {
+//            NativeTasks.mainPeriodicJuavTest();//TEST main periodic
+            NativeTasks.autopilotPeriodicPriorJuav();
+            if(!NativeTasks.isAutopilotModeApModeKillJuav()) {
+                boolean inFlight = NativeTasks.getAutopilotInFlightJuav();
+                NativeTasks.guidanceHRunJuav(inFlight);
+                if(NativeTasks.runStabilizationAttitudeRunJuav()) {
+//                    NativeTasks.guidanceHRunNativeTestJuav(inFlight); // test plumbing
+                    NativeTasks.guidanceHRunJuav(inFlight);
+                    JniStabilizationAttitudeComputation.stabilizationAttitudeRun(inFlight);
+                    //TODO stabilization_attitude_quat_int.c->stabilization_attitude_run() collect metrics on this
+                    // this code uses boolean inFlight;
+                }
+            }
+            NativeTasks.autopilotPeriodicPostJuav();//finaizes after guidance_h.c run
+        }
+        NativeTasks.mainPeriodicJuavAutopilotPost();
+        NativeTasks.handlePeriodicTasksFollowingMainPeriodicJuav();
+/***************************************************************/
         NativeTasks.npsAutopilotRunStepConvertMotorMixingCommandsToAutopilotCommands();
-
     }
 
     private void main_event() {

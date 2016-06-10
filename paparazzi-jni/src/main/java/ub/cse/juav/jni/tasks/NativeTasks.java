@@ -36,4 +36,27 @@ public class NativeTasks {
     public static native void npsSensorFeedStepBaro();
     public static native void npsSensorFeedStepGps();
 
+
+
+    public static native void mainPeriodicJuavAutopilotPrior();
+    public static native boolean sysTimeCheckAndAckTimerMainPeriodicJuav();
+    public static native void handlePeriodicTasksFollowingMainPeriodicJuav() ;
+
+    public static native void autopilotPeriodicPriorJuav();
+
+    public static native boolean isAutopilotModeApModeKillJuav();
+
+    public static native void autopilotPeriodicPostJuav();
+
+    public static native void guidanceHRunJuav(boolean inFlight);
+
+    public static native boolean getAutopilotInFlightJuav();
+
+    public static native boolean runStabilizationAttitudeRunJuav();
+
+    public static native void guidanceHRunNativeTestJuav(boolean inFlight);
+
+    public static native void mainPeriodicJuavAutopilotPost();
+
+    public static native void mainPeriodicJuavTest();
 }
