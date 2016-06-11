@@ -60,9 +60,9 @@ public class StabilizationAttitudeQuatInt {
   /*  rate error                */
         Rates<Integer> rate_ref_scaled = Rates.newInteger();
         int b = (REF_RATE_FRAC - INT32_RATE_FRAC);
-        att_ref_quat_i.getRate().setP((att_ref_quat_i.getRate().getP() + (1 << (b - 1))) >> b);
-        att_ref_quat_i.getRate().setQ((att_ref_quat_i.getRate().getQ() + (1 << (b - 1))) >> b);
-        att_ref_quat_i.getRate().setR((att_ref_quat_i.getRate().getR() + (1 << (b - 1))) >> b);
+        rate_ref_scaled.setP((att_ref_quat_i.getRate().getP() + (1 << (b - 1))) >> b);
+        rate_ref_scaled.setQ((att_ref_quat_i.getRate().getQ() + (1 << (b - 1))) >> b);
+        rate_ref_scaled.setR((att_ref_quat_i.getRate().getR() + (1 << (b - 1))) >> b);
         Rates<Integer> rate_err = Rates.newInteger();
         Rates<Integer> body_rate = Rates.newInteger();
         body_rate.setP(NativeTasks.stateGetBodyRatesIP());
