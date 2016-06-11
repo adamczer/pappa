@@ -9,6 +9,9 @@ import ub.juav.airborne.math.functions.algebra.PprzAlgebraInt;
 import ub.juav.airborne.math.structs.algebra.Quat;
 import ub.juav.airborne.math.structs.algebra.Rates;
 
+import java.io.FileWriter;
+import java.io.IOException;
+
 /**
  * Created by adamczer on 6/10/16.
  */
@@ -24,6 +27,18 @@ public class StabilizationAttitudeQuatInt {
     private static final int GAIN_PRESCALER_D = 3;
     private static final int GAIN_PRESCALER_I = 3;
 
+    private static boolean logTimeMetrics = false;
+    private static FileWriter totalTimeLog;
+    private static FileWriter jniTimeLog;
+    static {
+        if(logTimeMetrics)
+        try {
+            totalTimeLog = new FileWriter("juav-stabilization.data");
+            jniTimeLog = new FileWriter("juav-stabilization-jni-only.data");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     public static void stabilization_attitude_run(boolean enable_integrator) {
 //  printf("stabilization_attitude_run\n");
           /*
@@ -36,22 +51,36 @@ public class StabilizationAttitudeQuatInt {
 //        StabilizationAttitudeRefQuatInt.attitude_ref_quat_int_update(&att_ref_quat_i, &stab_att_sp_quat, dt);
         NativeTasks.attitudeRefQuatIntUpdateJuav(dt);
 
+        long start = 0;
+        long jniGetValuesFinish = 0;
+        if(logTimeMetrics) {
+            start = System.nanoTime();
+        }
+
+
+        Quat<Integer> att_quat = Quat.newInteger();
+        att_quat.setQi(NativeTasks.stateGetNedToBodyQuatIQi());
+        att_quat.setQx(NativeTasks.stateGetNedToBodyQuatIQx());
+        att_quat.setQy(NativeTasks.stateGetNedToBodyQuatIQy());
+        att_quat.setQz(NativeTasks.stateGetNedToBodyQuatIQz());
+
+        Rates<Integer> body_rate = Rates.newInteger();
+        body_rate.setP(NativeTasks.stateGetBodyRatesIP());
+        body_rate.setQ(NativeTasks.stateGetBodyRatesIQ());
+        body_rate.setR(NativeTasks.stateGetBodyRatesIR());
         //Get required inputs from jni
         Quat<Integer> stabilization_att_sum_err_quat = getStabilizationAttSumErrQuatFromJni();
         AttitudeRef<Integer> att_ref_quat_i = AttitudeRef.getIntegerFromJni();
         AttitudeGains<Integer> stabilization_gains = AttitudeGains.getIntegerFromJni();
-
+        if(logTimeMetrics) {
+            jniGetValuesFinish = System.nanoTime();
+        }
   /*
    * Compute errors for feedback
    */
 
   /* attitude error                          */
         Quat<Integer> att_err = Quat.newInteger();
-        Quat<Integer> att_quat = Quat.newInteger();
-        att_quat.setQi(NativeTasks.stateGetNedToBodyQuatIQi());
-        att_quat.setQx(NativeTasks.stateGetNedToBodyQuatIQx());
-        att_quat.setQy(NativeTasks.stateGetNedToBodyQuatIQy());
-        att_quat.setQz(NativeTasks.stateGetNedToBodyQuatIQz());
         PprzAlgebraInt.int32_quat_inv_comp(att_err, att_quat, att_ref_quat_i.getQuat());
   /* wrap it in the shortest direction       */
         PprzAlgebraInt.int32_quat_wrap_shortest(att_err);
@@ -64,10 +93,6 @@ public class StabilizationAttitudeQuatInt {
         rate_ref_scaled.setQ((att_ref_quat_i.getRate().getQ() + (1 << (b - 1))) >> b);
         rate_ref_scaled.setR((att_ref_quat_i.getRate().getR() + (1 << (b - 1))) >> b);
         Rates<Integer> rate_err = Rates.newInteger();
-        Rates<Integer> body_rate = Rates.newInteger();
-        body_rate.setP(NativeTasks.stateGetBodyRatesIP());
-        body_rate.setQ(NativeTasks.stateGetBodyRatesIQ());
-        body_rate.setR(NativeTasks.stateGetBodyRatesIR());
 
         PprzAlgebra.RATES_DIFF(rate_err, rate_ref_scaled, body_rate);
 
@@ -104,8 +129,34 @@ public class StabilizationAttitudeQuatInt {
         stabilization_cmd.setPitch(BoundAbs(stabilization_cmd.getPitch(), MAX_PPRZ));
         stabilization_cmd.setYaw(BoundAbs(stabilization_cmd.getYaw(), MAX_PPRZ));
 
+        long jniStartSendValues = 0;
+        long jniFinishSendValues = 0;
+        if(logTimeMetrics)
+            jniStartSendValues = System.nanoTime();
         sendResultsBack(stabilization_att_sum_err_quat,att_ref_quat_i,stabilization_cmd);
+        if(logTimeMetrics)
+            jniFinishSendValues = System.nanoTime();
+
+        if(logTimeMetrics) {
+            long finish = System.nanoTime();
+            long elapsed = finish - start;
+            try {
+                iterCount++;
+                totalTimeLog.write(""+iterCount);
+                totalTimeLog.write(" "+elapsed+"\n");
+                totalTimeLog.flush();
+
+                long jniTimeInIter = (jniGetValuesFinish-start)+(jniFinishSendValues-jniStartSendValues);
+                jniTimeLog.write(""+iterCount);
+                jniTimeLog.write(" "+jniTimeInIter+"\n");
+                jniTimeLog.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
+
+    private static int iterCount = 0;
 
     private static void sendResultsBack(Quat<Integer> stabilization_att_sum_err_quat, AttitudeRef<Integer> att_ref_quat_i, StabilizationCommand<Integer> stabilization_cmd) {
         //sum error quat
