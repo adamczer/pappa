@@ -7,6 +7,7 @@
 #include <guidance.h>
 #include <main.h>
 #include <autopilot.h>
+#include <stabilization_attitude_quat_int.h>
 
 
 #define SIM_DT (1./1000)
@@ -339,4 +340,238 @@ JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_mainPeriodicJuavAu
 JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_mainPeriodicJuavTest
   (JNIEnv *env, jclass thisClass) {
     main_periodic_juav_test();
+  }
+
+
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_attitudeRefQuatIntUpdateJuav
+  (JNIEnv *env, jclass thisClass, jfloat time) {
+  	attitude_ref_quat_int_update_juav(time);
+  }
+
+
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getStabilizationAttSumErrQuatQi
+  (JNIEnv *env, jclass thisClass) {
+  	return get_stabilization_att_sum_err_quat_i_juav();
+  }
+
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getStabilizationAttSumErrQuatQx
+  (JNIEnv *env, jclass thisClass) {
+  	return get_stabilization_att_sum_err_quat_x_juav();
+  }
+
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getStabilizationAttSumErrQuatQy
+  (JNIEnv *env, jclass thisClass) {
+  	return get_stabilization_att_sum_err_quat_y_juav();
+  }
+
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getStabilizationAttSumErrQuatQz
+  (JNIEnv *env, jclass thisClass) {
+  	return get_stabilization_att_sum_err_quat_z_juav();
+  }
+
+  // Attitude ref
+
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeRefQuatQi
+  (JNIEnv *env, jclass thisClass) {
+	return get_att_ref_quat_i_quat_qi_juav();
+  }
+
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeRefQuatQx
+  (JNIEnv *env, jclass thisClass) {
+	return get_att_ref_quat_i_quat_qx_juav();
+  }
+
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeRefQuatQy
+  (JNIEnv *env, jclass thisClass) {
+	return get_att_ref_quat_i_quat_qy_juav();
+  }
+
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeRefQuatQz
+  (JNIEnv *env, jclass thisClass) {
+	return get_att_ref_quat_i_quat_qz_juav();
+  }
+
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeRefRateP
+  (JNIEnv *env, jclass thisClass) {
+	return get_att_ref_quat_i_rate_p_juav();
+  }
+
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeRefRateQ
+  (JNIEnv *env, jclass thisClass) {
+	return get_att_ref_quat_i_rate_q_juav();
+  }
+
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeRefRateR
+  (JNIEnv *env, jclass thisClass) {
+	return get_att_ref_quat_i_rate_r_juav();
+  }
+
+  JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeRefAccelP
+    (JNIEnv *env, jclass thisClass) {
+    	return get_att_ref_quat_i_accel_p_juav();
+    }
+  JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeRefAccelQ
+    (JNIEnv *env, jclass thisClass) {
+    	return get_att_ref_quat_i_accel_q_juav();
+    }
+  JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeRefAccelR
+    (JNIEnv *env, jclass thisClass) {
+    	return get_att_ref_quat_i_accel_r_juav();
+    }
+
+
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeGainPX
+  (JNIEnv *env, jclass thisClass) {
+  	return get_stabilization_gains_p_x_juav();
+  }
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeGainPY
+  (JNIEnv *env, jclass thisClass) {
+	return get_stabilization_gains_p_y_juav();
+    }
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeGainPZ
+  (JNIEnv *env, jclass thisClass) {
+	return get_stabilization_gains_p_z_juav();
+    }
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeGainDX
+  (JNIEnv *env, jclass thisClass) {
+	return get_stabilization_gains_d_x_juav();
+    }
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeGainDY
+  (JNIEnv *env, jclass thisClass) {
+	return get_stabilization_gains_d_y_juav();
+    }
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeGainDZ
+  (JNIEnv *env, jclass thisClass) {
+	return get_stabilization_gains_d_z_juav();
+    }
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeGainDdX
+  (JNIEnv *env, jclass thisClass) {
+	return get_stabilization_gains_dd_x_juav();
+    }
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeGainDdY
+  (JNIEnv *env, jclass thisClass) {
+	return get_stabilization_gains_dd_y_juav();
+    }
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeGainDdZ
+  (JNIEnv *env, jclass thisClass) {
+	return get_stabilization_gains_dd_z_juav();
+    }
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeGainIX
+  (JNIEnv *env, jclass thisClass) {
+	return get_stabilization_gains_i_x_juav();
+    }
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeGainIY
+  (JNIEnv *env, jclass thisClass) {
+	return get_stabilization_gains_i_y_juav();
+    }
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeGainIZ
+  (JNIEnv *env, jclass thisClass) {
+	return get_stabilization_gains_i_z_juav();
+    }
+
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setStabilizationAttSumErrQuatQi
+  (JNIEnv *env, jclass thisClass, jint qi) {
+  set_stabilization_att_sum_err_quat_i_juav(qi);
+  }
+
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setStabilizationAttSumErrQuatQx
+  (JNIEnv *env, jclass thisClass, jint qx) {
+  set_stabilization_att_sum_err_quat_x_juav(qx);
+  }
+
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setStabilizationAttSumErrQuatQy
+  (JNIEnv *env, jclass thisClass, jint qy) {
+  set_stabilization_att_sum_err_quat_y_juav(qy);
+  }
+
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setStabilizationAttSumErrQuatQz
+  (JNIEnv *env, jclass thisClass, jint qz) {
+  set_stabilization_att_sum_err_quat_z_juav(qz);
+  }
+
+
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setAttRefQuatIQuatQi
+  (JNIEnv *env, jclass thisClass, jint qi) {
+  set_att_ref_quat_i_quat_qi_juav(qi);
+  }
+
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setAttRefQuatIQuatQx
+  (JNIEnv *env, jclass thisClass, jint qx) {
+  set_att_ref_quat_i_quat_qx_juav(qx);
+  }
+
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setAttRefQuatIQuatQy
+  (JNIEnv *env, jclass thisClass, jint qy) {
+  set_att_ref_quat_i_quat_qy_juav(qy);
+  }
+
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setAttRefQuatIQuatQz
+  (JNIEnv *env, jclass thisClass, jint qz) {
+  set_att_ref_quat_i_quat_qz_juav(qz);
+  }
+
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setAttRefQuatIRateP
+  (JNIEnv *env, jclass thisClass, jint p){
+  set_att_ref_quat_i_rate_p_juav(p);
+  }
+
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setAttRefQuatIRateQ
+  (JNIEnv *env, jclass thisClass, jint q){
+  set_att_ref_quat_i_rate_q_juav(q);
+  }
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setAttRefQuatIRateR
+  (JNIEnv *env, jclass thisClass, jint r){
+  set_att_ref_quat_i_rate_r_juav(r);
+  }
+
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setAttRefQuatIAccelP
+  (JNIEnv *env, jclass thisClass, jint p) {
+  	set_att_ref_quat_i_accel_p_juav(p);
+  }
+
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setAttRefQuatIAccelQ
+  (JNIEnv *env, jclass thisClass, jint q) {
+	set_att_ref_quat_i_accel_q_juav(q);
+  }
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setAttRefQuatIAccelR
+  (JNIEnv *env, jclass thisClass, jint r) {
+	set_att_ref_quat_i_accel_r_juav(r);
+  }
+
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetNedToBodyQuatIQi
+  (JNIEnv *env, jclass thisClass) {
+  return get_stateGetNedToBodyQuat_i_Qi_juav();
+  }
+
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetNedToBodyQuatIQx
+  (JNIEnv *env, jclass thisClass) {
+  return get_stateGetNedToBodyQuat_i_Qx_juav();
+  }
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetNedToBodyQuatIQy
+  (JNIEnv *env, jclass thisClass) {
+  return get_stateGetNedToBodyQuat_i_Qy_juav();
+  }
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetNedToBodyQuatIQz
+  (JNIEnv *env, jclass thisClass) {
+  return get_stateGetNedToBodyQuat_i_Qz_juav();
+  }
+
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetBodyRatesIP
+  (JNIEnv *env, jclass thisClass) {
+	return get_stateGetBodyRates_i_p_juav();
+  }
+
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetBodyRatesIQ
+  (JNIEnv *env, jclass thisClass) {
+	return get_stateGetBodyRates_i_q_juav();
+  }
+
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetBodyRatesIR
+  (JNIEnv *env, jclass thisClass) {
+	return get_stateGetBodyRates_i_r_juav();
+  }
+
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setStabilizationCommands
+  (JNIEnv *env, jclass thisClass, jint yaw, jint pitch, jint roll) {
+  	set_stabilization_cmd(yaw, pitch, roll);
   }

@@ -63,4 +63,13 @@ public class Quat<T extends Number> {
     public void setQz(T qz) {
         this.qz = qz;
     }
+
+    public static Quat<Integer> newInteger() {
+        Quat<Integer> ret = new Quat<>();
+        ret.setQz(0);
+        ret.setQy(0);
+        ret.setQi(0);
+        ret.setQx(0);
+        return ret;
+    }
 }

@@ -5,6 +5,6 @@ package juav.autopilot.stabilization;
  */
 public class JniStabilizationAttitudeComputation {
     public static void stabilizationAttitudeRun(boolean inFlight) {
-
+        StabilizationAttitudeQuatInt.stabilization_attitude_run(inFlight);
     }
 }

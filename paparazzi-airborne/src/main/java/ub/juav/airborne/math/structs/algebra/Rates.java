@@ -54,4 +54,12 @@ public class Rates<T extends Number> {
     public void setR(T r) {
         this.r = r;
     }
+
+    public static Rates<Integer> newInteger() {
+        Rates<Integer> ret = new Rates<>();
+        ret.setR(0);
+        ret.setQ(0);
+        ret.setP(0);
+        return ret;
+    }
 }

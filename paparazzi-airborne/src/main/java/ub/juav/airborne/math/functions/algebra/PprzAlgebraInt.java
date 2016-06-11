@@ -499,13 +499,13 @@ public class PprzAlgebraInt {
         int32_quat_normalize(a2c);
     }
 
-    private static void int32_quat_normalize(Quat<Integer> q) {
+    public static void int32_quat_normalize(Quat<Integer> q) {
         int n = int32_quat_norm(q);
         if (n > 0) {
-            q.setQi(q.getQi()*QUAT1_BFP_OF_REAL(1));
-            q.setQx(q.getQx() * QUAT1_BFP_OF_REAL(1));
-            q.setQy(q.getQy() * QUAT1_BFP_OF_REAL(1));
-            q.setQz(q.getQz() * QUAT1_BFP_OF_REAL(1));
+            q.setQi(q.getQi()*QUAT1_BFP_OF_REAL(1) /n);
+            q.setQx(q.getQx() * QUAT1_BFP_OF_REAL(1) /n);
+            q.setQy(q.getQy() * QUAT1_BFP_OF_REAL(1) /n);
+            q.setQz(q.getQz() * QUAT1_BFP_OF_REAL(1) /n);
         }
     }
 
@@ -513,7 +513,7 @@ public class PprzAlgebraInt {
         return int32_sqrt((q.getQi()*q.getQi())+(q.getQx()*q.getQx())+(q.getQy()*q.getQy())+(q.getQz()*q.getQz()));
     }
 
-    private static void int32_quat_wrap_shortest(Quat<Integer> quat) {
+    public static void int32_quat_wrap_shortest(Quat<Integer> quat) {
         if (quat.getQi() < 0) {
             PprzAlgebra.QUAT_EXPLEMENTARY(quat, quat);
         }
@@ -794,6 +794,13 @@ public class PprzAlgebraInt {
         else {
             PprzAlgebra.EULERS_ASSIGN(ed,0,0,0);
         }
+    }
+
+    public static void int32_quat_identity(Quat<Integer> q) {
+        q.setQi(QUAT1_BFP_OF_REAL(1));
+        q.setQx(0);
+        q.setQy(0);
+        q.setQz(0);
     }
 
 //    Int Algebra .h file

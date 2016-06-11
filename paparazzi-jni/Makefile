@@ -13,12 +13,14 @@ OUTPUT_DIR=$(ROOT)/bin
 
 CFLAGS=-I$(PPRZ_HOME)/modules -I$(PPRZ_HOME)/arch/sim/modules \
 	   -I$(PPRZ_HOME)/sw/include/ \
-	   -I$(PPRZ_HOME)/firmwares/rotorcraft -I$(PPRZ_HOME)/boards/pc \
+	   -I$(PPRZ_HOME)/firmwares/rotorcraft \
+	   -I$(PPRZ_HOME)/boards/pc \
 	   -I$(PPRZ_HOME)/sw/airborne/arch/sim \
 	   -I$(PPRZ_HOME)/boards/pc -I$(PPRZ_HOME)/sw/simulator \
 	   -I$(PPRZ_HOME)/sw/simulator/nps \
 	   -I$(PPRZ_HOME)/conf/simulator/nps \
 	   -I$(PPRZ_HOME)/sw/airborne/firmwares/rotorcraft \
+	   -I$(PPRZ_HOME)/sw/airborne/firmwares/rotorcraft/stabilization \
 	   -I$(PPRZ_HOME)/sw/airborne \
 	   -I$(PPRZ_HOME)/sw/airborne/subsystems/imu \
 	   -I$(PPRZ_HOME)/sw/airborne/subsystems/gps \
