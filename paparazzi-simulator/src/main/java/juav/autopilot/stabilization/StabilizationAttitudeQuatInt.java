@@ -11,6 +11,7 @@ import ub.juav.airborne.math.structs.algebra.Rates;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.management.ManagementFactory;
 
 /**
  * Created by adamczer on 6/10/16.
@@ -140,14 +141,17 @@ public class StabilizationAttitudeQuatInt {
         if(logTimeMetrics) {
             long finish = System.nanoTime();
             long elapsed = finish - start;
+            long timestamp  = ManagementFactory.getRuntimeMXBean().getUptime();
             try {
                 iterCount++;
                 totalTimeLog.write(""+iterCount);
+                totalTimeLog.write(" " +timestamp );
                 totalTimeLog.write(" "+elapsed+"\n");
                 totalTimeLog.flush();
 
                 long jniTimeInIter = (jniGetValuesFinish-start)+(jniFinishSendValues-jniStartSendValues);
                 jniTimeLog.write(""+iterCount);
+                jniTimeLog.write(" " +timestamp );
                 jniTimeLog.write(" "+jniTimeInIter+"\n");
                 jniTimeLog.flush();
             } catch (IOException e) {

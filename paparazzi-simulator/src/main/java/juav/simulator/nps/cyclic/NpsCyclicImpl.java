@@ -11,6 +11,8 @@ import juav.simulator.time.TimeHandler;
 import ub.cse.juav.jni.nps.PaparazziNps;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +20,19 @@ import java.util.List;
  * Created by adamczer on 1/24/16.
  */
 public class NpsCyclicImpl extends AbstractNpsImpl {
+    private static FileWriter log;
+    private static int iter =1;
+    private static final boolean logMainLoop = false;
+
+    static  {
+        if(logMainLoop) {
+            try {
+                log = new FileWriter("juav-main-periodic.data");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     private static int prev_cnt = 0;
     private static int grow_cnt = 0;
@@ -35,9 +50,21 @@ public class NpsCyclicImpl extends AbstractNpsImpl {
             int cnt = 0;
             while (PaparazziNps.getNpsMainSimTime() <= PaparazziNps.getNpsMainHostTimeElapsed()) {
                 /**vv*** Entry point for periodic tasks***vv**/
+                long start;
+                if(logMainLoop)
+                    start= System.nanoTime();
                 for (ITask task : tasks) {
                     if (task.isAvailiable()) {
                         task.execute();
+                    }
+                }
+                if(logMainLoop) {
+                    long finish = System.nanoTime();
+                    try {
+                        log.write(""+(iter++)+" "+(finish-start)+"\n");
+                        log.flush();
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
                 }
                 /**^^*** Entry point for periodic tasks***^^**/
@@ -64,6 +91,7 @@ public class NpsCyclicImpl extends AbstractNpsImpl {
             if (grow_cnt > 10) {
                 System.out.println("Warning: The time factor is too large for efficient operation! Please reduce the time factor.\n");
             }
+
         }
     }
 
