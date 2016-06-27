@@ -8,6 +8,9 @@ import juav.simulator.tasks.sensors.device.jni.*;
 import ub.cse.juav.jni.nps.PaparazziNps;
 import ub.cse.juav.jni.tasks.NativeTasks;
 
+import java.io.FileWriter;
+import java.io.IOException;
+
 /**
  * Created by adamczer on 5/30/16.
  */
@@ -19,11 +22,34 @@ public class NpsAutoPilotRotorCraft extends PeriodicTask {
     JniBaroSensor baroSensor;
     JniImuNps jniImuNps;
     GpsSimNps gpsSimNps;
+    private static final boolean enableLogging = true;
+    static FileWriter log;
+    static int iter = 1;
 
+    static {
+        if(enableLogging) {
+            try {
+                log = new FileWriter("autopilot_run_step_juav.data");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
     @Override
     public void execute() {
+        long start;
+        if(enableLogging)
+            start = System.nanoTime();
         double time = PaparazziNps.getNpsMainSimTime();
         npsAutopilotRunStep(time);
+        if(enableLogging) {
+            long finish = System.nanoTime();
+            try {
+                log.write("" + (iter++) + " " + (finish - start) + "\n");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void npsAutopilotRunStep(double time) {
