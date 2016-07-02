@@ -10,7 +10,7 @@ git push origin development <-- push to remote development repo
 ## How to checkout paparazzi-juav repo with development branch
 ```
 cd ~ 
-git clone git@gitlab.nsr.cse.buffalo.edu:rtdroid/paparrazi-juav.git paparazzi
+git clone https://github.com/adamczer/paparazzi-native-jni.git paparazzi
 git checkout -b development origin/development
 ...
 git pull origin development <-- before each git push                            
