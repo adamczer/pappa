@@ -63,7 +63,7 @@ you can now run using the jUAV code.
 * `stop` the "Simulator"
 * change the command in "Simulator" command:
 ```
-/home/gassa/paparazzi/sw/simulator/pprzsim-launch -a Quad_LisaM_2 -t nps --java yes
+<PAPARAZZI_HOME>/sw/simulator/pprzsim-launch -a Quad_LisaM_2 -t nps --java yes
 
 ```
 
