@@ -8,6 +8,7 @@
 #include <main.h>
 #include <autopilot.h>
 #include <stabilization_attitude_quat_int.h>
+//#include <state.h>
 
 
 #define SIM_DT (1./1000)
@@ -71,13 +72,13 @@ JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_sendBarometricRead
   (JNIEnv *env, jclass thisClass, jfloat pressure) {
   nps_send_baro_reading_juav(pressure);
   }
-  
+
   //////////////////////////////////////////// Sensor skip
   JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_npsSensorInitGyro
     (JNIEnv *env, jclass thisClass, jdouble time) {
 		nps_sensor_gyro_init_juav(time);
     }
-  
+
   /*
    * Class:     ub_cse_juav_jni_tasks_NativeTasks
    * Method:    npsSensorInitAccel
@@ -87,7 +88,7 @@ JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_sendBarometricRead
     (JNIEnv *env, jclass thisClass, jdouble time) {
 		nps_sensor_accel_init_juav(time);
     }
-  
+
   /*
    * Class:     ub_cse_juav_jni_tasks_NativeTasks
    * Method:    npsSensorInitMag
@@ -97,7 +98,7 @@ JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_sendBarometricRead
     (JNIEnv *env, jclass thisClass, jdouble time) {
 		nps_sensor_mag_init_juav(time);
     }
-  
+
   /*
    * Class:     ub_cse_juav_jni_tasks_NativeTasks
    * Method:    npsSensorInitBaro
@@ -107,7 +108,7 @@ JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_sendBarometricRead
     (JNIEnv *env, jclass thisClass, jdouble time) {
 		nps_sensor_baro_init_juav(time);
     }
-  
+
   /*
    * Class:     ub_cse_juav_jni_tasks_NativeTasks
    * Method:    npsSensorInitGps
@@ -117,7 +118,7 @@ JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_sendBarometricRead
     (JNIEnv *env, jclass thisClass, jdouble time) {
 		nps_sensor_gps_init_juav(time);
     }
-  
+
   /*
    * Class:     ub_cse_juav_jni_tasks_NativeTasks
    * Method:    npsSensorFdmCopyGyro
@@ -127,7 +128,7 @@ JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_sendBarometricRead
     (JNIEnv *env, jclass thisClass, jdouble time) {
 		nps_sensor_gyro_run_step_juav(time);
     }
-  
+
   /*
    * Class:     ub_cse_juav_jni_tasks_NativeTasks
    * Method:    npsSensorFdmCopyAccel
@@ -137,7 +138,7 @@ JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_sendBarometricRead
     (JNIEnv *env, jclass thisClass, jdouble time) {
 		nps_sensor_accel_run_step_juav(time);
     }
-  
+
   /*
    * Class:     ub_cse_juav_jni_tasks_NativeTasks
    * Method:    npsSensorFdmCopyMag
@@ -147,7 +148,7 @@ JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_sendBarometricRead
     (JNIEnv *env, jclass thisClass, jdouble time) {
 		nps_sensor_mag_run_step_juav(time);
     }
-  
+
   /*
    * Class:     ub_cse_juav_jni_tasks_NativeTasks
    * Method:    npsSensorFdmCopyBaro
@@ -157,7 +158,7 @@ JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_sendBarometricRead
     (JNIEnv *env, jclass thisClass, jdouble time) {
 		nps_sensor_baro_run_step_juav(time);
     }
-  
+
   /*
    * Class:     ub_cse_juav_jni_tasks_NativeTasks
    * Method:    npsSensorFdmCopyGps
@@ -167,7 +168,7 @@ JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_sendBarometricRead
     (JNIEnv *env, jclass thisClass, jdouble time) {
 		nps_sensor_gps_run_step_juav(time);
     }
-  
+
   /*
    * Class:     ub_cse_juav_jni_tasks_NativeTasks
    * Method:    npsSensorFeedStepGyro
@@ -177,7 +178,7 @@ JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_sendBarometricRead
     (JNIEnv *env, jclass thisClass) {
 		npsGyroFeedStepJuav();
     }
-  
+
   /*
    * Class:     ub_cse_juav_jni_tasks_NativeTasks
    * Method:    npsSensorFeedStepAccel
@@ -187,7 +188,7 @@ JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_sendBarometricRead
     (JNIEnv *env, jclass thisClass) {
 		npsAccelFeedStepJuav();
     }
-  
+
   /*
    * Class:     ub_cse_juav_jni_tasks_NativeTasks
    * Method:    npsSensorFeedStepMag
@@ -197,7 +198,7 @@ JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_sendBarometricRead
     (JNIEnv *env, jclass thisClass) {
 		npsMagFeedStepJuav();
     }
-  
+
   /*
    * Class:     ub_cse_juav_jni_tasks_NativeTasks
    * Method:    npsSensorFeedStepBaro
@@ -207,7 +208,7 @@ JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_sendBarometricRead
     (JNIEnv *env, jclass thisClass) {
 		npsBaroFeedStepJuav();
     }
-  
+
   /*
    * Class:     ub_cse_juav_jni_tasks_NativeTasks
    * Method:    npsSensorFeedStepGps
@@ -574,4 +575,78 @@ JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetBodyRatesI
 JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setStabilizationCommands
   (JNIEnv *env, jclass thisClass, jint yaw, jint pitch, jint roll) {
   	set_stabilization_cmd(yaw, pitch, roll);
+  }
+
+
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetPositionNedIX
+  (JNIEnv *env, jclass thisClass) {
+	return stateGetPositionNed_i()->x;
+  }
+//
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetPositionNedIY
+  (JNIEnv *env, jclass thisClass) {
+	return stateGetPositionNed_i()->y;
+  }
+//
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetSpeedNedIX
+  (JNIEnv *env, jclass thisClass) {
+	return stateGetSpeedNed_i()->x;
+  }
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetSpeedNedIY
+  (JNIEnv *env, jclass thisClass) {
+	return stateGetSpeedNed_i()->y;
+  }
+
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetNedToBodyRMatI_10
+  (JNIEnv *env, jclass thisClass) {
+	struct Int32RMat tmp = *stateGetNedToBodyRMat_i();
+	return tmp.m[0];
+  }
+
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetNedToBodyRMatI_11
+  (JNIEnv *env, jclass thisClass) {
+	struct Int32RMat tmp = *stateGetNedToBodyRMat_i();
+	return tmp.m[1];
+  }
+
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetNedToBodyRMatI_12
+  (JNIEnv *env, jclass thisClass) {
+struct Int32RMat tmp = *stateGetNedToBodyRMat_i();
+	return tmp.m[2];
+  }
+//
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetNedToBodyRMatI_13
+  (JNIEnv *env, jclass thisClass) {
+struct Int32RMat tmp = *stateGetNedToBodyRMat_i();
+	return tmp.m[3];
+  }
+
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetNedToBodyRMatI_14
+  (JNIEnv *env, jclass thisClass) {
+struct Int32RMat tmp = *stateGetNedToBodyRMat_i();
+	return tmp.m[4];
+  }
+//
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetNedToBodyRMatI_15
+  (JNIEnv *env, jclass thisClass) {
+struct Int32RMat tmp = *stateGetNedToBodyRMat_i();
+	return tmp.m[5];
+  }
+//
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetNedToBodyRMatI_16
+  (JNIEnv *env, jclass thisClass) {
+struct Int32RMat tmp = *stateGetNedToBodyRMat_i();
+	return tmp.m[6];
+  }
+//
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetNedToBodyRMatI_17
+  (JNIEnv *env, jclass thisClass) {
+struct Int32RMat tmp = *stateGetNedToBodyRMat_i();
+	return tmp.m[7];
+  }
+//
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetNedToBodyRMatI_18
+  (JNIEnv *env, jclass thisClass) {
+struct Int32RMat tmp = *stateGetNedToBodyRMat_i();
+	return tmp.m[8];
   }

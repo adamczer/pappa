@@ -27,9 +27,9 @@ package ub.juav.airborne.math.structs.algebra;
  * Created by adamczer on 7/15/15.
  */
 public class Rates<T extends Number> {
-    private T p;
-    private T q;
-    private T r;
+    public T p;
+    public T q;
+    public T r;
 
     public T getP() {
         return p;

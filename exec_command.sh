@@ -1,4 +1,4 @@
 #! /bin/bash
 
-cd /home/gassa/Research/juav/
+cd /home/adamczer/IdeaProjects/juav-autopilot/
 ./paparazzi-deploy/project-root-run.sh

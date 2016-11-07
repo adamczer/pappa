@@ -125,4 +125,23 @@ public class NativeTasks {
     public static native void setAttRefQuatIAccelR(int r);
 
     public static native void setStabilizationCommands(int yaw,int pitch, int roll);
+
+
+
+    /////////////
+    public static native int stateGetPositionNedIX();
+    public static native int stateGetPositionNedIY();
+
+    public static native int stateGetSpeedNedIX();
+    public static native int stateGetSpeedNedIY();
+
+    public static native int stateGetNedToBodyRMatI_0();
+    public static native int stateGetNedToBodyRMatI_1();
+    public static native int stateGetNedToBodyRMatI_2();
+    public static native int stateGetNedToBodyRMatI_3();
+    public static native int stateGetNedToBodyRMatI_4();
+    public static native int stateGetNedToBodyRMatI_5();
+    public static native int stateGetNedToBodyRMatI_6();
+    public static native int stateGetNedToBodyRMatI_7();
+    public static native int stateGetNedToBodyRMatI_8();
 }

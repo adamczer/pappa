@@ -27,9 +27,9 @@ package ub.juav.airborne.math.structs.algebra;
  * Created by adamczer on 7/15/15.
  */
 public class Eulers<T extends Number> {
-    private T phi;
-    private T theta;
-    private T psi;
+    public T phi;
+    public T theta;
+    public T psi;
 
     public T getPhi() {
         return phi;

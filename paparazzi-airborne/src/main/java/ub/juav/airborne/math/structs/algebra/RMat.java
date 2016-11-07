@@ -35,6 +35,14 @@ public class RMat<T extends Number> extends Mat33<T> {
                 ret.getMatrix()[i][j]=0.d;
         return ret;
     }
+    public static RMat<Integer> RMatInteger() {
+        RMat<Integer> ret = new RMat<>();
+        ret.setMatrix(new Integer[3][3]);
+        for(int i = 0; i<3;i++)
+            for(int j = 0; j<3;j++)
+                ret.getMatrix()[i][j]=0;
+        return ret;
+    }
     public void setFlattendElement(int index, T val) {
         int row = index/3;
         int col = index%3;

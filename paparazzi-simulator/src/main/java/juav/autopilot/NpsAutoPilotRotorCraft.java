@@ -2,7 +2,7 @@ package juav.autopilot;
 
 import juav.autopilot.gps.GpsSimNps;
 import juav.autopilot.imu.JniImuNps;
-import juav.autopilot.stabilization.JniStabilizationAttitudeComputation;
+import juav.autopilot.guidance.GuidanceH;
 import juav.simulator.tasks.PeriodicTask;
 import juav.simulator.tasks.sensors.device.jni.*;
 import ub.cse.juav.jni.nps.PaparazziNps;
@@ -97,13 +97,11 @@ public class NpsAutoPilotRotorCraft extends PeriodicTask {
             NativeTasks.autopilotPeriodicPriorJuav();
             if(!NativeTasks.isAutopilotModeApModeKillJuav()) {
                 boolean inFlight = NativeTasks.getAutopilotInFlightJuav();
-                NativeTasks.guidanceHRunJuav(inFlight);
+//                NativeTasks.guidanceHRunJuav(inFlight);
                 if(NativeTasks.runStabilizationAttitudeRunJuav()) {
 //                    NativeTasks.guidanceHRunNativeTestJuav(inFlight); // test plumbing
-                    NativeTasks.guidanceHRunJuav(inFlight);
-                    JniStabilizationAttitudeComputation.stabilizationAttitudeRun(inFlight);
-                    //TODO stabilization_attitude_quat_int.c->stabilization_attitude_run() collect metrics on this
-                    // this code uses boolean inFlight;
+//                    NativeTasks.guidanceHRunJuav(inFlight);
+                    GuidanceH.stabilizationAttitudeRun(inFlight);
                 }
             }
             NativeTasks.autopilotPeriodicPostJuav();//finaizes after guidance_h.c run

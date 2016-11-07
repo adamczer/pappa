@@ -252,6 +252,12 @@ public class PprzAlgebra{
         e.setTheta(theta);
         e.setPhi(phi);
     }
+
+    public static void INT_EULERS_ZERO(Eulers e) {
+        e.setPsi(0);
+        e.setTheta(0);
+        e.setPhi(0);
+    }
     /* a += b */
     public static void EULERS_ADD(Eulers a, Eulers b) {
         a.setPhi(NumberMath.add(a.getPhi(), b.getPhi()));

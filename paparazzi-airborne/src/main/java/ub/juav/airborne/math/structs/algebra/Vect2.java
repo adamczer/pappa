@@ -27,7 +27,13 @@ package ub.juav.airborne.math.structs.algebra;
  * Created by adamczer on 7/12/15.
  */
 public class Vect2<T extends Number> {
-    private T x, y;
+    public T x, y;
+
+    public static Vect2<Integer> newIntVect2() {
+        Vect2<Integer> ret = new Vect2<>();
+        zero(ret);
+        return ret;
+    }
 
     public T getX() {
         return x;
@@ -42,5 +48,16 @@ public class Vect2<T extends Number> {
 
     public void setY(T y) {
         this.y = y;
+    }
+
+    public static Vect2<Long> newLongVect2() {
+        Vect2<Long> ret = new Vect2<>();
+        zero(ret);
+        return ret;
+    }
+
+    private static void zero(Vect2 ret) {
+        ret.setX(0);
+        ret.setY(0);
     }
 }

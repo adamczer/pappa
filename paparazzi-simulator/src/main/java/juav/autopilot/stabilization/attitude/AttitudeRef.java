@@ -1,7 +1,6 @@
 package juav.autopilot.stabilization.attitude;
 
 import ub.cse.juav.jni.tasks.NativeTasks;
-import ub.juav.airborne.math.structs.algebra.Eulers;
 import ub.juav.airborne.math.structs.algebra.Quat;
 import ub.juav.airborne.math.structs.algebra.Rates;
 

@@ -2,8 +2,8 @@
 #include <stdio.h>
 #include "ub_cse_juav_jni_nps_PaparazziNps.h"
 #include <nps_main.h>
-#include <main.h>
-
+//#include <main.h>
+//
 #include <nps_fdm.h>
 
 #define SIM_DT (1./1000)

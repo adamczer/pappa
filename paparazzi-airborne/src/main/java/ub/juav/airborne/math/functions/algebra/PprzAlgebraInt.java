@@ -47,7 +47,7 @@ public class PprzAlgebraInt {
     private static final int  INT32_PERCENTAGE_FRAC =10;
     private static final int INT32_QUAT_FRAC =15;
 
-    private static final int INT32_TRIG_FRAC =14;
+    public static final int INT32_TRIG_FRAC =14;
 
     /* Euler angles                                 */
     public static final int  INT32_ANGLE_FRAC =12;
@@ -144,6 +144,11 @@ public class PprzAlgebraInt {
     public static void INT32_VECT2_RSHIFT(Vect2<Integer> o, Vect2<Integer> i, int r) {
         o.setX(i.getX()>>r);
         o.setY(i.getY()>>r);
+    }
+
+    public static void INT32_VECT2_RSHIFT_L(Vect2<Integer> o, Vect2<Long> i, int r) {
+        o.setX((int) (i.getX()>>r));
+        o.setY((int) (i.getY()>>r));
     }
 
     public static void INT32_VECT2_LSHIFT(Vect2<Integer> o, Vect2<Integer> i, int r) {
@@ -775,6 +780,12 @@ public class PprzAlgebraInt {
         r.setR(INT_MULT_RSHIFT(cphi_ctheta, ed.getPsi(), INT32_TRIG_FRAC) - INT_MULT_RSHIFT(sphi, ed.getTheta(), INT32_TRIG_FRAC));
     }
 
+    public static void INT_RATES_ZERO(Rates<Integer> rates) {
+        rates.setP(0);
+        rates.setQ(0);
+        rates.setR(0);
+    }
+
     public static void int32_eulers_dot_321_of_rates(Eulers<Integer> ed, Eulers<Integer> e, Rates<Integer> r) {
         int sphi = PprzTrig.PPRZ_ITRIG_SIN(e.getPhi());
         int cphi = PprzTrig.PPRZ_ITRIG_COS(e.getPhi());
@@ -805,4 +816,20 @@ public class PprzAlgebraInt {
 
 //    Int Algebra .h file
 
+
+    public static int BoundAbs(int input, int bound) {
+        if (bound >= 0)
+            return Bound(input, -bound, bound);
+        else
+            return Bound(input, bound, -bound);
+    }
+
+    public static int Bound(int input, int min, int max) {
+        if (input > max) {
+            input = max;
+        } else if (input < min) {
+            input = min;
+        }
+        return input;
+    }
 }

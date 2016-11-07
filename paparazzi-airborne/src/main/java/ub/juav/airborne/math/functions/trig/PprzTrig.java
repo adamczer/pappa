@@ -516,4 +516,9 @@ public class PprzTrig {
     public static int  INT32_ATAN2(int y, int x) { return int32_atan2(y, x); }
     public static int  INT32_ATAN2_2(int y, int x) { return int32_atan2_2(y, x); }
 
+    public static int PPRZ_ITRIG_SIN(int _s, int _a) { _s = pprz_itrig_sin(_a); return _s;}
+    public static int PPRZ_ITRIG_COS(int _c, int _a) { _c = pprz_itrig_cos(_a); return _c;}
+    public static void INT32_ATAN2(int _a, int _y, int _x) { _a = int32_atan2(_y, _x); }
+    public static void INT32_ATAN2_2(int _a, int _y, int _x) { _a = int32_atan2_2(_y, _x); }
+
 }

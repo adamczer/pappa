@@ -13,6 +13,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
 
+import static ub.juav.airborne.math.functions.algebra.PprzAlgebraInt.Bound;
+import static ub.juav.airborne.math.functions.algebra.PprzAlgebraInt.BoundAbs;
+
 /**
  * Created by adamczer on 6/10/16.
  */
@@ -223,22 +226,5 @@ public class StabilizationAttitudeQuatInt {
         stabilization_att_ff_cmd.setRoll((int) (GAIN_PRESCALER_FF * gains.getDd().getX() * PprzAlgebraInt.RATE_FLOAT_OF_BFP(ref_accel.getP()) / (1 << 7)));
         stabilization_att_ff_cmd.setPitch((int) (GAIN_PRESCALER_FF * gains.getDd().getY() * PprzAlgebraInt.RATE_FLOAT_OF_BFP(ref_accel.getQ()) / (1 << 7)));
         stabilization_att_ff_cmd.setYaw((int) (GAIN_PRESCALER_FF * gains.getDd().getZ() * PprzAlgebraInt.RATE_FLOAT_OF_BFP(ref_accel.getR()) / (1 << 7)));
-    }
-
-
-    private static int Bound(int input, int min, int max) {
-        if (input > max) {
-            input = max;
-        } else if (input < min) {
-            input = min;
-        }
-        return input;
-    }
-
-    private static int BoundAbs(int input, int bound) {
-        if (bound >= 0)
-            return Bound(input, -bound, bound);
-        else
-            return Bound(input, bound, -bound);
     }
 }
