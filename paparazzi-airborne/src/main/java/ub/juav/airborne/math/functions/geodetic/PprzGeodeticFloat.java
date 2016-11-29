@@ -41,7 +41,7 @@ public class PprzGeodeticFloat {
         PprzAlgebra.VECT3_COPY(def.getEcefCoor(), ecef);
   /* compute the lla representation of the origin */
         lla_of_ecef_f(def.getLlaCoor(), def.getEcefCoor());
-  /* store the rotation matrix                    */
+  /* store the rotation m                    */
         float sin_lat = (float) Math.sin(def.getLlaCoor().getLat());
         float cos_lat = (float) Math.cos(def.getLlaCoor().getLat());
         float sin_lon = (float) Math.sin(def.getLlaCoor().getLon());
@@ -66,7 +66,7 @@ public class PprzGeodeticFloat {
   /* compute the ecef representation of the origin */
         ecef_of_lla_f(def.getEcefCoor(), def.getLlaCoor());
 
-  /* store the rotation matrix                    */
+  /* store the rotation m                    */
         float sin_lat = (float) Math.sin(def.getLlaCoor().getLat());
         float cos_lat = (float) Math.cos(def.getLlaCoor().getLat());
         float sin_lon = (float) Math.sin(def.getLlaCoor().getLon());

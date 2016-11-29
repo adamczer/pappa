@@ -27,7 +27,7 @@ package ub.juav.airborne.math.structs.algebra;
  * Created by adamczer on 7/12/15.
  */
 public class Vect3<T extends Number> {
-    private T x,y,z;
+    public T x,y,z;
 
     public T getX() {
         return x;
@@ -51,5 +51,17 @@ public class Vect3<T extends Number> {
 
     public void setZ(T z) {
         this.z = z;
+    }
+
+    public static Vect3<Float> newFloat(float x, float y, float z) {
+        Vect3<Float> ret = new Vect3<Float>();
+        ret.setX(x);
+        ret.setY(y);
+        ret.setZ(z);
+        return ret;
+    }
+
+    public static Vect3<Float> newFloat() {
+        return newFloat(0,0,0);
     }
 }

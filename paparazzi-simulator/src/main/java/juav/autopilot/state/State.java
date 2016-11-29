@@ -39,10 +39,26 @@ public class State {
     }
 
     public static Rates<Integer> stateGetBodyRates_i() {
-
+        Rates<Integer> ret = Rates.newInteger();
+        ret.setP(NativeTasks.stateGetBodyRatesIP());
+        ret.setQ(NativeTasks.stateGetBodyRatesIQ());
+        ret.setR(NativeTasks.stateGetBodyRatesIR());
+        return ret;
     }
 
     public static Eulers<Integer> stateGetNedToBodyEulers_i() {
+        Eulers<Integer> ret = Eulers.newInteger();
+        ret.setPsi(NativeTasks.stateGetNedToBodyEulersIPsiInt());
+        ret.setTheta(NativeTasks.stateGetNedToBodyEulersITheataInt());
+        ret.setPhi(NativeTasks.stateGetNedToBodyEulersIPhiInt());
+        return ret;
+    }
 
+    public static Eulers<Float> stateGetNedToBodyEulers_f() {
+        Eulers<Float> ret = Eulers.newFloat();
+        ret.setPsi(NativeTasks.stateGetNedToBodyEulersIPsiFloat());
+        ret.setTheta(NativeTasks.stateGetNedToBodyEulersITheataFloat());
+        ret.setPhi(NativeTasks.stateGetNedToBodyEulersIPhiFloat());
+        return ret;
     }
  }

@@ -26,6 +26,8 @@ package ub.juav.airborne.math.functions.geodetic;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebra;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebraInt;
 import ub.juav.airborne.math.structs.algebra.RMat;
+import ub.juav.airborne.math.structs.algebra.Vect2;
+import ub.juav.airborne.math.structs.algebra.Vect3;
 import ub.juav.airborne.math.structs.geodetic.*;
 import ub.juav.airborne.math.util.Constants;
 import ub.juav.airborne.math.util.UtilityFunctions;
@@ -106,12 +108,14 @@ public class PprzGeodeticInt {
 //
 //    #define ENU_FLOAT_OF_BFP(_o, _i) NED_FLOAT_OF_BFP(_o, _i)
 //
-//            #define INT32_VECT2_ENU_OF_NED(_o, _i) {
-//        (_o).x = (_i).y;
-//        (_o).y = (_i).x;
-//    }
+    public static void INT32_VECT2_ENU_OF_NED(Vect2<Integer> _o, Vect3<Integer> _i) {
+        (_o).x = (_i).y;
+        (_o).y = (_i).x;
+    }
 //
-//    #define INT32_VECT2_NED_OF_ENU(_o, _i) INT32_VECT2_ENU_OF_NED(_o,_i)
+    public static void INT32_VECT2_NED_OF_ENU(Vect2<Integer> _o, Vect3<Integer> _i) {
+        INT32_VECT2_ENU_OF_NED(_o,_i);
+    }
 //
 //            #define HIGH_RES_RMAT_BFP_OF_REAL(_ei, _ef) {
 //        (_ei).m[0] = BFP_OF_REAL((_ef).m[0], HIGH_RES_TRIG_FRAC);
@@ -185,7 +189,7 @@ public class PprzGeodeticInt {
         PprzAlgebra.VECT3_COPY(def.getEcefCoor(), ecef);
   /* compute the lla representation of the origin */
         lla_of_ecef_i(def.getLlaCoor(), def.getEcefCoor());
-  /* store the rotation matrix                    */
+  /* store the rotation m                    */
         ltp_of_ecef_rmat_from_lla_i(def.getLtp_of_ecef(), def.getLlaCoor());
 
     }
@@ -197,7 +201,7 @@ public class PprzGeodeticInt {
         PprzGeodetic.LLA_COPY(def.getLlaCoor(), lla);
   /* compute the ecef representation of the origin */
         ecef_of_lla_i(def.getEcefCoor(), def.getLlaCoor());
-  /* store the rotation matrix                    */
+  /* store the rotation m                    */
         ltp_of_ecef_rmat_from_lla_i(def.getLtp_of_ecef(), def.getLlaCoor());
     }
 

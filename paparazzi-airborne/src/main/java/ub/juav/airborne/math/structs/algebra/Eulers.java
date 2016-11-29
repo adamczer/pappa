@@ -54,4 +54,20 @@ public class Eulers<T extends Number> {
     public void setPsi(T psi) {
         this.psi = psi;
     }
+
+    public static Eulers<Integer> newInteger() {
+        Eulers<Integer> ret = new Eulers<>();
+        ret.setPhi(0);
+        ret.setPsi(0);
+        ret.setTheta(0);
+        return ret;
+    }
+
+    public static Eulers<Float> newFloat() {
+        Eulers<Float> ret = new Eulers<>();
+        ret.setPhi(0f);
+        ret.setPsi(0f);
+        ret.setTheta(0f);
+        return ret;
+    }
 }

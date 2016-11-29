@@ -144,4 +144,12 @@ public class NativeTasks {
     public static native int stateGetNedToBodyRMatI_6();
     public static native int stateGetNedToBodyRMatI_7();
     public static native int stateGetNedToBodyRMatI_8();
+
+    public static native int stateGetNedToBodyEulersIPsiInt();
+    public static native int stateGetNedToBodyEulersITheataInt();
+    public static native int stateGetNedToBodyEulersIPhiInt();
+
+    public static native float stateGetNedToBodyEulersIPsiFloat();
+    public static native float stateGetNedToBodyEulersITheataFloat();
+    public static native float stateGetNedToBodyEulersIPhiFloat();
 }

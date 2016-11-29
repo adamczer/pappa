@@ -52,7 +52,7 @@ public class OrientationReps {
     Eulers<Integer> eulers_i;
 
     /**
-     * Orientation rotation matrix.
+     * Orientation rotation m.
      * Units: rad in BFP with #INT32_TRIG_FRAC
      */
     RMat<Integer> rmat_i;
@@ -70,7 +70,7 @@ public class OrientationReps {
     Eulers<Float> eulers_f;
 
     /**
-     * Orientation rotation matrix.
+     * Orientation rotation m.
      * Units: rad
      */
     RMat<Float> rmat_f;

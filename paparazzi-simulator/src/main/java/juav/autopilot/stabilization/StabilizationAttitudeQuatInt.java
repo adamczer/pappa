@@ -6,21 +6,29 @@ import juav.autopilot.stabilization.attitude.StabilizationCommand;
 import ub.cse.juav.jni.tasks.NativeTasks;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebra;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebraInt;
+import ub.juav.airborne.math.structs.algebra.Eulers;
 import ub.juav.airborne.math.structs.algebra.Quat;
 import ub.juav.airborne.math.structs.algebra.Rates;
+import ub.juav.airborne.math.structs.algebra.Vect2;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
 
-import static ub.juav.airborne.math.functions.algebra.PprzAlgebraInt.Bound;
-import static ub.juav.airborne.math.functions.algebra.PprzAlgebraInt.BoundAbs;
+import static juav.autopilot.stabilization.StabilizationAttitudeQuatTransformations.quat_from_earth_cmd_i;
+import static juav.autopilot.stabilization.StabilizationAttitudeRcSetpoint.*;
+import static juav.autopilot.stabilization.StabilizationAttitudeRefQuatInt.attitude_ref_quat_int_enter;
+import static juav.autopilot.state.State.stateGetNedToBodyEulers_i;
+import static ub.juav.airborne.math.functions.algebra.PprzAlgebra.QUAT_BFP_OF_REAL;
+import static ub.juav.airborne.math.functions.algebra.PprzAlgebraInt.*;
+import static ub.juav.airborne.math.functions.trig.PprzTrig.*;
 
 /**
  * Created by adamczer on 6/10/16.
  */
 public class StabilizationAttitudeQuatInt {
-    private static final int MAX_PPRZ = 9600;
+
+    public static final int MAX_PPRZ = 9600;
     private static final float PERIODIC_FREQUENCY = 512;
     private static final int REF_RATE_FRAC = 16;
     private static final int INT32_RATE_FRAC = 12;
@@ -34,6 +42,7 @@ public class StabilizationAttitudeQuatInt {
     private static boolean logTimeMetrics = false;
     private static FileWriter totalTimeLog;
     private static FileWriter jniTimeLog;
+
     static {
         if(logTimeMetrics)
         try {
@@ -43,6 +52,22 @@ public class StabilizationAttitudeQuatInt {
             e.printStackTrace();
         }
     }
+
+
+    public static Eulers<Integer> stab_att_sp_euler = Eulers.newInteger();
+    public static Quat<Integer> stab_att_sp_quat = Quat.newInteger();
+    public static AttitudeRef<Integer> att_ref_quat_i = AttitudeRef.newInteger();
+    public static Quat<Integer> stabilization_att_sum_err_quat = Quat.newInteger();
+
+    public static void stabilization_attitude_enter() {
+          /* reset psi setpoint to current psi angle */
+        stab_att_sp_euler.psi = stabilization_attitude_get_heading_i();
+
+        attitude_ref_quat_int_enter(att_ref_quat_i, stab_att_sp_euler.psi);
+
+        int32_quat_identity(stabilization_att_sum_err_quat);
+    }
+
     public static void stabilization_attitude_run(boolean enable_integrator) {
 //  printf("stabilization_attitude_run\n");
           /*
@@ -111,7 +136,7 @@ public class StabilizationAttitudeQuatInt {
             stabilization_att_sum_err_quat.setQz(Bound(stabilization_att_sum_err_quat.getQz(), -INTEGRATOR_BOUND, INTEGRATOR_BOUND));
         } else {
     /* reset accumulator */
-            PprzAlgebraInt.int32_quat_identity(stabilization_att_sum_err_quat);
+            int32_quat_identity(stabilization_att_sum_err_quat);
         }
 
         StabilizationCommand<Integer> stabilization_att_ff_cmd = StabilizationCommand.newInteger();
@@ -165,34 +190,6 @@ public class StabilizationAttitudeQuatInt {
 
     private static int iterCount = 0;
 
-    private static void sendResultsBack(Quat<Integer> stabilization_att_sum_err_quat, AttitudeRef<Integer> att_ref_quat_i, StabilizationCommand<Integer> stabilization_cmd) {
-        //sum error quat
-        NativeTasks.setStabilizationAttSumErrQuatQi(stabilization_att_sum_err_quat.getQi());
-        NativeTasks.setStabilizationAttSumErrQuatQx(stabilization_att_sum_err_quat.getQx());
-        NativeTasks.setStabilizationAttSumErrQuatQy(stabilization_att_sum_err_quat.getQy());
-        NativeTasks.setStabilizationAttSumErrQuatQz(stabilization_att_sum_err_quat.getQz());
-        //att_ref_quat_i quat
-        NativeTasks.setAttRefQuatIQuatQi(att_ref_quat_i.getQuat().getQi());
-        NativeTasks.setAttRefQuatIQuatQx(att_ref_quat_i.getQuat().getQx());
-        NativeTasks.setAttRefQuatIQuatQy(att_ref_quat_i.getQuat().getQy());
-        NativeTasks.setAttRefQuatIQuatQz(att_ref_quat_i.getQuat().getQz());
-        //att_ref_quat_i rate
-        NativeTasks.setAttRefQuatIRateP(att_ref_quat_i.getRate().getP());
-        NativeTasks.setAttRefQuatIRateQ(att_ref_quat_i.getRate().getQ());
-        NativeTasks.setAttRefQuatIRateR(att_ref_quat_i.getRate().getR());
-        //att_ref_quat_i accel
-        NativeTasks.setAttRefQuatIAccelP(att_ref_quat_i.getAccel().getP());
-        NativeTasks.setAttRefQuatIAccelQ(att_ref_quat_i.getAccel().getQ());
-        NativeTasks.setAttRefQuatIAccelR(att_ref_quat_i.getAccel().getR());
-
-        //stablization command
-        NativeTasks.setStabilizationCommands(
-                stabilization_cmd.getYaw(),
-                stabilization_cmd.getPitch(),
-                stabilization_cmd.getRoll()
-        );
-
-    }
 
     private static Quat<Integer> getStabilizationAttSumErrQuatFromJni() {
         Quat<Integer> ret = Quat.newInteger();
@@ -226,5 +223,76 @@ public class StabilizationAttitudeQuatInt {
         stabilization_att_ff_cmd.setRoll((int) (GAIN_PRESCALER_FF * gains.getDd().getX() * PprzAlgebraInt.RATE_FLOAT_OF_BFP(ref_accel.getP()) / (1 << 7)));
         stabilization_att_ff_cmd.setPitch((int) (GAIN_PRESCALER_FF * gains.getDd().getY() * PprzAlgebraInt.RATE_FLOAT_OF_BFP(ref_accel.getQ()) / (1 << 7)));
         stabilization_att_ff_cmd.setYaw((int) (GAIN_PRESCALER_FF * gains.getDd().getZ() * PprzAlgebraInt.RATE_FLOAT_OF_BFP(ref_accel.getR()) / (1 << 7)));
+    }
+
+    public static void stabilization_attitude_read_rc(boolean in_flight, boolean in_carefree, boolean coordinated_turn)
+    {
+//  printf("stabilization_attitude_read_rc\n");
+        Quat<Float> q_sp = Quat.newFloat();
+//        #if USE_EARTH_BOUND_RC_SETPOINT
+//        stabilization_attitude_read_rc_setpoint_quat_earth_bound_f(&q_sp, in_flight, in_carefree, coordinated_turn);
+//        #else
+        stabilization_attitude_read_rc_setpoint_quat_f(q_sp, in_flight, in_carefree, coordinated_turn);
+//        #endif
+        QUAT_BFP_OF_REAL(stab_att_sp_quat, q_sp);
+    }
+
+    public static void stabilization_attitude_set_rpy_setpoint_i(Eulers<Integer> rpy)//TODO PORT
+    {
+//  printf("stabilization_attitude_set_rpy_setpoint_i\n");
+        // stab_att_sp_euler.psi still used in ref..
+        stab_att_sp_euler = rpy;
+
+        int32_quat_of_eulers(stab_att_sp_quat, stab_att_sp_euler);
+    }
+
+    public static void stabilization_attitude_set_earth_cmd_i(Vect2<Integer> cmd, int heading)
+    {
+//  printf("stabilization_attitude_set_earth_cmd_i\n");
+        // stab_att_sp_euler.psi still used in ref..
+        stab_att_sp_euler.psi = heading;
+
+        // compute sp_euler phi/theta for debugging/telemetry
+  /* Rotate horizontal commands to body frame by psi */
+        int psi = stateGetNedToBodyEulers_i().psi;
+        int s_psi=0, c_psi=0;
+        s_psi = PPRZ_ITRIG_SIN(s_psi, psi);
+        c_psi = PPRZ_ITRIG_COS(c_psi, psi);
+        stab_att_sp_euler.phi = (-s_psi * cmd.x + c_psi * cmd.y) >> INT32_TRIG_FRAC;
+        stab_att_sp_euler.theta = -(c_psi * cmd.x + s_psi * cmd.y) >> INT32_TRIG_FRAC;
+
+        quat_from_earth_cmd_i(stab_att_sp_quat, cmd, heading);
+    }
+
+
+    ///// communication
+
+    private static void sendResultsBack(Quat<Integer> stabilization_att_sum_err_quat, AttitudeRef<Integer> att_ref_quat_i, StabilizationCommand<Integer> stabilization_cmd) {
+        //sum error quat
+        NativeTasks.setStabilizationAttSumErrQuatQi(stabilization_att_sum_err_quat.getQi());
+        NativeTasks.setStabilizationAttSumErrQuatQx(stabilization_att_sum_err_quat.getQx());
+        NativeTasks.setStabilizationAttSumErrQuatQy(stabilization_att_sum_err_quat.getQy());
+        NativeTasks.setStabilizationAttSumErrQuatQz(stabilization_att_sum_err_quat.getQz());
+        //att_ref_quat_i quat
+        NativeTasks.setAttRefQuatIQuatQi(att_ref_quat_i.getQuat().getQi());
+        NativeTasks.setAttRefQuatIQuatQx(att_ref_quat_i.getQuat().getQx());
+        NativeTasks.setAttRefQuatIQuatQy(att_ref_quat_i.getQuat().getQy());
+        NativeTasks.setAttRefQuatIQuatQz(att_ref_quat_i.getQuat().getQz());
+        //att_ref_quat_i rate
+        NativeTasks.setAttRefQuatIRateP(att_ref_quat_i.getRate().getP());
+        NativeTasks.setAttRefQuatIRateQ(att_ref_quat_i.getRate().getQ());
+        NativeTasks.setAttRefQuatIRateR(att_ref_quat_i.getRate().getR());
+        //att_ref_quat_i accel
+        NativeTasks.setAttRefQuatIAccelP(att_ref_quat_i.getAccel().getP());
+        NativeTasks.setAttRefQuatIAccelQ(att_ref_quat_i.getAccel().getQ());
+        NativeTasks.setAttRefQuatIAccelR(att_ref_quat_i.getAccel().getR());
+
+        //stablization command
+        NativeTasks.setStabilizationCommands(
+                stabilization_cmd.getYaw(),
+                stabilization_cmd.getPitch(),
+                stabilization_cmd.getRoll()
+        );
+
     }
 }

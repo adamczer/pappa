@@ -37,7 +37,7 @@ public class PprzMatrixDcompFloat {
      *
      * @param out pointer to the output array [n x n]
      * @param in pointer to the input array [n x n]
-     * @param n dimension of the matrix
+     * @param n dimension of the m
      */
     void pprz_cholesky_float(PrimitiveWrapper<Float[][]> out, PrimitiveWrapper<Float[][]> in, int n)
     {
@@ -67,11 +67,11 @@ public class PprzMatrixDcompFloat {
      *
      * http://rosettacode.org/wiki/QR_decomposition#C
      *
-     * @param Q square orthogonal matrix Q [m x m]
-     * @param R upper triangular matrix R [m x n]
+     * @param Q square orthogonal m Q [m x m]
+     * @param R upper triangular m R [m x n]
      * @param in pointer to the input array [m x n]
-     * @param m number of rows of the input matrix
-     * @param n number of column of the input matrix
+     * @param m number of rows of the input m
+     * @param n number of column of the input m
      */
     void pprz_qr_float(PrimitiveWrapper<Float [][]> Q, PrimitiveWrapper<Float [][]> R, PrimitiveWrapper<Float [][]> in, int m, int n)
     {
@@ -156,16 +156,16 @@ public class PprzMatrixDcompFloat {
      *              University Press, 1986" [BIBLI 08].                      *
      * --------------------------------------------------------------------- *
      *
-     * Given a matrix a(m,n), this routine computes its singular value decomposition,
-     * A = U · W · Vt. The matrix U replaces a on output. The diagonal matrix of singular
-     * values W is output as a vector w(n). The matrix V (not the transpose Vt) is output
+     * Given a m a(m,n), this routine computes its singular value decomposition,
+     * A = U · W · Vt. The m U replaces a on output. The diagonal m of singular
+     * values W is output as a vector w(n). The m V (not the transpose Vt) is output
      * as v(n,n).
      *
-     * @param a input matrix [m x n] and output matrix U [m x n]
-     * @param w output diagonal vector of matrix W [n]
-     * @param v output square matrix V [n x n]
-     * @param m number of rows of input the matrix
-     * @param n number of columns of the input matrix
+     * @param a input m [m x n] and output m U [m x n]
+     * @param w output diagonal vector of m W [n]
+     * @param v output square m V [n x n]
+     * @param m number of rows of input the m
+     * @param n number of columns of the input m
      * @return 0 (false) if convergence failed, 1 (true) if decomposition succed
      */
     public static int pprz_svd_float(PrimitiveWrapper<Float[][]> a, PrimitiveWrapper<Float[]> w, PrimitiveWrapper<Float[][]> v, int m, int n)
@@ -465,14 +465,14 @@ public class PprzMatrixDcompFloat {
      * x(n) is the output solution vector.
      * No input quantities are destroyed, so the routine may be called sequentially with different b's.
      *
-     * @param x solution of the system ([n x l] matrix)
-     * @param u U matrix from SVD decomposition
-     * @param w diagonal of the W matrix from the SVD decomposition
+     * @param x solution of the system ([n x l] m)
+     * @param u U m from SVD decomposition
+     * @param w diagonal of the W m from the SVD decomposition
      * @param v V matrrix from SVD decomposition
-     * @param b right-hand side input matrix from system to solve (column vector [m x l])
-     * @param m number of rows of the matrix A
-     * @param n number of columns of the matrix A
-     * @param l number of columns of the matrix B
+     * @param b right-hand side input m from system to solve (column vector [m x l])
+     * @param m number of rows of the m A
+     * @param n number of columns of the m A
+     * @param l number of columns of the m B
      */
     public static void pprz_svd_solve_float(PrimitiveWrapper<Float[][]> x, PrimitiveWrapper<Float[][]> u, PrimitiveWrapper<Float[]> w, PrimitiveWrapper<Float[][]> v, PrimitiveWrapper<Float[][]> b, int m, int n, int l)
     {

@@ -37,4 +37,13 @@ public class Mat33<T extends Number> extends MatNxN<T>{
                 ret.getMatrix()[i][j]=0.d;
         return ret;
     }
+
+    public static Mat33<Float> newFloat() {
+        Mat33<Float> ret = new Mat33<>();
+        ret.setMatrix(new Float[3][3]);
+        for(int i = 0; i<3;i++)
+            for(int j = 0; j<3;j++)
+                ret.getMatrix()[i][j]=0.f;
+        return ret;
+    }
 }

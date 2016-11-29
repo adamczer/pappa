@@ -179,7 +179,7 @@ public class PprzAlgebraFloat {
                 ,2,2);
     }
 
-    /** rotate 3D vector by rotation matrix.
+    /** rotate 3D vector by rotation m.
      * vb = m_a2b * va
      */
     public static void float_rmat_vmult(Vect3<Float> vb, RMat<Float> m_a2b, Vect3<Float> va)
@@ -189,7 +189,7 @@ public class PprzAlgebraFloat {
         vb.setZ(m_a2b.getElement(2,0) * va.getX() + m_a2b.getElement(2,1) * va.getY() + m_a2b.getElement(2,2) * va.getZ());
     }
 
-    /** rotate 3D vector by transposed rotation matrix.
+    /** rotate 3D vector by transposed rotation m.
      * vb = m_b2a^T * va
      */
     public static void float_rmat_transp_vmult(Vect3<Float> vb, RMat<Float> m_b2a, Vect3<Float> va)
@@ -199,7 +199,7 @@ public class PprzAlgebraFloat {
         vb.setZ(m_b2a.getElement(0,2) * va.getX() + m_b2a.getElement(1,2) * va.getY() + m_b2a.getElement(2,2) * va.getZ());
     }
 
-    /** rotate anglular rates by rotation matrix.
+    /** rotate anglular rates by rotation m.
      * rb = m_a2b * ra
      */
     public static void float_rmat_ratemult(Rates<Float> rb, RMat<Float> m_a2b, Rates<Float> ra)
@@ -209,7 +209,7 @@ public class PprzAlgebraFloat {
         rb.setR(m_a2b.getElement(2, 0) * ra.getP() + m_a2b.getElement(2, 1) * ra.getQ() + m_a2b.getElement(2, 2) * ra.getR());
     }
 
-    /** rotate anglular rates by transposed rotation matrix.
+    /** rotate anglular rates by transposed rotation m.
      * rb = m_b2a^T * ra
      */
     public static void float_rmat_transp_ratemult(Rates<Float> rb, RMat<Float> m_b2a, Rates<Float> ra)
@@ -219,7 +219,7 @@ public class PprzAlgebraFloat {
         rb.setR(m_b2a.getElement(0, 2) * ra.getP() + m_b2a.getElement(1, 2) * ra.getQ() + m_b2a.getElement(2, 2) * ra.getR());
     }
 
-    /** initialises a rotation matrix from unit vector axis and angle */
+    /** initialises a rotation m from unit vector axis and angle */
     public static void float_rmat_of_axis_angle(RMat<Float> rm, Vect3<Float> uv, float angle)
     {
         float ux2  = (uv.getX()*uv.getX());
@@ -247,7 +247,7 @@ public class PprzAlgebraFloat {
         float_rmat_of_eulers_321(rm,e);
     }
 
-    /* C n->b rotation matrix */
+    /* C n->b rotation m */
     public static void float_rmat_of_eulers_321(RMat<Float> rm, Eulers<Float> e)
     {
         float sphi   = (float) Math.sin(e.getPhi());
@@ -288,7 +288,7 @@ public class PprzAlgebraFloat {
         rm.setElement(cphi * ctheta, 2, 2);
     }
 
-    /* C n->b rotation matrix */
+    /* C n->b rotation m */
     public static void float_rmat_of_quat(RMat<Float> rm, Quat<Float> q)
     {
         float _a = (float) (M_SQRT2 * q.getQi());
@@ -313,7 +313,7 @@ public class PprzAlgebraFloat {
         rm.setElement(a2_1 + _d * _d, 2, 2);
     }
 
-    /** in place first order integration of a rotation matrix */
+    /** in place first order integration of a rotation m */
     public static void float_rmat_integrate_fi(RMat<Float> rm, Rates<Float> omega, float dt)
     {
         rm.setMatrix(new Float[][]{
@@ -747,7 +747,7 @@ public class PprzAlgebraFloat {
 
     ///***Rotation Matricies***///
 
-    /** initialises a rotation matrix to identity */
+    /** initialises a rotation m to identity */
     public static void float_rmat_identity(RMat<Float> rm)
     {
         FLOAT_MAT33_DIAG(rm, (float)1., (float)1., (float)1.);
@@ -935,11 +935,11 @@ public class PprzAlgebraFloat {
 
 
 
-//Generic matrix algebra
+//Generic m algebra
 
 
 
-/** Make a pointer to a matrix of _rows lines */
+/** Make a pointer to a m of _rows lines */
 //    TODO I dont think this is used
 //    #define MAKE_MATRIX_PTR(_ptr, _mat, _rows) \
 //    float * _ptr[_rows]; \
@@ -984,7 +984,7 @@ public class PprzAlgebraFloat {
         }
     }
 
-/** transpose square matrix */
+/** transpose square m */
     public static void float_mat_transpose(PrimitiveWrapper<Float[][]> a, int n)
     {
         int i, j;
@@ -1016,7 +1016,7 @@ public class PprzAlgebraFloat {
         }
     }
 
-/** matrix minor
+/** m minor
 *
 * a: [m x n]
 * o: [I(d,d)     0     ]
@@ -1048,7 +1048,7 @@ public class PprzAlgebraFloat {
         }
     }
 
-/** o = c-th column of matrix a[m x n] */
+/** o = c-th column of m a[m x n] */
     public static void float_mat_col(PrimitiveWrapper<Float[]> o, PrimitiveWrapper<Float[][]> a, int m, int c)
     {
         int i;
@@ -1060,4 +1060,12 @@ public class PprzAlgebraFloat {
     public static final float FLT_MIN = Float.MIN_VALUE;
 
 
+    public static float Bound(float input, float min, float max) {
+        if (input > max) {
+            input = max;
+        } else if (input < min) {
+            input = min;
+        }
+        return input;
+    }
 }

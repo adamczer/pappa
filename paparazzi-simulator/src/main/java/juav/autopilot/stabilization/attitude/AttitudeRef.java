@@ -1,6 +1,7 @@
 package juav.autopilot.stabilization.attitude;
 
 import ub.cse.juav.jni.tasks.NativeTasks;
+import ub.juav.airborne.math.structs.algebra.Eulers;
 import ub.juav.airborne.math.structs.algebra.Quat;
 import ub.juav.airborne.math.structs.algebra.Rates;
 
@@ -8,10 +9,10 @@ import ub.juav.airborne.math.structs.algebra.Rates;
  * Created by adamczer on 6/10/16.
  */
 public class AttitudeRef<T extends Number> {
-//    Eulers<T> euler;
-    Quat<T> quat;
-    Rates<T> rate;
-    Rates<T> accel;
+    public Eulers<T> euler;
+    public Quat<T> quat;
+    public Rates<T> rate;
+    public Rates<T> accel;
 //    struct IntRefModel model;
 //    struct Int32RefSat saturation;
 
@@ -59,5 +60,14 @@ public class AttitudeRef<T extends Number> {
 
     public void setAccel(Rates<T> accel) {
         this.accel = accel;
+    }
+
+    public static AttitudeRef<Integer> newInteger() {
+        AttitudeRef<Integer> ret = new AttitudeRef<>();
+        ret.rate = Rates.newInteger();
+        ret.accel = Rates.newInteger();
+        ret.euler = Eulers.newInteger();
+        ret.quat = Quat.newInteger();
+        return ret;
     }
 }

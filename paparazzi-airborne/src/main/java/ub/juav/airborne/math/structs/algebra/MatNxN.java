@@ -27,22 +27,22 @@ package ub.juav.airborne.math.structs.algebra;
  * Created by adamczer on 7/15/15.
  */
 public class MatNxN<T extends Number> {
-    private T[][] matrix;
+    public T[][] m;
 
     public T[][] getMatrix() {
-        return matrix;
+        return m;
     }
 
     public void setMatrix(T[][] matrix) {
-        this.matrix = matrix;
+        this.m = matrix;
     }
 
     public void setElement(T d, int row, int col) {
-        matrix[row][col] = d;
+        m[row][col] = d;
     }
 
     public T getElement(int row,int column) {
-        return matrix[row][column];
+        return m[row][column];
     }
 
     public void zero() {

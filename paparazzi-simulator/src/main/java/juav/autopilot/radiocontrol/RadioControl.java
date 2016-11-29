@@ -19,6 +19,10 @@ public class RadioControl {
     public static final int RADIO_AUX7 = 11;
     public static final int RADIO_CONTROL_NB_CHANNEL = 12;
 
+    public static final int RC_OK = 0;
+    public static final int RC_LOST =      1;
+    public static final int RC_REALLY_LOST = 2;
+
     public static short status=0;
     public static short time_since_last_frame=0;
     public static short radio_ok_cpt=0;
@@ -26,4 +30,5 @@ public class RadioControl {
     public static short frame_cpt=0;
     public static int[] values= new int[RADIO_CONTROL_NB_CHANNEL];;
 
+    public static RadioControl radio_control = new RadioControl();
 }

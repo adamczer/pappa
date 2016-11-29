@@ -60,4 +60,15 @@ public class Vect2<T extends Number> {
         ret.setX(0);
         ret.setY(0);
     }
+
+    public static Vect2<Float> newFloat(float x, float y) {
+        Vect2<Float> ret = new Vect2<>();
+        ret.setX(x);
+        ret.setY(y);
+        return ret;
+    }
+
+    public static Vect2<Float> newFloat() {
+        return newFloat(0,0);
+    }
 }

@@ -205,7 +205,7 @@ public class PprzAlgebraInt {
 
     /************** Rotation Matricies ***************/
 
-    /* initialises a rotation matrix to identity */
+    /* initialises a rotation m to identity */
     public static void int32_rmat_identity(RMat<Integer> mat) {
         PprzAlgebra.MAT33_DIAG(mat, TRIG_BFP_OF_REAL(1.), TRIG_BFP_OF_REAL(1.), TRIG_BFP_OF_REAL(1.));
     }
@@ -275,7 +275,7 @@ public class PprzAlgebraInt {
         ma2b.setElement((mb2c.getElement(0, 2)*ma2c.getElement(0, 2)+mb2c.getElement(1, 2)*ma2c.getElement(1, 2)+mb2c.getElement(2, 2)*ma2c.getElement(2, 2)) >> INT32_TRIG_FRAC,2,2);
     }
 
-    /** rotate 3D vector by rotation matrix.
+    /** rotate 3D vector by rotation m.
      * vb = m_a2b * va
      */
     public static void int32_rmat_vmult(Vect3<Integer> vb, RMat<Integer> ma2b, Vect3<Integer> va) {
@@ -284,7 +284,7 @@ public class PprzAlgebraInt {
         vb.setZ((ma2b.getElement(2, 0)*va.getX()+ma2b.getElement(2, 1) * va.getY() + ma2b.getElement(2, 2)*va.getZ())>> INT32_TRIG_FRAC);
     }
 
-    /** rotate 3D vector by transposed rotation matrix.
+    /** rotate 3D vector by transposed rotation m.
      * vb = m_b2a^T * va
      */
     public static void int32_rmat_transp_vmult(Vect3<Integer> vb, RMat<Integer> ma2b, Vect3<Integer> va) {
@@ -293,7 +293,7 @@ public class PprzAlgebraInt {
         vb.setZ((ma2b.getElement(0, 2)*va.getX()+ma2b.getElement(1, 2) * va.getY() + ma2b.getElement(2, 2)*va.getZ())>> INT32_TRIG_FRAC);
     }
 
-    /** rotate anglular rates by rotation matrix.
+    /** rotate anglular rates by rotation m.
      * rb = m_a2b * ra
      */
     public static void int32_rmat_ratemult(Rates<Integer> rb, RMat<Integer> ma2b, Rates<Integer> ra) {
@@ -302,7 +302,7 @@ public class PprzAlgebraInt {
         rb.setR((ma2b.getElement(2, 0) * ra.getP() + ma2b.getElement(2, 1) * ra.getQ() + ma2b.getElement(2, 2) * ra.getR())>> INT32_TRIG_FRAC);
     }
 
-    /** rotate anglular rates by transposed rotation matrix.
+    /** rotate anglular rates by transposed rotation m.
      * rb = m_b2a^T * ra
      */
     public static void int32_rmat_transp_ratemult(Rates<Integer> rb, RMat<Integer> mb2a, Rates<Integer> ra) {
@@ -311,7 +311,7 @@ public class PprzAlgebraInt {
         rb.setR((mb2a.getElement(0, 2) * ra.getP() + mb2a.getElement(1, 2) * ra.getQ() + mb2a.getElement(2, 2) * ra.getR()) >> INT32_TRIG_FRAC);
     }
 
-    /** Convert unit quaternion to rotation matrix.
+    /** Convert unit quaternion to rotation m.
      * http://www.mathworks.com/access/helpdesk_r13/help/toolbox/aeroblks/quaternionstodirectioncosinematrix.html
      * @param rm
      * @param q
@@ -341,7 +341,7 @@ public class PprzAlgebraInt {
         rm.setElement(rm.getElement(2, 2)+_2qi2_m1,2,2);
     }
 
-    /** Rotation matrix from 321 Euler angles.
+    /** Rotation m from 321 Euler angles.
      * http://www.mathworks.com/access/helpdesk_r13/help/toolbox/aeroblks/euleranglestodirectioncosinematrix.html
      */
     public static void int32_rmat_of_eulers_321(RMat<Integer> rm, Eulers<Integer> e) {

@@ -86,7 +86,7 @@ public class PprzSimpleMatrix {
         float det = _S[0][0]*m00 - _S[1][0]*m10 + _S[2][0]*m20;
         if (Math.abs(det) < Constants.FLT_EPSILON) {
       /* If the determinant is too small then set it to epsilon preserving sign. */
-            System.out.println("warning: %s:%d MAT_INV33 trying to invert non-invertable matrix '%s' and put result in '%s'.\n"+_S+ _invS);
+            System.out.println("warning: %s:%d MAT_INV33 trying to invert non-invertable m '%s' and put result in '%s'.\n"+_S+ _invS);
             if(det<0)
                 det = -1*Constants.FLT_EPSILON;
             else

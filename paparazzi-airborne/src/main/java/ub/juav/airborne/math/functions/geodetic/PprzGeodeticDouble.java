@@ -44,7 +44,7 @@ public class PprzGeodeticDouble {
         def.setEcefCoor(ecef);
   /* compute the lla representation of the origin */
         lla_of_ecef_d(def.getLlaCoor(), def.getEcefCoor());
-  /* store the rotation matrix                    */
+  /* store the rotation m                    */
         double sin_lat = Math.sin(def.getLlaCoor().getLat().doubleValue());
         double cos_lat = Math.cos(def.getLlaCoor().getLat().doubleValue());
         double sin_lon = Math.sin(def.getLlaCoor().getLon().doubleValue());

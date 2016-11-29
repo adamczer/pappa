@@ -137,7 +137,7 @@ public class GuidanceHRef {
         INT32_VECT2_RSHIFT(gh_ref.accel, accel, (INT32_ACCEL_FRAC - GH_ACCEL_REF_FRAC));
     }
 
-    public void gh_update_ref_from_pos_sp(Vect2<Integer> pos_sp)
+    public static void gh_update_ref_from_pos_sp(Vect2<Integer> pos_sp)
     {
 
         VECT2_ADD(gh_ref.pos, gh_ref.speed);
@@ -169,7 +169,7 @@ public class GuidanceHRef {
     }
 
 
-    public void gh_update_ref_from_speed_sp(Vect2<Integer> speed_sp)
+    public static void gh_update_ref_from_speed_sp(Vect2<Integer> speed_sp)
     {
   /* WARNING: SPEED SATURATION UNTESTED */
         VECT2_ADD(gh_ref.pos, gh_ref.speed);

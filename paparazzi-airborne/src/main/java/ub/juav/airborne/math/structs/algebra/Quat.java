@@ -72,4 +72,13 @@ public class Quat<T extends Number> {
         ret.setQx(0);
         return ret;
     }
+
+    public static Quat<Float> newFloat() {
+        Quat<Float> ret = new Quat<>();
+        ret.setQz(0f);
+        ret.setQy(0f);
+        ret.setQi(0f);
+        ret.setQx(0f);
+        return ret;
+    }
 }

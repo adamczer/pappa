@@ -59,7 +59,7 @@ public class PprzOrientationConversion {
         orientation.setStatus(1 << ORREP_QUAT_I);
     }
 
-/// Set vehicle body attitude from rotation matrix (int).
+/// Set vehicle body attitude from rotation m (int).
     public static void orientationSetRMat_i(OrientationReps orientation, RMat<Integer> rmat)
     {
         PprzAlgebra.RMAT_COPY(orientation.getRmat_i(), rmat);
@@ -83,7 +83,7 @@ public class PprzOrientationConversion {
         orientation.setStatus(1 << ORREP_QUAT_F);
     }
 
-/// Set vehicle body attitude from rotation matrix (float).
+/// Set vehicle body attitude from rotation m (float).
     public static void orientationSetRMat_f(OrientationReps orientation, RMat<Float> rmat)
     {
         PprzAlgebra.RMAT_COPY(orientation.getRmat_f(), rmat);
@@ -109,7 +109,7 @@ public class PprzOrientationConversion {
         return orientation.getQuat_i();
     }
 
-    /// Get vehicle body attitude rotation matrix (int).
+    /// Get vehicle body attitude rotation m (int).
     public static RMat<Integer> orientationGetRMat_i(OrientationReps orientation)
     {
         if (!UtilityFunctions.bit_is_set(orientation.getStatus(), ORREP_RMAT_I)) {
@@ -136,7 +136,7 @@ public class PprzOrientationConversion {
         return orientation.getQuat_f();
     }
 
-    /// Get vehicle body attitude rotation matrix (float).
+    /// Get vehicle body attitude rotation m (float).
     public static RMat<Float> orientationGetRMat_f(OrientationReps orientation)
     {
         if (!UtilityFunctions.bit_is_set(orientation.getStatus(), ORREP_RMAT_F)) {

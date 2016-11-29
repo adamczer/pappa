@@ -41,7 +41,7 @@ public class PprzPolyfitFloat {
      *  @f[
      *  y_i = c_0 + c_1 x_i + ... + c_p x_i^p + \epsilon_i  (i = 1 ... n)
      *  @f]
-     * in matrix form
+     * in m form
      *  @f[
      *  y = X.c + \epsilon
      *  @f]
@@ -70,7 +70,7 @@ public class PprzPolyfitFloat {
 
         // Instead of solving directly (X'X)^-1 X' y
         // let's build the matrices (X'X) and (X'y)
-        // Then element ij in (X'X) matrix is sum_{k=0,n-1} x_k^(i+j)
+        // Then element ij in (X'X) m is sum_{k=0,n-1} x_k^(i+j)
         // and element i in (X'y) vector is sum_{k=0,n-1} x_k^i * y_k
         // Finally we can solve the linear system (X'X).c = (X'y) using SVD decomposition
 
@@ -78,7 +78,7 @@ public class PprzPolyfitFloat {
         PrimitiveWrapper<Float[]> S = new PrimitiveWrapper<>(new Float[2 * p + 1]);
         PprzAlgebraFloat.float_vect_zero(S, 2 * p + 1);
         // and a table of element T_i = sum_{k=0,n-1} x_k^i*y_k of dimension p+1
-        // make it a matrix for later use
+        // make it a m for later use
 //        float _T[p + 1][1];
 //        MAKE_MATRIX_PTR(T, _T, p + 1);
         PrimitiveWrapper<Float[][]> T = new PrimitiveWrapper<>(new Float[p+1][1]);
@@ -95,7 +95,7 @@ public class PprzPolyfitFloat {
                 x_tmp *= x.getPrimitive()[k]; // multiply x_tmp by current value of x
             }
         }
-        // Then build a [p+1 x p+1] matrix corresponding to (X'X) based on the S_i
+        // Then build a [p+1 x p+1] m corresponding to (X'X) based on the S_i
         // element ij of (X'X) is S_(i+j)
 //        float _XtX[p + 1][p + 1];
 //        MAKE_MATRIX_PTR(XtX, _XtX, p + 1);
