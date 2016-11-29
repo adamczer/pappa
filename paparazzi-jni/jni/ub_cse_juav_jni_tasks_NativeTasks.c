@@ -473,21 +473,25 @@ JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeGainIZ
 JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setStabilizationAttSumErrQuatQi
   (JNIEnv *env, jclass thisClass, jint qi) {
   set_stabilization_att_sum_err_quat_i_juav(qi);
+  return 0;
   }
 
 JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setStabilizationAttSumErrQuatQx
   (JNIEnv *env, jclass thisClass, jint qx) {
   set_stabilization_att_sum_err_quat_x_juav(qx);
+  return 0;
   }
 
 JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setStabilizationAttSumErrQuatQy
   (JNIEnv *env, jclass thisClass, jint qy) {
   set_stabilization_att_sum_err_quat_y_juav(qy);
+  return 0;
   }
 
 JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setStabilizationAttSumErrQuatQz
   (JNIEnv *env, jclass thisClass, jint qz) {
   set_stabilization_att_sum_err_quat_z_juav(qz);
+  return 0;
   }
 
 
@@ -650,3 +654,39 @@ JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetNedToBodyR
 struct Int32RMat tmp = *stateGetNedToBodyRMat_i();
 	return tmp.m[8];
   }
+
+  JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetNedToBodyEulersIPsiInt
+    (JNIEnv *env, jclass thisClass) {
+ 		struct Int32Eulers temp = *stateGetNedToBodyEulers_i();
+ 		return temp.psi;
+    }
+
+  JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetNedToBodyEulersITheataInt
+    (JNIEnv *env, jclass thisClass) {
+ 		struct Int32Eulers temp = *stateGetNedToBodyEulers_i();
+ 		return temp.theta;
+    }
+
+  JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetNedToBodyEulersIPhiInt
+    (JNIEnv *env, jclass thisClass) {
+ 		struct Int32Eulers temp = *stateGetNedToBodyEulers_i();
+ 		return temp.phi;
+    }
+
+  JNIEXPORT jfloat JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetNedToBodyEulersIPsiFloat
+    (JNIEnv *env, jclass thisClass) {
+ 		struct FloatEulers temp = *stateGetNedToBodyEulers_f();
+ 		return temp.psi;
+    }
+
+  JNIEXPORT jfloat JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetNedToBodyEulersITheataFloat
+    (JNIEnv *env, jclass thisClass) {
+    	struct FloatEulers temp = *stateGetNedToBodyEulers_f();
+     	return temp.theta;
+    }
+
+  JNIEXPORT jfloat JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetNedToBodyEulersIPhiFloat
+    (JNIEnv *env, jclass thisClass) {
+    	struct FloatEulers temp = *stateGetNedToBodyEulers_f();
+     	return temp.phi;
+    }

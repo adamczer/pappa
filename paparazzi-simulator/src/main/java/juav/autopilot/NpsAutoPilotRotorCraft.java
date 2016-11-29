@@ -8,6 +8,8 @@ import juav.simulator.tasks.sensors.device.jni.*;
 import ub.cse.juav.jni.nps.PaparazziNps;
 import ub.cse.juav.jni.tasks.NativeTasks;
 
+import static juav.autopilot.guidance.GuidanceH.stabilizationAttitudeRun;
+
 /**
  * Created by adamczer on 5/30/16.
  */
@@ -79,7 +81,6 @@ public class NpsAutoPilotRotorCraft extends PeriodicTask {
 //        NativeTasks.npsSensorFeedStepGps();
         if (gpsSensor.getData().isData_available()) {
             gpsSimNps.gpsFeedValue(gpsSensor.getData());
-            gpsSensor.getData().setData_available(false);
             main_event();
             gpsSensor.getData().setData_available(false);
         }
@@ -99,9 +100,10 @@ public class NpsAutoPilotRotorCraft extends PeriodicTask {
                 boolean inFlight = NativeTasks.getAutopilotInFlightJuav();
 //                NativeTasks.guidanceHRunJuav(inFlight);
                 if(NativeTasks.runStabilizationAttitudeRunJuav()) {
-//                    NativeTasks.guidanceHRunNativeTestJuav(inFlight); // test plumbing
-//                    NativeTasks.guidanceHRunJuav(inFlight);
-                    GuidanceH.stabilizationAttitudeRun(inFlight);
+                    NativeTasks.guidanceHRunNativeTestJuav(inFlight); // test plumbing
+                    NativeTasks.guidanceHRunJuav(inFlight);
+                    stabilizationAttitudeRun(inFlight);
+//                    GuidanceH.stabilizationAttitudeRun(inFlight);
                 }
             }
             NativeTasks.autopilotPeriodicPostJuav();//finaizes after guidance_h.c run
