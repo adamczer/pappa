@@ -78,14 +78,7 @@ public class StabilizationRate {
     }
 
 
-//  TODO not used
-    private class send_rate implements TelemetryCb{
 
-    @Override
-    public void callback() {
-        System.out.println("UNIMPMENTED!");
-    }
-}
 // #if PERIODIC_TELEMETRY
 //    public static void send_rate(struct transport_tx *trans, struct link_device *dev)
 //    {
@@ -103,7 +96,7 @@ public class StabilizationRate {
 //    }
 //    #endif
 
-    public void stabilization_rate_init() {
+    public static void stabilization_rate_init() {
 
         INT_RATES_ZERO(stabilization_rate_sp);
 
@@ -120,7 +113,8 @@ public class StabilizationRate {
 
         if (PERIODIC_TELEMETRY) {
 //            register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_RATE_LOOP, send_rate);
-            register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_RATE_LOOP, new send_rate());
+//            register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_RATE_LOOP, new send_rate());
+            throw new IllegalStateException("Unimplemented");
         }
     }
 

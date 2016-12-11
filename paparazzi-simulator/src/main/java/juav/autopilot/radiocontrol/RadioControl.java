@@ -19,6 +19,8 @@ public class RadioControl {
     public static final int RADIO_AUX7 = 11;
     public static final int RADIO_CONTROL_NB_CHANNEL = 12;
 
+    public static final int RADIO_MODE    =   RADIO_GEAR;
+
     public static final int RC_OK = 0;
     public static final int RC_LOST =      1;
     public static final int RC_REALLY_LOST = 2;

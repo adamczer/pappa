@@ -2,7 +2,6 @@ package juav.autopilot.guidance;
 
 import juav.autopilot.guidance.structures.HorizantalGuidance;
 import juav.autopilot.stabilization.Stabilization;
-import juav.autopilot.stabilization.StabilizationAttitudeQuatInt;
 import juav.autopilot.telemetry.callbacks.SendGh;
 import juav.autopilot.telemetry.callbacks.SendHoverLoop;
 import juav.autopilot.telemetry.callbacks.SendHref;
@@ -20,15 +19,12 @@ import static juav.autopilot.radiocontrol.RadioControl.RC_OK;
 import static juav.autopilot.radiocontrol.RadioControl.radio_control;
 import static juav.autopilot.stabilization.StabilizationAttitudeQuatInt.*;
 import static juav.autopilot.stabilization.StabilizationAttitudeRcSetpoint.stabilization_attitude_read_rc_setpoint_eulers;
-import static juav.autopilot.stabilization.StabilizationNone.stabilization_none_enter;
-import static juav.autopilot.stabilization.StabilizationRate.stabilization_rate_enter;
 import static juav.autopilot.state.State.*;
 import static juav.autopilot.telemetry.Telemetry.DefaultPeriodic;
 import static juav.autopilot.telemetry.Telemetry.register_periodic_telemetry;
 import static ub.juav.airborne.math.functions.algebra.PprzAlgebra.*;
 import static ub.juav.airborne.math.functions.algebra.PprzAlgebraInt.*;
 import static ub.juav.airborne.math.functions.geodetic.PprzGeodeticInt.INT32_VECT2_NED_OF_ENU;
-import static ub.juav.airborne.math.functions.trig.PprzTrig.*;
 import static ub.juav.airborne.math.util.UtilityFunctions.*;
 
 /**
@@ -48,15 +44,16 @@ public class GuidanceH {
     private int MAX_SPEED_ERR = PprzAlgebraInt.POS_BFP_OF_REAL(16.);
     private static final int GH_GAIN_SCALE = 2;
     public static final int MAX_PPRZ = 9600;
+    public static final int MIN_PPRZ = - MAX_PPRZ;
     private static final int GUIDANCE_H_THRUST_CMD_FILTER = 10;
     private int thrust_cmd_filt;
     private Stabilization stabilization_cmd;
 
     private static final short GUIDANCE_H_MODE_KILL = 0;
     private static final short GUIDANCE_H_MODE_RATE     =   1;
-    private static final short GUIDANCE_H_MODE_ATTITUDE =   2;
+    public static final short GUIDANCE_H_MODE_ATTITUDE =   2;
     private static final short GUIDANCE_H_MODE_HOVER    =   3;
-    private static final short GUIDANCE_H_MODE_NAV      =   4;
+    public static final short GUIDANCE_H_MODE_NAV      =   4;
     private static final short GUIDANCE_H_MODE_RC_DIRECT=   5;
     private static final short GUIDANCE_H_MODE_CARE_FREE=   6;
     private static final short GUIDANCE_H_MODE_FORWARD  =   7;
@@ -71,11 +68,16 @@ public class GuidanceH {
     private int  GUIDANCE_H_IGAIN =20;
     private int GUIDANCE_H_VGAIN = 0;
 
+    public static GuidanceH guidanceH;
+
+    public static void guidance_h_init() {
+        guidanceH = new GuidanceH();
+        guidanceH.init();
+    }
 
     public void init() {
-        guidance_h = new HorizantalGuidance();
         thrust_cmd_filt = 0;
-
+        guidance_h = new HorizantalGuidance();
         guidance_h.mode = GUIDANCE_H_MODE_KILL;
         guidance_h.use_ref = GUIDANCE_H_USE_REF;
         guidance_h.approx_force_by_thrust = GUIDANCE_H_APPROX_FORCE_BY_THRUST;
@@ -182,7 +184,7 @@ public class GuidanceH {
         INT_VECT2_ZERO(guidance_h_trim_att_integrator);
     }
 
-    void guidance_h_mode_changed(short new_mode)
+    public void guidance_h_mode_changed(short new_mode)
     {
         if (new_mode == guidance_h.mode) {
             return;
@@ -210,7 +212,7 @@ public class GuidanceH {
     }
 
 
-    void guidance_h_read_rc(boolean  in_flight)
+    public void guidance_h_read_rc(boolean in_flight)
     {
 
         switch (guidance_h.mode) {
@@ -230,7 +232,7 @@ public class GuidanceH {
 
     }
 
-    void guidance_h_run(boolean  in_flight)
+    public void guidance_h_run(boolean  in_flight)
     {
         switch (guidance_h.mode) {
             case GUIDANCE_H_MODE_ATTITUDE:

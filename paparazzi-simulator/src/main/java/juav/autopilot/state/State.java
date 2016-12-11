@@ -1,26 +1,25 @@
 package juav.autopilot.state;
 
 import ub.cse.juav.jni.tasks.NativeTasks;
-import ub.juav.airborne.math.structs.algebra.Eulers;
-import ub.juav.airborne.math.structs.algebra.RMat;
-import ub.juav.airborne.math.structs.algebra.Rates;
-import ub.juav.airborne.math.structs.algebra.Vect2;
+import ub.juav.airborne.math.structs.algebra.*;
 
 /**
  * Created by adamczer on 10/28/16.
  */
 public class State {
-    public static Vect2<Integer> stateGetPositionNed_i() {
-        Vect2<Integer> ret = Vect2.newIntVect2();
+    public static Vect3<Integer> stateGetPositionNed_i() {
+        Vect3<Integer> ret = Vect3.newInteger();
         ret.setX(NativeTasks.stateGetPositionNedIX());
         ret.setY(NativeTasks.stateGetPositionNedIY());
+        ret.setZ(NativeTasks.stateGetPositionNedIZ());
         return ret;
     }
 
-    public static Vect2<Integer> stateGetSpeedNed_i() {
-        Vect2<Integer> ret = Vect2.newIntVect2();
+    public static Vect3<Integer> stateGetSpeedNed_i() {
+        Vect3<Integer> ret = Vect3.newInteger();
         ret.setX(NativeTasks.stateGetSpeedNedIX());
         ret.setY(NativeTasks.stateGetSpeedNedIY());
+        ret.setZ(NativeTasks.stateGetSpeedNedIZ());
         return ret;
     }
 
@@ -61,4 +60,32 @@ public class State {
         ret.setPhi(NativeTasks.stateGetNedToBodyEulersIPhiFloat());
         return ret;
     }
- }
+
+    public static Vect3<Integer> stateGetAccelNed_i() {
+        Vect3<Integer> ret = Vect3.newInteger();
+        ret.setX(NativeTasks.stateGetAccelNedIX());
+        ret.setY(NativeTasks.stateGetAccelNedIY());
+        ret.setZ(NativeTasks.stateGetAccelNedIZ());
+        return ret;
+    }
+
+    public static Vect3<Float> stateGetSpeedNed_f() {
+        Vect3<Float> ret = Vect3.newFloat();
+        ret.setX(NativeTasks.stateGetSpeedNedFX());
+        ret.setY(NativeTasks.stateGetSpeedNedFY());
+        ret.setZ(NativeTasks.stateGetSpeedNedFZ());
+        return ret;
+    }
+
+    public static Vect3<Float> stateGetAccelNed_f() {
+        Vect3<Float> ret = Vect3.newFloat();
+        ret.setX(NativeTasks.stateGetAccelNedFX());
+        ret.setY(NativeTasks.stateGetAccelNedFY());
+        ret.setZ(NativeTasks.stateGetAccelNedFZ());
+        return ret;
+    }
+
+    public static boolean stateIsAttitudeValid() {
+        return NativeTasks.stateIsAttitudeValid();
+    }
+}

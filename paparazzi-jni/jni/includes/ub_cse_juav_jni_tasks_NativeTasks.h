@@ -729,6 +729,14 @@ JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetPositionNe
 
 /*
  * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    stateGetPositionNedIZ
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetPositionNedIZ
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
  * Method:    stateGetSpeedNedIX
  * Signature: ()I
  */
@@ -741,6 +749,14 @@ JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetSpeedNedIX
  * Signature: ()I
  */
 JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetSpeedNedIY
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    stateGetSpeedNedIZ
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetSpeedNedIZ
   (JNIEnv *, jclass);
 
 /*
@@ -861,6 +877,30 @@ JNIEXPORT jfloat JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetNedToBod
  * Signature: ()F
  */
 JNIEXPORT jfloat JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetNedToBodyEulersIPhiFloat
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    stateGetAccelNedIX
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetAccelNedIX
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    stateGetAccelNedIY
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetAccelNedIY
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    stateGetAccelNedIZ
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetAccelNedIZ
   (JNIEnv *, jclass);
 
 #ifdef __cplusplus

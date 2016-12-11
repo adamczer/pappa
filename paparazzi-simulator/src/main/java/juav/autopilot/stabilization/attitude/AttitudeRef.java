@@ -13,8 +13,8 @@ public class AttitudeRef<T extends Number> {
     public Quat<T> quat;
     public Rates<T> rate;
     public Rates<T> accel;
-//    struct IntRefModel model;
-//    struct Int32RefSat saturation;
+    public RefModel model;
+    public RefSat<T> saturation;
 
     public static AttitudeRef<Integer> getIntegerFromJni() {
         AttitudeRef<Integer> ret = new AttitudeRef<>();

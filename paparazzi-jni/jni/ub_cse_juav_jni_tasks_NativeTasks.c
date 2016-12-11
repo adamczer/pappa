@@ -591,6 +591,10 @@ JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetPositionNe
   (JNIEnv *env, jclass thisClass) {
 	return stateGetPositionNed_i()->y;
   }
+  JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetPositionNedIZ
+  (JNIEnv *env, jclass thisClass) {
+  	return stateGetPositionNed_i()->z;
+    }
 //
 JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetSpeedNedIX
   (JNIEnv *env, jclass thisClass) {
@@ -600,6 +604,10 @@ JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetSpeedNedIY
   (JNIEnv *env, jclass thisClass) {
 	return stateGetSpeedNed_i()->y;
   }
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetSpeedNedIZ
+  (JNIEnv *env, jclass thisClass) {
+  	return stateGetSpeedNed_i()->z;
+    }
 
 JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetNedToBodyRMatI_10
   (JNIEnv *env, jclass thisClass) {
@@ -690,3 +698,18 @@ struct Int32RMat tmp = *stateGetNedToBodyRMat_i();
     	struct FloatEulers temp = *stateGetNedToBodyEulers_f();
      	return temp.phi;
     }
+
+    JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetAccelNedIX
+      (JNIEnv *env, jclass thisClass) {
+	return stateGetAccelNed_i()->x;
+      }
+
+    JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetAccelNedIY
+      (JNIEnv *env, jclass thisClass) {
+      return stateGetAccelNed_i()->y;
+      }
+
+    JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetAccelNedIZ
+      (JNIEnv *env, jclass thisClass) {
+      return stateGetAccelNed_i()->z;
+      }

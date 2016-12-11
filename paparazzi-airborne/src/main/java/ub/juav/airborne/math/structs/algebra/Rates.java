@@ -62,4 +62,16 @@ public class Rates<T extends Number> {
         ret.setP(0);
         return ret;
     }
+
+    public static Rates<Float> newFloat() {
+        return newFloat(0,0,0);
+    }
+
+    public static Rates<Float> newFloat(float r, float q, float p) {
+        Rates<Float> ret = new Rates<>();
+        ret.setR(r);
+        ret.setQ(q);
+        ret.setP(p);
+        return ret;
+    }
 }

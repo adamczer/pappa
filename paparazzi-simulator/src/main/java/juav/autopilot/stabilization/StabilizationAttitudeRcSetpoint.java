@@ -5,15 +5,14 @@ import ub.juav.airborne.math.structs.algebra.Eulers;
 import ub.juav.airborne.math.structs.algebra.Quat;
 import ub.juav.airborne.math.structs.algebra.Vect3;
 
+import static juav.autopilot.guidance.GuidanceH.MAX_PPRZ;
 import static juav.autopilot.radiocontrol.RadioControl.*;
-import static juav.autopilot.stabilization.StabilizationAttitudeQuatInt.MAX_PPRZ;
 import static juav.autopilot.stabilization.StabilizationAttitudeQuatInt.stab_att_sp_euler;
 import static juav.autopilot.state.State.stateGetNedToBodyEulers_f;
 import static juav.autopilot.state.State.stateGetNedToBodyEulers_i;
 import static ub.juav.airborne.math.functions.algebra.PprzAlgebra.QUAT_COPY;
 import static ub.juav.airborne.math.functions.algebra.PprzAlgebraFloat.*;
 import static ub.juav.airborne.math.functions.algebra.PprzAlgebraInt.*;
-import static ub.juav.airborne.math.functions.trig.PprzTrig.PPRZ_ITRIG_COS;
 import static ub.juav.airborne.math.functions.trig.PprzTrig.PPRZ_ITRIG_SIN;
 
 /**

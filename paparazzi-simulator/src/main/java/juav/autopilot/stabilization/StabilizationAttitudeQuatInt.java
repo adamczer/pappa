@@ -15,10 +15,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
 
+import static juav.autopilot.guidance.GuidanceH.MAX_PPRZ;
+import static juav.autopilot.guidance.GuidanceH.PERIODIC_TELEMETRY;
 import static juav.autopilot.stabilization.StabilizationAttitudeQuatTransformations.quat_from_earth_cmd_i;
 import static juav.autopilot.stabilization.StabilizationAttitudeRcSetpoint.*;
 import static juav.autopilot.stabilization.StabilizationAttitudeRefQuatInt.attitude_ref_quat_int_enter;
+import static juav.autopilot.stabilization.StabilizationAttitudeRefQuatInt.attitude_ref_quat_int_init;
 import static juav.autopilot.state.State.stateGetNedToBodyEulers_i;
+import static juav.autopilot.telemetry.Telemetry.DefaultPeriodic;
 import static ub.juav.airborne.math.functions.algebra.PprzAlgebra.QUAT_BFP_OF_REAL;
 import static ub.juav.airborne.math.functions.algebra.PprzAlgebraInt.*;
 import static ub.juav.airborne.math.functions.trig.PprzTrig.*;
@@ -28,9 +32,10 @@ import static ub.juav.airborne.math.functions.trig.PprzTrig.*;
  */
 public class StabilizationAttitudeQuatInt {
 
-    public static final int MAX_PPRZ = 9600;
-    private static final float PERIODIC_FREQUENCY = 512;
-    private static final int REF_RATE_FRAC = 16;
+    public static final float PERIODIC_FREQUENCY = 512;
+    public static final int REF_RATE_FRAC = 16;
+    public static final int REF_ACCEL_FRAC = 12;
+//    public static final int REF_ANGLE_FRAC = 20;
     private static final int INT32_RATE_FRAC = 12;
     private static final int IERROR_SCALE = 128;
 
@@ -58,6 +63,21 @@ public class StabilizationAttitudeQuatInt {
     public static Quat<Integer> stab_att_sp_quat = Quat.newInteger();
     public static AttitudeRef<Integer> att_ref_quat_i = AttitudeRef.newInteger();
     public static Quat<Integer> stabilization_att_sum_err_quat = Quat.newInteger();
+
+    public static void stabilization_attitude_init()
+    {
+        attitude_ref_quat_int_init(att_ref_quat_i);
+
+        int32_quat_identity(stabilization_att_sum_err_quat);
+
+        //TODO handel telem
+        throw new IllegalStateException("Implement telemetry");
+//        #if PERIODIC_TELEMETRY
+//        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_STAB_ATTITUDE_INT, send_att);
+//        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_STAB_ATTITUDE_REF_INT, send_att_ref);
+//        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_AHRS_REF_QUAT, send_ahrs_ref_quat);
+//        #endif
+    }
 
     public static void stabilization_attitude_enter() {
           /* reset psi setpoint to current psi angle */

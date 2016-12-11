@@ -832,4 +832,23 @@ public class PprzAlgebraInt {
         }
         return input;
     }
+
+    public static long Bound_l(long input, long min, long max) {
+        if (input > max) {
+            input = max;
+        } else if (input < min) {
+            input = min;
+        }
+        return input;
+    }
+
+    public static int DeadBand(int _x, int _v) {
+        if (_x > (_v))
+        _x = _x -(_v);
+        else if  (_x < -(_v))
+        _x = _x +(_v);
+        else
+        _x = 0;
+        return _x;
+    }
 }
