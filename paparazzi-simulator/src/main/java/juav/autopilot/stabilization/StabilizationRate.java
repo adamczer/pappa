@@ -114,7 +114,7 @@ public class StabilizationRate {
         if (PERIODIC_TELEMETRY) {
 //            register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_RATE_LOOP, send_rate);
 //            register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_RATE_LOOP, new send_rate());
-            throw new IllegalStateException("Unimplemented");
+//            throw new IllegalStateException("Unimplemented");
         }
     }
 

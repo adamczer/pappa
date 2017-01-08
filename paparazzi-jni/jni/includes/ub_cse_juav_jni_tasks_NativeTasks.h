@@ -903,6 +903,94 @@ JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetAccelNedIY
 JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetAccelNedIZ
   (JNIEnv *, jclass);
 
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    navPeriodicTask
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_navPeriodicTask
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    navHome
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_navHome
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    computeDist2ToHome
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_computeDist2ToHome
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    stateGetSpeedNedFX
+ * Signature: ()F
+ */
+JNIEXPORT jfloat JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetSpeedNedFX
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    stateGetSpeedNedFY
+ * Signature: ()F
+ */
+JNIEXPORT jfloat JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetSpeedNedFY
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    stateGetSpeedNedFZ
+ * Signature: ()F
+ */
+JNIEXPORT jfloat JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetSpeedNedFZ
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    stateGetAccelNedFX
+ * Signature: ()F
+ */
+JNIEXPORT jfloat JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetAccelNedFX
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    stateGetAccelNedFY
+ * Signature: ()F
+ */
+JNIEXPORT jfloat JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetAccelNedFY
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    stateGetAccelNedFZ
+ * Signature: ()F
+ */
+JNIEXPORT jfloat JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetAccelNedFZ
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    stateIsAttitudeValid
+ * Signature: ()Z
+ */
+JNIEXPORT jboolean JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateIsAttitudeValid
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    navInit
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_navInit
+  (JNIEnv *, jclass);
+
 #ifdef __cplusplus
 }
 #endif

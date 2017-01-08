@@ -68,6 +68,8 @@ public class AttitudeRef<T extends Number> {
         ret.accel = Rates.newInteger();
         ret.euler = Eulers.newInteger();
         ret.quat = Quat.newInteger();
+        ret.model = RefModel.newRefModel();
+        ret.saturation = RefSat.newRefSatInteger();
         return ret;
     }
 }

@@ -71,7 +71,7 @@ public class StabilizationAttitudeQuatInt {
         int32_quat_identity(stabilization_att_sum_err_quat);
 
         //TODO handel telem
-        throw new IllegalStateException("Implement telemetry");
+//        throw new IllegalStateException("Implement telemetry");
 //        #if PERIODIC_TELEMETRY
 //        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_STAB_ATTITUDE_INT, send_att);
 //        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_STAB_ATTITUDE_REF_INT, send_att_ref);

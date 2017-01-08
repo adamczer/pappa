@@ -1,6 +1,7 @@
 package juav.autopilot.guidance;
 
 import juav.autopilot.guidance.structures.HorizantalGuidance;
+import juav.autopilot.guidance.structures.HorizontalGuidanceSetpoint;
 import juav.autopilot.stabilization.Stabilization;
 import juav.autopilot.telemetry.callbacks.SendGh;
 import juav.autopilot.telemetry.callbacks.SendHoverLoop;
@@ -33,7 +34,7 @@ import static ub.juav.airborne.math.util.UtilityFunctions.*;
 public class GuidanceH {
     public static final boolean PERIODIC_TELEMETRY = true;
     public static final double GUIDANCE_H_MAX_BANK = 0.34906585;
-    private int transition_percentage;
+    private int transition_percentage = 0;
     private int transition_theta_offset = 0;
     private static HorizantalGuidance guidance_h;
     private Vect2<Integer> guidance_h_cmd_earth;
@@ -76,12 +77,13 @@ public class GuidanceH {
     }
 
     public void init() {
+        guidance_h_trim_att_integrator = Vect2.newIntVect2();
+
         thrust_cmd_filt = 0;
         guidance_h = new HorizantalGuidance();
         guidance_h.mode = GUIDANCE_H_MODE_KILL;
         guidance_h.use_ref = GUIDANCE_H_USE_REF;
         guidance_h.approx_force_by_thrust = GUIDANCE_H_APPROX_FORCE_BY_THRUST;
-
         INT_VECT2_ZERO(guidance_h.sp.pos);
         INT_VECT2_ZERO(guidance_h_trim_att_integrator);
         INT_EULERS_ZERO(guidance_h.rc_sp);

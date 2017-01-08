@@ -57,5 +57,9 @@ public class Navigation {
         }
     };
 
+    public static void nav_init() {
+        NativeTasks.navInit();
+    }
+
 
 }

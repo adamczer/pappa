@@ -3,9 +3,7 @@ package juav.autopilot;
 import juav.autopilot.navigation.Navigation;
 import juav.autopilot.state.State;
 
-import static juav.autopilot.AutopilotArmingYaw.autopilot_arming_check_motors_on;
-import static juav.autopilot.AutopilotArmingYaw.autopilot_arming_init;
-import static juav.autopilot.AutopilotArmingYaw.autopilot_arming_set;
+import static juav.autopilot.AutopilotArmingYaw.*;
 import static juav.autopilot.AutopilotRcHelpers.kill_switch_is_on;
 import static juav.autopilot.commands.Commands.*;
 import static juav.autopilot.guidance.GuidanceH.*;
@@ -21,7 +19,6 @@ import static juav.autopilot.stabilization.StabilizationNone.stabilization_none_
 import static juav.autopilot.stabilization.StabilizationRate.stabilization_rate_init;
 import static juav.autopilot.state.State.stateGetAccelNed_f;
 import static juav.autopilot.state.State.stateGetSpeedNed_f;
-import static juav.autopilot.telemetry.Telemetry.DefaultPeriodic;
 
 /**
  * Created by adamczer on 11/29/16.
@@ -229,9 +226,10 @@ public class Autopilot {
 
         autopilot_arming_init();
 
-////TODO bisect nav_init()
+//TODO bisect nav_init()
 //      nav_init();//Leave this in c...
-        if(1==1) throw new IllegalStateException("bisect nav_init(). ?");
+//        if(1==1) throw new IllegalStateException("bisect nav_init(). ?");
+        nav_init();
         guidance_h_init();
         guidance_v_init();
 
@@ -244,7 +242,7 @@ public class Autopilot {
         autopilot_set_mode(MODE_STARTUP);
 
         //TODO periodic telemetry
-        throw new IllegalStateException("Implement periodic telemetry.");
+//        throw new IllegalStateException("Implement periodic telemetry.");
 //        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_AUTOPILOT_VERSION, send_autopilot_version);
 //        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_ALIVE, send_alive);
 //        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_ROTORCRAFT_STATUS, send_status);

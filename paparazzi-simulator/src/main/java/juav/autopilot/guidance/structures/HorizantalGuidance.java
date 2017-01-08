@@ -17,4 +17,11 @@ public class HorizantalGuidance {
     public HorizontalGuidanceReference ref; ///< reference calculated from setpoints
 
     public Eulers<Integer> rc_sp;    ///< with #INT32_ANGLE_FRAC
+
+    public HorizantalGuidance() {
+        sp = new HorizontalGuidanceSetpoint();
+        ref =new HorizontalGuidanceReference();
+        rc_sp = Eulers.newInteger();
+        gains = new HorizontalGuidanceGains();
+    }
 }

@@ -1,6 +1,6 @@
 package juav.autopilot.telemetry;
 
-import juav.simulator.tasks.PeriodicTask;
+import ub.cse.juav.jni.tasks.NativeTasks;
 
 /**
  * Created by adamczer on 11/6/16.
@@ -54,4 +54,88 @@ public class Telemetry {
 //        short id = _id;
 //        DOWNLINK_SEND_PERIODIC_TELEMETRY_ERR(DefaultChannel, DefaultDevice, process, mode, id);
 //    }
+
+
+    public static void registerPeriodicTelemetrySendGh() {
+        NativeTasks.periodicTelemetrySendGh();
+    }
+
+    public static void registerPeriodicTelemetrySendHoverLoop() {
+        NativeTasks.periodicTelemetrySendHoverLoop();
+    }
+
+    public static void registerPeriodicTelemetrySendHref() {
+        NativeTasks.periodicTelemetrySendHref();
+    }
+
+    public static void registerPeriodicTelemetrySendTuneHover() {
+        NativeTasks.periodicTelemetrySendTuneHover();
+    }
+// Autopilot
+    public static void registerPeriodicTelemetrySendAutopilotVersion() {
+        NativeTasks.periodicTelemetrySendAutopilotVersion();
+    }
+
+    public static void registerPeriodicTelemetrySendAlive() {
+        NativeTasks.periodicTelemetrySendAlive();
+    }
+
+    public static void registerPeriodicTelemetrySendAttitude() {
+        NativeTasks.periodicTelemetrySendAttitude();
+    }
+
+    public static void registerPeriodicTelemetrySendEnergy() {
+        NativeTasks.periodicTelemetrySendEnergy();
+    }
+
+    public static void registerPeriodicTelemetrySendFp() {
+        NativeTasks.periodicTelemetrySendFp();
+    }
+
+    public static void registerPeriodicTelemetrySendRotorcraftCmd() {
+        NativeTasks.periodicTelemetrySendRotorcraftCmd();
+    }
+
+    public static void registerPeriodicTelemetrySendDlValue() {
+        NativeTasks.periodicTelemetrySendDlValue();
+    }
+
+    public static void registerPeriodicTelemetrySendActuators() {
+        NativeTasks.periodicTelemetrySendActuators();
+    }
+
+    public static void registerPeriodicTelemetrySendRc() {
+        NativeTasks.periodicTelemetrySendRc();
+    }
+
+    public static void registerPeriodicTelemetrySendRotorcraftRc() {
+        NativeTasks.periodicTelemetrySendRotorcraftRc();
+    }
+//Guidance V
+    public static void registerPeriodicTelemetrySendVertLoop() {
+        NativeTasks.periodicTelemetrySendVertLoop();
+    }
+
+    public static void registerPeriodicTelemetrySendTuneVert() {
+        NativeTasks.periodicTelemetrySendTuneVert();
+    }
+//    Stabiliztaion Attitude Quat Int
+
+    public static void registerPeriodicTelemetrySendAtt() {
+        NativeTasks.periodicTelemetrySendAtt();
+    }
+
+    public static void registerPeriodicTelemetrySendAttRef() {
+        NativeTasks.periodicTelemetrySendAttRef();
+    }
+
+    public static void registerPeriodicTelemetrySendAhrsRefQuat() {
+        NativeTasks.periodicTelemetrySendAhrsRefQuat();
+    }
+
+// Stabilization Rate
+    public static void registerPeriodicTelemetrySendRate() {
+        NativeTasks.periodicTelemetrySendRate();
+    }
+
 }

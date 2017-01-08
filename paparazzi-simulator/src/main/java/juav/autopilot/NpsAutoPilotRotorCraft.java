@@ -21,6 +21,7 @@ public class NpsAutoPilotRotorCraft extends PeriodicTask {
     JniBaroSensor baroSensor;
     JniImuNps jniImuNps;
     GpsSimNps gpsSimNps;
+    Autopilot autopilot;
 
     @Override
     public void execute() {
@@ -95,18 +96,27 @@ public class NpsAutoPilotRotorCraft extends PeriodicTask {
         NativeTasks.mainPeriodicJuavAutopilotPrior();
         if(NativeTasks.sysTimeCheckAndAckTimerMainPeriodicJuav()) {
 //            NativeTasks.mainPeriodicJuavTest();//TEST main periodic
-            NativeTasks.autopilotPeriodicPriorJuav();
-            if(!NativeTasks.isAutopilotModeApModeKillJuav()) {
-                boolean inFlight = NativeTasks.getAutopilotInFlightJuav();
-//                NativeTasks.guidanceHRunJuav(inFlight);
-                if(NativeTasks.runStabilizationAttitudeRunJuav()) {
-                    NativeTasks.guidanceHRunNativeTestJuav(inFlight); // test plumbing
-                    NativeTasks.guidanceHRunJuav(inFlight);
-                    stabilizationAttitudeRun(inFlight);
-//                    GuidanceH.stabilizationAttitudeRun(inFlight);
-                }
-            }
-            NativeTasks.autopilotPeriodicPostJuav();//finaizes after guidance_h.c run
+//            vvv First paper
+//            NativeTasks.autopilotPeriodicPriorJuav();
+//            if(!NativeTasks.isAutopilotModeApModeKillJuav()) {
+//                boolean inFlight = NativeTasks.getAutopilotInFlightJuav();
+////                NativeTasks.guidanceHRunJuav(inFlight);
+//                if(NativeTasks.runStabilizationAttitudeRunJuav()) {
+//                    NativeTasks.guidanceHRunNativeTestJuav(inFlight); // test plumbing
+//                    NativeTasks.guidanceHRunJuav(inFlight);
+//                    stabilizationAttitudeRun(inFlight);
+////                    GuidanceH.stabilizationAttitudeRun(inFlight);
+//                }
+//            }
+//            NativeTasks.autopilotPeriodicPostJuav();//finaizes after guidance_h.c run
+//          ^^^ First paper
+//            Second paper
+
+//            1. Autopilot flow
+            autopilot.autopilot_periodic();
+
+
+//            2. set commands
         }
         NativeTasks.mainPeriodicJuavAutopilotPost();
         NativeTasks.handlePeriodicTasksFollowingMainPeriodicJuav();
@@ -121,7 +131,8 @@ public class NpsAutoPilotRotorCraft extends PeriodicTask {
 
     @Override
     public void init() {
-
+        autopilot = new Autopilot();
+        autopilot.autopilot_init();
     }
 
     public void setGyroSensor(JniGyroSensor gyroSensor) {

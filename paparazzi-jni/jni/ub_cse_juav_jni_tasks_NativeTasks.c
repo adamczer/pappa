@@ -713,3 +713,54 @@ struct Int32RMat tmp = *stateGetNedToBodyRMat_i();
       (JNIEnv *env, jclass thisClass) {
       return stateGetAccelNed_i()->z;
       }
+
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_navPeriodicTask
+  (JNIEnv *env, jclass thisClass) {
+        nav_periodic_task();
+        }
+
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_navHome
+  (JNIEnv *env, jclass thisClass) {
+        nav_home();
+        }
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_computeDist2ToHome
+  (JNIEnv *env, jclass thisClass) {
+        compute_dist2_to_home();
+        }
+JNIEXPORT jfloat JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetSpeedNedFX
+  (JNIEnv *env, jclass thisClass) {
+			return stateGetSpeedNed_f()->x;
+        }
+JNIEXPORT jfloat JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetSpeedNedFY
+  (JNIEnv *env, jclass thisClass) {
+			return stateGetSpeedNed_f()->y;
+        }
+
+JNIEXPORT jfloat JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetSpeedNedFZ
+  (JNIEnv *env, jclass thisClass) {
+			return stateGetSpeedNed_f()->z;
+        }
+JNIEXPORT jfloat JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetAccelNedFX
+  (JNIEnv *env, jclass thisClass) {
+  			return stateGetAccelNed_f()->x;
+        }
+
+JNIEXPORT jfloat JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetAccelNedFY
+  (JNIEnv *env, jclass thisClass) {
+  			return stateGetAccelNed_f()->y;
+        }
+
+JNIEXPORT jfloat JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateGetAccelNedFZ
+  (JNIEnv *env, jclass thisClass) {
+  			return stateGetAccelNed_f()->z;
+        }
+
+JNIEXPORT jboolean JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateIsAttitudeValid
+  (JNIEnv *env, jclass thisClass) {
+  return stateIsAttitudeValid();
+        }
+
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_navInit
+  (JNIEnv *env, jclass thisClass) {
+        nav_init();
+        }

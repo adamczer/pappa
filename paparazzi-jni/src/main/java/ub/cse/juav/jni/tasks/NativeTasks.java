@@ -131,9 +131,11 @@ public class NativeTasks {
     /////////////
     public static native int stateGetPositionNedIX();
     public static native int stateGetPositionNedIY();
+    public static native int stateGetPositionNedIZ();
 
     public static native int stateGetSpeedNedIX();
     public static native int stateGetSpeedNedIY();
+    public static native int stateGetSpeedNedIZ();
 
     public static native int stateGetNedToBodyRMatI_0();
     public static native int stateGetNedToBodyRMatI_1();
@@ -152,4 +154,46 @@ public class NativeTasks {
     public static native float stateGetNedToBodyEulersIPsiFloat();
     public static native float stateGetNedToBodyEulersITheataFloat();
     public static native float stateGetNedToBodyEulersIPhiFloat();
+
+    public static native int stateGetAccelNedIX();
+    public static native int stateGetAccelNedIY();
+    public static native int stateGetAccelNedIZ();
+
+    public static native void navPeriodicTask();
+    public static native void navHome();
+    public static native void computeDist2ToHome();
+
+    public static native float stateGetSpeedNedFX();
+    public static native float stateGetSpeedNedFY();
+    public static native float stateGetSpeedNedFZ();
+
+    public static native float stateGetAccelNedFX();
+    public static native float stateGetAccelNedFY();
+    public static native float stateGetAccelNedFZ();
+
+    public static native boolean stateIsAttitudeValid();
+
+    public static native void navInit();
+
+//    Telemetry registeration
+    public static native void periodicTelemetrySendHoverLoop();
+    public static native void periodicTelemetrySendHref();
+    public static native void periodicTelemetrySendGh();
+    public static native void periodicTelemetrySendTuneHover();
+    public static native void periodicTelemetrySendAutopilotVersion();
+    public static native void periodicTelemetrySendAlive();
+    public static native void periodicTelemetrySendAttitude();
+    public static native void periodicTelemetrySendEnergy();
+    public static native void periodicTelemetrySendFp();
+    public static native void periodicTelemetrySendRotorcraftCmd();
+    public static native void periodicTelemetrySendDlValue();
+    public static native void periodicTelemetrySendActuators();
+    public static native void periodicTelemetrySendRc();
+    public static native void periodicTelemetrySendRotorcraftRc();
+    public static native void periodicTelemetrySendVertLoop();
+    public static native void periodicTelemetrySendTuneVert();
+    public static native void periodicTelemetrySendAtt();
+    public static native void periodicTelemetrySendAttRef();
+    public static native void periodicTelemetrySendAhrsRefQuat();
+    public static native void periodicTelemetrySendRate();
 }
