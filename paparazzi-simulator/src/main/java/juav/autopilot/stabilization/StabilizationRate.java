@@ -1,6 +1,7 @@
 package juav.autopilot.stabilization;
 
 import juav.autopilot.radiocontrol.RadioControl;
+import juav.autopilot.telemetry.Telemetry;
 import juav.autopilot.telemetry.TelemetryCb;
 import ub.juav.airborne.math.structs.algebra.Rates;
 
@@ -113,6 +114,7 @@ public class StabilizationRate {
 
         if (PERIODIC_TELEMETRY) {
 //            register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_RATE_LOOP, send_rate);
+            Telemetry.registerPeriodicTelemetrySendRate();
 //            register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_RATE_LOOP, new send_rate());
 //            throw new IllegalStateException("Unimplemented");
         }

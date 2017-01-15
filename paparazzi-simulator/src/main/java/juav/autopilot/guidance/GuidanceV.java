@@ -1,5 +1,6 @@
 package juav.autopilot.guidance;
 
+import juav.autopilot.telemetry.Telemetry;
 import ub.juav.airborne.math.structs.algebra.RMat;
 
 import static juav.autopilot.commands.Commands.COMMAND_THRUST;
@@ -103,7 +104,9 @@ public class GuidanceV {
 //        throw new IllegalStateException("Implement PERIODIC_TELEMETRY");
 //        #if PERIODIC_TELEMETRY
 //        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_VERT_LOOP, send_vert_loop);
+        Telemetry.registerPeriodicTelemetrySendVertLoop();
 //        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_TUNE_VERT, send_tune_vert);
+        Telemetry.registerPeriodicTelemetrySendTuneVert();
 //        #endif
     }
     static int climb_scale;

@@ -182,6 +182,7 @@ public class NativeTasks {
     public static native void periodicTelemetrySendTuneHover();
     public static native void periodicTelemetrySendAutopilotVersion();
     public static native void periodicTelemetrySendAlive();
+    public static native void periodicTelemetrySendStatus();
     public static native void periodicTelemetrySendAttitude();
     public static native void periodicTelemetrySendEnergy();
     public static native void periodicTelemetrySendFp();
@@ -196,4 +197,10 @@ public class NativeTasks {
     public static native void periodicTelemetrySendAttRef();
     public static native void periodicTelemetrySendAhrsRefQuat();
     public static native void periodicTelemetrySendRate();
+
+    public static native int getRadioControlValue(int index);
+
+    public static native int getNavigationCarrotX();
+    public static native int getNavigationCarrotY();
+    public static native int getNavigationCarrotZ();
 }

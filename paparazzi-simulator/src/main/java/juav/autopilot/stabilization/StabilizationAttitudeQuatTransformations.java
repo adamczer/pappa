@@ -94,7 +94,7 @@ public class StabilizationAttitudeQuatTransformations {
 
   /* quaternion with yaw command */
         Quat<Float> q_yaw = Quat.newFloat();
-        QUAT_ASSIGN(q_yaw, Math.cos(yaw2), 0.0, 0.0, Math.sin(yaw2));
+        QUAT_ASSIGN(q_yaw, (float)Math.cos(yaw2), 0.0f, 0.0f, (float)Math.sin(yaw2));
 
   /* final setpoint: apply roll/pitch, then yaw around resulting body z-axis */
         float_quat_comp(quat, q_rp, q_yaw);

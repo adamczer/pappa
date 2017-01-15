@@ -80,6 +80,11 @@ public class Telemetry {
         NativeTasks.periodicTelemetrySendAlive();
     }
 
+
+    public static void registerPeriodicTelemetrySendStatus() {
+        NativeTasks.periodicTelemetrySendStatus();
+    }
+
     public static void registerPeriodicTelemetrySendAttitude() {
         NativeTasks.periodicTelemetrySendAttitude();
     }

@@ -61,10 +61,16 @@ public class RMat<T extends Number> extends Mat33<T> {
                     count++;
                 }
             }
-            if (count==index) {
-                break;
-            }
         }
         throw new IllegalArgumentException("Invalid index.");
+    }
+
+    public static RMat<Float> newFloat() {
+        RMat<Float> ret = new RMat<>();
+        ret.setMatrix(new Float[3][3]);
+        for(int i = 0; i<3;i++)
+            for(int j = 0; j<3;j++)
+                ret.getMatrix()[i][j]=0.f;
+        return ret;
     }
 }

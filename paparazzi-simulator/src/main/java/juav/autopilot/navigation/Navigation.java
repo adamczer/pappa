@@ -34,7 +34,7 @@ public class Navigation {
     public static int nav_throttle;
 
 
-    public static EnuCoor<Integer> navigation_carrot;
+//    public static EnuCoor<Integer> navigation_carrot;
 
     public static RunOnceEvery nav_periodic_task = new RunOnceEvery() {
         @Override
@@ -59,6 +59,14 @@ public class Navigation {
 
     public static void nav_init() {
         NativeTasks.navInit();
+    }
+
+    public static EnuCoor<Integer> getNavigationCarrot() {
+        EnuCoor<Integer> ret = EnuCoor.newInteger();
+        ret.setX(NativeTasks.getNavigationCarrotX());
+        ret.setY(NativeTasks.getNavigationCarrotY());
+        ret.setZ(NativeTasks.getNavigationCarrotZ());
+        return ret;
     }
 
 

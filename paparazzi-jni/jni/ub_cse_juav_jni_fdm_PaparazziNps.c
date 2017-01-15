@@ -86,3 +86,11 @@ JNIEXPORT void JNICALL Java_ub_cse_juav_jni_nps_PaparazziNps_setNpsMainDisplayTi
     	main_event_juav();
     }
 
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_nps_PaparazziNps_mainEventPrior
+    (JNIEnv *env, jclass thisClass) {
+    	main_event_juav_prior();
+    }
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_nps_PaparazziNps_mainEventPost
+    (JNIEnv *env, jclass thisClass) {
+    	main_event_juav_post();
+    }

@@ -991,6 +991,206 @@ JNIEXPORT jboolean JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateIsAttitud
 JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_navInit
   (JNIEnv *, jclass);
 
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    periodicTelemetrySendHoverLoop
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_periodicTelemetrySendHoverLoop
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    periodicTelemetrySendHref
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_periodicTelemetrySendHref
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    periodicTelemetrySendGh
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_periodicTelemetrySendGh
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    periodicTelemetrySendTuneHover
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_periodicTelemetrySendTuneHover
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    periodicTelemetrySendAutopilotVersion
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_periodicTelemetrySendAutopilotVersion
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    periodicTelemetrySendAlive
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_periodicTelemetrySendAlive
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    periodicTelemetrySendStatus
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_periodicTelemetrySendStatus
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    periodicTelemetrySendAttitude
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_periodicTelemetrySendAttitude
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    periodicTelemetrySendEnergy
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_periodicTelemetrySendEnergy
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    periodicTelemetrySendFp
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_periodicTelemetrySendFp
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    periodicTelemetrySendRotorcraftCmd
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_periodicTelemetrySendRotorcraftCmd
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    periodicTelemetrySendDlValue
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_periodicTelemetrySendDlValue
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    periodicTelemetrySendActuators
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_periodicTelemetrySendActuators
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    periodicTelemetrySendRc
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_periodicTelemetrySendRc
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    periodicTelemetrySendRotorcraftRc
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_periodicTelemetrySendRotorcraftRc
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    periodicTelemetrySendVertLoop
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_periodicTelemetrySendVertLoop
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    periodicTelemetrySendTuneVert
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_periodicTelemetrySendTuneVert
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    periodicTelemetrySendAtt
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_periodicTelemetrySendAtt
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    periodicTelemetrySendAttRef
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_periodicTelemetrySendAttRef
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    periodicTelemetrySendAhrsRefQuat
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_periodicTelemetrySendAhrsRefQuat
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    periodicTelemetrySendRate
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_periodicTelemetrySendRate
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    getRadioControlValue
+ * Signature: (I)I
+ */
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getRadioControlValue
+  (JNIEnv *, jclass, jint);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    getNavigationCarrotX
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getNavigationCarrotX
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    getNavigationCarrotY
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getNavigationCarrotY
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    getNavigationCarrotZ
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getNavigationCarrotZ
+  (JNIEnv *, jclass);
+
 #ifdef __cplusplus
 }
 #endif

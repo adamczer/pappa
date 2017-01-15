@@ -8,8 +8,7 @@
 #include <main.h>
 #include <autopilot.h>
 #include <stabilization_attitude_quat_int.h>
-//#include <state.h>
-
+//#include <radio_control.h>
 
 #define SIM_DT (1./1000)
 
@@ -763,4 +762,130 @@ JNIEXPORT jboolean JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_stateIsAttitud
 JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_navInit
   (JNIEnv *env, jclass thisClass) {
         nav_init();
-        }
+}
+
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_periodicTelemetrySendHoverLoop
+  (JNIEnv *env, jclass thisClass) {
+  juav_register_periodic_telemetry_send_hover_loop();
+}
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_periodicTelemetrySendHref
+  (JNIEnv *env, jclass thisClass) {
+  juav_register_periodic_telemetry_send_href();
+}
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_periodicTelemetrySendGh
+  (JNIEnv *env, jclass thisClass) {
+  juav_register_periodic_telemetry_send_gh();
+}
+//
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_periodicTelemetrySendTuneHover
+  (JNIEnv *env, jclass thisClass) {
+  juav_register_periodic_telemetry_send_tune_hover();
+}
+//
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_periodicTelemetrySendAutopilotVersion
+  (JNIEnv *env, jclass thisClass) {
+	juav_register_periodic_telemetry_send_autopilot_version();
+}
+//
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_periodicTelemetrySendAlive
+  (JNIEnv *env, jclass thisClass) {
+juav_register_periodic_telemetry_send_alive();
+}
+//
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_periodicTelemetrySendAttitude
+  (JNIEnv *env, jclass thisClass) {
+      juav_register_periodic_telemetry_send_attitude();
+}
+
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_periodicTelemetrySendStatus
+  (JNIEnv *env, jclass thisClass) {
+   juav_register_periodic_telemetry_send_status();
+  }
+//
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_periodicTelemetrySendEnergy
+  (JNIEnv *env, jclass thisClass) {
+      juav_register_periodic_telemetry_send_energy();
+}
+//
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_periodicTelemetrySendFp
+  (JNIEnv *env, jclass thisClass) {
+      juav_register_periodic_telemetry_send_fp();
+}
+//
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_periodicTelemetrySendRotorcraftCmd
+  (JNIEnv *env, jclass thisClass) {
+	juav_register_periodic_telemetry_send_rotorcraft_cmd();
+}
+//
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_periodicTelemetrySendDlValue
+  (JNIEnv *env, jclass thisClass) {
+      juav_register_periodic_telemetry_send_dl_value();
+}
+//
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_periodicTelemetrySendActuators
+  (JNIEnv *env, jclass thisClass) {
+juav_register_periodic_telemetry_send_actuators();
+}
+
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_periodicTelemetrySendRc
+  (JNIEnv *env, jclass thisClass) {
+        juav_register_periodic_telemetry_send_rc();
+}
+
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_periodicTelemetrySendRotorcraftRc
+  (JNIEnv *env, jclass thisClass) {
+        juav_register_periodic_telemetry_send_rotorcraft_rc();
+}
+//
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_periodicTelemetrySendVertLoop
+  (JNIEnv *env, jclass thisClass) {
+        juav_register_periodic_telemetry_send_vert_loop();
+}
+//
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_periodicTelemetrySendTuneVert
+  (JNIEnv *env, jclass thisClass) {
+        juav_register_periodic_telemetry_send_tune_vert();
+}
+//
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_periodicTelemetrySendAtt
+  (JNIEnv *env, jclass thisClass) {
+juav_register_periodic_telemetry_send_att();
+}
+//
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_periodicTelemetrySendAttRef
+  (JNIEnv *env, jclass thisClass) {
+        juav_register_periodic_telemetry_send_att_ref();
+}
+//
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_periodicTelemetrySendAhrsRefQuat
+  (JNIEnv *env, jclass thisClass) {
+        juav_register_periodic_telemetry_send_ahrs_ref_quat();
+}
+//
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_periodicTelemetrySendRate
+  (JNIEnv *env, jclass thisClass) {
+juav_register_periodic_telemetry_send_rate();
+}
+
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getRadioControlValue
+    (JNIEnv *env, jclass thisClass, jint index) {
+    int val = juav_get_radio_control_value(index);
+//    printf("val was %d\n",val);
+  	return val;
+  }
+
+  JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getNavigationCarrotX
+    (JNIEnv *env, jclass thisClass) {
+    struct EnuCoor_i tmp = juav_get_navigation_carrot();
+    return tmp.x;
+    }
+  JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getNavigationCarrotY
+    (JNIEnv *env, jclass thisClass) {
+    struct EnuCoor_i tmp = juav_get_navigation_carrot();
+    return tmp.y;
+    }
+  JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getNavigationCarrotZ
+    (JNIEnv *env, jclass thisClass) {
+    struct EnuCoor_i tmp = juav_get_navigation_carrot();
+    return tmp.z;
+    }

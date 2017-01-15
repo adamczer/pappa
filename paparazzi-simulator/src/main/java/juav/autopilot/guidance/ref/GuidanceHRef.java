@@ -91,6 +91,11 @@ public class GuidanceHRef {
         gh_ref.omega_2 = BFP_OF_REAL((GUIDANCE_H_REF_OMEGA * GUIDANCE_H_REF_OMEGA), GH_OMEGA_2_FRAC);
         gh_ref.gh_set_tau(GUIDANCE_H_REF_TAU);
         gh_ref.gh_set_max_speed(GUIDANCE_H_REF_MAX_SPEED);
+        gh_ref.accel = Vect2.newIntVect2();
+        gh_ref.speed = Vect2.newIntVect2();
+        gh_ref.pos = Vect2.newLongVect2();
+        gh_ref.max_accel = Vect2.newIntVect2();
+        gh_ref.max_vel = Vect2.newIntVect2();
     }
 
 

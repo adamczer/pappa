@@ -10,5 +10,11 @@ public class HorizontalGuidanceReference {
     public Vect2<Integer> speed;   ///< with #INT32_SPEED_FRAC
     public Vect2<Integer> accel;   ///< with #INT32_ACCEL_FRAC
 
+    public HorizontalGuidanceReference () {
+        pos = Vect2.newIntVect2();
+        speed = Vect2.newIntVect2();
+        accel = Vect2.newIntVect2();
+    }
+
 
 }

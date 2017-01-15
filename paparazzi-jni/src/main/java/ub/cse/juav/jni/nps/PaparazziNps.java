@@ -30,7 +30,11 @@ public class PaparazziNps {
 
 
     // mainEvent function located within the rotorcraft`s main.c
-    public static native void mainEvent();
+    public static native void mainEvent(); //full main event
+
+    public static native void mainEventPrior(); //beginning main event up to autopilot rc
+
+    public static native void mainEventPost(); //main event  after autopilot rc
 
 
 }

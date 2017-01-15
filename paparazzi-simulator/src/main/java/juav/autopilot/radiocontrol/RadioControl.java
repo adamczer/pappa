@@ -1,5 +1,7 @@
 package juav.autopilot.radiocontrol;
 
+import ub.cse.juav.jni.tasks.NativeTasks;
+
 /**
  * Created by adamczer on 11/6/16.
  */
@@ -19,7 +21,7 @@ public class RadioControl {
     public static final int RADIO_AUX7 = 11;
     public static final int RADIO_CONTROL_NB_CHANNEL = 12;
 
-    public static final int RADIO_MODE    =   RADIO_GEAR;
+    public static final int RADIO_MODE    =   5;
 
     public static final int RC_OK = 0;
     public static final int RC_LOST =      1;
@@ -30,7 +32,11 @@ public class RadioControl {
     public static short radio_ok_cpt=0;
     public static short frame_rate=0;
     public static short frame_cpt=0;
-    public static int[] values= new int[RADIO_CONTROL_NB_CHANNEL];;
+    public static int[] values= new int[RADIO_CONTROL_NB_CHANNEL];
 
     public static RadioControl radio_control = new RadioControl();
+
+    public int getValue(int index) {
+        return NativeTasks.getRadioControlValue(index);
+    }
 }

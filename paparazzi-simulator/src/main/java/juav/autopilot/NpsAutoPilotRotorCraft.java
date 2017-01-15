@@ -125,7 +125,9 @@ public class NpsAutoPilotRotorCraft extends PeriodicTask {
     }
 
     private void main_event() {
-        PaparazziNps.mainEvent();
+        PaparazziNps.mainEventPrior();
+        autopilot.autopilot_on_rc_frame();
+        PaparazziNps.mainEventPost();
     }
 
 

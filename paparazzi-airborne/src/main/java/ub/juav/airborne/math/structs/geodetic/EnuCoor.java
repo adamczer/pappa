@@ -27,4 +27,12 @@ package ub.juav.airborne.math.structs.geodetic;
  */
 public class EnuCoor<T extends Number> extends XyzCoord<T> {
 
+    public static EnuCoor<Integer> newInteger() {
+        EnuCoor<Integer> ret = new EnuCoor<>();
+        ret.setX(0); ret.setY(0);ret.setZ(0);
+        return ret;
+    }
+
+
+
 }

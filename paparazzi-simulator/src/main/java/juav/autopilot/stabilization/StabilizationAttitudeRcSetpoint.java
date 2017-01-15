@@ -233,7 +233,8 @@ public class StabilizationAttitudeRcSetpoint {
 
     static float get_rc_roll_f()
     {
-        int roll = radio_control.values[RADIO_ROLL];
+//        int roll = radio_control.values[RADIO_ROLL];
+        int roll = radio_control.getValue(RADIO_ROLL);
 //        #if STABILIZATION_ATTITUDE_DEADBAND_A
 //        DeadBand(roll, STABILIZATION_ATTITUDE_DEADBAND_A);
 //        return roll * STABILIZATION_ATTITUDE_SP_MAX_PHI / (MAX_PPRZ - STABILIZATION_ATTITUDE_DEADBAND_A);

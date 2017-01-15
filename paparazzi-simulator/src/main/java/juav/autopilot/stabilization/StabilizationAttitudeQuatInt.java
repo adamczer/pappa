@@ -3,6 +3,7 @@ package juav.autopilot.stabilization;
 import juav.autopilot.stabilization.attitude.AttitudeGains;
 import juav.autopilot.stabilization.attitude.AttitudeRef;
 import juav.autopilot.stabilization.attitude.StabilizationCommand;
+import juav.autopilot.telemetry.Telemetry;
 import ub.cse.juav.jni.tasks.NativeTasks;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebra;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebraInt;
@@ -74,8 +75,11 @@ public class StabilizationAttitudeQuatInt {
 //        throw new IllegalStateException("Implement telemetry");
 //        #if PERIODIC_TELEMETRY
 //        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_STAB_ATTITUDE_INT, send_att);
+        Telemetry.registerPeriodicTelemetrySendAtt();
 //        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_STAB_ATTITUDE_REF_INT, send_att_ref);
+        Telemetry.registerPeriodicTelemetrySendAttRef();
 //        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_AHRS_REF_QUAT, send_ahrs_ref_quat);
+        Telemetry.registerPeriodicTelemetrySendAhrsRefQuat();
 //        #endif
     }
 

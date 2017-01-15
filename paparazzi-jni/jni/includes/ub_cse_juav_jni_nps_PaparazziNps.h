@@ -111,6 +111,22 @@ JNIEXPORT void JNICALL Java_ub_cse_juav_jni_nps_PaparazziNps_setNpsMainDisplayTi
 JNIEXPORT void JNICALL Java_ub_cse_juav_jni_nps_PaparazziNps_mainEvent
   (JNIEnv *, jclass);
 
+/*
+ * Class:     ub_cse_juav_jni_nps_PaparazziNps
+ * Method:    mainEventPrior
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_nps_PaparazziNps_mainEventPrior
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_nps_PaparazziNps
+ * Method:    mainEventPost
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_nps_PaparazziNps_mainEventPost
+  (JNIEnv *, jclass);
+
 #ifdef __cplusplus
 }
 #endif

@@ -36,9 +36,19 @@ public class NumberMath {
         } else if(num1 instanceof Integer) {
             if(num2 instanceof Integer){
                 return (Integer) num1 + (Integer) num2;
-            } 
+            }
             else throw new IllegalArgumentException("num1 = "+num1.getClass()+" num2 = "+num2.getClass());
-        } else throw new IllegalArgumentException("num1 = "+num1.getClass()+" num2 = "+num2.getClass());
+        }else if(num1 instanceof Float) {
+            if(num2 instanceof Float){
+                return (Float) num1 + (Float) num2;
+            }
+            else throw new IllegalArgumentException("num1 = "+num1.getClass()+" num2 = "+num2.getClass());
+        } else if(num1 instanceof Long) {
+            if(num2 instanceof Integer){
+                return (Long) num1 + (Integer) num2;
+            }
+            else throw new IllegalArgumentException("num1 = "+num1.getClass()+" num2 = "+num2.getClass());
+        }else throw new IllegalArgumentException("num1 = "+num1.getClass()+" num2 = "+num2.getClass());
     }
     public static Number sub(Number num1, Number num2) {
         if(num1 instanceof Double) {
@@ -48,6 +58,11 @@ public class NumberMath {
         } else if(num1 instanceof Integer) {
             if(num2 instanceof Integer){
                 return (Integer) num1 - (Integer) num2;
+            }
+            else throw new IllegalArgumentException("num1 = "+num1.getClass()+" num2 = "+num2.getClass());
+        }else if(num1 instanceof Float) {
+            if(num2 instanceof Float){
+                return (Float) num1 - (Float) num2;
             }
             else throw new IllegalArgumentException("num1 = "+num1.getClass()+" num2 = "+num2.getClass());
         } else throw new IllegalArgumentException("num1 = "+num1.getClass()+" num2 = "+num2.getClass());
@@ -62,7 +77,12 @@ public class NumberMath {
                 return (Integer) num1 * (Integer) num2;
             }
             else throw new IllegalArgumentException("num1 = "+num1+"("+num1.getClass()+") num2 = "+num2+"("+num2.getClass()+")");
-        } else throw new IllegalArgumentException("num1 = "+num1+"("+num1.getClass()+") num2 = "+num2+"("+num2.getClass()+")");
+        } else if(num1 instanceof Float) {
+            if(num2 instanceof Float){
+                return (Float) num1 * (Float) num2;
+            }
+            else throw new IllegalArgumentException("num1 = "+num1+"("+num1.getClass()+") num2 = "+num2+"("+num2.getClass()+")");
+        }else throw new IllegalArgumentException("num1 = "+num1+"("+num1.getClass()+") num2 = "+num2+"("+num2.getClass()+")");
     }
     public static Number div(Number num1, Number num2) {
         if(num1 instanceof Double) {

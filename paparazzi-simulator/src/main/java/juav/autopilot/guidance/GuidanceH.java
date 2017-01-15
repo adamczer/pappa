@@ -1,6 +1,7 @@
 package juav.autopilot.guidance;
 
 import juav.autopilot.guidance.structures.HorizantalGuidance;
+import juav.autopilot.guidance.structures.HorizontalGuidanceReference;
 import juav.autopilot.guidance.structures.HorizontalGuidanceSetpoint;
 import juav.autopilot.stabilization.Stabilization;
 import juav.autopilot.telemetry.callbacks.SendGh;
@@ -21,8 +22,7 @@ import static juav.autopilot.radiocontrol.RadioControl.radio_control;
 import static juav.autopilot.stabilization.StabilizationAttitudeQuatInt.*;
 import static juav.autopilot.stabilization.StabilizationAttitudeRcSetpoint.stabilization_attitude_read_rc_setpoint_eulers;
 import static juav.autopilot.state.State.*;
-import static juav.autopilot.telemetry.Telemetry.DefaultPeriodic;
-import static juav.autopilot.telemetry.Telemetry.register_periodic_telemetry;
+import static juav.autopilot.telemetry.Telemetry.*;
 import static ub.juav.airborne.math.functions.algebra.PprzAlgebra.*;
 import static ub.juav.airborne.math.functions.algebra.PprzAlgebraInt.*;
 import static ub.juav.airborne.math.functions.geodetic.PprzGeodeticInt.INT32_VECT2_NED_OF_ENU;
@@ -93,16 +93,26 @@ public class GuidanceH {
         guidance_h.gains.d = GUIDANCE_H_DGAIN;
         guidance_h.gains.a = GUIDANCE_H_AGAIN;
         guidance_h.gains.v = GUIDANCE_H_VGAIN;
+        guidance_h.ref = new HorizontalGuidanceReference();
+        guidance_h_pos_err = Vect2.newIntVect2();
+        guidance_h_speed_err = Vect2.newIntVect2();
+
+        guidance_h_cmd_earth = Vect2.newIntVect2();
+
         transition_percentage = 0;
         transition_theta_offset = 0;
 
         gh_ref_init();
 
         //TODO telem init still needs to be jni?
-        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_GUIDANCE_H_INT, new SendGh());
-        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_HOVER_LOOP, new SendHoverLoop());
-        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_GUIDANCE_H_REF_INT, new SendHref());
-        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_ROTORCRAFT_TUNE_HOVER, new SendTuneHover());
+        registerPeriodicTelemetrySendGh();
+        registerPeriodicTelemetrySendHoverLoop();
+        registerPeriodicTelemetrySendHref();
+        registerPeriodicTelemetrySendTuneHover();
+//        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_GUIDANCE_H_INT, new SendGh());
+//        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_HOVER_LOOP, new SendHoverLoop());
+//        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_GUIDANCE_H_REF_INT, new SendHref());
+//        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_ROTORCRAFT_TUNE_HOVER, new SendTuneHover());
     }
 
     public static void stabilizationAttitudeRun(boolean inFlight) {
@@ -252,7 +262,7 @@ public class GuidanceH {
                     sp_cmd_i.psi = nav_heading;
                     stabilization_attitude_set_rpy_setpoint_i(sp_cmd_i);
                 } else {
-                    INT32_VECT2_NED_OF_ENU(guidance_h.sp.pos, navigation_carrot);
+                    INT32_VECT2_NED_OF_ENU(guidance_h.sp.pos, getNavigationCarrot());
 
                     guidance_h_update_reference();
 
@@ -308,7 +318,7 @@ public class GuidanceH {
     static void guidance_h_nav_enter()
     {
   /* horizontal position setpoint from navigation/flightplan */
-        INT32_VECT2_NED_OF_ENU(guidance_h.sp.pos, navigation_carrot);
+        INT32_VECT2_NED_OF_ENU(guidance_h.sp.pos, getNavigationCarrot());
 
         reset_guidance_reference_from_current_position();
 

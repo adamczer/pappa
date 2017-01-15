@@ -2,6 +2,7 @@ package juav.autopilot;
 
 import juav.autopilot.navigation.Navigation;
 import juav.autopilot.state.State;
+import juav.autopilot.telemetry.Telemetry;
 
 import static juav.autopilot.AutopilotArmingYaw.*;
 import static juav.autopilot.AutopilotRcHelpers.kill_switch_is_on;
@@ -57,7 +58,7 @@ public class Autopilot {
     public static final short MODE_AUTO2 =AP_MODE_NAV;
     public static final short MODE_MANUAL = AP_MODE_ATTITUDE_DIRECT;
 
-    public static short autopilot_mode;
+    public static short autopilot_mode = -1;
     static short  autopilot_mode_auto2;
 
     boolean   autopilot_in_flight;
@@ -244,21 +245,32 @@ public class Autopilot {
         //TODO periodic telemetry
 //        throw new IllegalStateException("Implement periodic telemetry.");
 //        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_AUTOPILOT_VERSION, send_autopilot_version);
+        Telemetry.registerPeriodicTelemetrySendAutopilotVersion();
 //        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_ALIVE, send_alive);
+        Telemetry.registerPeriodicTelemetrySendAlive();
 //        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_ROTORCRAFT_STATUS, send_status);
+        Telemetry.registerPeriodicTelemetrySendStatus();
 //        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_ATTITUDE, send_attitude);
+        Telemetry.registerPeriodicTelemetrySendAttitude();
 //        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_ENERGY, send_energy);
+        Telemetry.registerPeriodicTelemetrySendEnergy();
 //        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_ROTORCRAFT_FP, send_fp);
+        Telemetry.registerPeriodicTelemetrySendFp();
 //        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_ROTORCRAFT_CMD, send_rotorcraft_cmd);
+        Telemetry.registerPeriodicTelemetrySendRotorcraftCmd();
 //        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_DL_VALUE, send_dl_value);
+        Telemetry.registerPeriodicTelemetrySendDlValue();
 //        #ifdef ACTUATORS
 ////  printf("ACTUATORS\n");
 //        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_ACTUATORS, send_actuators);
+        Telemetry.registerPeriodicTelemetrySendActuators();
 //        #endif
 //        #ifdef RADIO_CONTROL
 ////    printf("RADIO_CONTROL\n");
 //        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_RC, send_rc);
+        Telemetry.registerPeriodicTelemetrySendRc();
 //        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_ROTORCRAFT_RADIO_CONTROL, send_rotorcraft_rc);
+        Telemetry.registerPeriodicTelemetrySendRotorcraftRc();
 //        #endif
     }
 
@@ -267,6 +279,7 @@ public class Autopilot {
 
     void autopilot_periodic()
     {
+//        System.out.println("autopilot_mode = "+autopilot_mode);
 
 //        RunOnceEvery(NAV_PRESCALER, compute_dist2_to_home()); // not needed
         Navigation.compute_dist2_to_home.runOnceEvery((int) NAV_PRESCALER);
@@ -341,6 +354,7 @@ public class Autopilot {
 
     void autopilot_set_mode(short new_autopilot_mode)
     {
+        System.out.println("JAVA autopilot_set_mode = " +new_autopilot_mode);
 
   /* force startup mode (default is kill) as long as AHRS is not aligned */
         if (!ahrs_is_aligned()) {
@@ -513,10 +527,12 @@ public class Autopilot {
     /** get autopilot mode as set by RADIO_MODE 3-way switch */
     static short ap_mode_of_3way_switch()
     {
-        if (radio_control.values[RADIO_MODE] > THRESHOLD_2_PPRZ) {
+//        if (radio_control.values[RADIO_MODE] > THRESHOLD_2_PPRZ) {
+        if (radio_control.getValue(RADIO_MODE) > THRESHOLD_2_PPRZ) {
             return autopilot_mode_auto2;
         }
-        else if (radio_control.values[RADIO_MODE] > THRESHOLD_1_PPRZ) {
+//        else if (radio_control.values[RADIO_MODE] > THRESHOLD_1_PPRZ) {
+        else if (radio_control.getValue(RADIO_MODE) > THRESHOLD_1_PPRZ) {
             return MODE_AUTO1;
         }
         else {
