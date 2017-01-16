@@ -26,7 +26,7 @@ package ub.juav.airborne.math.wrappers;
  * Created by adamczer on 1/3/16.
  */
 public class PrimitiveWrapper<T> {
-    private T primitive;
+    public T primitive;
 
     public PrimitiveWrapper(T t) {
         primitive = t;

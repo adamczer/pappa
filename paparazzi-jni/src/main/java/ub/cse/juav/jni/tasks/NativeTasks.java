@@ -203,4 +203,8 @@ public class NativeTasks {
     public static native int getNavigationCarrotX();
     public static native int getNavigationCarrotY();
     public static native int getNavigationCarrotZ();
+
+    public static native boolean npsAutopilotRunRadioStepAndShouldRunMainEvent(double time);
+
+    public static native short getRadioControlStatus();
 }

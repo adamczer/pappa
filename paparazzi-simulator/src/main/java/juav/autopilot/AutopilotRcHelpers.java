@@ -13,29 +13,29 @@ public class AutopilotRcHelpers {
 
 
     public static boolean THROTTLE_STICK_DOWN() {
-        return (radio_control.values[RADIO_THROTTLE] < AUTOPILOT_THROTTLE_THRESHOLD);
+        return (radio_control.getValue(RADIO_THROTTLE) < AUTOPILOT_THROTTLE_THRESHOLD);
     }
 
     public static boolean YAW_STICK_PUSHED() {
-        return (radio_control.values[RADIO_YAW] > AUTOPILOT_YAW_THRESHOLD ||
-                radio_control.values[RADIO_YAW] < -AUTOPILOT_YAW_THRESHOLD);
+        return (radio_control.getValue(RADIO_YAW) > AUTOPILOT_YAW_THRESHOLD ||
+                radio_control.getValue(RADIO_YAW) < -AUTOPILOT_YAW_THRESHOLD);
     }
 
     public static boolean YAW_STICK_CENTERED() {
 
 
-        return (radio_control.values[RADIO_YAW] < AUTOPILOT_STICK_CENTER_THRESHOLD &&
-                radio_control.values[RADIO_YAW] > -AUTOPILOT_STICK_CENTER_THRESHOLD);
+        return (radio_control.getValue(RADIO_YAW) < AUTOPILOT_STICK_CENTER_THRESHOLD &&
+                radio_control.getValue(RADIO_YAW) > -AUTOPILOT_STICK_CENTER_THRESHOLD);
     }
 
     public static boolean PITCH_STICK_CENTERED() {
-        return (radio_control.values[RADIO_PITCH] < AUTOPILOT_STICK_CENTER_THRESHOLD &&
-                radio_control.values[RADIO_PITCH] > -AUTOPILOT_STICK_CENTER_THRESHOLD);
+        return (radio_control.getValue(RADIO_PITCH) < AUTOPILOT_STICK_CENTER_THRESHOLD &&
+                radio_control.getValue(RADIO_PITCH) > -AUTOPILOT_STICK_CENTER_THRESHOLD);
     }
 
     public static boolean ROLL_STICK_CENTERED() {
-        return (radio_control.values[RADIO_ROLL] < AUTOPILOT_STICK_CENTER_THRESHOLD &&
-                radio_control.values[RADIO_ROLL] > -AUTOPILOT_STICK_CENTER_THRESHOLD);
+        return (radio_control.getValue(RADIO_ROLL) < AUTOPILOT_STICK_CENTER_THRESHOLD &&
+                radio_control.getValue(RADIO_ROLL) > -AUTOPILOT_STICK_CENTER_THRESHOLD);
     }
 
     static boolean rc_attitude_sticks_centered() {
@@ -60,7 +60,7 @@ public class AutopilotRcHelpers {
 //    #endif
 
     public static int percent_from_rc(int channel) {
-        int per = (MAX_PPRZ + radio_control.values[channel]) * 50 / MAX_PPRZ;
+        int per = (MAX_PPRZ + radio_control.getValue(channel)) * 50 / MAX_PPRZ;
         if (per < 0) {
             per = 0;
         } else if (per > 100) {

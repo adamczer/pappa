@@ -102,7 +102,8 @@ public class StabilizationAttitudeQuatInt {
         float dt = (1.f / PERIODIC_FREQUENCY);
         //TODO below over jni do more if necessary
 //        StabilizationAttitudeRefQuatInt.attitude_ref_quat_int_update(&att_ref_quat_i, &stab_att_sp_quat, dt);
-        NativeTasks.attitudeRefQuatIntUpdateJuav(dt);
+          StabilizationAttitudeRefQuatInt.attitude_ref_quat_int_update(att_ref_quat_i, stab_att_sp_quat, dt);
+//        NativeTasks.attitudeRefQuatIntUpdateJuav(dt);
 
         long start = 0;
         long jniGetValuesFinish = 0;

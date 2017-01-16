@@ -27,10 +27,10 @@ package ub.juav.airborne.math.structs.algebra;
  * Created by adamczer on 7/15/15.
  */
 public class Quat<T extends Number> {
-    private T qi;
-    private T qx;
-    private T qy;
-    private T qz;
+    public T qi;
+    public T qx;
+    public T qy;
+    public T qz;
 
     public T getQi() {
         return qi;

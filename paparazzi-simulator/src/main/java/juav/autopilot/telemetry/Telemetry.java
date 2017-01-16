@@ -73,6 +73,7 @@ public class Telemetry {
     }
 // Autopilot
     public static void registerPeriodicTelemetrySendAutopilotVersion() {
+        System.out.println("NativeTasks.periodicTelemetrySendAutopilotVersion()");
         NativeTasks.periodicTelemetrySendAutopilotVersion();
     }
 

@@ -34,7 +34,9 @@ public class NpsAutoPilotRotorCraft extends PeriodicTask {
         NativeTasks.npsElectricalRunStep(time);
 
 
-        NativeTasks.npsAutopilotRunStepRadio(time);
+        if(NativeTasks.npsAutopilotRunRadioStepAndShouldRunMainEvent(time)) {
+            main_event();
+        }
 
 //        NativeTasks.npsSensorFeedStepGyro();
         if (gyroSensor.getData().isData_available()) {

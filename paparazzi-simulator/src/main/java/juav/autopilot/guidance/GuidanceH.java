@@ -232,7 +232,7 @@ public class GuidanceH {
                 stabilization_attitude_read_rc(in_flight, false, false);
             break;
             case GUIDANCE_H_MODE_NAV: //TODO
-                if (radio_control.status == RC_OK) {
+                if (radio_control.getStatus() == RC_OK) {
                     stabilization_attitude_read_rc_setpoint_eulers(guidance_h.rc_sp, in_flight, false, false);
                 } else {
                     INT_EULERS_ZERO(guidance_h.rc_sp);

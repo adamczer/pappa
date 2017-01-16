@@ -227,10 +227,8 @@ public class Autopilot {
 
         autopilot_arming_init();
 
-//TODO bisect nav_init()
-//      nav_init();//Leave this in c...
 //        if(1==1) throw new IllegalStateException("bisect nav_init(). ?");
-        nav_init();
+//        nav_init();//already inited
         guidance_h_init();
         guidance_v_init();
 
@@ -245,32 +243,32 @@ public class Autopilot {
         //TODO periodic telemetry
 //        throw new IllegalStateException("Implement periodic telemetry.");
 //        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_AUTOPILOT_VERSION, send_autopilot_version);
-        Telemetry.registerPeriodicTelemetrySendAutopilotVersion();
-//        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_ALIVE, send_alive);
-        Telemetry.registerPeriodicTelemetrySendAlive();
-//        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_ROTORCRAFT_STATUS, send_status);
-        Telemetry.registerPeriodicTelemetrySendStatus();
-//        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_ATTITUDE, send_attitude);
-        Telemetry.registerPeriodicTelemetrySendAttitude();
-//        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_ENERGY, send_energy);
-        Telemetry.registerPeriodicTelemetrySendEnergy();
-//        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_ROTORCRAFT_FP, send_fp);
-        Telemetry.registerPeriodicTelemetrySendFp();
-//        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_ROTORCRAFT_CMD, send_rotorcraft_cmd);
-        Telemetry.registerPeriodicTelemetrySendRotorcraftCmd();
-//        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_DL_VALUE, send_dl_value);
-        Telemetry.registerPeriodicTelemetrySendDlValue();
-//        #ifdef ACTUATORS
-////  printf("ACTUATORS\n");
-//        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_ACTUATORS, send_actuators);
-        Telemetry.registerPeriodicTelemetrySendActuators();
-//        #endif
-//        #ifdef RADIO_CONTROL
-////    printf("RADIO_CONTROL\n");
-//        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_RC, send_rc);
-        Telemetry.registerPeriodicTelemetrySendRc();
-//        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_ROTORCRAFT_RADIO_CONTROL, send_rotorcraft_rc);
-        Telemetry.registerPeriodicTelemetrySendRotorcraftRc();
+//        Telemetry.registerPeriodicTelemetrySendAutopilotVersion();
+////        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_ALIVE, send_alive);
+//        Telemetry.registerPeriodicTelemetrySendAlive();
+////        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_ROTORCRAFT_STATUS, send_status);
+//        Telemetry.registerPeriodicTelemetrySendStatus();
+////        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_ATTITUDE, send_attitude);
+//        Telemetry.registerPeriodicTelemetrySendAttitude();
+////        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_ENERGY, send_energy);
+//        Telemetry.registerPeriodicTelemetrySendEnergy();
+////        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_ROTORCRAFT_FP, send_fp);
+//        Telemetry.registerPeriodicTelemetrySendFp();
+////        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_ROTORCRAFT_CMD, send_rotorcraft_cmd);
+//        Telemetry.registerPeriodicTelemetrySendRotorcraftCmd();
+////        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_DL_VALUE, send_dl_value);
+//        Telemetry.registerPeriodicTelemetrySendDlValue();
+////        #ifdef ACTUATORS
+//////  printf("ACTUATORS\n");
+////        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_ACTUATORS, send_actuators);
+//        Telemetry.registerPeriodicTelemetrySendActuators();
+////        #endif
+////        #ifdef RADIO_CONTROL
+//////    printf("RADIO_CONTROL\n");
+////        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_RC, send_rc);
+//        Telemetry.registerPeriodicTelemetrySendRc();
+////        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_ROTORCRAFT_RADIO_CONTROL, send_rotorcraft_rc);
+//        Telemetry.registerPeriodicTelemetrySendRotorcraftRc();
 //        #endif
     }
 
@@ -344,17 +342,23 @@ public class Autopilot {
 
     public static void SetRotorcraftCommands(int[] _cmd, boolean _in_flight,  boolean _motor_on) { 
         if (!(_in_flight)) { _cmd[COMMAND_YAW] = 0; }               
-        if (!(_motor_on)) { _cmd[COMMAND_THRUST] = 0; }             
+        if (!(_motor_on)) { _cmd[COMMAND_THRUST] = 0; }
         commands[COMMAND_ROLL] = _cmd[COMMAND_ROLL];                
         commands[COMMAND_PITCH] = _cmd[COMMAND_PITCH];              
         commands[COMMAND_YAW] = _cmd[COMMAND_YAW];                  
-        commands[COMMAND_THRUST] = _cmd[COMMAND_THRUST];            
+        commands[COMMAND_THRUST] = _cmd[COMMAND_THRUST];
+//        System.out.println("COMMAND_ROLL = "+ commands[COMMAND_ROLL]);
+//        System.out.println("COMMAND_PITCH = "+ commands[COMMAND_PITCH]);
+//        System.out.println("COMMAND_YAW = "+ commands[COMMAND_YAW]);
+//        System.out.println("COMMAND_THRUST = "+ commands[COMMAND_THRUST]);
+//        System.out.println();
+//        System.out.println();
     }
 
 
     void autopilot_set_mode(short new_autopilot_mode)
     {
-        System.out.println("JAVA autopilot_set_mode = " +new_autopilot_mode);
+//        System.out.println("JAVA autopilot_set_mode = " +new_autopilot_mode);
 
   /* force startup mode (default is kill) as long as AHRS is not aligned */
         if (!ahrs_is_aligned()) {

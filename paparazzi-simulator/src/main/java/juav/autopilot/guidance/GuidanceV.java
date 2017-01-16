@@ -115,10 +115,10 @@ public class GuidanceV {
     {
 //  printf("guidance_v_read_rc\n");//TODO
   /* used in RC_DIRECT directly and as saturation in CLIMB and HOVER */
-        guidance_v_rc_delta_t = radio_control.values[RADIO_THROTTLE];
+        guidance_v_rc_delta_t = radio_control.getValue(RADIO_THROTTLE);
 
   /* used in RC_CLIMB */
-        guidance_v_rc_zd_sp = (MAX_PPRZ / 2) - radio_control.values[RADIO_THROTTLE];
+        guidance_v_rc_zd_sp = (MAX_PPRZ / 2) - radio_control.getValue(RADIO_THROTTLE);
         guidance_v_rc_zd_sp = DeadBand(guidance_v_rc_zd_sp, GUIDANCE_V_CLIMB_RC_DEADBAND);
 
         climb_scale = Math.abs(SPEED_BFP_OF_REAL(GUIDANCE_V_MAX_RC_CLIMB_SPEED) /
@@ -192,6 +192,7 @@ public class GuidanceV {
         // FIXME... SATURATIONS NOT TAKEN INTO ACCOUNT
         // AKA SUPERVISION and co
         guidance_v_thrust_coeff = get_vertical_thrust_coeff();
+//        System.out.println("guidance_v_thrust_coeff = "+guidance_v_thrust_coeff);
         if (in_flight) {
             int vertical_thrust = (stabilization_cmd[COMMAND_THRUST] * guidance_v_thrust_coeff) >> INT32_TRIG_FRAC;
             gv_adapt_run(stateGetAccelNed_i().z, vertical_thrust, guidance_v_zd_ref);
@@ -205,6 +206,7 @@ public class GuidanceV {
             case GUIDANCE_V_MODE_RC_DIRECT:
 //        printf("CASE GUIDANCE_V_MODE_RC_DIRECT\n");
                 guidance_v_z_sp = stateGetPositionNed_i().z; // for display only
+//                System.out.println("guidance_v_z_sp = "+guidance_v_z_sp );
                 stabilization_cmd[COMMAND_THRUST] = guidance_v_rc_delta_t;
                 break;
 
@@ -278,7 +280,7 @@ public class GuidanceV {
 //                #if !NO_RC_THRUST_LIMIT
 //      printf("!NO_RC_THRUST_LIMIT\n");
       /* use rc limitation if available */
-                if (radio_control.status == RC_OK) {
+                if (radio_control.getStatus() == RC_OK) {
                     stabilization_cmd[COMMAND_THRUST] = Math.min(guidance_v_rc_delta_t, guidance_v_delta_t);
                 } else
 //                #endif
@@ -316,6 +318,7 @@ public class GuidanceV {
    *  dot(v1, v2) = v1.z * v2.z = v2.z
    */
         int coef = att.getFlattendElement(8);
+//        System.out.println("coef = "+coef );
         if (coef < max_bank_coef) {
             coef = max_bank_coef;
         }

@@ -1191,6 +1191,22 @@ JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getNavigationCarro
 JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getNavigationCarrotZ
   (JNIEnv *, jclass);
 
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    npsAutopilotRunRadioStepAndShouldRunMainEvent
+ * Signature: (D)Z
+ */
+JNIEXPORT jboolean JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_npsAutopilotRunRadioStepAndShouldRunMainEvent
+  (JNIEnv *, jclass, jdouble);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    getRadioControlStatus
+ * Signature: ()S
+ */
+JNIEXPORT jshort JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getRadioControlStatus
+  (JNIEnv *, jclass);
+
 #ifdef __cplusplus
 }
 #endif

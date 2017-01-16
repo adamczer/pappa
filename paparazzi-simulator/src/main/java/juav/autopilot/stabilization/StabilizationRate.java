@@ -64,18 +64,18 @@ public class StabilizationRate {
 
 
     public static boolean ROLL_RATE_DEADBAND_EXCEEDED() {
-        return (RadioControl.values[RADIO_ROLL] > STABILIZATION_RATE_DEADBAND_P ||
-                RadioControl.values[RADIO_ROLL] < -STABILIZATION_RATE_DEADBAND_P);
+        return (radio_control.getValue(RADIO_ROLL) > STABILIZATION_RATE_DEADBAND_P ||
+                radio_control.getValue(RADIO_ROLL) < -STABILIZATION_RATE_DEADBAND_P);
     }
 
     public static boolean PITCH_RATE_DEADBAND_EXCEEDED() {
-        return (RadioControl.values[RADIO_PITCH] > STABILIZATION_RATE_DEADBAND_Q ||
-                RadioControl.values[RADIO_PITCH] < -STABILIZATION_RATE_DEADBAND_Q);
+        return (radio_control.getValue(RADIO_PITCH) > STABILIZATION_RATE_DEADBAND_Q ||
+                radio_control.getValue(RADIO_PITCH) < -STABILIZATION_RATE_DEADBAND_Q);
     }
 
     public static boolean YAW_RATE_DEADBAND_EXCEEDED() {
-        return (RadioControl.values[RADIO_YAW] > STABILIZATION_RATE_DEADBAND_R ||
-                RadioControl.values[RADIO_YAW] < -STABILIZATION_RATE_DEADBAND_R);
+        return (radio_control.getValue(RADIO_YAW) > STABILIZATION_RATE_DEADBAND_R ||
+                radio_control.getValue(RADIO_YAW) < -STABILIZATION_RATE_DEADBAND_R);
     }
 
 
@@ -124,19 +124,19 @@ public class StabilizationRate {
     void stabilization_rate_read_rc() {
 
         if (ROLL_RATE_DEADBAND_EXCEEDED()) {
-            stabilization_rate_sp.p = RadioControl.values[RADIO_ROLL] * RATE_BFP_OF_REAL(STABILIZATION_RATE_SP_MAX_P) / MAX_PPRZ;
+            stabilization_rate_sp.p = radio_control.getValue(RADIO_ROLL) * RATE_BFP_OF_REAL(STABILIZATION_RATE_SP_MAX_P) / MAX_PPRZ;
         } else {
             stabilization_rate_sp.p = 0;
         }
 
         if (PITCH_RATE_DEADBAND_EXCEEDED()) {
-            stabilization_rate_sp.q = RadioControl.values[RADIO_PITCH] * RATE_BFP_OF_REAL(STABILIZATION_RATE_SP_MAX_Q) / MAX_PPRZ;
+            stabilization_rate_sp.q = radio_control.getValue(RADIO_PITCH) * RATE_BFP_OF_REAL(STABILIZATION_RATE_SP_MAX_Q) / MAX_PPRZ;
         } else {
             stabilization_rate_sp.q = 0;
         }
 
         if (YAW_RATE_DEADBAND_EXCEEDED() && !THROTTLE_STICK_DOWN()) {
-            stabilization_rate_sp.r = RadioControl.values[RADIO_YAW] * RATE_BFP_OF_REAL(STABILIZATION_RATE_SP_MAX_R) / MAX_PPRZ;
+            stabilization_rate_sp.r = radio_control.getValue(RADIO_YAW) * RATE_BFP_OF_REAL(STABILIZATION_RATE_SP_MAX_R) / MAX_PPRZ;
         } else {
             stabilization_rate_sp.r = 0;
         }
@@ -146,19 +146,19 @@ public class StabilizationRate {
     void stabilization_rate_read_rc_switched_sticks() {
 
         if (ROLL_RATE_DEADBAND_EXCEEDED()) {
-            stabilization_rate_sp.r = -RadioControl.values[RADIO_ROLL] * RATE_BFP_OF_REAL(STABILIZATION_RATE_SP_MAX_P) / MAX_PPRZ;
+            stabilization_rate_sp.r = -radio_control.getValue(RADIO_ROLL) * RATE_BFP_OF_REAL(STABILIZATION_RATE_SP_MAX_P) / MAX_PPRZ;
         } else {
             stabilization_rate_sp.r = 0;
         }
 
         if (PITCH_RATE_DEADBAND_EXCEEDED()) {
-            stabilization_rate_sp.q = RadioControl.values[RADIO_PITCH] * RATE_BFP_OF_REAL(STABILIZATION_RATE_SP_MAX_Q) / MAX_PPRZ;
+            stabilization_rate_sp.q = radio_control.getValue(RADIO_PITCH) * RATE_BFP_OF_REAL(STABILIZATION_RATE_SP_MAX_Q) / MAX_PPRZ;
         } else {
             stabilization_rate_sp.q = 0;
         }
 
         if (YAW_RATE_DEADBAND_EXCEEDED() && !THROTTLE_STICK_DOWN()) {
-            stabilization_rate_sp.p = RadioControl.values[RADIO_YAW] * RATE_BFP_OF_REAL(STABILIZATION_RATE_SP_MAX_R) / MAX_PPRZ;
+            stabilization_rate_sp.p = radio_control.getValue(RADIO_YAW) * RATE_BFP_OF_REAL(STABILIZATION_RATE_SP_MAX_R) / MAX_PPRZ;
         } else {
             stabilization_rate_sp.p = 0;
         }

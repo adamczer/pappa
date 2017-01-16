@@ -74,4 +74,12 @@ public class Rates<T extends Number> {
         ret.setP(p);
         return ret;
     }
+
+    public static Rates<Integer> newInteger(int r, int q, int p) {
+        Rates<Integer> ret = new Rates<>();
+        ret.setR(r);
+        ret.setQ(q);
+        ret.setP(p);
+        return ret;
+    }
 }

@@ -889,3 +889,12 @@ JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getRadioControlVal
     struct EnuCoor_i tmp = juav_get_navigation_carrot();
     return tmp.z;
     }
+JNIEXPORT jboolean JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_npsAutopilotRunRadioStepAndShouldRunMainEvent
+  (JNIEnv *env, jclass thisClass, jdouble time) {
+  	return nps_autopilot_run_step_radio_juav_no_main_event(time);
+  }
+
+JNIEXPORT jshort JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getRadioControlStatus
+  (JNIEnv *env, jclass thisClass) {
+    return juav_get_radio_control_status();
+  }

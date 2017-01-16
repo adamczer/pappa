@@ -19,7 +19,10 @@ public class Navigation {
 
     public static final int NAV_FREQ = 16;
 
-    public static float dist2_to_home;
+//    public static float dist2_to_home;
+    public static float getDist2ToHome() {
+        return NativeTasks.navigationGetDist2ToHome();
+    }
     public static boolean too_far_from_home = false;
     public static float failsafe_mode_dist2; ///< maximum squared distance to home wp before going to failsafe mode
 

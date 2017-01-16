@@ -45,13 +45,13 @@ public class PprzAlgebraInt {
     private static final int  INT32_MAG_FRAC =11;
 
     private static final int  INT32_PERCENTAGE_FRAC =10;
-    private static final int INT32_QUAT_FRAC =15;
+    public static final int INT32_QUAT_FRAC =15;
 
     public static final int INT32_TRIG_FRAC =14;
 
     /* Euler angles                                 */
     public static final int  INT32_ANGLE_FRAC =12;
-    private static final int  INT32_RATE_FRAC =12;
+    public static final int  INT32_RATE_FRAC =12;
     public static final int  INT32_ANGLE_PI_4  = (int)ANGLE_BFP_OF_REAL(   0.7853981633974483096156608458198757);
     public static final int  INT32_ANGLE_PI_2 =  (int)ANGLE_BFP_OF_REAL(   1.5707963267948966192313216916397514);
     public static final int  INT32_ANGLE_PI   =  (int)ANGLE_BFP_OF_REAL(   3.1415926535897932384626433832795029);

@@ -22,9 +22,9 @@ public class StabilizationNone {
     public static void stabilization_none_read_rc()
     {
         //TODO
-        stabilization_none_rc_cmd.p = RadioControl.values[RADIO_ROLL];
-        stabilization_none_rc_cmd.q = RadioControl.values[RADIO_PITCH];
-        stabilization_none_rc_cmd.r = RadioControl.values[RADIO_YAW];
+        stabilization_none_rc_cmd.p = radio_control.getValue(RADIO_ROLL);
+        stabilization_none_rc_cmd.q = radio_control.getValue(RADIO_PITCH);
+        stabilization_none_rc_cmd.r = radio_control.getValue(RADIO_YAW);
     }
 
     public static void stabilization_none_enter()

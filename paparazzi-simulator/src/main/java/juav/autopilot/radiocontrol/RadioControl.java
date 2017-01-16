@@ -27,16 +27,23 @@ public class RadioControl {
     public static final int RC_LOST =      1;
     public static final int RC_REALLY_LOST = 2;
 
-    public static short status=0;
+//    public static short status=0;
     public static short time_since_last_frame=0;
     public static short radio_ok_cpt=0;
     public static short frame_rate=0;
     public static short frame_cpt=0;
-    public static int[] values= new int[RADIO_CONTROL_NB_CHANNEL];
+//    public int[] values= new int[RADIO_CONTROL_NB_CHANNEL];
 
     public static RadioControl radio_control = new RadioControl();
 
     public int getValue(int index) {
-        return NativeTasks.getRadioControlValue(index);
+        int val = NativeTasks.getRadioControlValue(index);
+        return val;
+    }
+
+    public short getStatus() {
+        short rcStatus = NativeTasks.getRadioControlStatus();
+//        System.out.println("radioControl.status = "+rcStatus);
+        return rcStatus;
     }
 }

@@ -210,7 +210,7 @@ public class StabilizationAttitudeRcSetpoint {
     public static int get_rc_roll()
     {
         int max_rc_phi = ANGLE_BFP_OF_REAL(STABILIZATION_ATTITUDE_SP_MAX_PHI);
-        int roll = radio_control.values[RADIO_ROLL];
+        int roll = radio_control.getValue(RADIO_ROLL);
 //        #if STABILIZATION_ATTITUDE_DEADBAND_A
 //        DeadBand(roll, STABILIZATION_ATTITUDE_DEADBAND_A);
 //        return roll * max_rc_phi / (MAX_PPRZ - STABILIZATION_ATTITUDE_DEADBAND_A);
@@ -222,7 +222,7 @@ public class StabilizationAttitudeRcSetpoint {
     public static int get_rc_pitch()
     {
         int max_rc_theta = ANGLE_BFP_OF_REAL(STABILIZATION_ATTITUDE_SP_MAX_THETA);
-        int pitch = radio_control.values[RADIO_PITCH];
+        int pitch = radio_control.getValue(RADIO_PITCH);
 //        #if STABILIZATION_ATTITUDE_DEADBAND_E
 //        DeadBand(pitch, STABILIZATION_ATTITUDE_DEADBAND_E);
 //        return pitch * max_rc_theta / (MAX_PPRZ - STABILIZATION_ATTITUDE_DEADBAND_E);
@@ -245,7 +245,7 @@ public class StabilizationAttitudeRcSetpoint {
 
     static float get_rc_pitch_f()
     {
-        int pitch = radio_control.values[RADIO_PITCH];
+        int pitch = radio_control.getValue(RADIO_PITCH);
 //        #if STABILIZATION_ATTITUDE_DEADBAND_E
 //        DeadBand(pitch, STABILIZATION_ATTITUDE_DEADBAND_E);
 //        return pitch * STABILIZATION_ATTITUDE_SP_MAX_THETA / (MAX_PPRZ - STABILIZATION_ATTITUDE_DEADBAND_E);
