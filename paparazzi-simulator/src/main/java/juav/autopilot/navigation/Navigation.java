@@ -8,36 +8,62 @@ import ub.juav.airborne.math.structs.geodetic.EnuCoor;
  * Created by adamczer on 11/28/16.
  */
 public class Navigation {
-    public static final int VERTICAL_MODE_MANUAL  =    0;
-    public static final int VERTICAL_MODE_CLIMB  =     1;
-    public static final int VERTICAL_MODE_ALT    =     2;
+    public static final float MAX_DIST_FROM_HOME = 150;
+    public static final float failsafe_mode_dist2 = MAX_DIST_FROM_HOME * MAX_DIST_FROM_HOME;
+    public static final int VERTICAL_MODE_MANUAL = 0;
+    public static final int VERTICAL_MODE_CLIMB = 1;
+    public static final int VERTICAL_MODE_ALT = 2;
 
     public static final int HORIZONTAL_MODE_WAYPOINT = 0;
-    public static final int  HORIZONTAL_MODE_ROUTE =    1;
-    public static final int  HORIZONTAL_MODE_CIRCLE =   2;
-    public static final int  HORIZONTAL_MODE_ATTITUDE = 3;
+    public static final int HORIZONTAL_MODE_ROUTE = 1;
+    public static final int HORIZONTAL_MODE_CIRCLE = 2;
+    public static final int HORIZONTAL_MODE_ATTITUDE = 3;
 
     public static final int NAV_FREQ = 16;
 
-//    public static float dist2_to_home;
     public static float getDist2ToHome() {
         return NativeTasks.navigationGetDist2ToHome();
     }
-    public static boolean too_far_from_home = false;
-    public static float failsafe_mode_dist2; ///< maximum squared distance to home wp before going to failsafe mode
 
-    public static short horizontal_mode;
-    public static int nav_roll;
-    public static int nav_pitch;
-    public static int nav_heading;
-    public static int vertical_mode;
+    public static boolean getTooFarFromHome() {
+        return NativeTasks.navigationGetTooFarFromHome();
+    }
 
-    public static int nav_climb, nav_altitude, nav_flight_altitude;
+    public static short getHorizantalMode() {
+        return NativeTasks.navigationGetHorizontalMode();
+    }
 
-    public static int nav_throttle;
+    public static int getNavRoll() {
+        return NativeTasks.navigationGetNavRoll();
+    }
 
+    public static int getNavPitch() {
+        return NativeTasks.navigationGetNavPitch();
+    }
 
-//    public static EnuCoor<Integer> navigation_carrot;
+    public static int getNavHeading() {
+        return NativeTasks.navigationGetNavHeading();
+    }
+
+    public static void setNavHeading(int newHeading) {
+        NativeTasks.navigationSetNavHeading(newHeading);
+    }
+
+    public static int getNavVerticleMode() {
+        return NativeTasks.navigationGetNavVerticleMode();
+    }
+
+    public static int getNavClimb() {
+        return NativeTasks.navigationGetNavClimb();
+    }
+
+    public static int getNavFlightAltitude() {
+        return NativeTasks.navigationGetNavFlightAltitude();
+    }
+
+    public static int getNavThrottle() {
+        return NativeTasks.navigationGetNavThrottle();
+    }
 
     public static RunOnceEvery nav_periodic_task = new RunOnceEvery() {
         @Override

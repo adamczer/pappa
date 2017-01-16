@@ -255,11 +255,11 @@ public class GuidanceH {
                     guidance_h_nav_enter();
                 }
 
-                if (horizontal_mode == HORIZONTAL_MODE_ATTITUDE) {
+                if (getHorizantalMode() == HORIZONTAL_MODE_ATTITUDE) {
                     Eulers<Integer> sp_cmd_i = Eulers.newInteger();
-                    sp_cmd_i.phi = nav_roll;
-                    sp_cmd_i.theta = nav_pitch;
-                    sp_cmd_i.psi = nav_heading;
+                    sp_cmd_i.phi = getNavRoll();
+                    sp_cmd_i.theta = getNavPitch();
+                    sp_cmd_i.psi = getNavHeading();
                     stabilization_attitude_set_rpy_setpoint_i(sp_cmd_i);
                 } else {
                     INT32_VECT2_NED_OF_ENU(guidance_h.sp.pos, getNavigationCarrot());
@@ -267,7 +267,7 @@ public class GuidanceH {
                     guidance_h_update_reference();
 
         /* set psi command */
-                    guidance_h.sp.heading = nav_heading;
+                    guidance_h.sp.heading = getNavHeading();
                     INT32_ANGLE_NORMALIZE(guidance_h.sp.heading);
         /* compute x,y earth commands */
                     guidance_h_traj_run(in_flight);
@@ -322,6 +322,6 @@ public class GuidanceH {
 
         reset_guidance_reference_from_current_position();
 
-        nav_heading = stateGetNedToBodyEulers_i().psi;
+        setNavHeading(stateGetNedToBodyEulers_i().psi);
     }
 }

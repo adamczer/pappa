@@ -207,4 +207,26 @@ public class NativeTasks {
     public static native boolean npsAutopilotRunRadioStepAndShouldRunMainEvent(double time);
 
     public static native short getRadioControlStatus();
+
+    public static native float navigationGetDist2ToHome();
+
+    public static native boolean navigationGetTooFarFromHome();
+
+    public static native short navigationGetHorizontalMode();
+
+    public static native int navigationGetNavRoll();
+
+    public static native int navigationGetNavPitch();
+
+    public static native int navigationGetNavHeading();
+
+    public static native void navigationSetNavHeading(int newHeading);
+
+    public static native int navigationGetNavVerticleMode();
+
+    public static native int navigationGetNavClimb();
+
+    public static native int navigationGetNavFlightAltitude();
+
+    public static native int navigationGetNavThrottle();
 }

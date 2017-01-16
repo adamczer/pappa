@@ -898,3 +898,59 @@ JNIEXPORT jshort JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getRadioControlS
   (JNIEnv *env, jclass thisClass) {
     return juav_get_radio_control_status();
   }
+
+  JNIEXPORT jfloat JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_navigationGetDist2ToHome
+    (JNIEnv *env, jclass thisClass) {
+    	return juav_get_dist2_to_home();
+    }
+
+  JNIEXPORT jboolean JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_navigationGetTooFarFromHome
+    (JNIEnv *env, jclass thisClass) {
+    	return juav_get_too_far_from_home();
+    }
+//
+  JNIEXPORT jshort JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_navigationGetHorizontalMode
+    (JNIEnv *env, jclass thisClass) {
+    	return juav_get_horizontal_mode();
+    }
+//
+  JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_navigationGetNavRoll
+    (JNIEnv *env, jclass thisClass) {
+    	return juav_get_nav_roll();
+    }
+//
+  JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_navigationGetNavPitch
+    (JNIEnv *env, jclass thisClass) {
+    	return juav_get_nav_pitch();
+    }
+//
+  JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_navigationGetNavHeading
+    (JNIEnv *env, jclass thisClass) {
+    	return juav_get_nav_heading();
+    }
+//
+  JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_navigationSetNavHeading
+    (JNIEnv *env, jclass thisClass, jint new_heading) {
+    	juav_set_nav_heading(new_heading);
+    }
+//
+  JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_navigationGetNavVerticleMode
+    (JNIEnv *env, jclass thisClass) {
+    	return juav_get_vertical_mode();
+    }
+//
+  JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_navigationGetNavClimb
+    (JNIEnv *env, jclass thisClass) {
+    	return juav_get_nav_climb();
+    }
+//
+  JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_navigationGetNavFlightAltitude
+    (JNIEnv *env, jclass thisClass) {
+    	return juav_get_nav_flight_altitude();
+    }
+//
+  JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_navigationGetNavThrottle
+    (JNIEnv *env, jclass thisClass) {
+    	return juav_get_nav_throttle();
+    }
+

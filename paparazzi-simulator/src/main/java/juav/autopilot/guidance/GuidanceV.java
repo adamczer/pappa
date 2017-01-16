@@ -257,25 +257,25 @@ public class GuidanceV {
             case GUIDANCE_V_MODE_NAV:
 //      printf("CASE GUIDANCE_V_MODE_NAV\n");
             {
-                if (vertical_mode == VERTICAL_MODE_ALT) {
+                if (getNavVerticleMode() == VERTICAL_MODE_ALT) {
 //        printf("vertical_mode == VERTICAL_MODE_ALT\n");
-                    guidance_v_z_sp = -nav_flight_altitude;
+                    guidance_v_z_sp = -getNavFlightAltitude();
                     guidance_v_zd_sp = 0;
                     gv_update_ref_from_z_sp(guidance_v_z_sp);
                     run_hover_loop(in_flight);
-                } else if (vertical_mode == VERTICAL_MODE_CLIMB) {
+                } else if (getNavVerticleMode() == VERTICAL_MODE_CLIMB) {
 //        printf("vertical_mode == VERTICAL_MODE_CLIMB\n");
                     guidance_v_z_sp = stateGetPositionNed_i().z;
-                    guidance_v_zd_sp = -nav_climb;
+                    guidance_v_zd_sp = -getNavClimb();
                     gv_update_ref_from_zd_sp(guidance_v_zd_sp, stateGetPositionNed_i().z);
                     run_hover_loop(in_flight);
-                } else if (vertical_mode == VERTICAL_MODE_MANUAL) {
+                } else if (getNavVerticleMode() == VERTICAL_MODE_MANUAL) {
 //        printf("vertical_mode == VERTICAL_MODE_MANUAL\n");
                     guidance_v_z_sp = stateGetPositionNed_i().z;
                     guidance_v_zd_sp = stateGetSpeedNed_i().z;
                     GuidanceVSetRef(guidance_v_z_sp, guidance_v_zd_sp, 0);
                     guidance_v_z_sum_err = 0;
-                    guidance_v_delta_t = nav_throttle;
+                    guidance_v_delta_t = getNavThrottle();
                 }
 //                #if !NO_RC_THRUST_LIMIT
 //      printf("!NO_RC_THRUST_LIMIT\n");

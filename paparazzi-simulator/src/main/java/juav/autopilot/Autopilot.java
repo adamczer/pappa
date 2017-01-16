@@ -283,8 +283,8 @@ public class Autopilot {
         Navigation.compute_dist2_to_home.runOnceEvery((int) NAV_PRESCALER);
 
         if (autopilot_in_flight && autopilot_mode == AP_MODE_NAV) {
-            if (too_far_from_home) {
-                if (dist2_to_home > failsafe_mode_dist2) {
+            if (getTooFarFromHome()) {
+                if (getDist2ToHome() > failsafe_mode_dist2) {
                     autopilot_set_mode(FAILSAFE_MODE_TOO_FAR_FROM_HOME);
                 } else {
                     autopilot_set_mode(AP_MODE_HOME);

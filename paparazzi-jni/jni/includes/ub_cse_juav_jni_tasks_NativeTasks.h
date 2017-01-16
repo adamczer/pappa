@@ -1207,6 +1207,94 @@ JNIEXPORT jboolean JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_npsAutopilotRu
 JNIEXPORT jshort JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getRadioControlStatus
   (JNIEnv *, jclass);
 
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    navigationGetDist2ToHome
+ * Signature: ()F
+ */
+JNIEXPORT jfloat JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_navigationGetDist2ToHome
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    navigationGetTooFarFromHome
+ * Signature: ()Z
+ */
+JNIEXPORT jboolean JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_navigationGetTooFarFromHome
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    navigationGetHorizontalMode
+ * Signature: ()S
+ */
+JNIEXPORT jshort JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_navigationGetHorizontalMode
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    navigationGetNavRoll
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_navigationGetNavRoll
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    navigationGetNavPitch
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_navigationGetNavPitch
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    navigationGetNavHeading
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_navigationGetNavHeading
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    navigationSetNavHeading
+ * Signature: (I)V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_navigationSetNavHeading
+  (JNIEnv *, jclass, jint);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    navigationGetNavVerticleMode
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_navigationGetNavVerticleMode
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    navigationGetNavClimb
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_navigationGetNavClimb
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    navigationGetNavFlightAltitude
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_navigationGetNavFlightAltitude
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    navigationGetNavThrottle
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_navigationGetNavThrottle
+  (JNIEnv *, jclass);
+
 #ifdef __cplusplus
 }
 #endif
