@@ -229,4 +229,7 @@ public class NativeTasks {
     public static native int navigationGetNavFlightAltitude();
 
     public static native int navigationGetNavThrottle();
+
+    public static native void setGuidanceHMode(short newMode);
+    public static native void setGuidanceVMode(short newMode);
 }

@@ -8,6 +8,7 @@ import juav.autopilot.telemetry.callbacks.SendGh;
 import juav.autopilot.telemetry.callbacks.SendHoverLoop;
 import juav.autopilot.telemetry.callbacks.SendHref;
 import juav.autopilot.telemetry.callbacks.SendTuneHover;
+import ub.cse.juav.jni.tasks.NativeTasks;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebraInt;
 import ub.juav.airborne.math.structs.algebra.Eulers;
 import ub.juav.airborne.math.structs.algebra.Vect2;
@@ -220,6 +221,8 @@ public class GuidanceH {
         }
 
         guidance_h.mode = new_mode;
+
+//        NativeTasks.setGuidanceHMode(new_mode);
 
     }
 

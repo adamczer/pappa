@@ -1,6 +1,7 @@
 package juav.autopilot.guidance;
 
 import juav.autopilot.telemetry.Telemetry;
+import ub.cse.juav.jni.tasks.NativeTasks;
 import ub.juav.airborne.math.structs.algebra.RMat;
 
 import static juav.autopilot.commands.Commands.COMMAND_THRUST;
@@ -180,6 +181,8 @@ public class GuidanceV {
         }
 
         guidance_v_mode = new_mode;
+
+//        NativeTasks.setGuidanceVMode(new_mode);
 
     }
 
