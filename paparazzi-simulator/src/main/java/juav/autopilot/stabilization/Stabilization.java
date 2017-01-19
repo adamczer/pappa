@@ -8,7 +8,7 @@ import static juav.autopilot.commands.Commands.COMMANDS_NB;
 public class Stabilization {
 
     public static int[] stabilization_cmd = new int[COMMANDS_NB];
-
+//
     public static void stabilization_init() {
         init();
     }

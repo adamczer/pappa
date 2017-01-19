@@ -116,8 +116,6 @@ public class NpsAutoPilotRotorCraft extends PeriodicTask {
 
 //            1. Autopilot flow
             autopilot.autopilot_periodic();
-
-
 //            2. set commands
         }
         NativeTasks.mainPeriodicJuavAutopilotPost();

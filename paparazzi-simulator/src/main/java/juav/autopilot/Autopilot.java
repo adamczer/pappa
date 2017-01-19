@@ -2,7 +2,7 @@ package juav.autopilot;
 
 import juav.autopilot.navigation.Navigation;
 import juav.autopilot.state.State;
-import juav.autopilot.telemetry.Telemetry;
+import ub.cse.juav.jni.tasks.NativeTasks;
 
 import static juav.autopilot.AutopilotArmingYaw.*;
 import static juav.autopilot.AutopilotRcHelpers.kill_switch_is_on;
@@ -13,7 +13,6 @@ import static juav.autopilot.navigation.Navigation.*;
 import static juav.autopilot.radiocontrol.RadioControl.RADIO_MODE;
 import static juav.autopilot.radiocontrol.RadioControl.radio_control;
 import static juav.autopilot.stabilization.Stabilization.stabilization_cmd;
-import static juav.autopilot.stabilization.Stabilization.stabilization_init;
 import static juav.autopilot.stabilization.StabilizationAttitudeQuatInt.PERIODIC_FREQUENCY;
 import static juav.autopilot.stabilization.StabilizationAttitudeQuatInt.stabilization_attitude_init;
 import static juav.autopilot.stabilization.StabilizationNone.stabilization_none_init;
@@ -61,11 +60,15 @@ public class Autopilot {
     public static short autopilot_mode = -1;
     static short  autopilot_mode_auto2;
 
-    boolean   autopilot_in_flight;
+//    boolean   autopilot_in_flight;
+    boolean getAutopilotInFlight() {
+        boolean ret = NativeTasks.getAutopilotInFlightJuav();
+        return ret;
+    }
     long autopilot_in_flight_counter;
     int autopilot_flight_time;
 
-    public static boolean   autopilot_motors_on;
+//    public static boolean   autopilot_motors_on;
     boolean   kill_throttle;
 
     boolean   autopilot_rc;
@@ -209,9 +212,9 @@ public class Autopilot {
 //    printf("autopilot_init*********************************************************************************\n");
   /* mode is finally set at end of init if MODE_STARTUP is not KILL */
         autopilot_mode = AP_MODE_KILL;
-        autopilot_motors_on = false;
-        kill_throttle = ! autopilot_motors_on;
-        autopilot_in_flight = false;
+//        autopilot_motors_on = false;
+        kill_throttle = ! getAutopilotMotorsOn();
+//        autopilot_in_flight = false; //todo modified by c commands
         autopilot_in_flight_counter = 0;
         autopilot_mode_auto2 = MODE_AUTO2;
         autopilot_ground_detected = false;
@@ -232,7 +235,7 @@ public class Autopilot {
         guidance_h_init();
         guidance_v_init();
 
-        stabilization_init();
+//        stabilization_init();
         stabilization_none_init();
         stabilization_rate_init();
         stabilization_attitude_init();
@@ -280,9 +283,9 @@ public class Autopilot {
 //        System.out.println("autopilot_mode = "+autopilot_mode);
 
 //        RunOnceEvery(NAV_PRESCALER, compute_dist2_to_home()); // not needed
-        Navigation.compute_dist2_to_home.runOnceEvery((int) NAV_PRESCALER);
+//        Navigation.compute_dist2_to_home.runOnceEvery((int) NAV_PRESCALER);
 
-        if (autopilot_in_flight && autopilot_mode == AP_MODE_NAV) {
+        if (getAutopilotInFlight() && autopilot_mode == AP_MODE_NAV) {
             if (getTooFarFromHome()) {
                 if (getDist2ToHome() > failsafe_mode_dist2) {
                     autopilot_set_mode(FAILSAFE_MODE_TOO_FAR_FROM_HOME);
@@ -307,7 +310,7 @@ public class Autopilot {
    * or just "detected" ground, go to KILL mode.
    */
         if (autopilot_mode == AP_MODE_FAILSAFE) {
-            if (!autopilot_in_flight) {
+            if (!getAutopilotInFlight()) {
                 autopilot_set_mode(AP_MODE_KILL);
             }
 
@@ -321,7 +324,7 @@ public class Autopilot {
 
   /* Reset ground detection _after_ running flight plan
    */
-        if (!autopilot_in_flight) {
+        if (!getAutopilotInFlight()) {
             autopilot_ground_detected = false;
             autopilot_detect_ground_once = false;
         }
@@ -333,26 +336,24 @@ public class Autopilot {
         if (autopilot_mode == AP_MODE_KILL) {
             SetCommands(commands_failsafe);
         } else {
-            guidanceV.guidance_v_run(autopilot_in_flight);
-            guidanceH.guidance_h_run(autopilot_in_flight);
-            SetRotorcraftCommands(stabilization_cmd, autopilot_in_flight, autopilot_motors_on);
+            guidanceV.guidance_v_run(getAutopilotInFlight());
+            guidanceH.guidance_h_run(getAutopilotInFlight());
+            SetRotorcraftCommands(stabilization_cmd, getAutopilotInFlight(), getAutopilotMotorsOn());
         }
 
+    }
+
+    private boolean getAutopilotMotorsOn() {
+        return NativeTasks.getAutopilotMotorsOnJuav();
     }
 
     public static void SetRotorcraftCommands(int[] _cmd, boolean _in_flight,  boolean _motor_on) { 
         if (!(_in_flight)) { _cmd[COMMAND_YAW] = 0; }               
         if (!(_motor_on)) { _cmd[COMMAND_THRUST] = 0; }
-        commands[COMMAND_ROLL] = _cmd[COMMAND_ROLL];                
-        commands[COMMAND_PITCH] = _cmd[COMMAND_PITCH];              
-        commands[COMMAND_YAW] = _cmd[COMMAND_YAW];                  
-        commands[COMMAND_THRUST] = _cmd[COMMAND_THRUST];
-//        System.out.println("COMMAND_ROLL = "+ commands[COMMAND_ROLL]);
-//        System.out.println("COMMAND_PITCH = "+ commands[COMMAND_PITCH]);
-//        System.out.println("COMMAND_YAW = "+ commands[COMMAND_YAW]);
-//        System.out.println("COMMAND_THRUST = "+ commands[COMMAND_THRUST]);
-//        System.out.println();
-//        System.out.println();
+        setCommand(COMMAND_ROLL,_cmd[COMMAND_ROLL]);
+        setCommand(COMMAND_PITCH, _cmd[COMMAND_PITCH]);
+        setCommand(COMMAND_YAW, _cmd[COMMAND_YAW]);
+        setCommand(COMMAND_THRUST, _cmd[COMMAND_THRUST]);
     }
 
 
@@ -474,13 +475,15 @@ public class Autopilot {
                     break;
             }
             autopilot_mode = new_autopilot_mode;
+
+            NativeTasks.setAutopilotMode(new_autopilot_mode);
         }
 
     }
 
     void autopilot_check_in_flight(boolean motors_on)
     {
-        if (autopilot_in_flight) {
+        if (getAutopilotInFlight()) {
             if (autopilot_in_flight_counter > 0) {
       /* probably in_flight if thrust, speed and accel above IN_FLIGHT_MIN thresholds */
                 if ((stabilization_cmd[COMMAND_THRUST] <= AUTOPILOT_IN_FLIGHT_MIN_THRUST) &&
@@ -488,7 +491,7 @@ public class Autopilot {
                 (Math.abs(stateGetAccelNed_f().z) < AUTOPILOT_IN_FLIGHT_MIN_ACCEL)) {
                     autopilot_in_flight_counter--;
                     if (autopilot_in_flight_counter == 0) {
-                        autopilot_in_flight = false;
+                        setAutopilotInFlight(false);
                     }
                 } else { /* thrust, speed or accel not above min threshold, reset counter */
                     autopilot_in_flight_counter = AUTOPILOT_IN_FLIGHT_TIME;
@@ -503,7 +506,7 @@ public class Autopilot {
                 if (stabilization_cmd[COMMAND_THRUST] > AUTOPILOT_IN_FLIGHT_MIN_THRUST) {
                     autopilot_in_flight_counter++;
                     if (autopilot_in_flight_counter == AUTOPILOT_IN_FLIGHT_TIME) {
-                        autopilot_in_flight = true;
+                        setAutopilotInFlight(true);
                     }
                 } else { /* currently not in_flight and thrust below threshold, reset counter */
                     autopilot_in_flight_counter = 0;
@@ -512,16 +515,24 @@ public class Autopilot {
         }
     }
 
+    private void setAutopilotInFlight(boolean newInFlight) {
+        throw new IllegalStateException("UNIMPLEMENTED");
+    }
+
 
     void autopilot_set_motors_on(boolean motors_on)
     {
         if (autopilot_mode != AP_MODE_KILL && ahrs_is_aligned() && motors_on) {
-            autopilot_motors_on = true;
+            setAutopilotMotorsOn(true);
         } else {
-            autopilot_motors_on = false;
+            setAutopilotMotorsOn(false);
         }
-        kill_throttle = ! autopilot_motors_on;
-        autopilot_arming_set(autopilot_motors_on);
+        kill_throttle = ! getAutopilotMotorsOn();
+        autopilot_arming_set(getAutopilotMotorsOn());
+    }
+
+    public static void setAutopilotMotorsOn(boolean b) {
+        NativeTasks.juavSetAutopilotMotorsOn(b);
     }
 
 
@@ -580,7 +591,7 @@ public class Autopilot {
    */
         if (ahrs_is_aligned()) {
             autopilot_arming_check_motors_on();
-            kill_throttle = ! autopilot_motors_on;
+            kill_throttle = ! getAutopilotMotorsOn();
         }
 
   /* if not in FAILSAFE or HOME mode, read RC and set commands accordingly */
@@ -599,7 +610,7 @@ public class Autopilot {
 //            #endif
 
             guidanceV.guidance_v_read_rc();
-            guidanceH.guidance_h_read_rc(autopilot_in_flight);
+            guidanceH.guidance_h_read_rc(getAutopilotInFlight());
         }
 
     }

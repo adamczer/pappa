@@ -1,6 +1,5 @@
 package juav.autopilot.stabilization;
 
-import juav.autopilot.radiocontrol.RadioControl;
 import ub.juav.airborne.math.structs.algebra.Rates;
 
 import static juav.autopilot.commands.Commands.*;

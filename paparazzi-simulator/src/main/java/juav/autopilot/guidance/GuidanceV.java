@@ -132,6 +132,9 @@ public class GuidanceV {
         } else {
             guidance_v_rc_zd_sp *= climb_scale;
         }
+
+        NativeTasks.setGuidanceVRcDeltaT(guidance_v_delta_t);
+        NativeTasks.setGuidanceVRcZdSp(guidance_v_rc_zd_sp);
     }
 
     public void guidance_v_mode_changed(short new_mode)

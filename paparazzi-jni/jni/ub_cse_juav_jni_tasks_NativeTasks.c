@@ -954,3 +954,62 @@ JNIEXPORT jshort JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getRadioControlS
     	return juav_get_nav_throttle();
     }
 
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setGuidanceHMode
+  (JNIEnv *env, jclass thisClass, jshort newMode) {
+	juav_set_guidance_h_mode(newMode);
+  }
+
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setGuidanceVMode
+  (JNIEnv *env, jclass thisClass, jshort newMode) {
+  	juav_set_guidance_v_mode(newMode);
+  }
+
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setAutopilotMode
+  (JNIEnv *env, jclass thisClass, jshort newMode) {
+    juav_set_autopilot_mode(newMode);
+  }
+
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setGuidanceVRcDeltaT
+  (JNIEnv *env, jclass thisClass, jint newValue) {
+  	juav_set_guidance_v_rc_delta_t(newValue);
+  }
+
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setGuidanceVRcZdSp
+  (JNIEnv *env, jclass thisClass, jint newValue) {
+  	juav_set_guidance_v_rc_zd_sp(newValue);
+  }
+
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setStabilizationCommand
+  (JNIEnv *env, jclass thisClass, jint commandIndex, jint command) {
+	juav_set_stabilization_command(commandIndex, command);
+  }
+
+JNIEXPORT jboolean JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAutopilotMotorsOnJuav
+  (JNIEnv *env, jclass thisClass) {
+    return juav_get_autopilot_motors_on();
+  }
+
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_juavSetAutopilotMotorsOn
+  (JNIEnv *env, jclass thisClass, jboolean newValue) {
+  	juav_set_autopilot_motors_on(newValue);
+  }
+
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_juavSetAutopilotCheckMotorStatus
+  (JNIEnv *env, jclass thisClass, jint newValue) {
+	juav_set_autopilot_check_motor_status(newValue);
+  }
+
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_juavGetAutopilotCheckMotorStatus
+  (JNIEnv *env, jclass thisClass) {
+  return juav_get_autopilot_check_motor_status();
+  }
+
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_juavSetAutopilotMotorsOnCounter
+  (JNIEnv *env, jclass thisClass, jint newValue) {
+	juav_set_autopilot_motors_on_counter(newValue);
+  }
+
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_juavGetAutopilotMotorsOnCounter
+  (JNIEnv *env, jclass thisClass) {
+  	return juav_get_autopilot_motors_on_counter();
+  }

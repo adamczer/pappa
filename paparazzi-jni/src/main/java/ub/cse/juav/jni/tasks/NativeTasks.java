@@ -232,4 +232,24 @@ public class NativeTasks {
 
     public static native void setGuidanceHMode(short newMode);
     public static native void setGuidanceVMode(short newMode);
+
+    public static native void setAutopilotMode(short new_autopilot_mode);
+
+    public static native void setGuidanceVRcDeltaT(int newValue);
+
+    public static native void setGuidanceVRcZdSp(int newValue);
+
+    public static native void setStabilizationCommand(int commandIndex, int command);
+
+    public static native boolean getAutopilotMotorsOnJuav();
+
+    public static native void juavSetAutopilotMotorsOn(boolean b);
+
+    public static native void juavSetAutopilotCheckMotorStatus(int ordinal);
+
+    public static native int juavGetAutopilotCheckMotorStatus();
+
+    public static native void juavSetAutopilotMotorsOnCounter(int newCount);
+
+    public static native int juavGetAutopilotMotorsOnCounter();
 }
