@@ -1,13 +1,17 @@
 package juav.autopilot;
 
+import juav.autopilot.commands.Commands;
 import juav.autopilot.gps.GpsSimNps;
 import juav.autopilot.imu.JniImuNps;
 import juav.autopilot.guidance.GuidanceH;
+import juav.autopilot.stabilization.Stabilization;
 import juav.simulator.tasks.PeriodicTask;
 import juav.simulator.tasks.sensors.device.jni.*;
 import ub.cse.juav.jni.nps.PaparazziNps;
 import ub.cse.juav.jni.tasks.NativeTasks;
 
+import static juav.autopilot.Autopilot.*;
+import static juav.autopilot.commands.Commands.*;
 import static juav.autopilot.guidance.GuidanceH.stabilizationAttitudeRun;
 
 /**
@@ -95,8 +99,8 @@ public class NpsAutoPilotRotorCraft extends PeriodicTask {
 /***************************************************************/
 //        NativeTasks.npsAutopilotRunStepHandelPeriodicTasks(); //-> all c for this task
 //        below -> guidance attitude compuatation in java then passed back.
-        NativeTasks.mainPeriodicJuavAutopilotPrior();
-        if(NativeTasks.sysTimeCheckAndAckTimerMainPeriodicJuav()) {
+//        NativeTasks.mainPeriodicJuavAutopilotPrior();
+//        if(NativeTasks.sysTimeCheckAndAckTimerMainPeriodicJuav()) {
 //            NativeTasks.mainPeriodicJuavTest();//TEST main periodic
 //            vvv First paper
 //            NativeTasks.autopilotPeriodicPriorJuav();
@@ -111,14 +115,28 @@ public class NpsAutoPilotRotorCraft extends PeriodicTask {
 //                }
 //            }
 //            NativeTasks.autopilotPeriodicPostJuav();//finaizes after guidance_h.c run
-//          ^^^ First paper
+//        }
+        //          ^^^ First paper
 //            Second paper
 
 //            1. Autopilot flow
-            autopilot.autopilot_periodic();
+        autopilot.autopilot_periodic();
 //            2. set commands
-        }
         NativeTasks.mainPeriodicJuavAutopilotPost();
+
+        if (autopilot_mode != AP_MODE_KILL) {
+            boolean inFlight =getAutopilotInFlight(), motorsOn =getAutopilotMotorsOn();
+            int[] cmd = new int[4];
+            cmd[COMMAND_ROLL] = Stabilization.getStabilizationCommand(COMMAND_ROLL);
+            cmd[COMMAND_PITCH] = Stabilization.getStabilizationCommand(COMMAND_PITCH);
+            cmd[COMMAND_YAW] = Stabilization.getStabilizationCommand(COMMAND_YAW);
+            cmd[COMMAND_THRUST] = Stabilization.getStabilizationCommand(COMMAND_THRUST);
+          System.out.println("COMMAND_ROLL ->"+ cmd[COMMAND_ROLL]);
+          System.out.println("COMMAND_PITCH ->"+ cmd[COMMAND_PITCH]);
+          System.out.println("COMMAND_YAW ->"+ cmd[COMMAND_YAW]);
+          System.out.println("COMMAND_THRUST ->"+ cmd[COMMAND_THRUST]);
+            Commands.SetRotorcraftCommands(cmd,inFlight,motorsOn );
+        }
         NativeTasks.handlePeriodicTasksFollowingMainPeriodicJuav();
 /***************************************************************/
         NativeTasks.npsAutopilotRunStepConvertMotorMixingCommandsToAutopilotCommands();

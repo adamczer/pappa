@@ -1391,6 +1391,22 @@ JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_juavSetAutopilotMo
 JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_juavGetAutopilotMotorsOnCounter
   (JNIEnv *, jclass);
 
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    getStabilizationCmd
+ * Signature: (I)I
+ */
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getStabilizationCmd
+  (JNIEnv *, jclass, jint);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    setStabilizationCmd
+ * Signature: (II)V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setStabilizationCmd
+  (JNIEnv *, jclass, jint, jint);
+
 #ifdef __cplusplus
 }
 #endif

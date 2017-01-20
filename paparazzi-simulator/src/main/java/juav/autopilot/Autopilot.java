@@ -1,6 +1,7 @@
 package juav.autopilot;
 
 import juav.autopilot.navigation.Navigation;
+import juav.autopilot.stabilization.Stabilization;
 import juav.autopilot.state.State;
 import ub.cse.juav.jni.tasks.NativeTasks;
 
@@ -12,7 +13,6 @@ import static juav.autopilot.guidance.GuidanceV.*;
 import static juav.autopilot.navigation.Navigation.*;
 import static juav.autopilot.radiocontrol.RadioControl.RADIO_MODE;
 import static juav.autopilot.radiocontrol.RadioControl.radio_control;
-import static juav.autopilot.stabilization.Stabilization.stabilization_cmd;
 import static juav.autopilot.stabilization.StabilizationAttitudeQuatInt.PERIODIC_FREQUENCY;
 import static juav.autopilot.stabilization.StabilizationAttitudeQuatInt.stabilization_attitude_init;
 import static juav.autopilot.stabilization.StabilizationNone.stabilization_none_init;
@@ -61,7 +61,7 @@ public class Autopilot {
     static short  autopilot_mode_auto2;
 
 //    boolean   autopilot_in_flight;
-    boolean getAutopilotInFlight() {
+    public static boolean getAutopilotInFlight() {
         boolean ret = NativeTasks.getAutopilotInFlightJuav();
         return ret;
     }
@@ -338,23 +338,21 @@ public class Autopilot {
         } else {
             guidanceV.guidance_v_run(getAutopilotInFlight());
             guidanceH.guidance_h_run(getAutopilotInFlight());
-            SetRotorcraftCommands(stabilization_cmd, getAutopilotInFlight(), getAutopilotMotorsOn());
+//            int[] stabilization_cmd = new int[4];
+//            stabilization_cmd[0] = Stabilization.getStabilizationCommand(0);
+//            stabilization_cmd[1] = Stabilization.getStabilizationCommand(1);
+//            stabilization_cmd[2] = Stabilization.getStabilizationCommand(2);
+//            stabilization_cmd[3] = Stabilization.getStabilizationCommand(3);
+//            SetRotorcraftCommands(stabilization_cmd, getAutopilotInFlight(), getAutopilotMotorsOn());
         }
 
     }
 
-    private boolean getAutopilotMotorsOn() {
+    public static boolean getAutopilotMotorsOn() {
         return NativeTasks.getAutopilotMotorsOnJuav();
     }
 
-    public static void SetRotorcraftCommands(int[] _cmd, boolean _in_flight,  boolean _motor_on) { 
-        if (!(_in_flight)) { _cmd[COMMAND_YAW] = 0; }               
-        if (!(_motor_on)) { _cmd[COMMAND_THRUST] = 0; }
-        setCommand(COMMAND_ROLL,_cmd[COMMAND_ROLL]);
-        setCommand(COMMAND_PITCH, _cmd[COMMAND_PITCH]);
-        setCommand(COMMAND_YAW, _cmd[COMMAND_YAW]);
-        setCommand(COMMAND_THRUST, _cmd[COMMAND_THRUST]);
-    }
+
 
 
     void autopilot_set_mode(short new_autopilot_mode)
@@ -481,55 +479,57 @@ public class Autopilot {
 
     }
 
-    void autopilot_check_in_flight(boolean motors_on)
-    {
-        if (getAutopilotInFlight()) {
-            if (autopilot_in_flight_counter > 0) {
-      /* probably in_flight if thrust, speed and accel above IN_FLIGHT_MIN thresholds */
-                if ((stabilization_cmd[COMMAND_THRUST] <= AUTOPILOT_IN_FLIGHT_MIN_THRUST) &&
-                        (Math.abs(stateGetSpeedNed_f().z) < AUTOPILOT_IN_FLIGHT_MIN_SPEED) &&
-                (Math.abs(stateGetAccelNed_f().z) < AUTOPILOT_IN_FLIGHT_MIN_ACCEL)) {
-                    autopilot_in_flight_counter--;
-                    if (autopilot_in_flight_counter == 0) {
-                        setAutopilotInFlight(false);
-                    }
-                } else { /* thrust, speed or accel not above min threshold, reset counter */
-                    autopilot_in_flight_counter = AUTOPILOT_IN_FLIGHT_TIME;
-                }
-            }
-        } else { /* currently not in flight */
-            if (autopilot_in_flight_counter < AUTOPILOT_IN_FLIGHT_TIME &&
-                    motors_on) {
-      /* if thrust above min threshold, assume in_flight.
-       * Don't check for velocity and acceleration above threshold here...
-       */
-                if (stabilization_cmd[COMMAND_THRUST] > AUTOPILOT_IN_FLIGHT_MIN_THRUST) {
-                    autopilot_in_flight_counter++;
-                    if (autopilot_in_flight_counter == AUTOPILOT_IN_FLIGHT_TIME) {
-                        setAutopilotInFlight(true);
-                    }
-                } else { /* currently not in_flight and thrust below threshold, reset counter */
-                    autopilot_in_flight_counter = 0;
-                }
-            }
-        }
-    }
+//TODO this in java
+//    void autopilot_check_in_flight(boolean motors_on)
+//    {
+//        if (getAutopilotInFlight()) {
+//            if (autopilot_in_flight_counter > 0) {
+//      /* probably in_flight if thrust, speed and accel above IN_FLIGHT_MIN thresholds */
+//                if ((Stabilization.getStabilizationCommand(COMMAND_THRUST) <= AUTOPILOT_IN_FLIGHT_MIN_THRUST) &&
+//                        (Math.abs(stateGetSpeedNed_f().z) < AUTOPILOT_IN_FLIGHT_MIN_SPEED) &&
+//                (Math.abs(stateGetAccelNed_f().z) < AUTOPILOT_IN_FLIGHT_MIN_ACCEL)) {
+//                    autopilot_in_flight_counter--;
+//                    if (autopilot_in_flight_counter == 0) {
+//                        setAutopilotInFlight(false);
+//                    }
+//                } else { /* thrust, speed or accel not above min threshold, reset counter */
+//                    autopilot_in_flight_counter = AUTOPILOT_IN_FLIGHT_TIME;
+//                }
+//            }
+//        } else { /* currently not in flight */
+//            if (autopilot_in_flight_counter < AUTOPILOT_IN_FLIGHT_TIME &&
+//                    motors_on) {
+//      /* if thrust above min threshold, assume in_flight.
+//       * Don't check for velocity and acceleration above threshold here...
+//       */
+//                if (Stabilization.getStabilizationCommand(COMMAND_THRUST) > AUTOPILOT_IN_FLIGHT_MIN_THRUST) {
+//                    autopilot_in_flight_counter++;
+//                    if (autopilot_in_flight_counter == AUTOPILOT_IN_FLIGHT_TIME) {
+//                        setAutopilotInFlight(true);
+//                    }
+//                } else { /* currently not in_flight and thrust below threshold, reset counter */
+//                    autopilot_in_flight_counter = 0;
+//                }
+//            }
+//        }
+//    }
 
     private void setAutopilotInFlight(boolean newInFlight) {
         throw new IllegalStateException("UNIMPLEMENTED");
     }
 
 
-    void autopilot_set_motors_on(boolean motors_on)
-    {
-        if (autopilot_mode != AP_MODE_KILL && ahrs_is_aligned() && motors_on) {
-            setAutopilotMotorsOn(true);
-        } else {
-            setAutopilotMotorsOn(false);
-        }
-        kill_throttle = ! getAutopilotMotorsOn();
-        autopilot_arming_set(getAutopilotMotorsOn());
-    }
+// TODO this in java
+//   void autopilot_set_motors_on(boolean motors_on)
+//    {
+//        if (autopilot_mode != AP_MODE_KILL && ahrs_is_aligned() && motors_on) {
+//            setAutopilotMotorsOn(true);
+//        } else {
+//            setAutopilotMotorsOn(false);
+//        }
+//        kill_throttle = ! getAutopilotMotorsOn();
+//        autopilot_arming_set(getAutopilotMotorsOn());
+//    }
 
     public static void setAutopilotMotorsOn(boolean b) {
         NativeTasks.juavSetAutopilotMotorsOn(b);

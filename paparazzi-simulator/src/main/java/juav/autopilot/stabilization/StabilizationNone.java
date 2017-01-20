@@ -4,7 +4,7 @@ import ub.juav.airborne.math.structs.algebra.Rates;
 
 import static juav.autopilot.commands.Commands.*;
 import static juav.autopilot.radiocontrol.RadioControl.*;
-import static juav.autopilot.stabilization.Stabilization.stabilization_cmd;
+import static juav.autopilot.stabilization.Stabilization.setStabilizationCommand;
 import static ub.juav.airborne.math.functions.algebra.PprzAlgebraInt.INT_RATES_ZERO;
 
 /**
@@ -34,8 +34,8 @@ public class StabilizationNone {
     void stabilization_none_run(boolean in_flight/*UNUSED*/)
     {
   /* just directly pass rc commands through */
-        stabilization_cmd[COMMAND_ROLL]  = stabilization_none_rc_cmd.p;
-        stabilization_cmd[COMMAND_PITCH] = stabilization_none_rc_cmd.q;
-        stabilization_cmd[COMMAND_YAW]   = stabilization_none_rc_cmd.r;
+        setStabilizationCommand(COMMAND_ROLL, stabilization_none_rc_cmd.p);
+        setStabilizationCommand(COMMAND_PITCH, stabilization_none_rc_cmd.q);
+        setStabilizationCommand(COMMAND_YAW, stabilization_none_rc_cmd.r);
     }
 }

@@ -252,4 +252,7 @@ public class NativeTasks {
     public static native void juavSetAutopilotMotorsOnCounter(int newCount);
 
     public static native int juavGetAutopilotMotorsOnCounter();
+
+    public static native int getStabilizationCmd(int index);
+    public static native void setStabilizationCmd(int index, int newValue);
 }

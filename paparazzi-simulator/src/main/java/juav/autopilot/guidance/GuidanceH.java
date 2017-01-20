@@ -174,7 +174,7 @@ public class GuidanceH {
   /* compute a better approximation of force commands by taking thrust into account */
         if (guidance_h.approx_force_by_thrust && inFlight) {
 //            TODO int vertical_thrust = (stabilization_cmd.stabilization_cmd[COMMAND_THRUST] * guidance_v_thrust_coeff) >> INT32_TRIG_FRAC;
-            int vertical_thrust = (stabilization_cmd.stabilization_cmd[COMMAND_THRUST] * get_vertical_thrust_coeff()) >> INT32_TRIG_FRAC;
+            int vertical_thrust = (Stabilization.getStabilizationCommand(COMMAND_THRUST) * get_vertical_thrust_coeff()) >> INT32_TRIG_FRAC;
             thrust_cmd_filt = (thrust_cmd_filt * GUIDANCE_H_THRUST_CMD_FILTER + vertical_thrust) /
                     (GUIDANCE_H_THRUST_CMD_FILTER + 1);
             guidance_h_cmd_earth.x = ANGLE_BFP_OF_REAL(Math.atan2((guidance_h_cmd_earth.x * MAX_PPRZ / INT32_ANGLE_PI_2),

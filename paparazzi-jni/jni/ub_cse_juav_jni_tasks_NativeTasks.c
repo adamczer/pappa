@@ -1013,3 +1013,12 @@ JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_juavGetAutopilotMo
   (JNIEnv *env, jclass thisClass) {
   	return juav_get_autopilot_motors_on_counter();
   }
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getStabilizationCmd
+  (JNIEnv *env, jclass thisClass, jint index) {
+    return juav_get_stabilization_cmd(index);
+  }
+
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setStabilizationCmd
+  (JNIEnv *env, jclass thisClass, jint index, jint newValue) {
+	juav_set_stabilization_cmd(index, newValue);
+  }

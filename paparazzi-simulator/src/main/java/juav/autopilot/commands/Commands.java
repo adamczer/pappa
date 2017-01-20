@@ -22,4 +22,12 @@ public class Commands {
     public static void setCommand(int commandIndex, int command) {
         NativeTasks.setStabilizationCommand(commandIndex,command);
     }
-}
+
+    public static void SetRotorcraftCommands(int[] _cmd, boolean _in_flight,  boolean _motor_on) {
+        if (!(_in_flight)) { _cmd[COMMAND_YAW] = 0; }
+        if (!(_motor_on)) { _cmd[COMMAND_THRUST] = 0; }
+        setCommand(COMMAND_ROLL,_cmd[COMMAND_ROLL]);
+        setCommand(COMMAND_PITCH, _cmd[COMMAND_PITCH]);
+        setCommand(COMMAND_YAW, _cmd[COMMAND_YAW]);
+        setCommand(COMMAND_THRUST, _cmd[COMMAND_THRUST]);
+    }}

@@ -191,14 +191,14 @@ public class StabilizationRate {
         stabilization_rate_fb_cmd.r = stabilization_rate_gain.r * _error.r +
                 OFFSET_AND_ROUND2((stabilization_rate_igain.r * stabilization_rate_sum_err.r), 10);
 
-        stabilization_cmd[COMMAND_ROLL] = stabilization_rate_fb_cmd.p >> 11;
-        stabilization_cmd[COMMAND_PITCH] = stabilization_rate_fb_cmd.q >> 11;
-        stabilization_cmd[COMMAND_YAW] = stabilization_rate_fb_cmd.r >> 11;
+        setStabilizationCommand(COMMAND_ROLL, stabilization_rate_fb_cmd.p >> 11);
+        setStabilizationCommand(COMMAND_PITCH, stabilization_rate_fb_cmd.q >> 11);
+        setStabilizationCommand(COMMAND_YAW, stabilization_rate_fb_cmd.r >> 11);
 
   /* bound the result */
-        BoundAbs(stabilization_cmd[COMMAND_ROLL], MAX_PPRZ);
-        BoundAbs(stabilization_cmd[COMMAND_PITCH], MAX_PPRZ);
-        BoundAbs(stabilization_cmd[COMMAND_YAW], MAX_PPRZ);
+        setStabilizationCommand(COMMAND_ROLL,BoundAbs(getStabilizationCommand(COMMAND_ROLL), MAX_PPRZ));
+        setStabilizationCommand(COMMAND_PITCH,BoundAbs(getStabilizationCommand(COMMAND_PITCH), MAX_PPRZ));
+        setStabilizationCommand(COMMAND_YAW,BoundAbs(getStabilizationCommand(COMMAND_YAW), MAX_PPRZ));
 
     }
 

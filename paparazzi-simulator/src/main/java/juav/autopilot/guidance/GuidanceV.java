@@ -1,5 +1,6 @@
 package juav.autopilot.guidance;
 
+import juav.autopilot.stabilization.Stabilization;
 import juav.autopilot.telemetry.Telemetry;
 import ub.cse.juav.jni.tasks.NativeTasks;
 import ub.juav.airborne.math.structs.algebra.RMat;
@@ -10,7 +11,7 @@ import static juav.autopilot.guidance.GuidanceVAdapt.*;
 import static juav.autopilot.guidance.ref.GuidanceVRef.*;
 import static juav.autopilot.navigation.Navigation.*;
 import static juav.autopilot.radiocontrol.RadioControl.*;
-import static juav.autopilot.stabilization.Stabilization.stabilization_cmd;
+import static juav.autopilot.stabilization.Stabilization.setStabilizationCommand;
 import static juav.autopilot.state.State.*;
 import static ub.juav.airborne.math.functions.algebra.PprzAlgebraInt.*;
 
@@ -110,21 +111,18 @@ public class GuidanceV {
         Telemetry.registerPeriodicTelemetrySendTuneVert();
 //        #endif
     }
-    static int climb_scale;
-    static int descent_scale;
-    public void guidance_v_read_rc()
+
+    public void guidance_v_read_rc() //CHECKED equal
     {
-//  printf("guidance_v_read_rc\n");//TODO
   /* used in RC_DIRECT directly and as saturation in CLIMB and HOVER */
         guidance_v_rc_delta_t = radio_control.getValue(RADIO_THROTTLE);
-
   /* used in RC_CLIMB */
         guidance_v_rc_zd_sp = (MAX_PPRZ / 2) - radio_control.getValue(RADIO_THROTTLE);
         guidance_v_rc_zd_sp = DeadBand(guidance_v_rc_zd_sp, GUIDANCE_V_CLIMB_RC_DEADBAND);
 
-        climb_scale = Math.abs(SPEED_BFP_OF_REAL(GUIDANCE_V_MAX_RC_CLIMB_SPEED) /
+        int climb_scale = Math.abs(SPEED_BFP_OF_REAL(GUIDANCE_V_MAX_RC_CLIMB_SPEED) /
             (MAX_PPRZ / 2 - GUIDANCE_V_CLIMB_RC_DEADBAND));
-        descent_scale = Math.abs(SPEED_BFP_OF_REAL(GUIDANCE_V_MAX_RC_DESCENT_SPEED) /
+        int descent_scale = Math.abs(SPEED_BFP_OF_REAL(GUIDANCE_V_MAX_RC_DESCENT_SPEED) /
                 (MAX_PPRZ / 2 - GUIDANCE_V_CLIMB_RC_DEADBAND));
 
         if (guidance_v_rc_zd_sp > 0) {
@@ -133,8 +131,6 @@ public class GuidanceV {
             guidance_v_rc_zd_sp *= climb_scale;
         }
 
-        NativeTasks.setGuidanceVRcDeltaT(guidance_v_delta_t);
-        NativeTasks.setGuidanceVRcZdSp(guidance_v_rc_zd_sp);
     }
 
     public void guidance_v_mode_changed(short new_mode)
@@ -200,7 +196,7 @@ public class GuidanceV {
         guidance_v_thrust_coeff = get_vertical_thrust_coeff();
 //        System.out.println("guidance_v_thrust_coeff = "+guidance_v_thrust_coeff);
         if (in_flight) {
-            int vertical_thrust = (stabilization_cmd[COMMAND_THRUST] * guidance_v_thrust_coeff) >> INT32_TRIG_FRAC;
+            int vertical_thrust = (Stabilization.getStabilizationCommand(COMMAND_THRUST) * guidance_v_thrust_coeff) >> INT32_TRIG_FRAC;
             gv_adapt_run(stateGetAccelNed_i().z, vertical_thrust, guidance_v_zd_ref);
         } else {
     /* reset estimate while not in_flight */
@@ -213,7 +209,7 @@ public class GuidanceV {
 //        printf("CASE GUIDANCE_V_MODE_RC_DIRECT\n");
                 guidance_v_z_sp = stateGetPositionNed_i().z; // for display only
 //                System.out.println("guidance_v_z_sp = "+guidance_v_z_sp );
-                stabilization_cmd[COMMAND_THRUST] = guidance_v_rc_delta_t;
+                setStabilizationCommand(COMMAND_THRUST,guidance_v_rc_delta_t);
                 break;
 
 //    case GUIDANCE_V_MODE_RC_CLIMB:
@@ -287,10 +283,10 @@ public class GuidanceV {
 //      printf("!NO_RC_THRUST_LIMIT\n");
       /* use rc limitation if available */
                 if (radio_control.getStatus() == RC_OK) {
-                    stabilization_cmd[COMMAND_THRUST] = Math.min(guidance_v_rc_delta_t, guidance_v_delta_t);
+                    setStabilizationCommand(COMMAND_THRUST,Math.min(guidance_v_rc_delta_t, guidance_v_delta_t));
                 } else
 //                #endif
-                stabilization_cmd[COMMAND_THRUST] = guidance_v_delta_t;
+                    setStabilizationCommand(COMMAND_THRUST, guidance_v_delta_t);
                 break;
             }
 
