@@ -1093,3 +1093,24 @@ JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setHorizantialGuid
   juav_set_guidance_h_ref_speed_y(y);
   }
 
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getHorizantialGuidanceReferenceAccelX
+  (JNIEnv *env, jclass thisClass) {
+  return juav_get_guidance_h_ref_accel_x();
+  }
+
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getHorizantialGuidanceReferenceAccelY
+  (JNIEnv *env, jclass thisClass){
+  return juav_get_guidance_h_ref_accel_y();
+  }
+
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setHorizantialGuidanceReferenceAccelX
+  (JNIEnv *env, jclass thisClass, jint x) {
+  juav_set_guidance_h_ref_accel_x(x);
+  }
+
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setHorizantialGuidanceReferenceAccelY
+  (JNIEnv *env, jclass thisClass, jint y) {
+  juav_set_guidance_h_ref_accel_y(y);
+  }
+
+

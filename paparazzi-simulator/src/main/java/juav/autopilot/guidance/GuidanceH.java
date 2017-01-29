@@ -147,10 +147,10 @@ public class GuidanceH {
                         ((guidance_h.gains.d * (guidance_h_speed_err.y >> 2)) >> (INT32_SPEED_FRAC - GH_GAIN_SCALE - 2));
         guidance_h_cmd_earth.x = pd_x +
                 ((guidance_h.gains.v * guidance_h.ref.getSpeed().x) >> 17) + /* speed feedforward gain */
-                ((guidance_h.gains.a * guidance_h.ref.accel.x) >> 8);   /* acceleration feedforward gain */
+                ((guidance_h.gains.a * guidance_h.ref.getAccel().x) >> 8);   /* acceleration feedforward gain */
         guidance_h_cmd_earth.y = pd_y +
                 ((guidance_h.gains.v * guidance_h.ref.getSpeed().y) >> 17) + /* speed feedforward gain */
-                ((guidance_h.gains.a * guidance_h.ref.accel.y) >> 8);   /* acceleration feedforward gain */
+                ((guidance_h.gains.a * guidance_h.ref.getAccel().y) >> 8);   /* acceleration feedforward gain */
 
   /* trim max bank angle from PD */
         VECT2_STRIM(guidance_h_cmd_earth, -traj_max_bank, traj_max_bank);
@@ -197,8 +197,10 @@ public class GuidanceH {
         Vect2<Integer> newSpeed = Vect2.newIntVect2();
         VECT2_COPY(newSpeed, stateGetSpeedNed_i());
         guidance_h.ref.setSpeed(newSpeed);
-        INT_VECT2_ZERO(guidance_h.ref.accel);
-        gh_ref.gh_set_ref(guidance_h.ref.getPos(), guidance_h.ref.getSpeed(), guidance_h.ref.accel);
+        Vect2<Integer> newAccel = Vect2.newIntVect2();
+        INT_VECT2_ZERO(newAccel);
+        guidance_h.ref.setAccel(newAccel);
+        gh_ref.gh_set_ref(guidance_h.ref.getPos(), guidance_h.ref.getSpeed(), guidance_h.ref.getAccel());
         INT_VECT2_ZERO(guidance_h_trim_att_integrator);
     }
 
@@ -315,7 +317,9 @@ public class GuidanceH {
             Vect2<Integer> newSpeed = Vect2.newIntVect2();
             INT32_VECT2_LSHIFT(newSpeed, gh_ref.speed, (INT32_SPEED_FRAC - GH_SPEED_REF_FRAC));
             guidance_h.ref.setSpeed(newSpeed);
-            INT32_VECT2_LSHIFT(guidance_h.ref.accel, gh_ref.accel, (INT32_ACCEL_FRAC - GH_ACCEL_REF_FRAC));
+            Vect2<Integer> newAccel = Vect2.newIntVect2();
+            INT32_VECT2_LSHIFT(newAccel, gh_ref.accel, (INT32_ACCEL_FRAC - GH_ACCEL_REF_FRAC));
+            guidance_h.ref.setAccel(newAccel);
         } else {
             Vect2<Integer> newPos = Vect2.newIntVect2();
             VECT2_COPY(newPos, guidance_h.sp.getPos());
@@ -323,7 +327,9 @@ public class GuidanceH {
             Vect2<Integer> newSpeed = Vect2.newIntVect2();
             INT_VECT2_ZERO(newSpeed);
             guidance_h.ref.setSpeed(newSpeed);
-            INT_VECT2_ZERO(guidance_h.ref.accel);
+            Vect2<Integer> newAccel = Vect2.newIntVect2();
+            INT_VECT2_ZERO(newAccel);
+            guidance_h.ref.setAccel(newAccel);
         }
 
 //        #if GUIDANCE_H_USE_SPEED_REF

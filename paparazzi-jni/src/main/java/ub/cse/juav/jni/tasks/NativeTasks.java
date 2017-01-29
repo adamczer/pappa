@@ -266,13 +266,16 @@ public class NativeTasks {
 
     public static native int getHorizantialGuidanceReferencePosX();
     public static native int getHorizantialGuidanceReferencePosY();
-
     public static native void setHorizantialGuidanceReferencePosX(int x);
     public static native void setHorizantialGuidanceReferencePosY(int y);
 
     public static native int getHorizantialGuidanceReferenceSpeedX();
     public static native int getHorizantialGuidanceReferenceSpeedY();
-
     public static native void setHorizantialGuidanceReferenceSpeedX(int x);
     public static native void setHorizantialGuidanceReferenceSpeedY(int y);
+
+    public static native int getHorizantialGuidanceReferenceAccelX();
+    public static native int getHorizantialGuidanceReferenceAccelY();
+    public static native void setHorizantialGuidanceReferenceAccelX(int x);
+    public static native void setHorizantialGuidanceReferenceAccelY(int y);
 }
