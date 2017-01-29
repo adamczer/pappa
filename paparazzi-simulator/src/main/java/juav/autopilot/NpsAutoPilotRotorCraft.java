@@ -122,7 +122,6 @@ public class NpsAutoPilotRotorCraft extends PeriodicTask {
 //            1. Autopilot flow
         autopilot.autopilot_periodic();
 //            2. set commands
-        NativeTasks.mainPeriodicJuavAutopilotPost();
 
         if (autopilot_mode != AP_MODE_KILL) {
             boolean inFlight =getAutopilotInFlight(), motorsOn =getAutopilotMotorsOn();
@@ -131,12 +130,13 @@ public class NpsAutoPilotRotorCraft extends PeriodicTask {
             cmd[COMMAND_PITCH] = Stabilization.getStabilizationCommand(COMMAND_PITCH);
             cmd[COMMAND_YAW] = Stabilization.getStabilizationCommand(COMMAND_YAW);
             cmd[COMMAND_THRUST] = Stabilization.getStabilizationCommand(COMMAND_THRUST);
-          System.out.println("COMMAND_ROLL ->"+ cmd[COMMAND_ROLL]);
-          System.out.println("COMMAND_PITCH ->"+ cmd[COMMAND_PITCH]);
-          System.out.println("COMMAND_YAW ->"+ cmd[COMMAND_YAW]);
-          System.out.println("COMMAND_THRUST ->"+ cmd[COMMAND_THRUST]);
+//          System.out.println("COMMAND_ROLL ->"+ cmd[COMMAND_ROLL]);
+//          System.out.println("COMMAND_PITCH ->"+ cmd[COMMAND_PITCH]);
+//          System.out.println("COMMAND_YAW ->"+ cmd[COMMAND_YAW]);
+//          System.out.println("COMMAND_THRUST ->"+ cmd[COMMAND_THRUST]);
             Commands.SetRotorcraftCommands(cmd,inFlight,motorsOn );
         }
+        NativeTasks.mainPeriodicJuavAutopilotPost();
         NativeTasks.handlePeriodicTasksFollowingMainPeriodicJuav();
 /***************************************************************/
         NativeTasks.npsAutopilotRunStepConvertMotorMixingCommandsToAutopilotCommands();

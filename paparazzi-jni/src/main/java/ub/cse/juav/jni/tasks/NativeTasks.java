@@ -255,4 +255,9 @@ public class NativeTasks {
 
     public static native int getStabilizationCmd(int index);
     public static native void setStabilizationCmd(int index, int newValue);
+
+    public static native int getHorizantialGuidanceSetPointPosX();
+    public static native int getHorizantialGuidanceSetPointPosY();
+    public static native void setHorizantialGuidanceSetPointPosX(int x);
+    public static native void setHorizantialGuidanceSetPointPosY(int y);
 }

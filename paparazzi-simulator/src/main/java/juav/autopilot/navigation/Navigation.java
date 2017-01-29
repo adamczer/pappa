@@ -95,6 +95,7 @@ public class Navigation {
         ret.setX(NativeTasks.getNavigationCarrotX());
         ret.setY(NativeTasks.getNavigationCarrotY());
         ret.setZ(NativeTasks.getNavigationCarrotZ());
+        System.out.println("NavigationCarrot x,y,z = "+ret.getX()+","+ret.getY()+","+ret.getZ());
         return ret;
     }
 

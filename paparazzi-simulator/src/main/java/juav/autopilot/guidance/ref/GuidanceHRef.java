@@ -266,8 +266,8 @@ public class GuidanceHRef {
     public static void gh_saturate_ref_accel()
     {
   /* Saturate accelerations */
-        BoundAbs(gh_ref.accel.x, gh_ref.max_accel.x);
-        BoundAbs(gh_ref.accel.y, gh_ref.max_accel.y);
+        gh_ref.accel.x = BoundAbs(gh_ref.accel.x, gh_ref.max_accel.x);
+        gh_ref.accel.y = BoundAbs(gh_ref.accel.y, gh_ref.max_accel.y);
     }
 
     /** Saturate ref speed and adjust acceleration accordingly */

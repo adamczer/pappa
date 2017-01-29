@@ -85,7 +85,8 @@ public class GuidanceH {
         guidance_h.mode = GUIDANCE_H_MODE_KILL;
         guidance_h.use_ref = GUIDANCE_H_USE_REF;
         guidance_h.approx_force_by_thrust = GUIDANCE_H_APPROX_FORCE_BY_THRUST;
-        INT_VECT2_ZERO(guidance_h.sp.pos);
+//        INT_VECT2_ZERO(guidance_h.sp.pos);
+        guidance_h.sp.setPos(Vect2.newIntVect2());
         INT_VECT2_ZERO(guidance_h_trim_att_integrator);
         INT_EULERS_ZERO(guidance_h.rc_sp);
         guidance_h.sp.heading = 0;
@@ -106,10 +107,10 @@ public class GuidanceH {
         gh_ref_init();
 
         //TODO telem init still needs to be jni?
-        registerPeriodicTelemetrySendGh();
-        registerPeriodicTelemetrySendHoverLoop();
-        registerPeriodicTelemetrySendHref();
-        registerPeriodicTelemetrySendTuneHover();
+//        registerPeriodicTelemetrySendGh();
+//        registerPeriodicTelemetrySendHoverLoop();
+//        registerPeriodicTelemetrySendHref();
+//        registerPeriodicTelemetrySendTuneHover();
 //        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_GUIDANCE_H_INT, new SendGh());
 //        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_HOVER_LOOP, new SendHoverLoop());
 //        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_GUIDANCE_H_REF_INT, new SendHref());
@@ -257,21 +258,23 @@ public class GuidanceH {
                 if (!in_flight) {
                     guidance_h_nav_enter();
                 }
-
-                if (getHorizantalMode() == HORIZONTAL_MODE_ATTITUDE) {
+                int horizantalMode = getHorizantalMode();
+                if (horizantalMode == HORIZONTAL_MODE_ATTITUDE) {
                     Eulers<Integer> sp_cmd_i = Eulers.newInteger();
                     sp_cmd_i.phi = getNavRoll();
                     sp_cmd_i.theta = getNavPitch();
                     sp_cmd_i.psi = getNavHeading();
                     stabilization_attitude_set_rpy_setpoint_i(sp_cmd_i);
                 } else {
-                    INT32_VECT2_NED_OF_ENU(guidance_h.sp.pos, getNavigationCarrot());
+                    Vect2<Integer> newPosVect = Vect2.newIntVect2();
+                    INT32_VECT2_NED_OF_ENU(newPosVect, getNavigationCarrot());
+                    guidance_h.sp.setPos(newPosVect);
 
                     guidance_h_update_reference();
 
         /* set psi command */
                     guidance_h.sp.heading = getNavHeading();
-                    INT32_ANGLE_NORMALIZE(guidance_h.sp.heading);
+                    guidance_h.sp.heading = INT32_ANGLE_NORMALIZE(guidance_h.sp.heading);
         /* compute x,y earth commands */
                     guidance_h_traj_run(in_flight);
         /* set final attitude setpoint */
@@ -293,10 +296,10 @@ public class GuidanceH {
 //        #if GUIDANCE_H_USE_REF
 //        #if GUIDANCE_H_USE_SPEED_REF
         if (guidance_h.mode == GUIDANCE_H_MODE_HOVER) {
-            gh_update_ref_from_speed_sp(guidance_h.sp.speed);
+            gh_update_ref_from_speed_sp(guidance_h.sp.getSpeed());
         } else
 //        #endif
-        gh_update_ref_from_pos_sp(guidance_h.sp.pos);
+        gh_update_ref_from_pos_sp(guidance_h.sp.getPos());
 //        #endif
 
   /* either use the reference or simply copy the pos setpoint */
@@ -306,14 +309,16 @@ public class GuidanceH {
             INT32_VECT2_LSHIFT(guidance_h.ref.speed, gh_ref.speed, (INT32_SPEED_FRAC - GH_SPEED_REF_FRAC));
             INT32_VECT2_LSHIFT(guidance_h.ref.accel, gh_ref.accel, (INT32_ACCEL_FRAC - GH_ACCEL_REF_FRAC));
         } else {
-            VECT2_COPY(guidance_h.ref.pos, guidance_h.sp.pos);
+            VECT2_COPY(guidance_h.ref.pos, guidance_h.sp.getPos());
             INT_VECT2_ZERO(guidance_h.ref.speed);
             INT_VECT2_ZERO(guidance_h.ref.accel);
         }
 
 //        #if GUIDANCE_H_USE_SPEED_REF
         if (guidance_h.mode == GUIDANCE_H_MODE_HOVER) {
-            VECT2_COPY(guidance_h.sp.pos, guidance_h.ref.pos); // for display only
+            Vect2<Integer> newPos = Vect2.newIntVect2();
+            VECT2_COPY(newPos, guidance_h.ref.pos); // for display only
+            guidance_h.sp.setPos(newPos);
         }
 //        #endif
     }
@@ -321,7 +326,9 @@ public class GuidanceH {
     static void guidance_h_nav_enter()
     {
   /* horizontal position setpoint from navigation/flightplan */
-        INT32_VECT2_NED_OF_ENU(guidance_h.sp.pos, getNavigationCarrot());
+        Vect2<Integer> newPos = Vect2.newIntVect2();
+        INT32_VECT2_NED_OF_ENU(newPos, getNavigationCarrot());
+        guidance_h.sp.setPos(newPos);
 
         reset_guidance_reference_from_current_position();
 

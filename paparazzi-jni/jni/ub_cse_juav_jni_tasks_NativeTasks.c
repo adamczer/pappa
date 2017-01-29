@@ -1022,3 +1022,24 @@ JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setStabilizationCm
   (JNIEnv *env, jclass thisClass, jint index, jint newValue) {
 	juav_set_stabilization_cmd(index, newValue);
   }
+
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getHorizantialGuidanceSetPointPosX
+  (JNIEnv *env, jclass thisClass) {
+  return juav_get_guidance_h_sp_pos_x();
+  }
+
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getHorizantialGuidanceSetPointPosY
+  (JNIEnv *env, jclass thisClass) {
+  return juav_get_guidance_h_sp_pos_y();
+  }
+
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setHorizantialGuidanceSetPointPosX
+  (JNIEnv *env, jclass thisClass, jint x) {
+  juav_set_guidance_h_sp_pos_x(x);
+  }
+
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setHorizantialGuidanceSetPointPosY
+  (JNIEnv *env, jclass thisClass, jint y) {
+  juav_set_guidance_h_sp_pos_y(y);
+  }
+

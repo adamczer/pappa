@@ -62,7 +62,7 @@ public class GuidanceVRef {
         gv_zdd_ref = zdd_speed + zdd_pos;
 
   /* Saturate accelerations */
-        Bound(gv_zdd_ref, GV_MIN_ZDD, GV_MAX_ZDD);
+        gv_zdd_ref = Bound(gv_zdd_ref, GV_MIN_ZDD, GV_MAX_ZDD);
 
   /* Saturate speed and adjust acceleration accordingly */
         if (gv_zd_ref <= GV_MIN_ZD) {
@@ -93,7 +93,7 @@ public class GuidanceVRef {
         gv_zdd_ref = (-(int) GV_REF_INV_THAU * zd_err_zdd_res) >> GV_REF_INV_THAU_FRAC;
 
   /* Saturate accelerations */
-        Bound(gv_zdd_ref, GV_MIN_ZDD, GV_MAX_ZDD);
+        gv_zdd_ref = Bound(gv_zdd_ref, GV_MIN_ZDD, GV_MAX_ZDD);
 
   /* Saturate speed and adjust acceleration accordingly */
         if (gv_zd_ref <= GV_MIN_ZD) {

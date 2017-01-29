@@ -104,7 +104,7 @@ public class GuidanceVAdapt {
                         (GUIDANCE_V_ADAPT_MIN_HOVER_THROTTLE * MAX_PPRZ));
         min_out = (int) (BFP_OF_REAL(9.81, GV_ADAPT_X_FRAC) /
                         (GUIDANCE_V_ADAPT_MAX_HOVER_THROTTLE * MAX_PPRZ));
-        Bound(gv_adapt_X, min_out, max_out);
+        gv_adapt_X = Bound(gv_adapt_X, min_out, max_out);
     }
     static int max_out;
     static int min_out;

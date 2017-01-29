@@ -338,13 +338,13 @@ public class GuidanceV {
         guidance_v_zdd_ref = gv_zdd_ref << (INT32_ACCEL_FRAC - GV_ZDD_REF_FRAC);
   /* compute the error to our reference */
         int err_z  = guidance_v_z_ref - stateGetPositionNed_i().z;
-        Bound(err_z, GUIDANCE_V_MIN_ERR_Z, GUIDANCE_V_MAX_ERR_Z);
+        err_z = Bound(err_z, GUIDANCE_V_MIN_ERR_Z, GUIDANCE_V_MAX_ERR_Z);
         int err_zd = guidance_v_zd_ref - stateGetSpeedNed_i().z;
-        Bound(err_zd, GUIDANCE_V_MIN_ERR_ZD, GUIDANCE_V_MAX_ERR_ZD);
+        err_zd = Bound(err_zd, GUIDANCE_V_MIN_ERR_ZD, GUIDANCE_V_MAX_ERR_ZD);
 
         if (in_flight) {
             guidance_v_z_sum_err += err_z;
-            Bound(guidance_v_z_sum_err, -GUIDANCE_V_MAX_SUM_ERR, GUIDANCE_V_MAX_SUM_ERR);
+            guidance_v_z_sum_err = Bound(guidance_v_z_sum_err, -GUIDANCE_V_MAX_SUM_ERR, GUIDANCE_V_MAX_SUM_ERR);
         } else {
             guidance_v_z_sum_err = 0;
         }
@@ -366,7 +366,7 @@ public class GuidanceV {
         guidance_v_ff_cmd = (guidance_v_ff_cmd << INT32_TRIG_FRAC) / guidance_v_thrust_coeff;
 
   /* bound the nominal command to 0.9*MAX_PPRZ */
-        Bound(guidance_v_ff_cmd, 0, 8640);
+        guidance_v_ff_cmd = Bound(guidance_v_ff_cmd, 0, 8640);
 
 
   /* our error feed back command                   */
@@ -378,7 +378,7 @@ public class GuidanceV {
         guidance_v_delta_t = guidance_v_ff_cmd + guidance_v_fb_cmd;
 
   /* bound the result */
-        Bound(guidance_v_delta_t, 0, MAX_PPRZ);
+        guidance_v_delta_t = Bound(guidance_v_delta_t, 0, MAX_PPRZ);
 
     }
 
