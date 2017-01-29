@@ -1487,6 +1487,38 @@ JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setHorizantialGuid
 JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setHorizantialGuidanceReferencePosY
   (JNIEnv *, jclass, jint);
 
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    getHorizantialGuidanceReferenceSpeedX
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getHorizantialGuidanceReferenceSpeedX
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    getHorizantialGuidanceReferenceSpeedY
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getHorizantialGuidanceReferenceSpeedY
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    setHorizantialGuidanceReferenceSpeedX
+ * Signature: (I)V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setHorizantialGuidanceReferenceSpeedX
+  (JNIEnv *, jclass, jint);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    setHorizantialGuidanceReferenceSpeedY
+ * Signature: (I)V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setHorizantialGuidanceReferenceSpeedY
+  (JNIEnv *, jclass, jint);
+
 #ifdef __cplusplus
 }
 #endif
