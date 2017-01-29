@@ -129,7 +129,7 @@ public class GuidanceH {
         int total_max_bank = BFP_OF_REAL(RadOfDeg(45), INT32_ANGLE_FRAC);
 
   /* compute position error    */
-        VECT2_DIFF(guidance_h_pos_err, guidance_h.ref.pos, stateGetPositionNed_i());
+        VECT2_DIFF(guidance_h_pos_err, guidance_h.ref.getPos(), stateGetPositionNed_i());
   /* saturate it               */
         VECT2_STRIM(guidance_h_pos_err, -MAX_POS_ERR, MAX_POS_ERR);
 
@@ -191,10 +191,12 @@ public class GuidanceH {
 
     static void reset_guidance_reference_from_current_position()
     {
-        VECT2_COPY(guidance_h.ref.pos, stateGetPositionNed_i());
+        Vect2<Integer> newPos = Vect2.newIntVect2();
+        VECT2_COPY(newPos, stateGetPositionNed_i());
+        guidance_h.ref.setPos(newPos);
         VECT2_COPY(guidance_h.ref.speed, stateGetSpeedNed_i());
         INT_VECT2_ZERO(guidance_h.ref.accel);
-        gh_ref.gh_set_ref(guidance_h.ref.pos, guidance_h.ref.speed, guidance_h.ref.accel);
+        gh_ref.gh_set_ref(guidance_h.ref.getPos(), guidance_h.ref.speed, guidance_h.ref.accel);
         INT_VECT2_ZERO(guidance_h_trim_att_integrator);
     }
 
@@ -305,11 +307,15 @@ public class GuidanceH {
   /* either use the reference or simply copy the pos setpoint */
         if (guidance_h.use_ref) {
     /* convert our reference to generic representation */
-            INT32_VECT2_RSHIFT_L(guidance_h.ref.pos,   gh_ref.pos, (GH_POS_REF_FRAC - INT32_POS_FRAC));
+            Vect2<Integer> newPos = Vect2.newIntVect2();
+            INT32_VECT2_RSHIFT_L(newPos,   gh_ref.pos, (GH_POS_REF_FRAC - INT32_POS_FRAC));
+            guidance_h.ref.setPos(newPos);
             INT32_VECT2_LSHIFT(guidance_h.ref.speed, gh_ref.speed, (INT32_SPEED_FRAC - GH_SPEED_REF_FRAC));
             INT32_VECT2_LSHIFT(guidance_h.ref.accel, gh_ref.accel, (INT32_ACCEL_FRAC - GH_ACCEL_REF_FRAC));
         } else {
-            VECT2_COPY(guidance_h.ref.pos, guidance_h.sp.getPos());
+            Vect2<Integer> newPos = Vect2.newIntVect2();
+            VECT2_COPY(newPos, guidance_h.sp.getPos());
+            guidance_h.ref.setPos(newPos);
             INT_VECT2_ZERO(guidance_h.ref.speed);
             INT_VECT2_ZERO(guidance_h.ref.accel);
         }
@@ -317,7 +323,7 @@ public class GuidanceH {
 //        #if GUIDANCE_H_USE_SPEED_REF
         if (guidance_h.mode == GUIDANCE_H_MODE_HOVER) {
             Vect2<Integer> newPos = Vect2.newIntVect2();
-            VECT2_COPY(newPos, guidance_h.ref.pos); // for display only
+            VECT2_COPY(newPos, guidance_h.ref.getPos()); // for display only
             guidance_h.sp.setPos(newPos);
         }
 //        #endif
