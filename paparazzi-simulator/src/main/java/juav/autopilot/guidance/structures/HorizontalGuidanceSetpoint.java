@@ -13,7 +13,7 @@ public class HorizontalGuidanceSetpoint {
      */
 //    public Vect2<Integer> pos = Vect2.newIntVect2();
 //    public Vect2<Integer> speed = Vect2.newIntVect2();  ///< only used if GUIDANCE_H_USE_SPEED_REF
-    public int heading = 0;          ///< with #INT32_ANGLE_FRAC
+//    public int heading = 0;          ///< with #INT32_ANGLE_FRAC
     public Vect2<Integer> getPos() {
         Vect2<Integer> ret = Vect2.newIntVect2();
         ret.setX(NativeTasks.getHorizantialGuidanceSetPointPosX());
@@ -30,5 +30,13 @@ public class HorizontalGuidanceSetpoint {
         ret.setX(NativeTasks.getHorizantialGuidanceSetPointSpeedX());
         ret.setY(NativeTasks.getHorizantialGuidanceSetPointSpeedY());
         return ret;
+    }
+
+    public int getHeading() {
+        return NativeTasks.getHorizantialGuidanceHeading();
+    }
+
+    public void setHeading(int newHeading) {
+        NativeTasks.setHorizantialGuidanceHeading(newHeading);
     }
 }

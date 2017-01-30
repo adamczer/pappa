@@ -81,4 +81,9 @@ public class Quat<T extends Number> {
         ret.setQx(0f);
         return ret;
     }
+
+    @Override
+    public String toString() {
+        return "{qz="+qz+",qy="+qy+",qi="+qi+",qx="+qx+"}";
+    }
 }

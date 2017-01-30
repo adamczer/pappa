@@ -3,6 +3,7 @@ package juav.autopilot.stabilization;
 import juav.autopilot.stabilization.attitude.AttitudeGains;
 import juav.autopilot.stabilization.attitude.AttitudeRef;
 import juav.autopilot.stabilization.attitude.StabilizationCommand;
+import juav.autopilot.state.State;
 import juav.autopilot.telemetry.Telemetry;
 import ub.cse.juav.jni.tasks.NativeTasks;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebra;
@@ -16,15 +17,19 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
 
+import static juav.autopilot.commands.Commands.COMMAND_PITCH;
+import static juav.autopilot.commands.Commands.COMMAND_ROLL;
+import static juav.autopilot.commands.Commands.COMMAND_YAW;
 import static juav.autopilot.guidance.GuidanceH.MAX_PPRZ;
-import static juav.autopilot.guidance.GuidanceH.PERIODIC_TELEMETRY;
 import static juav.autopilot.stabilization.StabilizationAttitudeQuatTransformations.quat_from_earth_cmd_i;
 import static juav.autopilot.stabilization.StabilizationAttitudeRcSetpoint.*;
 import static juav.autopilot.stabilization.StabilizationAttitudeRefQuatInt.attitude_ref_quat_int_enter;
 import static juav.autopilot.stabilization.StabilizationAttitudeRefQuatInt.attitude_ref_quat_int_init;
+import static juav.autopilot.stabilization.StabilizationAttitudeRefQuatInt.attitude_ref_quat_int_update;
+import static juav.autopilot.stabilization.StabilizationRate.OFFSET_AND_ROUND;
 import static juav.autopilot.state.State.stateGetNedToBodyEulers_i;
-import static juav.autopilot.telemetry.Telemetry.DefaultPeriodic;
 import static ub.juav.airborne.math.functions.algebra.PprzAlgebra.QUAT_BFP_OF_REAL;
+import static ub.juav.airborne.math.functions.algebra.PprzAlgebra.RATES_DIFF;
 import static ub.juav.airborne.math.functions.algebra.PprzAlgebraInt.*;
 import static ub.juav.airborne.math.functions.trig.PprzTrig.*;
 
@@ -62,6 +67,12 @@ public class StabilizationAttitudeQuatInt {
 
     public static Eulers<Integer> stab_att_sp_euler = Eulers.newInteger();
     public static Quat<Integer> stab_att_sp_quat = Quat.newInteger();
+    public static Quat<Integer> getStabilizationAttSpQuat() {
+        throw new IllegalStateException();
+    }
+    public static void setStabilizationAttSpQuat(Quat<Integer> newStabAttSpQuat) {
+        throw new IllegalStateException();
+    }
     public static AttitudeRef<Integer> att_ref_quat_i = AttitudeRef.newInteger();
     public static Quat<Integer> stabilization_att_sum_err_quat = Quat.newInteger();
 
@@ -93,83 +104,59 @@ public class StabilizationAttitudeQuatInt {
     }
 
     public static void stabilization_attitude_run(boolean enable_integrator) {
-//  printf("stabilization_attitude_run\n");
-          /*
+        /*
    * Update reference
    * Warning: dt is currently not used in the quat_int ref impl
    * PERIODIC_FREQUENCY is assumed to be 512Hz
    */
-        float dt = (1.f / PERIODIC_FREQUENCY);
-        //TODO below over jni do more if necessary
-//        StabilizationAttitudeRefQuatInt.attitude_ref_quat_int_update(&att_ref_quat_i, &stab_att_sp_quat, dt);
-          StabilizationAttitudeRefQuatInt.attitude_ref_quat_int_update(att_ref_quat_i, stab_att_sp_quat, dt);
-//        NativeTasks.attitudeRefQuatIntUpdateJuav(dt);
+        float dt = (1.f/PERIODIC_FREQUENCY);
+        attitude_ref_quat_int_update(att_ref_quat_i, stab_att_sp_quat, dt);
 
-        long start = 0;
-        long jniGetValuesFinish = 0;
-        if(logTimeMetrics) {
-            start = System.nanoTime();
-        }
-
-
-        Quat<Integer> att_quat = Quat.newInteger();
-        att_quat.setQi(NativeTasks.stateGetNedToBodyQuatIQi());
-        att_quat.setQx(NativeTasks.stateGetNedToBodyQuatIQx());
-        att_quat.setQy(NativeTasks.stateGetNedToBodyQuatIQy());
-        att_quat.setQz(NativeTasks.stateGetNedToBodyQuatIQz());
-
-        Rates<Integer> body_rate = Rates.newInteger();
-        body_rate.setP(NativeTasks.stateGetBodyRatesIP());
-        body_rate.setQ(NativeTasks.stateGetBodyRatesIQ());
-        body_rate.setR(NativeTasks.stateGetBodyRatesIR());
-        //Get required inputs from jni
-        Quat<Integer> stabilization_att_sum_err_quat = getStabilizationAttSumErrQuatFromJni();
-        AttitudeRef<Integer> att_ref_quat_i = AttitudeRef.getIntegerFromJni();
-        AttitudeGains<Integer> stabilization_gains = AttitudeGains.getIntegerFromJni();
-        if(logTimeMetrics) {
-            jniGetValuesFinish = System.nanoTime();
-        }
   /*
    * Compute errors for feedback
    */
 
   /* attitude error                          */
+        Quat<Integer> att_quat = State.getNedToBodyQuatI();
+        System.out.println(att_quat);
         Quat<Integer> att_err = Quat.newInteger();
-        PprzAlgebraInt.int32_quat_inv_comp(att_err, att_quat, att_ref_quat_i.getQuat());
+        PprzAlgebraInt.int32_quat_inv_comp(att_err, att_quat, att_ref_quat_i.quat);
   /* wrap it in the shortest direction       */
-        PprzAlgebraInt.int32_quat_wrap_shortest(att_err);
-        PprzAlgebraInt.int32_quat_normalize(att_err);
+        int32_quat_wrap_shortest(att_err);
+        int32_quat_normalize(att_err);
 
   /*  rate error                */
-        Rates<Integer> rate_ref_scaled = Rates.newInteger();
-        int b = (REF_RATE_FRAC - INT32_RATE_FRAC);
-        rate_ref_scaled.setP((att_ref_quat_i.getRate().getP() + (1 << (b - 1))) >> b);
-        rate_ref_scaled.setQ((att_ref_quat_i.getRate().getQ() + (1 << (b - 1))) >> b);
-        rate_ref_scaled.setR((att_ref_quat_i.getRate().getR() + (1 << (b - 1))) >> b);
+        Rates<Integer> rate_ref_scaled = Rates.newInteger(
+                OFFSET_AND_ROUND(att_ref_quat_i.rate.p, (REF_RATE_FRAC - INT32_RATE_FRAC)),
+                OFFSET_AND_ROUND(att_ref_quat_i.rate.q, (REF_RATE_FRAC - INT32_RATE_FRAC)),
+                OFFSET_AND_ROUND(att_ref_quat_i.rate.r, (REF_RATE_FRAC - INT32_RATE_FRAC))
+        );
         Rates<Integer> rate_err = Rates.newInteger();
-
-        PprzAlgebra.RATES_DIFF(rate_err, rate_ref_scaled, body_rate);
+        Rates<Integer> body_rate = State.stateGetBodyRates_i();
+        RATES_DIFF(rate_err, rate_ref_scaled, (body_rate));
 
         int INTEGRATOR_BOUND = 100000;
   /* integrated error */
         if (enable_integrator) {
-            stabilization_att_sum_err_quat.setQx(stabilization_att_sum_err_quat.getQx() + att_err.getQx() / IERROR_SCALE);
-            stabilization_att_sum_err_quat.setQy(stabilization_att_sum_err_quat.getQy() + att_err.getQy() / IERROR_SCALE);
-            stabilization_att_sum_err_quat.setQz(stabilization_att_sum_err_quat.getQz() + att_err.getQz() / IERROR_SCALE);
-            stabilization_att_sum_err_quat.setQx(Bound(stabilization_att_sum_err_quat.getQx(), -INTEGRATOR_BOUND, INTEGRATOR_BOUND));
-            stabilization_att_sum_err_quat.setQy(Bound(stabilization_att_sum_err_quat.getQy(), -INTEGRATOR_BOUND, INTEGRATOR_BOUND));
-            stabilization_att_sum_err_quat.setQz(Bound(stabilization_att_sum_err_quat.getQz(), -INTEGRATOR_BOUND, INTEGRATOR_BOUND));
+            stabilization_att_sum_err_quat.qx += att_err.qx / IERROR_SCALE;
+            stabilization_att_sum_err_quat.qy += att_err.qy / IERROR_SCALE;
+            stabilization_att_sum_err_quat.qz += att_err.qz / IERROR_SCALE;
+            Bound(stabilization_att_sum_err_quat.qx, -INTEGRATOR_BOUND, INTEGRATOR_BOUND);
+            Bound(stabilization_att_sum_err_quat.qy, -INTEGRATOR_BOUND, INTEGRATOR_BOUND);
+            Bound(stabilization_att_sum_err_quat.qz, -INTEGRATOR_BOUND, INTEGRATOR_BOUND);
         } else {
     /* reset accumulator */
             int32_quat_identity(stabilization_att_sum_err_quat);
         }
 
-        StabilizationCommand<Integer> stabilization_att_ff_cmd = StabilizationCommand.newInteger();
   /* compute the feed forward command */
-        attitude_run_ff(stabilization_att_ff_cmd, stabilization_gains, att_ref_quat_i.getAccel());
-
-        StabilizationCommand<Integer> stabilization_att_fb_cmd = StabilizationCommand.newInteger();
+        StabilizationCommand<Integer> stabilization_att_ff_cmd = StabilizationCommand.newInteger();
+        AttitudeGains<Integer> stabilization_gains = AttitudeGains.getIntegerFromJni();
+        attitude_run_ff(stabilization_att_ff_cmd, stabilization_gains, att_ref_quat_i.accel);
+        System.out.println("Stabilization Cmd roll,pitch,yaw = "+stabilization_att_ff_cmd.getRoll()+","+stabilization_att_ff_cmd.getPitch()+", "+stabilization_att_ff_cmd.getYaw());
+        System.out.println("att_ref_quat_i.accel p,q,r = "+att_ref_quat_i.accel.p+","+att_ref_quat_i.accel.q+","+att_ref_quat_i.accel.r);
   /* compute the feed back command */
+        StabilizationCommand<Integer> stabilization_att_fb_cmd = StabilizationCommand.newInteger();
         attitude_run_fb(stabilization_att_fb_cmd, stabilization_gains, att_err, rate_err, stabilization_att_sum_err_quat);
 
         StabilizationCommand<Integer> stabilization_cmd = StabilizationCommand.newInteger();
@@ -182,36 +169,129 @@ public class StabilizationAttitudeQuatInt {
         stabilization_cmd.setRoll(BoundAbs(stabilization_cmd.getRoll(), MAX_PPRZ));
         stabilization_cmd.setPitch(BoundAbs(stabilization_cmd.getPitch(), MAX_PPRZ));
         stabilization_cmd.setYaw(BoundAbs(stabilization_cmd.getYaw(), MAX_PPRZ));
-
-        long jniStartSendValues = 0;
-        long jniFinishSendValues = 0;
-        if(logTimeMetrics)
-            jniStartSendValues = System.nanoTime();
+//        System.out.println("Stabilization Cmd roll,pitch,yaw = "+stabilization_cmd.getRoll()+","+stabilization_cmd.getPitch()+", "+stabilization_cmd.getYaw());
         sendResultsBack(stabilization_att_sum_err_quat,att_ref_quat_i,stabilization_cmd);
-        if(logTimeMetrics)
-            jniFinishSendValues = System.nanoTime();
-
-        if(logTimeMetrics) {
-            long finish = System.nanoTime();
-            long elapsed = finish - start;
-            long timestamp  = ManagementFactory.getRuntimeMXBean().getUptime();
-            try {
-                iterCount++;
-                totalTimeLog.write(""+iterCount);
-                totalTimeLog.write(" " +timestamp );
-                totalTimeLog.write(" "+elapsed+"\n");
-                totalTimeLog.flush();
-
-                long jniTimeInIter = (jniGetValuesFinish-start)+(jniFinishSendValues-jniStartSendValues);
-                jniTimeLog.write(""+iterCount);
-                jniTimeLog.write(" " +timestamp );
-                jniTimeLog.write(" "+jniTimeInIter+"\n");
-                jniTimeLog.flush();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
     }
+//    public static void stabilization_attitude_run_old(boolean enable_integrator) {
+////  printf("stabilization_attitude_run\n");
+//          /*
+//   * Update reference
+//   * Warning: dt is currently not used in the quat_int ref impl
+//   * PERIODIC_FREQUENCY is assumed to be 512Hz
+//   */
+//        float dt = (1.f / PERIODIC_FREQUENCY);
+//        //TODO below over jni do more if necessary
+////        StabilizationAttitudeRefQuatInt.attitude_ref_quat_int_update(&att_ref_quat_i, &stab_att_sp_quat, dt);
+//          attitude_ref_quat_int_update(att_ref_quat_i, stab_att_sp_quat, dt);
+////        NativeTasks.attitudeRefQuatIntUpdateJuav(dt);
+//
+//        long start = 0;
+//        long jniGetValuesFinish = 0;
+//        if(logTimeMetrics) {
+//            start = System.nanoTime();
+//        }
+//
+//
+//        Quat<Integer> att_quat = Quat.newInteger();
+//        att_quat.setQi(NativeTasks.stateGetNedToBodyQuatIQi());
+//        att_quat.setQx(NativeTasks.stateGetNedToBodyQuatIQx());
+//        att_quat.setQy(NativeTasks.stateGetNedToBodyQuatIQy());
+//        att_quat.setQz(NativeTasks.stateGetNedToBodyQuatIQz());
+//
+//        Rates<Integer> body_rate = Rates.newInteger();
+//        body_rate.setP(NativeTasks.stateGetBodyRatesIP());
+//        body_rate.setQ(NativeTasks.stateGetBodyRatesIQ());
+//        body_rate.setR(NativeTasks.stateGetBodyRatesIR());
+//        //Get required inputs from jni
+//        Quat<Integer> stabilization_att_sum_err_quat = getStabilizationAttSumErrQuatFromJni();
+//        AttitudeRef<Integer> att_ref_quat_i = AttitudeRef.getIntegerFromJni();
+//        AttitudeGains<Integer> stabilization_gains = AttitudeGains.getIntegerFromJni();
+//        if(logTimeMetrics) {
+//            jniGetValuesFinish = System.nanoTime();
+//        }
+//  /*
+//   * Compute errors for feedback
+//   */
+//
+//  /* attitude error                          */
+//        Quat<Integer> att_err = Quat.newInteger();
+//        PprzAlgebraInt.int32_quat_inv_comp(att_err, att_quat, att_ref_quat_i.getQuat());
+//  /* wrap it in the shortest direction       */
+//        PprzAlgebraInt.int32_quat_wrap_shortest(att_err);
+//        PprzAlgebraInt.int32_quat_normalize(att_err);
+//
+//  /*  rate error                */
+//        Rates<Integer> rate_ref_scaled = Rates.newInteger();
+//        int b = (REF_RATE_FRAC - INT32_RATE_FRAC);
+//        rate_ref_scaled.setP((att_ref_quat_i.getRate().getP() + (1 << (b - 1))) >> b);
+//        rate_ref_scaled.setQ((att_ref_quat_i.getRate().getQ() + (1 << (b - 1))) >> b);
+//        rate_ref_scaled.setR((att_ref_quat_i.getRate().getR() + (1 << (b - 1))) >> b);
+//        Rates<Integer> rate_err = Rates.newInteger();
+//
+//        RATES_DIFF(rate_err, rate_ref_scaled, body_rate);
+//
+//        int INTEGRATOR_BOUND = 100000;
+//  /* integrated error */
+//        if (enable_integrator) {
+//            stabilization_att_sum_err_quat.setQx(stabilization_att_sum_err_quat.getQx() + att_err.getQx() / IERROR_SCALE);
+//            stabilization_att_sum_err_quat.setQy(stabilization_att_sum_err_quat.getQy() + att_err.getQy() / IERROR_SCALE);
+//            stabilization_att_sum_err_quat.setQz(stabilization_att_sum_err_quat.getQz() + att_err.getQz() / IERROR_SCALE);
+//            stabilization_att_sum_err_quat.setQx(Bound(stabilization_att_sum_err_quat.getQx(), -INTEGRATOR_BOUND, INTEGRATOR_BOUND));
+//            stabilization_att_sum_err_quat.setQy(Bound(stabilization_att_sum_err_quat.getQy(), -INTEGRATOR_BOUND, INTEGRATOR_BOUND));
+//            stabilization_att_sum_err_quat.setQz(Bound(stabilization_att_sum_err_quat.getQz(), -INTEGRATOR_BOUND, INTEGRATOR_BOUND));
+//        } else {
+//    /* reset accumulator */
+//            int32_quat_identity(stabilization_att_sum_err_quat);
+//        }
+//
+//        StabilizationCommand<Integer> stabilization_att_ff_cmd = StabilizationCommand.newInteger();
+//  /* compute the feed forward command */
+//        attitude_run_ff(stabilization_att_ff_cmd, stabilization_gains, att_ref_quat_i.getAccel());
+//
+//        StabilizationCommand<Integer> stabilization_att_fb_cmd = StabilizationCommand.newInteger();
+//  /* compute the feed back command */
+//        attitude_run_fb(stabilization_att_fb_cmd, stabilization_gains, att_err, rate_err, stabilization_att_sum_err_quat);
+//
+//        StabilizationCommand<Integer> stabilization_cmd = StabilizationCommand.newInteger();
+//  /* sum feedforward and feedback */
+//        stabilization_cmd.setRoll(stabilization_att_fb_cmd.getRoll() + stabilization_att_ff_cmd.getRoll());
+//        stabilization_cmd.setPitch(stabilization_att_fb_cmd.getPitch() + stabilization_att_ff_cmd.getPitch());
+//        stabilization_cmd.setYaw(stabilization_att_fb_cmd.getYaw() + stabilization_att_ff_cmd.getYaw());
+//
+//  /* bound the result */
+//        stabilization_cmd.setRoll(BoundAbs(stabilization_cmd.getRoll(), MAX_PPRZ));
+//        stabilization_cmd.setPitch(BoundAbs(stabilization_cmd.getPitch(), MAX_PPRZ));
+//        stabilization_cmd.setYaw(BoundAbs(stabilization_cmd.getYaw(), MAX_PPRZ));
+//
+//        long jniStartSendValues = 0;
+//        long jniFinishSendValues = 0;
+//        if(logTimeMetrics)
+//            jniStartSendValues = System.nanoTime();
+//        sendResultsBack(stabilization_att_sum_err_quat,att_ref_quat_i,stabilization_cmd);
+//        if(logTimeMetrics)
+//            jniFinishSendValues = System.nanoTime();
+//
+//        if(logTimeMetrics) {
+//            long finish = System.nanoTime();
+//            long elapsed = finish - start;
+//            long timestamp  = ManagementFactory.getRuntimeMXBean().getUptime();
+//            try {
+//                iterCount++;
+//                totalTimeLog.write(""+iterCount);
+//                totalTimeLog.write(" " +timestamp );
+//                totalTimeLog.write(" "+elapsed+"\n");
+//                totalTimeLog.flush();
+//
+//                long jniTimeInIter = (jniGetValuesFinish-start)+(jniFinishSendValues-jniStartSendValues);
+//                jniTimeLog.write(""+iterCount);
+//                jniTimeLog.write(" " +timestamp );
+//                jniTimeLog.write(" "+jniTimeInIter+"\n");
+//                jniTimeLog.flush();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
 
     private static int iterCount = 0;
 
@@ -294,23 +374,23 @@ public class StabilizationAttitudeQuatInt {
 
     private static void sendResultsBack(Quat<Integer> stabilization_att_sum_err_quat, AttitudeRef<Integer> att_ref_quat_i, StabilizationCommand<Integer> stabilization_cmd) {
         //sum error quat
-        NativeTasks.setStabilizationAttSumErrQuatQi(stabilization_att_sum_err_quat.getQi());
-        NativeTasks.setStabilizationAttSumErrQuatQx(stabilization_att_sum_err_quat.getQx());
-        NativeTasks.setStabilizationAttSumErrQuatQy(stabilization_att_sum_err_quat.getQy());
-        NativeTasks.setStabilizationAttSumErrQuatQz(stabilization_att_sum_err_quat.getQz());
+//        NativeTasks.setStabilizationAttSumErrQuatQi(stabilization_att_sum_err_quat.getQi());
+//        NativeTasks.setStabilizationAttSumErrQuatQx(stabilization_att_sum_err_quat.getQx());
+//        NativeTasks.setStabilizationAttSumErrQuatQy(stabilization_att_sum_err_quat.getQy());
+//        NativeTasks.setStabilizationAttSumErrQuatQz(stabilization_att_sum_err_quat.getQz());
         //att_ref_quat_i quat
-        NativeTasks.setAttRefQuatIQuatQi(att_ref_quat_i.getQuat().getQi());
-        NativeTasks.setAttRefQuatIQuatQx(att_ref_quat_i.getQuat().getQx());
-        NativeTasks.setAttRefQuatIQuatQy(att_ref_quat_i.getQuat().getQy());
-        NativeTasks.setAttRefQuatIQuatQz(att_ref_quat_i.getQuat().getQz());
-        //att_ref_quat_i rate
-        NativeTasks.setAttRefQuatIRateP(att_ref_quat_i.getRate().getP());
-        NativeTasks.setAttRefQuatIRateQ(att_ref_quat_i.getRate().getQ());
-        NativeTasks.setAttRefQuatIRateR(att_ref_quat_i.getRate().getR());
-        //att_ref_quat_i accel
-        NativeTasks.setAttRefQuatIAccelP(att_ref_quat_i.getAccel().getP());
-        NativeTasks.setAttRefQuatIAccelQ(att_ref_quat_i.getAccel().getQ());
-        NativeTasks.setAttRefQuatIAccelR(att_ref_quat_i.getAccel().getR());
+//        NativeTasks.setAttRefQuatIQuatQi(att_ref_quat_i.getQuat().getQi());
+//        NativeTasks.setAttRefQuatIQuatQx(att_ref_quat_i.getQuat().getQx());
+//        NativeTasks.setAttRefQuatIQuatQy(att_ref_quat_i.getQuat().getQy());
+//        NativeTasks.setAttRefQuatIQuatQz(att_ref_quat_i.getQuat().getQz());
+//        //att_ref_quat_i rate
+//        NativeTasks.setAttRefQuatIRateP(att_ref_quat_i.getRate().getP());
+//        NativeTasks.setAttRefQuatIRateQ(att_ref_quat_i.getRate().getQ());
+//        NativeTasks.setAttRefQuatIRateR(att_ref_quat_i.getRate().getR());
+//        //att_ref_quat_i accel
+//        NativeTasks.setAttRefQuatIAccelP(att_ref_quat_i.getAccel().getP());
+//        NativeTasks.setAttRefQuatIAccelQ(att_ref_quat_i.getAccel().getQ());
+//        NativeTasks.setAttRefQuatIAccelR(att_ref_quat_i.getAccel().getR());
 
         //stablization command
         NativeTasks.setStabilizationCommands(

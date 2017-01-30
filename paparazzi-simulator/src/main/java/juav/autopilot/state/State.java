@@ -88,4 +88,13 @@ public class State {
     public static boolean stateIsAttitudeValid() {
         return NativeTasks.stateIsAttitudeValid();
     }
+
+    public static Quat<Integer> getNedToBodyQuatI() {
+        Quat<Integer> att_quat = Quat.newInteger();
+        att_quat.setQi(NativeTasks.stateGetNedToBodyQuatIQi());
+        att_quat.setQx(NativeTasks.stateGetNedToBodyQuatIQx());
+        att_quat.setQy(NativeTasks.stateGetNedToBodyQuatIQy());
+        att_quat.setQz(NativeTasks.stateGetNedToBodyQuatIQz());
+        return att_quat;
+    }
 }

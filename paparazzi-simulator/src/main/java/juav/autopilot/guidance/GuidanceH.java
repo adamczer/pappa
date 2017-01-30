@@ -89,7 +89,7 @@ public class GuidanceH {
         guidance_h.sp.setPos(Vect2.newIntVect2());
         INT_VECT2_ZERO(guidance_h_trim_att_integrator);
         INT_EULERS_ZERO(guidance_h.rc_sp);
-        guidance_h.sp.heading = 0;
+//        guidance_h.sp.heading = 0;
         guidance_h.gains.p = GUIDANCE_H_PGAIN;
         guidance_h.gains.i = GUIDANCE_H_IGAIN;
         guidance_h.gains.d = GUIDANCE_H_DGAIN;
@@ -279,13 +279,14 @@ public class GuidanceH {
                     guidance_h_update_reference();
 
         /* set psi command */
-                    guidance_h.sp.heading = getNavHeading();
-                    guidance_h.sp.heading = INT32_ANGLE_NORMALIZE(guidance_h.sp.heading);
+                    int newHeading = getNavHeading();
+                    newHeading = INT32_ANGLE_NORMALIZE(newHeading);
+                    guidance_h.sp.setHeading(newHeading);
         /* compute x,y earth commands */
                     guidance_h_traj_run(in_flight);
         /* set final attitude setpoint */
                     stabilization_attitude_set_earth_cmd_i(guidance_h_cmd_earth,
-                            guidance_h.sp.heading);
+                            newHeading);
                 }
                 stabilization_attitude_run(in_flight);
                 break;
