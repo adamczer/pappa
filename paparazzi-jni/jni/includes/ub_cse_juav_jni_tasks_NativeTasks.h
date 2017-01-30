@@ -1567,6 +1567,38 @@ JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getHorizantialGuid
 JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setHorizantialGuidanceHeading
   (JNIEnv *, jclass, jint);
 
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    setGuidanceHCmdEarthX
+ * Signature: (I)V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setGuidanceHCmdEarthX
+  (JNIEnv *, jclass, jint);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    setGuidanceHCmdEarthY
+ * Signature: (I)V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setGuidanceHCmdEarthY
+  (JNIEnv *, jclass, jint);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    getGuidanceHCmdEarthX
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getGuidanceHCmdEarthX
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    getGuidanceHCmdEarthY
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getGuidanceHCmdEarthY
+  (JNIEnv *, jclass);
+
 #ifdef __cplusplus
 }
 #endif

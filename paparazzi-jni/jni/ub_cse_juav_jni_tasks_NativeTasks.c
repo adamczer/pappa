@@ -1122,3 +1122,24 @@ JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setHorizantialGuid
   (JNIEnv *env, jclass thisClass, jint newHeading) {
     juav_set_guidance_h_sp_heading(newHeading);
   }
+
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setGuidanceHCmdEarthX
+  (JNIEnv *env, jclass thisClass, jint x) {
+	juav_set_guidance_h_cmd_earth_x(x);
+  }
+
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setGuidanceHCmdEarthY
+  (JNIEnv *env, jclass thisClass, jint y) {
+  juav_set_guidance_h_cmd_earth_y(y);
+  }
+
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getGuidanceHCmdEarthX
+  (JNIEnv *env, jclass thisClass) {
+  juav_get_guidance_h_cmd_earth_x();
+  }
+
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getGuidanceHCmdEarthY
+  (JNIEnv *env, jclass thisClass) {
+  juav_get_guidance_h_cmd_earth_y();
+  }
+

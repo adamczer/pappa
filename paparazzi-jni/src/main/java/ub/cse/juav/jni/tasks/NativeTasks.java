@@ -287,4 +287,14 @@ public class NativeTasks {
 
     public static native int getGuidanceHCmdEarthX();
     public static native int getGuidanceHCmdEarthY();
+
+    public static native int getStabilizationAttSpQuatQi();
+    public static native int getStabilizationAttSpQuatQx();
+    public static native int getStabilizationAttSpQuatQy();
+    public static native int getStabilizationAttSpQuatQz();
+
+    public static native void setStabilizationAttSpQuatQi(int qi);
+    public static native void setStabilizationAttSpQuatQx(int qx);
+    public static native void setStabilizationAttSpQuatQy(int qy);
+    public static native void setStabilizationAttSpQuatQz(int qz);
 }

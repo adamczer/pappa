@@ -66,12 +66,20 @@ public class StabilizationAttitudeQuatInt {
 
 
     public static Eulers<Integer> stab_att_sp_euler = Eulers.newInteger();
-    public static Quat<Integer> stab_att_sp_quat = Quat.newInteger();
+//    public static Quat<Integer> stab_att_sp_quat = Quat.newInteger();
     public static Quat<Integer> getStabilizationAttSpQuat() {
-        throw new IllegalStateException();
+        Quat<Integer> ret = Quat.newInteger();
+        ret.setQi(NativeTasks.getStabilizationAttSpQuatQi());
+        ret.setQx(NativeTasks.getStabilizationAttSpQuatQx());
+        ret.setQy(NativeTasks.getStabilizationAttSpQuatQy());
+        ret.setQz(NativeTasks.getStabilizationAttSpQuatQz());
+        return ret;
     }
     public static void setStabilizationAttSpQuat(Quat<Integer> newStabAttSpQuat) {
-        throw new IllegalStateException();
+        NativeTasks.setStabilizationAttSpQuatQi(newStabAttSpQuat.qi);
+        NativeTasks.setStabilizationAttSpQuatQx(newStabAttSpQuat.qx);
+        NativeTasks.setStabilizationAttSpQuatQy(newStabAttSpQuat.qy);
+        NativeTasks.setStabilizationAttSpQuatQz(newStabAttSpQuat.qz);
     }
     public static AttitudeRef<Integer> att_ref_quat_i = AttitudeRef.newInteger();
     public static Quat<Integer> stabilization_att_sum_err_quat = Quat.newInteger();
@@ -110,7 +118,9 @@ public class StabilizationAttitudeQuatInt {
    * PERIODIC_FREQUENCY is assumed to be 512Hz
    */
         float dt = (1.f/PERIODIC_FREQUENCY);
+        Quat<Integer> stab_att_sp_quat = getStabilizationAttSpQuat();
         attitude_ref_quat_int_update(att_ref_quat_i, stab_att_sp_quat, dt);
+        setStabilizationAttSpQuat(stab_att_sp_quat);
 
   /*
    * Compute errors for feedback
@@ -339,7 +349,9 @@ public class StabilizationAttitudeQuatInt {
 //        #else
         stabilization_attitude_read_rc_setpoint_quat_f(q_sp, in_flight, in_carefree, coordinated_turn);
 //        #endif
+        Quat<Integer> stab_att_sp_quat = getStabilizationAttSpQuat();
         QUAT_BFP_OF_REAL(stab_att_sp_quat, q_sp);
+        setStabilizationAttSpQuat(stab_att_sp_quat);
     }
 
     public static void stabilization_attitude_set_rpy_setpoint_i(Eulers<Integer> rpy)//TODO PORT
@@ -348,7 +360,9 @@ public class StabilizationAttitudeQuatInt {
         // stab_att_sp_euler.psi still used in ref..
         stab_att_sp_euler = rpy;
 
+        Quat<Integer> stab_att_sp_quat = getStabilizationAttSpQuat();
         int32_quat_of_eulers(stab_att_sp_quat, stab_att_sp_euler);
+        setStabilizationAttSpQuat(stab_att_sp_quat);
     }
 
     public static void stabilization_attitude_set_earth_cmd_i(Vect2<Integer> cmd, int heading)
@@ -366,7 +380,9 @@ public class StabilizationAttitudeQuatInt {
         stab_att_sp_euler.phi = (-s_psi * cmd.x + c_psi * cmd.y) >> INT32_TRIG_FRAC;
         stab_att_sp_euler.theta = -(c_psi * cmd.x + s_psi * cmd.y) >> INT32_TRIG_FRAC;
 
+        Quat<Integer> stab_att_sp_quat = getStabilizationAttSpQuat();
         quat_from_earth_cmd_i(stab_att_sp_quat, cmd, heading);
+        setStabilizationAttSpQuat(stab_att_sp_quat);
     }
 
 
