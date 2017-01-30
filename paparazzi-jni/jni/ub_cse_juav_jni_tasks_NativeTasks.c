@@ -1143,3 +1143,42 @@ JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getGuidanceHCmdEar
   juav_get_guidance_h_cmd_earth_y();
   }
 
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getStabilizationAttSpQuatQi
+  (JNIEnv *env, jclass thisClass) {
+  return juav_get_stab_att_sp_quat_qi();
+  }
+
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getStabilizationAttSpQuatQx
+  (JNIEnv *env, jclass thisClass) {
+  return juav_get_stab_att_sp_quat_qx();
+  }
+
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getStabilizationAttSpQuatQy
+  (JNIEnv *env, jclass thisClass) {
+  return juav_get_stab_att_sp_quat_qy();
+  }
+
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getStabilizationAttSpQuatQz
+  (JNIEnv *env, jclass thisClass) {
+return juav_get_stab_att_sp_quat_qz();
+  }
+
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setStabilizationAttSpQuatQi
+  (JNIEnv *env, jclass thisClass, jint qi) {
+  juav_set_stab_att_sp_quat_qi(qi);
+  }
+
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setStabilizationAttSpQuatQx
+  (JNIEnv *env, jclass thisClass, jint qx) {
+  juav_set_stab_att_sp_quat_qx(qx);
+  }
+
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setStabilizationAttSpQuatQy
+  (JNIEnv *env, jclass thisClass, jint qy) {
+  juav_set_stab_att_sp_quat_qy(qy);
+  }
+
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setStabilizationAttSpQuatQz
+  (JNIEnv *env, jclass thisClass, jint qz) {
+  juav_set_stab_att_sp_quat_qz(qz);
+  }

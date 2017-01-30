@@ -7,7 +7,6 @@ import ub.juav.airborne.math.structs.algebra.Vect3;
 
 import static juav.autopilot.guidance.GuidanceH.MAX_PPRZ;
 import static juav.autopilot.radiocontrol.RadioControl.*;
-import static juav.autopilot.stabilization.StabilizationAttitudeQuatInt.stab_att_sp_euler;
 import static juav.autopilot.state.State.stateGetNedToBodyEulers_f;
 import static juav.autopilot.state.State.stateGetNedToBodyEulers_i;
 import static ub.juav.airborne.math.functions.algebra.PprzAlgebra.QUAT_COPY;
@@ -60,7 +59,9 @@ public class StabilizationAttitudeRcSetpoint {
         // FIXME: remove me, do in quaternion directly
         // is currently still needed, since the yaw setpoint integration is done in eulers
 //        #if defined STABILIZATION_ATTITUDE_TYPE_INT
+        Eulers<Integer> stab_att_sp_euler = StabilizationAttitudeQuatInt.getStabilizationAttSpEuler();
         stabilization_attitude_read_rc_setpoint_eulers(stab_att_sp_euler, in_flight, in_carefree, coordinated_turn);
+        StabilizationAttitudeQuatInt.setStabilizationAttSpEuler(stab_att_sp_euler);
 //        #else
 //        stabilization_attitude_read_rc_setpoint_eulers_f(&stab_att_sp_euler, in_flight, in_carefree, coordinated_turn);
 //        #endif

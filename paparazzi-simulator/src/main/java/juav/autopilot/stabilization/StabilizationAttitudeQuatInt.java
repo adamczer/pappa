@@ -65,7 +65,16 @@ public class StabilizationAttitudeQuatInt {
     }
 
 
-    public static Eulers<Integer> stab_att_sp_euler = Eulers.newInteger();
+//    public static Eulers<Integer> stab_att_sp_euler = Eulers.newInteger();
+public static Eulers<Integer> getStabilizationAttSpEuler() {
+    Eulers<Integer> ret = Eulers.newInteger();
+    if(ret.getPhi()==0)throw new IllegalStateException();
+    return ret;
+}
+    public static void setStabilizationAttSpEuler(Eulers<Integer> newSpEulers) {
+        Eulers<Integer> ret = Eulers.newInteger();
+        if(ret.getPhi()==0)throw new IllegalStateException();
+    }
 //    public static Quat<Integer> stab_att_sp_quat = Quat.newInteger();
     public static Quat<Integer> getStabilizationAttSpQuat() {
         Quat<Integer> ret = Quat.newInteger();
@@ -104,6 +113,7 @@ public class StabilizationAttitudeQuatInt {
 
     public static void stabilization_attitude_enter() {
           /* reset psi setpoint to current psi angle */
+        Eulers<Integer> stab_att_sp_euler = getStabilizationAttSpEuler();
         stab_att_sp_euler.psi = stabilization_attitude_get_heading_i();
 
         attitude_ref_quat_int_enter(att_ref_quat_i, stab_att_sp_euler.psi);
@@ -358,10 +368,10 @@ public class StabilizationAttitudeQuatInt {
     {
 //  printf("stabilization_attitude_set_rpy_setpoint_i\n");
         // stab_att_sp_euler.psi still used in ref..
-        stab_att_sp_euler = rpy;
+        setStabilizationAttSpEuler(rpy);
 
         Quat<Integer> stab_att_sp_quat = getStabilizationAttSpQuat();
-        int32_quat_of_eulers(stab_att_sp_quat, stab_att_sp_euler);
+        int32_quat_of_eulers(stab_att_sp_quat, getStabilizationAttSpEuler());
         setStabilizationAttSpQuat(stab_att_sp_quat);
     }
 
@@ -369,6 +379,7 @@ public class StabilizationAttitudeQuatInt {
     {
 //  printf("stabilization_attitude_set_earth_cmd_i\n");
         // stab_att_sp_euler.psi still used in ref..
+        Eulers<Integer> stab_att_sp_euler = Eulers.newInteger();
         stab_att_sp_euler.psi = heading;
 
         // compute sp_euler phi/theta for debugging/telemetry
@@ -379,6 +390,7 @@ public class StabilizationAttitudeQuatInt {
         c_psi = PPRZ_ITRIG_COS(c_psi, psi);
         stab_att_sp_euler.phi = (-s_psi * cmd.x + c_psi * cmd.y) >> INT32_TRIG_FRAC;
         stab_att_sp_euler.theta = -(c_psi * cmd.x + s_psi * cmd.y) >> INT32_TRIG_FRAC;
+        setStabilizationAttSpEuler(stab_att_sp_euler);
 
         Quat<Integer> stab_att_sp_quat = getStabilizationAttSpQuat();
         quat_from_earth_cmd_i(stab_att_sp_quat, cmd, heading);
