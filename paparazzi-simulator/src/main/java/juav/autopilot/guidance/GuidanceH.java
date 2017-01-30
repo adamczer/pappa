@@ -38,7 +38,16 @@ public class GuidanceH {
     private int transition_percentage = 0;
     private int transition_theta_offset = 0;
     private static HorizantalGuidance guidance_h;
-    private Vect2<Integer> guidance_h_cmd_earth;
+    private Vect2<Integer> getGuidanceHCmdEarth() {
+        Vect2<Integer> ret = Vect2.newIntVect2();
+        ret.x = NativeTasks.getGuidanceHCmdEarthX();
+        ret.y = NativeTasks.getGuidanceHCmdEarthY();
+        return ret;
+    }
+    private void setGuidanceHCmdEarth(Vect2<Integer> newGuidanceHCmdEarth) {
+        NativeTasks.setGuidanceHCmdEarthX(newGuidanceHCmdEarth.getX());
+        NativeTasks.setGuidanceHCmdEarthY(newGuidanceHCmdEarth.getY());
+    }
     private Vect2<Integer> guidance_h_pos_err;
     private Vect2<Integer> guidance_h_speed_err;
     private static Vect2<Integer> guidance_h_trim_att_integrator;
@@ -49,7 +58,6 @@ public class GuidanceH {
     public static final int MIN_PPRZ = - MAX_PPRZ;
     private static final int GUIDANCE_H_THRUST_CMD_FILTER = 10;
     private int thrust_cmd_filt;
-    private Stabilization stabilization_cmd;
 
     private static final short GUIDANCE_H_MODE_KILL = 0;
     private static final short GUIDANCE_H_MODE_RATE     =   1;
@@ -99,7 +107,7 @@ public class GuidanceH {
         guidance_h_pos_err = Vect2.newIntVect2();
         guidance_h_speed_err = Vect2.newIntVect2();
 
-        guidance_h_cmd_earth = Vect2.newIntVect2();
+//        guidance_h_cmd_earth = Vect2.newIntVect2();
 
         transition_percentage = 0;
         transition_theta_offset = 0;
@@ -123,6 +131,7 @@ public class GuidanceH {
 
     public void guidance_h_traj_run(boolean inFlight)
     {
+        Vect2<Integer> guidance_h_cmd_earth = Vect2.newIntVect2();
   /* maximum bank angle: default 20 deg, max 40 deg*/
         int traj_max_bank = Math.min(BFP_OF_REAL(GUIDANCE_H_MAX_BANK, INT32_ANGLE_FRAC),
             BFP_OF_REAL(RadOfDeg(40), INT32_ANGLE_FRAC));
@@ -185,6 +194,8 @@ public class GuidanceH {
         }
 
         VECT2_STRIM(guidance_h_cmd_earth, -total_max_bank, total_max_bank);
+
+        setGuidanceHCmdEarth(guidance_h_cmd_earth);
     }
 
     //new
@@ -285,7 +296,7 @@ public class GuidanceH {
         /* compute x,y earth commands */
                     guidance_h_traj_run(in_flight);
         /* set final attitude setpoint */
-                    stabilization_attitude_set_earth_cmd_i(guidance_h_cmd_earth,
+                    stabilization_attitude_set_earth_cmd_i(getGuidanceHCmdEarth(),
                             newHeading);
                 }
                 stabilization_attitude_run(in_flight);

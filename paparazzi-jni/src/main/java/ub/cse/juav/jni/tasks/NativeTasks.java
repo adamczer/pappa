@@ -281,4 +281,10 @@ public class NativeTasks {
 
     public static native int getHorizantialGuidanceHeading();
     public static native void setHorizantialGuidanceHeading(int newHeading);
+
+    public static native void setGuidanceHCmdEarthX(int x);
+    public static native void setGuidanceHCmdEarthY(int y);
+
+    public static native int getGuidanceHCmdEarthX();
+    public static native int getGuidanceHCmdEarthY();
 }

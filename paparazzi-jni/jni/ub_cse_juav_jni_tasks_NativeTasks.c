@@ -1113,4 +1113,12 @@ JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setHorizantialGuid
   juav_set_guidance_h_ref_accel_y(y);
   }
 
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getHorizantialGuidanceHeading
+  (JNIEnv *env, jclass thisClass) {
+	return juav_get_guidance_h_sp_heading();
+  }
 
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setHorizantialGuidanceHeading
+  (JNIEnv *env, jclass thisClass, jint newHeading) {
+    juav_set_guidance_h_sp_heading(newHeading);
+  }
