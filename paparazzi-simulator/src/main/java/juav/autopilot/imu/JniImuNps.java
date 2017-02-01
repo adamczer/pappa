@@ -20,6 +20,7 @@ public class JniImuNps extends Imu implements IImuNps{
     }
 
     public void imuFeedAccel(AccelerometerReading accReading) {
+        System.out.println("Accel Reading xyz = "+accReading.getValue().getX()+","+ accReading.getValue().getY()+","+ accReading.getValue().getZ());
         ImuNative.imuFeedAccel(accReading.getValue().getX(), accReading.getValue().getY(), accReading.getValue().getZ());
 //        PprzAlgebra.VECT3_ASSIGN(imuReading.accel_unscaled, accReading.getValue().getX(), accReading.getValue().getY(), accReading.getValue().getZ());
         accel_available = true;

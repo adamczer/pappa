@@ -68,12 +68,15 @@ public class StabilizationAttitudeQuatInt {
 //    public static Eulers<Integer> stab_att_sp_euler = Eulers.newInteger();
 public static Eulers<Integer> getStabilizationAttSpEuler() {
     Eulers<Integer> ret = Eulers.newInteger();
-    if(ret.getPhi()==0)throw new IllegalStateException();
+//    ret.setPhi(NativeTasks.getStabilizationAttSpEulerPhi());
+//    ret.setPsi(NativeTasks.getStabilizationAttSpEulerPsi());
+//    ret.setTheta(NativeTasks.getStabilizationAttSpEulerTheta());
     return ret;
 }
     public static void setStabilizationAttSpEuler(Eulers<Integer> newSpEulers) {
-        Eulers<Integer> ret = Eulers.newInteger();
-        if(ret.getPhi()==0)throw new IllegalStateException();
+//        NativeTasks.setStabilizationAttSpEulerPhi(newSpEulers.phi);
+//        NativeTasks.setStabilizationAttSpEulerPsi(newSpEulers.psi);
+//        NativeTasks.setStabilizationAttSpEulerTheta(newSpEulers.theta);
     }
 //    public static Quat<Integer> stab_att_sp_quat = Quat.newInteger();
     public static Quat<Integer> getStabilizationAttSpQuat() {
@@ -138,9 +141,9 @@ public static Eulers<Integer> getStabilizationAttSpEuler() {
 
   /* attitude error                          */
         Quat<Integer> att_quat = State.getNedToBodyQuatI();
-        System.out.println(att_quat);
+//        System.out.println(att_quat);
         Quat<Integer> att_err = Quat.newInteger();
-        PprzAlgebraInt.int32_quat_inv_comp(att_err, att_quat, att_ref_quat_i.quat);
+        PprzAlgebraInt.int32_quat_inv_comp(att_err, att_quat, att_ref_quat_i.getQuat());
   /* wrap it in the shortest direction       */
         int32_quat_wrap_shortest(att_err);
         int32_quat_normalize(att_err);
@@ -173,8 +176,8 @@ public static Eulers<Integer> getStabilizationAttSpEuler() {
         StabilizationCommand<Integer> stabilization_att_ff_cmd = StabilizationCommand.newInteger();
         AttitudeGains<Integer> stabilization_gains = AttitudeGains.getIntegerFromJni();
         attitude_run_ff(stabilization_att_ff_cmd, stabilization_gains, att_ref_quat_i.accel);
-        System.out.println("Stabilization Cmd roll,pitch,yaw = "+stabilization_att_ff_cmd.getRoll()+","+stabilization_att_ff_cmd.getPitch()+", "+stabilization_att_ff_cmd.getYaw());
-        System.out.println("att_ref_quat_i.accel p,q,r = "+att_ref_quat_i.accel.p+","+att_ref_quat_i.accel.q+","+att_ref_quat_i.accel.r);
+//        System.out.println("Stabilization Cmd roll,pitch,yaw = "+stabilization_att_ff_cmd.getRoll()+","+stabilization_att_ff_cmd.getPitch()+", "+stabilization_att_ff_cmd.getYaw());
+//        System.out.println("att_ref_quat_i.accel p,q,r = "+att_ref_quat_i.accel.p+","+att_ref_quat_i.accel.q+","+att_ref_quat_i.accel.r);
   /* compute the feed back command */
         StabilizationCommand<Integer> stabilization_att_fb_cmd = StabilizationCommand.newInteger();
         attitude_run_fb(stabilization_att_fb_cmd, stabilization_gains, att_err, rate_err, stabilization_att_sum_err_quat);
@@ -345,6 +348,12 @@ public static Eulers<Integer> getStabilizationAttSpEuler() {
 
     private static void attitude_run_ff(StabilizationCommand<Integer> stabilization_att_ff_cmd, AttitudeGains<Integer> gains, Rates<Integer> ref_accel) {
           /* Compute feedforward based on reference acceleration */
+//        System.out.println("gains->dd.x = "+gains.getDd().x);
+//        System.out.println("gains->dd.y = "+gains.getDd().y);
+//        System.out.println("gains->dd.z = "+gains.getDd().z);
+//        System.out.println("ref_accel.p = "+ref_accel.p);
+//        System.out.println("ref_accel.q = "+ref_accel.q);
+//        System.out.println("ref_accel.r = "+ref_accel.r);
         stabilization_att_ff_cmd.setRoll((int) (GAIN_PRESCALER_FF * gains.getDd().getX() * PprzAlgebraInt.RATE_FLOAT_OF_BFP(ref_accel.getP()) / (1 << 7)));
         stabilization_att_ff_cmd.setPitch((int) (GAIN_PRESCALER_FF * gains.getDd().getY() * PprzAlgebraInt.RATE_FLOAT_OF_BFP(ref_accel.getQ()) / (1 << 7)));
         stabilization_att_ff_cmd.setYaw((int) (GAIN_PRESCALER_FF * gains.getDd().getZ() * PprzAlgebraInt.RATE_FLOAT_OF_BFP(ref_accel.getR()) / (1 << 7)));

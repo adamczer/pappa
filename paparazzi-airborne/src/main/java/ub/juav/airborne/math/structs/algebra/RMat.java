@@ -73,4 +73,12 @@ public class RMat<T extends Number> extends Mat33<T> {
                 ret.getMatrix()[i][j]=0.f;
         return ret;
     }
+
+    @Override
+    public String toString() {
+        return getFlattendElement(0)+","+getFlattendElement(1)+","+getFlattendElement(2)+"\n"+
+                getFlattendElement(3)+","+getFlattendElement(4)+","+getFlattendElement(5)+"\n"+
+                getFlattendElement(6)+","+getFlattendElement(7)+","+getFlattendElement(8);
+
+    }
 }

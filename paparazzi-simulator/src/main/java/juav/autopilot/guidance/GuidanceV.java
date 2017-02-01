@@ -130,7 +130,8 @@ public class GuidanceV {
         } else {
             guidance_v_rc_zd_sp *= climb_scale;
         }
-
+//        System.out.println("guidance_v_rc_delta_t = "+ guidance_v_rc_delta_t);
+//        System.out.println("guidance_v_rc_zd_sp = "+ guidance_v_rc_zd_sp);
     }
 
     public void guidance_v_mode_changed(short new_mode)
@@ -197,6 +198,7 @@ public class GuidanceV {
 //        System.out.println("guidance_v_thrust_coeff = "+guidance_v_thrust_coeff);
         if (in_flight) {
             int vertical_thrust = (Stabilization.getStabilizationCommand(COMMAND_THRUST) * guidance_v_thrust_coeff) >> INT32_TRIG_FRAC;
+//            System.out.println("vertical_thrust = " + vertical_thrust);
             gv_adapt_run(stateGetAccelNed_i().z, vertical_thrust, guidance_v_zd_ref);
         } else {
     /* reset estimate while not in_flight */
@@ -206,9 +208,9 @@ public class GuidanceV {
         switch (guidance_v_mode) {
 
             case GUIDANCE_V_MODE_RC_DIRECT:
-//        printf("CASE GUIDANCE_V_MODE_RC_DIRECT\n");
+//                System.out.println("CASE GUIDANCE_V_MODE_RC_DIRECT\n");
                 guidance_v_z_sp = stateGetPositionNed_i().z; // for display only
-//                System.out.println("guidance_v_z_sp = "+guidance_v_z_sp );
+//                System.out.println("guidance_v_z_sp = "+ guidance_v_z_sp); //TODO Different
                 setStabilizationCommand(COMMAND_THRUST,guidance_v_rc_delta_t);
                 break;
 
@@ -257,11 +259,12 @@ public class GuidanceV {
 //#endif
 
             case GUIDANCE_V_MODE_NAV:
-//      printf("CASE GUIDANCE_V_MODE_NAV\n");
+      System.out.println("CASE GUIDANCE_V_MODE_NAV");
             {
                 if (getNavVerticleMode() == VERTICAL_MODE_ALT) {
 //        printf("vertical_mode == VERTICAL_MODE_ALT\n");
                     guidance_v_z_sp = -getNavFlightAltitude();
+                    System.out.println("guidance_v_z_sp = "+guidance_v_z_sp);
                     guidance_v_zd_sp = 0;
                     gv_update_ref_from_z_sp(guidance_v_z_sp);
                     run_hover_loop(in_flight);
@@ -272,7 +275,7 @@ public class GuidanceV {
                     gv_update_ref_from_zd_sp(guidance_v_zd_sp, stateGetPositionNed_i().z);
                     run_hover_loop(in_flight);
                 } else if (getNavVerticleMode() == VERTICAL_MODE_MANUAL) {
-//        printf("vertical_mode == VERTICAL_MODE_MANUAL\n");
+        System.out.println("vertical_mode == VERTICAL_MODE_MANUAL");
                     guidance_v_z_sp = stateGetPositionNed_i().z;
                     guidance_v_zd_sp = stateGetSpeedNed_i().z;
                     GuidanceVSetRef(guidance_v_z_sp, guidance_v_zd_sp, 0);
@@ -303,8 +306,10 @@ public class GuidanceV {
     public static int get_vertical_thrust_coeff() {
         // cos(30°) = 0.8660254
         int max_bank_coef = BFP_OF_REAL(0.8660254f, INT32_TRIG_FRAC);
+//        System.out.println("max_bank_coef = "+max_bank_coef);
 
-        RMat<Integer> att = stateGetNedToBodyRMat_i();
+        RMat<Integer> att = stateGetNedToBodyRMat_i(); //TODO ERROR after warmup
+//        System.out.println("att = \n"+ att);
   /* thrust vector:
    *  int32_rmat_vmult(&thrust_vect, &att, &zaxis)
    * same as last colum of rmat with INT32_TRIG_FRAC

@@ -1,13 +1,13 @@
 package juav.autopilot;
 
-import juav.autopilot.navigation.Navigation;
-import juav.autopilot.stabilization.Stabilization;
 import juav.autopilot.state.State;
 import ub.cse.juav.jni.tasks.NativeTasks;
 
-import static juav.autopilot.AutopilotArmingYaw.*;
+import static juav.autopilot.AutopilotArmingYaw.autopilot_arming_check_motors_on;
+import static juav.autopilot.AutopilotArmingYaw.autopilot_arming_init;
 import static juav.autopilot.AutopilotRcHelpers.kill_switch_is_on;
-import static juav.autopilot.commands.Commands.*;
+import static juav.autopilot.commands.Commands.SetCommands;
+import static juav.autopilot.commands.Commands.commands_failsafe;
 import static juav.autopilot.guidance.GuidanceH.*;
 import static juav.autopilot.guidance.GuidanceV.*;
 import static juav.autopilot.navigation.Navigation.*;
@@ -17,8 +17,6 @@ import static juav.autopilot.stabilization.StabilizationAttitudeQuatInt.PERIODIC
 import static juav.autopilot.stabilization.StabilizationAttitudeQuatInt.stabilization_attitude_init;
 import static juav.autopilot.stabilization.StabilizationNone.stabilization_none_init;
 import static juav.autopilot.stabilization.StabilizationRate.stabilization_rate_init;
-import static juav.autopilot.state.State.stateGetAccelNed_f;
-import static juav.autopilot.state.State.stateGetSpeedNed_f;
 
 /**
  * Created by adamczer on 11/29/16.
@@ -297,7 +295,7 @@ public class Autopilot {
 
         if (autopilot_mode == AP_MODE_HOME) {
 //            RunOnceEvery(NAV_PRESCALER, nav_home()); // not needed
-            Navigation.nav_home.runOnceEvery((int) NAV_PRESCALER);
+//            Navigation.nav_home.runOnceEvery((int) NAV_PRESCALER);
 
         } else {
             // otherwise always call nav_periodic_task so that carrot is always updated in GCS for other modes
@@ -337,7 +335,7 @@ public class Autopilot {
             SetCommands(commands_failsafe);
         } else {
             guidanceV.guidance_v_run(getAutopilotInFlight());
-            guidanceH.guidance_h_run(getAutopilotInFlight());
+            guidanceH.guidance_h_run(getAutopilotInFlight());//TODO
 //            int[] stabilization_cmd = new int[4];
 //            stabilization_cmd[0] = Stabilization.getStabilizationCommand(0);
 //            stabilization_cmd[1] = Stabilization.getStabilizationCommand(1);

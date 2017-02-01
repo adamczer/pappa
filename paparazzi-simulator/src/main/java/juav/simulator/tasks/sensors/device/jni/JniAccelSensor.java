@@ -71,6 +71,7 @@ public class JniAccelSensor extends ISensor<AccelerometerReading> {
         for(int i = 0; i<3; i++)
             for(int j = 0; j<3 ; j++)
                 bodyToImu.setElement(JniFdm.getFdmBodyToImu(i,j),i,j);
+        System.out.println("bodytoimu = \n"+ bodyToImu);
 
 // aquire required vector over jni
         Vect3<Double> bodyAccel = new Vect3<>();
