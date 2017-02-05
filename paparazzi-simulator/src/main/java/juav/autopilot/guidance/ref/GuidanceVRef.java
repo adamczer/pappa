@@ -26,7 +26,7 @@ public class GuidanceVRef {
     public static final double GUIDANCE_V_REF_MIN_ZD = (-3.);
     public static final int GV_MIN_ZD = BFP_OF_REAL(GUIDANCE_V_REF_MIN_ZD , GV_ZD_REF_FRAC);
 
-    public static final double GUIDANCE_V_REF_MAX_ZD = (-3.);
+    public static final double GUIDANCE_V_REF_MAX_ZD = (3.);
     public static final int GV_MAX_ZD = BFP_OF_REAL(GUIDANCE_V_REF_MAX_ZD , GV_ZD_REF_FRAC);
 
     public static final double GUIDANCE_V_REF_MAX_Z_DIFF = 2.0;
@@ -34,9 +34,9 @@ public class GuidanceVRef {
 
     public static final int GV_REF_INV_THAU_FRAC = 16;
             public static final double GV_REF_INV_THAU = BFP_OF_REAL((1./0.25), GV_REF_INV_THAU_FRAC);
-    public static long gv_z_ref;
-    public static int gv_zd_ref;
-    public static int gv_zdd_ref;
+    public static long gv_z_ref =0;
+    public static int gv_zd_ref =0;
+    public static int gv_zdd_ref=0;
     public static void gv_set_ref(int alt, int speed, int accel)
     {
         long new_z = ((long)alt) << (GV_Z_REF_FRAC - INT32_POS_FRAC);
@@ -48,7 +48,7 @@ public class GuidanceVRef {
     public static void gv_update_ref_from_z_sp(int z_sp)
     {
 
-        gv_z_ref  += gv_zd_ref;
+        gv_z_ref += gv_zd_ref;
         gv_zd_ref += gv_zdd_ref;
 
         // compute the "speed part" of zdd = -2*zeta*omega*zd -omega^2(z_sp - z)

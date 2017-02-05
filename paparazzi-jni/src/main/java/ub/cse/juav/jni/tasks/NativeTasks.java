@@ -299,4 +299,18 @@ public class NativeTasks {
     public static native void setStabilizationAttSpQuatQz(int qz);
 
     public static native void juavAutopilotPeriodic();
+
+    public static native void setAutopilotGroundDetected(boolean b);
+
+    public static native void setAutopilotDetectGroundOnce(boolean b);
+
+    public static native void guidanceVRunJuav(boolean autopilotInFlight);
+
+    public static native void guidance_h_mode_changed_native(short new_mode);
+
+    public static native void guidance_v_mode_changed_native(short new_mode);
+
+    public static native void guidanceHReadRc(boolean in_flight);
+
+    public static native void setAutopilotModeNativeLogic(short new_autopilot_mode);
 }

@@ -82,7 +82,10 @@ public class Autopilot {
     public static void setAutopilotGroundDetected(boolean b) {
         NativeTasks.setAutopilotGroundDetected(b);
     }
-    boolean   autopilot_detect_ground_once;
+//    boolean   autopilot_detect_ground_once;
+    public static void setAutopilotDetectGroundOnce(boolean b) {
+        NativeTasks.setAutopilotDetectGroundOnce(b);
+    }
 
     public static final short MODE_STARTUP = AP_MODE_KILL;
 
@@ -225,7 +228,7 @@ public class Autopilot {
         autopilot_in_flight_counter = 0;
         autopilot_mode_auto2 = MODE_AUTO2;
         setAutopilotGroundDetected(false);
-        autopilot_detect_ground_once = false;
+        setAutopilotDetectGroundOnce(false);
         autopilot_flight_time = 0;
         autopilot_rc = true;
         autopilot_power_switch = false;
@@ -333,7 +336,7 @@ public class Autopilot {
    */
         if (!getAutopilotInFlight()) {
             setAutopilotGroundDetected(false);
-            autopilot_detect_ground_once = false;
+            setAutopilotDetectGroundOnce(false);
         }
 
   /* Set fixed "failsafe" commands from airframe file if in KILL mode.
@@ -343,15 +346,22 @@ public class Autopilot {
         if (autopilot_mode == AP_MODE_KILL) {
             SetCommands(commands_failsafe);
         } else {
+            boolean inFlight = getAutopilotInFlight();
+//            NativeTasks.guidanceVRunJuav(inFlight);
             guidanceV.guidance_v_run(getAutopilotInFlight());
-            guidanceH.guidance_h_run(getAutopilotInFlight());//TODO
-            int[] stabilization_cmd = new int[4];
-            stabilization_cmd[0] = Stabilization.getStabilizationCommand(0);
-            stabilization_cmd[1] = Stabilization.getStabilizationCommand(1);
-            stabilization_cmd[2] = Stabilization.getStabilizationCommand(2);
-            stabilization_cmd[3] = Stabilization.getStabilizationCommand(3);
-//            System.out.println("Stabilzation Commands [0],[1],[2],[3] = "+stabilization_cmd[0]+", "+stabilization_cmd[1]+", "+stabilization_cmd[2]+", "+stabilization_cmd[3]+", ");
-            SetRotorcraftCommands(stabilization_cmd, getAutopilotInFlight(), getAutopilotMotorsOn());
+            NativeTasks.guidanceHRunNativeTestJuav(inFlight);
+//            guidanceH.guidance_h_run(getAutopilotInFlight());//TODO
+            NativeTasks.autopilotPeriodicPostJuav(); //->SetRotorcraftCommands(stabilization_cmd, getAutopilotInFlight(), getAutopilotMotorsOn());
+
+//            guidanceV.guidance_v_run(getAutopilotInFlight());
+//            guidanceH.guidance_h_run(getAutopilotInFlight());//TODO
+//            int[] stabilization_cmd = new int[4];
+//            stabilization_cmd[0] = Stabilization.getStabilizationCommand(0);
+//            stabilization_cmd[1] = Stabilization.getStabilizationCommand(1);
+//            stabilization_cmd[2] = Stabilization.getStabilizationCommand(2);
+//            stabilization_cmd[3] = Stabilization.getStabilizationCommand(3);
+////            System.out.println("Stabilzation Commands [0],[1],[2],[3] = "+stabilization_cmd[0]+", "+stabilization_cmd[1]+", "+stabilization_cmd[2]+", "+stabilization_cmd[3]+", ");
+//            SetRotorcraftCommands(stabilization_cmd, getAutopilotInFlight(), getAutopilotMotorsOn());
         }
 
     }
@@ -365,6 +375,7 @@ public class Autopilot {
 
     void autopilot_set_mode(short new_autopilot_mode)
     {
+//        NativeTasks.setAutopilotModeNativeLogic(new_autopilot_mode); autopilot_mode = new_autopilot_mode;
 //        System.out.println("JAVA autopilot_set_mode = " +new_autopilot_mode);
 
   /* force startup mode (default is kill) as long as AHRS is not aligned */
@@ -618,7 +629,7 @@ public class Autopilot {
 //            #endif
 
             guidanceV.guidance_v_read_rc();
-            guidanceH.guidance_h_read_rc(getAutopilotInFlight());
+//            guidanceH.guidance_h_read_rc(getAutopilotInFlight());
         }
 
     }

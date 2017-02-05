@@ -1187,3 +1187,37 @@ JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_juavAutopilotPerio
   (JNIEnv *env, jclass thisClass) {
   	autopilot_periodic();
   }
+
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setAutopilotGroundDetected
+  (JNIEnv *env, jclass thisClass, jboolean newValue) {
+	autopilot_ground_detected = newValue;
+  }
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setAutopilotDetectGroundOnce
+  (JNIEnv *env, jclass thisClass, jboolean newValue) {
+  	autopilot_detect_ground_once = newValue;
+  }
+
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_guidanceVRunJuav
+  (JNIEnv *env, jclass thisClass, jboolean in_flight) {
+  	guidance_v_run_native_test_juav(in_flight);
+  }
+
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_guidance_1h_1mode_1changed_1native
+  (JNIEnv *env, jclass thisClass, jshort newMode) {
+  juav_guidance_h_mode_changed(newMode);
+  }
+
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_guidance_1v_1mode_1changed_1native
+  (JNIEnv *env, jclass thisClass, jshort newMode) {
+  juav_guidance_v_mode_changed(newMode);
+  }
+
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_guidanceHReadRc
+  (JNIEnv *env, jclass thisClass, jboolean in_flight) {
+  juav_guidance_h_read_rc(in_flight);
+  }
+
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setAutopilotModeNativeLogic
+  (JNIEnv *env, jclass thisClass, jshort newMode) {
+	juav_autopilot_set_mode_native(newMode);
+  }

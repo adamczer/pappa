@@ -1671,6 +1671,62 @@ JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setStabilizationAt
 JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_juavAutopilotPeriodic
   (JNIEnv *, jclass);
 
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    setAutopilotGroundDetected
+ * Signature: (Z)V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setAutopilotGroundDetected
+  (JNIEnv *, jclass, jboolean);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    setAutopilotDetectGroundOnce
+ * Signature: (Z)V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setAutopilotDetectGroundOnce
+  (JNIEnv *, jclass, jboolean);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    guidanceVRunJuav
+ * Signature: (Z)V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_guidanceVRunJuav
+  (JNIEnv *, jclass, jboolean);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    guidance_h_mode_changed_native
+ * Signature: (S)V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_guidance_1h_1mode_1changed_1native
+  (JNIEnv *, jclass, jshort);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    guidance_v_mode_changed_native
+ * Signature: (S)V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_guidance_1v_1mode_1changed_1native
+  (JNIEnv *, jclass, jshort);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    guidanceHReadRc
+ * Signature: (Z)V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_guidanceHReadRc
+  (JNIEnv *, jclass, jboolean);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    setAutopilotModeNativeLogic
+ * Signature: (S)V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setAutopilotModeNativeLogic
+  (JNIEnv *, jclass, jshort);
+
 #ifdef __cplusplus
 }
 #endif

@@ -217,6 +217,7 @@ public class GuidanceH {
 
     public void guidance_h_mode_changed(short new_mode)
     {
+//        NativeTasks.guidance_h_mode_changed_native(new_mode);
         if (new_mode == guidance_h.mode) {
             return;
         }
@@ -240,14 +241,14 @@ public class GuidanceH {
 
         guidance_h.mode = new_mode;
 
-//        NativeTasks.setGuidanceHMode(new_mode);
+        NativeTasks.setGuidanceHMode(new_mode);
 
     }
 
 
     public void guidance_h_read_rc(boolean in_flight)
     {
-
+//        NativeTasks.guidanceHReadRc(in_flight);
         switch (guidance_h.mode) {
             case GUIDANCE_H_MODE_ATTITUDE: //TODO
                 stabilization_attitude_read_rc(in_flight, false, false);

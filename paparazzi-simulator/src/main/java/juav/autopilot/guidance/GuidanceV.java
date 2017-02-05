@@ -4,6 +4,7 @@ import juav.autopilot.stabilization.Stabilization;
 import juav.autopilot.telemetry.Telemetry;
 import ub.cse.juav.jni.tasks.NativeTasks;
 import ub.juav.airborne.math.structs.algebra.RMat;
+import ub.juav.airborne.math.structs.algebra.Vect3;
 
 import static juav.autopilot.commands.Commands.COMMAND_THRUST;
 import static juav.autopilot.guidance.GuidanceH.MAX_PPRZ;
@@ -130,59 +131,64 @@ public class GuidanceV {
         } else {
             guidance_v_rc_zd_sp *= climb_scale;
         }
+        NativeTasks.setGuidanceVRcZdSp(guidance_v_rc_zd_sp);
+        NativeTasks.setGuidanceVRcDeltaT(guidance_v_rc_delta_t);
 //        System.out.println("guidance_v_rc_delta_t = "+ guidance_v_rc_delta_t);
 //        System.out.println("guidance_v_rc_zd_sp = "+ guidance_v_rc_zd_sp);
     }
 
     public void guidance_v_mode_changed(short new_mode)
     {
-        if (new_mode == guidance_v_mode) {
-            return;
-        }
-
-        switch (new_mode) {
-//            {
-///*//    case GUIDANCE_V_MODE_HOVER:
-////      printf("CASE GUIDANCE_V_MODE_HOVER\n");
-////    case GUIDANCE_V_MODE_GUIDED:
-////      printf("CASE GUIDANCE_V_MODE_GUIDED\n");
-////      guidance_v_z_sp = stateGetPositionNed_i()->z; // set current altitude as setpoint
-////      guidance_v_z_sum_err = 0;
-////      GuidanceVSetRef(stateGetPositionNed_i()->z, 0, 0);
-////      break;
-////
-////    case GUIDANCE_V_MODE_RC_CLIMB:
-////      printf("CASE GUIDANCE_V_MODE_RC_CLIMB\n");
-////    case GUIDANCE_V_MODE_CLIMB:
-////      printf("CASE GUIDANCE_V_MODE_CLIMB\n");
-////      guidance_v_zd_sp = 0;*/
-//            }
-            case GUIDANCE_V_MODE_NAV:
-//      printf("CASE GUIDANCE_V_MODE_NAV\n");
-                guidance_v_z_sum_err = 0;
-                GuidanceVSetRef(stateGetPositionNed_i().z, stateGetSpeedNed_i().z, 0);
-                break;
-
-   /*         {//#if GUIDANCE_V_MODE_MODULE_SETTING == GUIDANCE_V_MODE_MODULE
-//    case GUIDANCE_V_MODE_MODULE:
-//      printf("CASE GUIDANCE_V_MODE_MODULE\n");
-//      guidance_v_module_enter();
-//      break;
-//#endif
+//        NativeTasks.guidance_v_mode_changed_native(new_mode);
+//        if (new_mode == guidance_v_mode) {
+//            return;
+//        }
 //
-//    case GUIDANCE_V_MODE_FLIP:
-//      printf("CASE GUIDANCE_V_MODE_FLIP\n");
-//      break;
-}*/
-
-            default:
-                break;
-
-        }
+//        switch (new_mode) {
+////            {
+/////*//    case GUIDANCE_V_MODE_HOVER:
+//////      printf("CASE GUIDANCE_V_MODE_HOVER\n");
+//////    case GUIDANCE_V_MODE_GUIDED:
+//////      printf("CASE GUIDANCE_V_MODE_GUIDED\n");
+//////      guidance_v_z_sp = stateGetPositionNed_i()->z; // set current altitude as setpoint
+//////      guidance_v_z_sum_err = 0;
+//////      GuidanceVSetRef(stateGetPositionNed_i()->z, 0, 0);
+//////      break;
+//////
+//////    case GUIDANCE_V_MODE_RC_CLIMB:
+//////      printf("CASE GUIDANCE_V_MODE_RC_CLIMB\n");
+//////    case GUIDANCE_V_MODE_CLIMB:
+//////      printf("CASE GUIDANCE_V_MODE_CLIMB\n");
+//////      guidance_v_zd_sp = 0;*/
+////            }
+//            case GUIDANCE_V_MODE_NAV:
+////      printf("CASE GUIDANCE_V_MODE_NAV\n");
+//                guidance_v_z_sum_err = 0;
+//                Vect3<Integer> integerVect3 = stateGetPositionNed_i();
+//                System.out.println(integerVect3.x+","+integerVect3.y+","+integerVect3.z);
+//                GuidanceVSetRef(stateGetPositionNed_i().z, stateGetSpeedNed_i().z, 0);
+//                break;
+//
+//   /*         {//#if GUIDANCE_V_MODE_MODULE_SETTING == GUIDANCE_V_MODE_MODULE
+////    case GUIDANCE_V_MODE_MODULE:
+////      printf("CASE GUIDANCE_V_MODE_MODULE\n");
+////      guidance_v_module_enter();
+////      break;
+////#endif
+////
+////    case GUIDANCE_V_MODE_FLIP:
+////      printf("CASE GUIDANCE_V_MODE_FLIP\n");
+////      break;
+//}*/
+//
+//            default:
+//                break;
+//
+//        }
 
         guidance_v_mode = new_mode;
 
-//        NativeTasks.setGuidanceVMode(new_mode);
+        NativeTasks.setGuidanceVMode(new_mode);
 
     }
 
@@ -195,7 +201,7 @@ public class GuidanceV {
         // FIXME... SATURATIONS NOT TAKEN INTO ACCOUNT
         // AKA SUPERVISION and co
         guidance_v_thrust_coeff = get_vertical_thrust_coeff();
-//        System.out.println("guidance_v_thrust_coeff = "+guidance_v_thrust_coeff);
+        System.out.println("guidance_v_thrust_coeff = "+guidance_v_thrust_coeff);
         if (in_flight) {
             int vertical_thrust = (Stabilization.getStabilizationCommand(COMMAND_THRUST) * guidance_v_thrust_coeff) >> INT32_TRIG_FRAC;
 //            System.out.println("vertical_thrust = " + vertical_thrust);
@@ -286,10 +292,15 @@ public class GuidanceV {
 //      printf("!NO_RC_THRUST_LIMIT\n");
       /* use rc limitation if available */
                 if (radio_control.getStatus() == RC_OK) {
-                    setStabilizationCommand(COMMAND_THRUST,Math.min(guidance_v_rc_delta_t, guidance_v_delta_t));
-                } else
+                    int command = Math.min(guidance_v_rc_delta_t, guidance_v_delta_t);
+//                    System.out.println("RC OK Command thrust = "+command);
+                    setStabilizationCommand(COMMAND_THRUST,command);
+                } else {
 //                #endif
-                    setStabilizationCommand(COMMAND_THRUST, guidance_v_delta_t);
+                    int command = guidance_v_delta_t;
+//                    System.out.println("NOT (RC OK) Command thrust = "+command);
+                    setStabilizationCommand(COMMAND_THRUST, command);
+                }
                 break;
             }
 
@@ -384,6 +395,7 @@ public class GuidanceV {
 
   /* bound the result */
         guidance_v_delta_t = Bound(guidance_v_delta_t, 0, MAX_PPRZ);
+        System.out.println("guidance_v_delta_t = "+guidance_v_delta_t);
 
     }
 
