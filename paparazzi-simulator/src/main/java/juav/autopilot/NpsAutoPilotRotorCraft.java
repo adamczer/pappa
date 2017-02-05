@@ -11,6 +11,8 @@ import ub.cse.juav.jni.tasks.NativeTasks;
 
 import static juav.autopilot.Autopilot.*;
 import static juav.autopilot.commands.Commands.*;
+import static juav.autopilot.guidance.GuidanceH.stabilizationAttitudeRun;
+import static juav.autopilot.stabilization.StabilizationAttitudeQuatInt.stabilization_attitude_run_old;
 
 /**
  * Created by adamczer on 5/30/16.
@@ -51,7 +53,7 @@ public class NpsAutoPilotRotorCraft extends PeriodicTask {
         if (accelSensor.getData().isData_available()) {
             jniImuNps.imuFeedAccel(accelSensor.getData());
             main_event();
-            gyroSensor.getData().setData_available(false);
+            accelSensor.getData().setData_available(false);
         }
 
 
@@ -89,61 +91,46 @@ public class NpsAutoPilotRotorCraft extends PeriodicTask {
             main_event();
             gpsSensor.getData().setData_available(false);
         }
-
-
         NativeTasks.npsAutopilotRunStepOverwriteAhrs();
-
         NativeTasks.npsAutopilotRunStepOverwriteIns();
 /***************************************************************/
-//        NativeTasks.npsAutopilotRunStepHandelPeriodicTasks(); //-> all c for this task
-//        below -> guidance attitude compuatation in java then passed back.
-//        NativeTasks.mainPeriodicJuavAutopilotPrior();
-//        if(NativeTasks.sysTimeCheckAndAckTimerMainPeriodicJuav()) {
-//            NativeTasks.mainPeriodicJuavTest();//TEST main periodic
-//            vvv First paper
-//            NativeTasks.autopilotPeriodicPriorJuav();
-//            if(!NativeTasks.isAutopilotModeApModeKillJuav()) {
-//                boolean inFlight = NativeTasks.getAutopilotInFlightJuav();
-////                NativeTasks.guidanceHRunJuav(inFlight);
-//                if(NativeTasks.runStabilizationAttitudeRunJuav()) {
-//                    NativeTasks.guidanceHRunNativeTestJuav(inFlight); // test plumbing
-//                    NativeTasks.guidanceHRunJuav(inFlight);
-//                    stabilizationAttitudeRun(inFlight);
-////                    GuidanceH.stabilizationAttitudeRun(inFlight);
-//                }
-//            }
-//            NativeTasks.autopilotPeriodicPostJuav();//finaizes after guidance_h.c run
-//        }
-        //          ^^^ First paper
-//            Second paper
-
-//            1. Autopilot flow
-        autopilot.autopilot_periodic();
-//            2. set commands
-
-        if (autopilot_mode != AP_MODE_KILL) {
-            boolean inFlight =getAutopilotInFlight(), motorsOn =getAutopilotMotorsOn();
-            int[] cmd = new int[4];
-            cmd[COMMAND_ROLL] = Stabilization.getStabilizationCommand(COMMAND_ROLL);
-            cmd[COMMAND_PITCH] = Stabilization.getStabilizationCommand(COMMAND_PITCH);
-            cmd[COMMAND_YAW] = Stabilization.getStabilizationCommand(COMMAND_YAW);
-            cmd[COMMAND_THRUST] = Stabilization.getStabilizationCommand(COMMAND_THRUST);
-//          System.out.println("COMMAND_ROLL ->"+ cmd[COMMAND_ROLL]);
-//          System.out.println("COMMAND_PITCH ->"+ cmd[COMMAND_PITCH]);
-//          System.out.println("COMMAND_YAW ->"+ cmd[COMMAND_YAW]);
-//          System.out.println("COMMAND_THRUST ->"+ cmd[COMMAND_THRUST]);
-            Commands.SetRotorcraftCommands(cmd,inFlight,motorsOn );
+        if(NativeTasks.sysTimeCheckAndAckTimerMainPeriodicJuav()) {
+            newControlLoop();
+            NativeTasks.mainPeriodicJuavAutopilotPost();
+            NativeTasks.handlePeriodicTasksFollowingMainPeriodicJuav();
+            NativeTasks.npsAutopilotRunStepConvertMotorMixingCommandsToAutopilotCommands();
         }
-        NativeTasks.mainPeriodicJuavAutopilotPost();
-        NativeTasks.handlePeriodicTasksFollowingMainPeriodicJuav();
-/***************************************************************/
-        NativeTasks.npsAutopilotRunStepConvertMotorMixingCommandsToAutopilotCommands();
+//        oldControlLoop();
+    }
+
+    private void oldControlLoop() {
+        NativeTasks.mainPeriodicJuavAutopilotPrior();
+        if(NativeTasks.sysTimeCheckAndAckTimerMainPeriodicJuav()) {
+//            NativeTasks.mainPeriodicJuavTest();//TEST main periodic
+            NativeTasks.autopilotPeriodicPriorJuav();
+            if(!NativeTasks.isAutopilotModeApModeKillJuav()) {
+                boolean inFlight = NativeTasks.getAutopilotInFlightJuav();
+                NativeTasks.guidanceHRunJuav(inFlight);
+                if(NativeTasks.runStabilizationAttitudeRunJuav()) {
+                    NativeTasks.guidanceHRunNativeTestJuav(inFlight); // test plumbing
+//                    NativeTasks.guidanceHRunJuav(inFlight);
+//                    stabilization_attitude_run_old(inFlight);
+                }
+            }
+            NativeTasks.autopilotPeriodicPostJuav();//finaizes after guidance_h.c run
+        }
+    }
+
+    private void newControlLoop() {
+        autopilot.autopilot_periodic();
+//        NativeTasks.juavAutopilotPeriodic();
     }
 
     private void main_event() {
         PaparazziNps.mainEventPrior();
         autopilot.autopilot_on_rc_frame();
         PaparazziNps.mainEventPost();
+//        PaparazziNps.mainEvent();
     }
 
 

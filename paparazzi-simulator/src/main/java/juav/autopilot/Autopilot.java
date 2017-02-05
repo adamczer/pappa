@@ -1,5 +1,6 @@
 package juav.autopilot;
 
+import juav.autopilot.stabilization.Stabilization;
 import juav.autopilot.state.State;
 import ub.cse.juav.jni.tasks.NativeTasks;
 
@@ -7,12 +8,14 @@ import static juav.autopilot.AutopilotArmingYaw.autopilot_arming_check_motors_on
 import static juav.autopilot.AutopilotArmingYaw.autopilot_arming_init;
 import static juav.autopilot.AutopilotRcHelpers.kill_switch_is_on;
 import static juav.autopilot.commands.Commands.SetCommands;
+import static juav.autopilot.commands.Commands.SetRotorcraftCommands;
 import static juav.autopilot.commands.Commands.commands_failsafe;
 import static juav.autopilot.guidance.GuidanceH.*;
 import static juav.autopilot.guidance.GuidanceV.*;
 import static juav.autopilot.navigation.Navigation.*;
 import static juav.autopilot.radiocontrol.RadioControl.RADIO_MODE;
 import static juav.autopilot.radiocontrol.RadioControl.radio_control;
+import static juav.autopilot.stabilization.Stabilization.stabilization_init;
 import static juav.autopilot.stabilization.StabilizationAttitudeQuatInt.PERIODIC_FREQUENCY;
 import static juav.autopilot.stabilization.StabilizationAttitudeQuatInt.stabilization_attitude_init;
 import static juav.autopilot.stabilization.StabilizationNone.stabilization_none_init;
@@ -72,7 +75,13 @@ public class Autopilot {
     boolean   autopilot_rc;
     boolean   autopilot_power_switch;
 
-    boolean   autopilot_ground_detected;
+//    boolean   autopilot_ground_detected;
+//    public static boolean getAutopilotGroundDetected() {
+//
+//    }
+    public static void setAutopilotGroundDetected(boolean b) {
+        NativeTasks.setAutopilotGroundDetected(b);
+    }
     boolean   autopilot_detect_ground_once;
 
     public static final short MODE_STARTUP = AP_MODE_KILL;
@@ -215,7 +224,7 @@ public class Autopilot {
 //        autopilot_in_flight = false; //todo modified by c commands
         autopilot_in_flight_counter = 0;
         autopilot_mode_auto2 = MODE_AUTO2;
-        autopilot_ground_detected = false;
+        setAutopilotGroundDetected(false);
         autopilot_detect_ground_once = false;
         autopilot_flight_time = 0;
         autopilot_rc = true;
@@ -229,7 +238,7 @@ public class Autopilot {
         autopilot_arming_init();
 
 //        if(1==1) throw new IllegalStateException("bisect nav_init(). ?");
-//        nav_init();//already inited
+        nav_init();//already inited
         guidance_h_init();
         guidance_v_init();
 
@@ -323,7 +332,7 @@ public class Autopilot {
   /* Reset ground detection _after_ running flight plan
    */
         if (!getAutopilotInFlight()) {
-            autopilot_ground_detected = false;
+            setAutopilotGroundDetected(false);
             autopilot_detect_ground_once = false;
         }
 
@@ -336,12 +345,13 @@ public class Autopilot {
         } else {
             guidanceV.guidance_v_run(getAutopilotInFlight());
             guidanceH.guidance_h_run(getAutopilotInFlight());//TODO
-//            int[] stabilization_cmd = new int[4];
-//            stabilization_cmd[0] = Stabilization.getStabilizationCommand(0);
-//            stabilization_cmd[1] = Stabilization.getStabilizationCommand(1);
-//            stabilization_cmd[2] = Stabilization.getStabilizationCommand(2);
-//            stabilization_cmd[3] = Stabilization.getStabilizationCommand(3);
-//            SetRotorcraftCommands(stabilization_cmd, getAutopilotInFlight(), getAutopilotMotorsOn());
+            int[] stabilization_cmd = new int[4];
+            stabilization_cmd[0] = Stabilization.getStabilizationCommand(0);
+            stabilization_cmd[1] = Stabilization.getStabilizationCommand(1);
+            stabilization_cmd[2] = Stabilization.getStabilizationCommand(2);
+            stabilization_cmd[3] = Stabilization.getStabilizationCommand(3);
+//            System.out.println("Stabilzation Commands [0],[1],[2],[3] = "+stabilization_cmd[0]+", "+stabilization_cmd[1]+", "+stabilization_cmd[2]+", "+stabilization_cmd[3]+", ");
+            SetRotorcraftCommands(stabilization_cmd, getAutopilotInFlight(), getAutopilotMotorsOn());
         }
 
     }

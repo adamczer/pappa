@@ -110,7 +110,6 @@ public class NpsCyclicImpl extends AbstractNpsImpl {
         taskList.add(new JniNpsAtmosphereUpdate());
         taskList.add(new JniNpsAutoPilotRunSystimeStep());
         taskList.add(new JniNpsFdmRunStep());
-//        taskList.add(new JniNpsSensorsRunStep());
         JniGpsSensor gpsSensor = new JniGpsSensor();
         gpsSensor.setTimeHandler(timeHandler);
         JniAccelSensor accelSensor = new JniAccelSensor();

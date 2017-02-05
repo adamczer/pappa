@@ -1182,3 +1182,8 @@ JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setStabilizationAt
   (JNIEnv *env, jclass thisClass, jint qz) {
   juav_set_stab_att_sp_quat_qz(qz);
   }
+
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_juavAutopilotPeriodic
+  (JNIEnv *env, jclass thisClass) {
+  	autopilot_periodic();
+  }

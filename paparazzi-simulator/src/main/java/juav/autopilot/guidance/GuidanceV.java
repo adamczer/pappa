@@ -259,12 +259,12 @@ public class GuidanceV {
 //#endif
 
             case GUIDANCE_V_MODE_NAV:
-      System.out.println("CASE GUIDANCE_V_MODE_NAV");
+//      System.out.println("CASE GUIDANCE_V_MODE_NAV");
             {
                 if (getNavVerticleMode() == VERTICAL_MODE_ALT) {
 //        printf("vertical_mode == VERTICAL_MODE_ALT\n");
                     guidance_v_z_sp = -getNavFlightAltitude();
-                    System.out.println("guidance_v_z_sp = "+guidance_v_z_sp);
+//                    System.out.println("guidance_v_z_sp = "+guidance_v_z_sp);
                     guidance_v_zd_sp = 0;
                     gv_update_ref_from_z_sp(guidance_v_z_sp);
                     run_hover_loop(in_flight);
@@ -275,7 +275,7 @@ public class GuidanceV {
                     gv_update_ref_from_zd_sp(guidance_v_zd_sp, stateGetPositionNed_i().z);
                     run_hover_loop(in_flight);
                 } else if (getNavVerticleMode() == VERTICAL_MODE_MANUAL) {
-        System.out.println("vertical_mode == VERTICAL_MODE_MANUAL");
+//        System.out.println("vertical_mode == VERTICAL_MODE_MANUAL");
                     guidance_v_z_sp = stateGetPositionNed_i().z;
                     guidance_v_zd_sp = stateGetSpeedNed_i().z;
                     GuidanceVSetRef(guidance_v_z_sp, guidance_v_zd_sp, 0);

@@ -297,4 +297,6 @@ public class NativeTasks {
     public static native void setStabilizationAttSpQuatQx(int qx);
     public static native void setStabilizationAttSpQuatQy(int qy);
     public static native void setStabilizationAttSpQuatQz(int qz);
+
+    public static native void juavAutopilotPeriodic();
 }

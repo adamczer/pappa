@@ -1663,6 +1663,14 @@ JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setStabilizationAt
 JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setStabilizationAttSpQuatQz
   (JNIEnv *, jclass, jint);
 
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    juavAutopilotPeriodic
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_juavAutopilotPeriodic
+  (JNIEnv *, jclass);
+
 #ifdef __cplusplus
 }
 #endif
