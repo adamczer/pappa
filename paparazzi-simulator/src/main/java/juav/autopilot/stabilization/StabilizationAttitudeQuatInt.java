@@ -194,10 +194,10 @@ public static Eulers<Integer> getStabilizationAttSpEuler() {
         stabilization_cmd.setRoll(BoundAbs(stabilization_cmd.getRoll(), MAX_PPRZ));
         stabilization_cmd.setPitch(BoundAbs(stabilization_cmd.getPitch(), MAX_PPRZ));
         stabilization_cmd.setYaw(BoundAbs(stabilization_cmd.getYaw(), MAX_PPRZ));
-        System.out.println("YAW,PITCH,ROLL = "+
-                stabilization_cmd.getYaw()+", "+
-                stabilization_cmd.getPitch()+", "+
-                stabilization_cmd.getRoll());
+//        System.out.println("YAW,PITCH,ROLL = "+
+//                stabilization_cmd.getYaw()+", "+
+//                stabilization_cmd.getPitch()+", "+
+//                stabilization_cmd.getRoll());
         sendResultsBack(stabilization_att_sum_err_quat,att_ref_quat_i,stabilization_cmd);
     }
     public static void stabilization_attitude_run_old(boolean enable_integrator) {

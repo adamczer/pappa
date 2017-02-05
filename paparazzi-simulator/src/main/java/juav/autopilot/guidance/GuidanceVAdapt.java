@@ -107,7 +107,7 @@ public class GuidanceVAdapt {
         gv_adapt_X = Bound(gv_adapt_X, min_out, max_out);
 //        System.out.println("max_out = "+max_out);
 //        System.out.println("min_out = "+min_out);
-        System.out.println("gv_adapt_X = "+gv_adapt_X);
+//        System.out.println("gv_adapt_X = "+gv_adapt_X);
     }
     static int max_out;
     static int min_out;

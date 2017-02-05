@@ -201,7 +201,7 @@ public class GuidanceV {
         // FIXME... SATURATIONS NOT TAKEN INTO ACCOUNT
         // AKA SUPERVISION and co
         guidance_v_thrust_coeff = get_vertical_thrust_coeff();
-        System.out.println("guidance_v_thrust_coeff = "+guidance_v_thrust_coeff);
+//        System.out.println("guidance_v_thrust_coeff = "+guidance_v_thrust_coeff);
         if (in_flight) {
             int vertical_thrust = (Stabilization.getStabilizationCommand(COMMAND_THRUST) * guidance_v_thrust_coeff) >> INT32_TRIG_FRAC;
 //            System.out.println("vertical_thrust = " + vertical_thrust);
@@ -395,7 +395,7 @@ public class GuidanceV {
 
   /* bound the result */
         guidance_v_delta_t = Bound(guidance_v_delta_t, 0, MAX_PPRZ);
-        System.out.println("guidance_v_delta_t = "+guidance_v_delta_t);
+//        System.out.println("guidance_v_delta_t = "+guidance_v_delta_t);
 
     }
 
