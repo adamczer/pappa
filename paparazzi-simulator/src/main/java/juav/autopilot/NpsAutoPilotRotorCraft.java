@@ -1,18 +1,11 @@
 package juav.autopilot;
 
-import juav.autopilot.commands.Commands;
 import juav.autopilot.gps.GpsSimNps;
 import juav.autopilot.imu.JniImuNps;
-import juav.autopilot.stabilization.Stabilization;
 import juav.simulator.tasks.PeriodicTask;
 import juav.simulator.tasks.sensors.device.jni.*;
 import ub.cse.juav.jni.nps.PaparazziNps;
 import ub.cse.juav.jni.tasks.NativeTasks;
-
-import static juav.autopilot.Autopilot.*;
-import static juav.autopilot.commands.Commands.*;
-import static juav.autopilot.guidance.GuidanceH.stabilizationAttitudeRun;
-import static juav.autopilot.stabilization.StabilizationAttitudeQuatInt.stabilization_attitude_run_old;
 
 /**
  * Created by adamczer on 5/30/16.

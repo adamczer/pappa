@@ -315,4 +315,31 @@ public class NativeTasks {
     public static native void setAutopilotModeNativeLogic(short new_autopilot_mode);
 
     public static native void juavStabilizationAttitudeRunNative(boolean enable_integrator);
+
+    public static native void setStabilizationAttitudeSetRpySetpointI(int psi,int phi, int theta);
+
+    public static native void guidanceHUpdateReference();
+    public static native void guidanceHNavEnter();
+    public static native void guidanceHTrajRun(boolean inFlight);
+
+
+//    public static native int getAttitudeRefEulerPsi();
+//    public static native int getAttitudeRefEulerPhi();
+//    public static native int getAttitudeRefEulerTheta();
+//
+//    public static native int getAttitudeRefModelTwoZetaOmegaP();
+//    public static native int getAttitudeRefModelTwoZetaOmegaQ();
+//    public static native int getAttitudeRefModelTwoZetaOmegaR();
+//
+//    public static native int getAttitudeRefModelTwoOmega2P();
+//    public static native int getAttitudeRefModelTwoOmega2Q();
+//    public static native int getAttitudeRefModelTwoOmega2R();
+//
+//    public static native float getAttitudeRefModelZetaP();
+//    public static native float getAttitudeRefModelZetaQ();
+//    public static native float getAttitudeRefModelZetaR();
+//
+//    public static native float getAttitudeRefModelOmegaP();
+//    public static native float getAttitudeRefModelOmegaQ();
+//    public static native float getAttitudeRefModelOmegaR();
 }

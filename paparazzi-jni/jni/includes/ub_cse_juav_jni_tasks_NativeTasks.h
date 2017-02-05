@@ -1735,6 +1735,38 @@ JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setAutopilotModeNa
 JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_juavStabilizationAttitudeRunNative
   (JNIEnv *, jclass, jboolean);
 
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    setStabilizationAttitudeSetRpySetpointI
+ * Signature: (III)V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setStabilizationAttitudeSetRpySetpointI
+  (JNIEnv *, jclass, jint, jint, jint);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    guidanceHUpdateReference
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_guidanceHUpdateReference
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    guidanceHNavEnter
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_guidanceHNavEnter
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    guidanceHTrajRun
+ * Signature: (Z)V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_guidanceHTrajRun
+  (JNIEnv *, jclass, jboolean);
+
 #ifdef __cplusplus
 }
 #endif

@@ -2,28 +2,22 @@ package juav.autopilot.guidance;
 
 import juav.autopilot.guidance.structures.HorizantalGuidance;
 import juav.autopilot.guidance.structures.HorizontalGuidanceReference;
-import juav.autopilot.guidance.structures.HorizontalGuidanceSetpoint;
 import juav.autopilot.stabilization.Stabilization;
-import juav.autopilot.telemetry.callbacks.SendGh;
-import juav.autopilot.telemetry.callbacks.SendHoverLoop;
-import juav.autopilot.telemetry.callbacks.SendHref;
-import juav.autopilot.telemetry.callbacks.SendTuneHover;
 import ub.cse.juav.jni.tasks.NativeTasks;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebraInt;
 import ub.juav.airborne.math.structs.algebra.Eulers;
 import ub.juav.airborne.math.structs.algebra.Vect2;
+import ub.juav.airborne.math.structs.algebra.Vect3;
 
 import static juav.autopilot.commands.Commands.*;
 import static juav.autopilot.guidance.GuidanceV.get_vertical_thrust_coeff;
 import static juav.autopilot.guidance.ref.GuidanceHRef.*;
-import static juav.autopilot.messages.Messages.*;
 import static juav.autopilot.navigation.Navigation.*;
 import static juav.autopilot.radiocontrol.RadioControl.RC_OK;
 import static juav.autopilot.radiocontrol.RadioControl.radio_control;
 import static juav.autopilot.stabilization.StabilizationAttitudeQuatInt.*;
 import static juav.autopilot.stabilization.StabilizationAttitudeRcSetpoint.stabilization_attitude_read_rc_setpoint_eulers;
 import static juav.autopilot.state.State.*;
-import static juav.autopilot.telemetry.Telemetry.*;
 import static ub.juav.airborne.math.functions.algebra.PprzAlgebra.*;
 import static ub.juav.airborne.math.functions.algebra.PprzAlgebraInt.*;
 import static ub.juav.airborne.math.functions.geodetic.PprzGeodeticInt.INT32_VECT2_NED_OF_ENU;
@@ -52,7 +46,7 @@ public class GuidanceH {
     private Vect2<Integer> guidance_h_speed_err;
     private static Vect2<Integer> guidance_h_trim_att_integrator;
     private int MAX_POS_ERR = PprzAlgebraInt.POS_BFP_OF_REAL(16.);
-    private int MAX_SPEED_ERR = PprzAlgebraInt.POS_BFP_OF_REAL(16.);
+    private int MAX_SPEED_ERR = PprzAlgebraInt.SPEED_BFP_OF_REAL(16.);
     private static final int GH_GAIN_SCALE = 2;
     public static final int MAX_PPRZ = 9600;
     public static final int MIN_PPRZ = - MAX_PPRZ;
@@ -131,6 +125,7 @@ public class GuidanceH {
 
     public void guidance_h_traj_run(boolean inFlight)
     {
+//        NativeTasks.guidanceHTrajRun(inFlight);
         Vect2<Integer> guidance_h_cmd_earth = Vect2.newIntVect2();
   /* maximum bank angle: default 20 deg, max 40 deg*/
         int traj_max_bank = Math.min(BFP_OF_REAL(GUIDANCE_H_MAX_BANK, INT32_ANGLE_FRAC),
@@ -138,14 +133,16 @@ public class GuidanceH {
         int total_max_bank = BFP_OF_REAL(RadOfDeg(45), INT32_ANGLE_FRAC);
 
   /* compute position error    */
-        VECT2_DIFF(guidance_h_pos_err, guidance_h.ref.getPos(), stateGetPositionNed_i());
+        Vect3<Integer> positionNed = stateGetPositionNed_i();
+        VECT2_DIFF(guidance_h_pos_err, guidance_h.ref.getPos(), positionNed);
   /* saturate it               */
         VECT2_STRIM(guidance_h_pos_err, -MAX_POS_ERR, MAX_POS_ERR);
-
+//        System.out.println("J guidance_h_pos_err x,y = "+guidance_h_pos_err.x+","+guidance_h_pos_err.y);
   /* compute speed error    */
         VECT2_DIFF(guidance_h_speed_err, guidance_h.ref.getSpeed(), stateGetSpeedNed_i());
   /* saturate it               */
         VECT2_STRIM(guidance_h_speed_err, -MAX_SPEED_ERR, MAX_SPEED_ERR);
+                System.out.println("J guidance_h_speed_err x,y = "+guidance_h_speed_err.x+","+guidance_h_speed_err.y);
 
   /* run PID */
         int pd_x =
@@ -311,6 +308,7 @@ public class GuidanceH {
 
     public static void guidance_h_update_reference()
     {
+//        NativeTasks.guidanceHUpdateReference();
   /* compute reference even if usage temporarily disabled via guidance_h_use_ref */
 //        #if GUIDANCE_H_USE_REF
 //        #if GUIDANCE_H_USE_SPEED_REF
@@ -356,6 +354,7 @@ public class GuidanceH {
 
     static void guidance_h_nav_enter()
     {
+//        NativeTasks.guidanceHNavEnter();
   /* horizontal position setpoint from navigation/flightplan */
         Vect2<Integer> newPos = Vect2.newIntVect2();
         INT32_VECT2_NED_OF_ENU(newPos, getNavigationCarrot());

@@ -52,7 +52,8 @@ public class Vect2<T extends Number> {
 
     public static Vect2<Long> newLongVect2() {
         Vect2<Long> ret = new Vect2<>();
-        zero(ret);
+        ret.x = 0l;
+        ret.y = 0l;
         return ret;
     }
 

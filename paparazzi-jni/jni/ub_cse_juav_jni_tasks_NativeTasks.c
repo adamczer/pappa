@@ -1226,3 +1226,22 @@ JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_juavStabilizationA
   (JNIEnv *env, jclass thisClass, jboolean enable_integrator) {
   juav_stabilization_attitude_run_native(enable_integrator);
   }
+
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setStabilizationAttitudeSetRpySetpointI
+  (JNIEnv *env, jclass thisClass, jint psi, jint phi, jint theta) {
+  juav_stabilization_attitude_set_rpy_setpoint_i_native(psi,phi,theta);
+  }
+
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_guidanceHUpdateReference
+  (JNIEnv *env, jclass thisClass) {
+	juav_guidance_h_update_reference_native();
+  }
+
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_guidanceHNavEnter
+  (JNIEnv *env, jclass thisClass) {
+	juav_guidance_h_nav_enter_native();
+  }
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_guidanceHTrajRun
+  (JNIEnv *env, jclass thisClass, jboolean in_flight) {
+  juav_guidance_h_traj_run_native(in_flight);
+  }
