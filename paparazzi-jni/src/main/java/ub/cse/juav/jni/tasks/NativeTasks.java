@@ -313,4 +313,6 @@ public class NativeTasks {
     public static native void guidanceHReadRc(boolean in_flight);
 
     public static native void setAutopilotModeNativeLogic(short new_autopilot_mode);
+
+    public static native void juavStabilizationAttitudeRunNative(boolean enable_integrator);
 }

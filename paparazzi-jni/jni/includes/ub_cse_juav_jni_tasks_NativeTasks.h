@@ -1727,6 +1727,14 @@ JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_guidanceHReadRc
 JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setAutopilotModeNativeLogic
   (JNIEnv *, jclass, jshort);
 
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    juavStabilizationAttitudeRunNative
+ * Signature: (Z)V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_juavStabilizationAttitudeRunNative
+  (JNIEnv *, jclass, jboolean);
+
 #ifdef __cplusplus
 }
 #endif

@@ -1221,3 +1221,8 @@ JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setAutopilotModeNa
   (JNIEnv *env, jclass thisClass, jshort newMode) {
 	juav_autopilot_set_mode_native(newMode);
   }
+
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_juavStabilizationAttitudeRunNative
+  (JNIEnv *env, jclass thisClass, jboolean enable_integrator) {
+  juav_stabilization_attitude_run_native(enable_integrator);
+  }

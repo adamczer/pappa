@@ -218,26 +218,26 @@ public class GuidanceH {
     public void guidance_h_mode_changed(short new_mode)
     {
 //        NativeTasks.guidance_h_mode_changed_native(new_mode);
-        if (new_mode == guidance_h.mode) {
-            return;
-        }
-
-        if (new_mode != GUIDANCE_H_MODE_FORWARD && new_mode != GUIDANCE_H_MODE_RATE) {
-            transition_percentage = 0;
-            transition_theta_offset = 0;
-        }
-
-        switch (new_mode) {
-            case GUIDANCE_H_MODE_ATTITUDE:
-                stabilization_attitude_enter();
-                break;
-            case GUIDANCE_H_MODE_NAV:
-                guidance_h_nav_enter();
-                stabilization_attitude_enter();
-                break;
-            default:
-                break;
-        }
+//        if (new_mode == guidance_h.mode) {
+//            return;
+//        }
+//
+//        if (new_mode != GUIDANCE_H_MODE_FORWARD && new_mode != GUIDANCE_H_MODE_RATE) {
+//            transition_percentage = 0;
+//            transition_theta_offset = 0;
+//        }
+//
+//        switch (new_mode) {
+//            case GUIDANCE_H_MODE_ATTITUDE:
+//                stabilization_attitude_enter();
+//                break;
+//            case GUIDANCE_H_MODE_NAV:
+//                guidance_h_nav_enter();
+//                stabilization_attitude_enter();
+//                break;
+//            default:
+//                break;
+//        }
 
         guidance_h.mode = new_mode;
 

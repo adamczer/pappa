@@ -349,8 +349,8 @@ public class Autopilot {
             boolean inFlight = getAutopilotInFlight();
 //            NativeTasks.guidanceVRunJuav(inFlight);
             guidanceV.guidance_v_run(getAutopilotInFlight());
-            NativeTasks.guidanceHRunNativeTestJuav(inFlight);
-//            guidanceH.guidance_h_run(getAutopilotInFlight());//TODO
+//            NativeTasks.guidanceHRunNativeTestJuav(inFlight);
+            guidanceH.guidance_h_run(getAutopilotInFlight());//TODO
             NativeTasks.autopilotPeriodicPostJuav(); //->SetRotorcraftCommands(stabilization_cmd, getAutopilotInFlight(), getAutopilotMotorsOn());
 
 //            guidanceV.guidance_v_run(getAutopilotInFlight());
