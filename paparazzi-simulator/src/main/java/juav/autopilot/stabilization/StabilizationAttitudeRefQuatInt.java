@@ -182,13 +182,15 @@ public class StabilizationAttitudeRefQuatInt {
     static void attitude_ref_quat_int_update(AttitudeRef<Integer> ref, Quat<Integer> sp_quat,
                                              float dt) {
   /* integrate reference attitude            */
-        System.out.println("ref.rate p,q,r = "+);
+//        System.out.println("J ref.rate p,q,r = "+ref.rate);
         Rates<Integer> rate_ref_scaled = Rates.newInteger(OFFSET_AND_ROUND(ref.rate.p, (REF_RATE_FRAC - INT32_RATE_FRAC)),
                 OFFSET_AND_ROUND(ref.rate.q, (REF_RATE_FRAC - INT32_RATE_FRAC)),
                 OFFSET_AND_ROUND(ref.rate.r, (REF_RATE_FRAC - INT32_RATE_FRAC)));
+//        System.out.println("J rate_ref_scaled p,q,r = "+rate_ref_scaled);
 
         Quat<Integer> qdot = Quat.newInteger();
         int32_quat_derivative(qdot, rate_ref_scaled, ref.quat);
+//        System.out.println("J qdot qi,qx,qy,qz = "+qdot);
         qdot.qi = qdot.qi >> F_UPDATE_RES;
         qdot.qx = qdot.qx >> F_UPDATE_RES;
         qdot.qy = qdot.qy >> F_UPDATE_RES;

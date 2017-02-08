@@ -75,11 +75,16 @@ public class Rates<T extends Number> {
         return ret;
     }
 
-    public static Rates<Integer> newInteger(int r, int q, int p) {
+    public static Rates<Integer> newInteger(int p, int q, int r) {
         Rates<Integer> ret = new Rates<>();
         ret.setR(r);
         ret.setQ(q);
         ret.setP(p);
         return ret;
+    }
+
+    @Override
+    public String toString() {
+        return p+","+q+","+r;
     }
 }

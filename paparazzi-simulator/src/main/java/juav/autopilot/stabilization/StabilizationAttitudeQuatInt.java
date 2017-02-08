@@ -257,7 +257,7 @@ public static Eulers<Integer> getStabilizationAttSpEuler() {
     }
 
     public static void stabilization_attitude_run(boolean enable_integrator) {
-        NativeTasks.juavStabilizationAttitudeRunNative(enable_integrator);
+//        NativeTasks.juavStabilizationAttitudeRunNative(enable_integrator);
         /*
    * Update reference
    * Warning: dt is currently not used in the quat_int ref impl
@@ -333,7 +333,7 @@ public static Eulers<Integer> getStabilizationAttSpEuler() {
         stabilization_cmd.setRoll(BoundAbs(stabilization_cmd.getRoll(), MAX_PPRZ));
         stabilization_cmd.setPitch(BoundAbs(stabilization_cmd.getPitch(), MAX_PPRZ));
         stabilization_cmd.setYaw(BoundAbs(stabilization_cmd.getYaw(), MAX_PPRZ));
-//        sendResultsBack(stabilization_att_sum_err_quat,att_ref_quat_i,stabilization_cmd);
+        sendResultsBack(stabilization_att_sum_err_quat,att_ref_quat_i,stabilization_cmd);
     }
 
     private static int iterCount = 0;
@@ -364,10 +364,10 @@ public static Eulers<Integer> getStabilizationAttSpEuler() {
                                         GAIN_PRESCALER_D * gains.getD().getZ() * PprzAlgebraInt.RATE_FLOAT_OF_BFP(rate_err.getR()) +
                                                 GAIN_PRESCALER_I * gains.getI().getZ() * PprzAlgebraInt.QUAT1_FLOAT_OF_BFP(sum_err.getQz()))
         );
-        System.out.println("fc_commands yaw, pitch, roll = "+
-        fb_commands.getYaw()+","+
-        fb_commands.getPitch()+","+
-        fb_commands.getRoll());
+//        System.out.println("fc_commands yaw, pitch, roll = "+
+//        fb_commands.getYaw()+","+
+//        fb_commands.getPitch()+","+
+//        fb_commands.getRoll());
     }
 
     private static void attitude_run_ff(StabilizationCommand<Integer> stabilization_att_ff_cmd, AttitudeGains<Integer> gains, Rates<Integer> ref_accel) {

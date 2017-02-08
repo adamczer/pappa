@@ -544,10 +544,10 @@ public class PprzAlgebraInt {
      */
 
     public static void int32_quat_derivative(Quat<Integer> qd, Rates<Integer> r, Quat<Integer> q) {
-        qd.setQi((-(r.getP()*q.getQx()+r.getQ()*q.getQy()+r.getR()*q.getQz())) >> (INT32_RATE_FRAC+1));
+        qd.setQi((-( r.getP() * q.getQx() + r.getQ() * q.getQy() + r.getR() * q.getQz())) >> (INT32_RATE_FRAC + 1));
         qd.setQx((-(-r.getP() * q.getQi() - r.getR() * q.getQy() + r.getQ() * q.getQz())) >> (INT32_RATE_FRAC + 1));
-        qd.setQy((-(-r.getP() * q.getQi() + r.getR() * q.getQx() - r.getP() * q.getQz())) >> (INT32_RATE_FRAC + 1));
-        qd.setQz((-(-r.getP() * q.getQi() - +r.getQ() * q.getQx() + r.getP() * q.getQy())) >> (INT32_RATE_FRAC + 1));
+        qd.setQy((-(-r.getQ() * q.getQi() + r.getR() * q.getQx() - r.getP() * q.getQz())) >> (INT32_RATE_FRAC + 1));
+        qd.setQz((-(-r.getR() * q.getQi() - r.getQ() * q.getQx() + r.getP() * q.getQy())) >> (INT32_RATE_FRAC + 1));
     }
 
     /** in place quaternion first order integration with constant rotational velocity. */
