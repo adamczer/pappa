@@ -142,7 +142,7 @@ public class GuidanceH {
         VECT2_DIFF(guidance_h_speed_err, guidance_h.ref.getSpeed(), stateGetSpeedNed_i());
   /* saturate it               */
         VECT2_STRIM(guidance_h_speed_err, -MAX_SPEED_ERR, MAX_SPEED_ERR);
-                System.out.println("J guidance_h_speed_err x,y = "+guidance_h_speed_err.x+","+guidance_h_speed_err.y);
+//                System.out.println("J guidance_h_speed_err x,y = "+guidance_h_speed_err.x+","+guidance_h_speed_err.y);
 
   /* run PID */
         int pd_x =
@@ -280,13 +280,11 @@ public class GuidanceH {
                     sp_cmd_i.theta = getNavPitch();
                     sp_cmd_i.psi = getNavHeading();
                     stabilization_attitude_set_rpy_setpoint_i(sp_cmd_i);
-                } else {
+                }else {
                     Vect2<Integer> newPosVect = Vect2.newIntVect2();
                     INT32_VECT2_NED_OF_ENU(newPosVect, getNavigationCarrot());
-                    guidance_h.sp.setPos(newPosVect);
-
+                    guidance_h.sp.setPos(newPosVect);//
                     guidance_h_update_reference();
-
         /* set psi command */
                     int newHeading = getNavHeading();
                     newHeading = INT32_ANGLE_NORMALIZE(newHeading);
@@ -297,6 +295,7 @@ public class GuidanceH {
                     stabilization_attitude_set_earth_cmd_i(getGuidanceHCmdEarth(),
                             newHeading);
                 }
+//                NativeTasks.guidanceHRunJuavCaseModeNav(in_flight);
                 stabilization_attitude_run(in_flight);
                 break;
 
@@ -308,7 +307,6 @@ public class GuidanceH {
 
     public static void guidance_h_update_reference()
     {
-//        NativeTasks.guidanceHUpdateReference();
   /* compute reference even if usage temporarily disabled via guidance_h_use_ref */
 //        #if GUIDANCE_H_USE_REF
 //        #if GUIDANCE_H_USE_SPEED_REF
@@ -354,7 +352,7 @@ public class GuidanceH {
 
     static void guidance_h_nav_enter()
     {
-//        NativeTasks.guidanceHNavEnter();
+//        NativeTasks.guidanceHNavEnter(); //test function
   /* horizontal position setpoint from navigation/flightplan */
         Vect2<Integer> newPos = Vect2.newIntVect2();
         INT32_VECT2_NED_OF_ENU(newPos, getNavigationCarrot());

@@ -129,7 +129,7 @@ public static Eulers<Integer> getStabilizationAttSpEuler() {
 //                stab_att_sp_euler.theta);
     }
 
-    public static void stabilization_attitude_run(boolean enable_integrator) {
+    public static void stabilization_attitude_run_old(boolean enable_integrator) {
 
 //  printf("stabilization_attitude_run\n");
           /*
@@ -256,18 +256,18 @@ public static Eulers<Integer> getStabilizationAttSpEuler() {
         }
     }
 
-    public static void stabilization_attitude_run_new(boolean enable_integrator) {
-//        NativeTasks.juavStabilizationAttitudeRunNative(enable_integrator);
+    public static void stabilization_attitude_run(boolean enable_integrator) {
+        NativeTasks.juavStabilizationAttitudeRunNative(enable_integrator);
         /*
    * Update reference
    * Warning: dt is currently not used in the quat_int ref impl
    * PERIODIC_FREQUENCY is assumed to be 512Hz
    */
         float dt = (1.f/PERIODIC_FREQUENCY);
-//        NativeTasks.attitudeRefQuatIntUpdateJuav(dt);
         Quat<Integer> stab_att_sp_quat = getStabilizationAttSpQuat();
         AttitudeRef<Integer> att_ref_quat_i = AttitudeRef.getIntegerFromJni();
         attitude_ref_quat_int_update(att_ref_quat_i, stab_att_sp_quat, dt);
+
 //        System.out.println("stab_att_sp_quat qi,qx,qy,qz = "+
 //                stab_att_sp_quat.qi+","+
 //                stab_att_sp_quat.qx+","+
@@ -333,11 +333,7 @@ public static Eulers<Integer> getStabilizationAttSpEuler() {
         stabilization_cmd.setRoll(BoundAbs(stabilization_cmd.getRoll(), MAX_PPRZ));
         stabilization_cmd.setPitch(BoundAbs(stabilization_cmd.getPitch(), MAX_PPRZ));
         stabilization_cmd.setYaw(BoundAbs(stabilization_cmd.getYaw(), MAX_PPRZ));
-//        System.out.println("YAW,PITCH,ROLL = "+
-//                stabilization_cmd.getYaw()+", "+
-//                stabilization_cmd.getPitch()+", "+
-//                stabilization_cmd.getRoll());
-        sendResultsBack(stabilization_att_sum_err_quat,att_ref_quat_i,stabilization_cmd);
+//        sendResultsBack(stabilization_att_sum_err_quat,att_ref_quat_i,stabilization_cmd);
     }
 
     private static int iterCount = 0;
@@ -407,15 +403,15 @@ public static Eulers<Integer> getStabilizationAttSpEuler() {
 
     public static void stabilization_attitude_set_rpy_setpoint_i(Eulers<Integer> rpy)//TODO PORT
     {
-        setStabilizationAttitudeSetRpySetpointINative(rpy);
+//        setStabilizationAttitudeSetRpySetpointINative(rpy);
 
-////  printf("stabilization_attitude_set_rpy_setpoint_i\n");
-//        // stab_att_sp_euler.psi still used in ref..
-//        setStabilizationAttSpEuler(rpy);
-//
-//        Quat<Integer> stab_att_sp_quat = getStabilizationAttSpQuat();
-//        int32_quat_of_eulers(stab_att_sp_quat, getStabilizationAttSpEuler());
-//        setStabilizationAttSpQuat(stab_att_sp_quat);
+//  printf("stabilization_attitude_set_rpy_setpoint_i\n");
+        // stab_att_sp_euler.psi still used in ref..
+        setStabilizationAttSpEuler(rpy);
+
+        Quat<Integer> stab_att_sp_quat = getStabilizationAttSpQuat();
+        int32_quat_of_eulers(stab_att_sp_quat, getStabilizationAttSpEuler());
+        setStabilizationAttSpQuat(stab_att_sp_quat);
     }
 
     public static void stabilization_attitude_set_earth_cmd_i(Vect2<Integer> cmd, int heading)
@@ -434,9 +430,12 @@ public static Eulers<Integer> getStabilizationAttSpEuler() {
         stab_att_sp_euler.phi = (-s_psi * cmd.x + c_psi * cmd.y) >> INT32_TRIG_FRAC;
         stab_att_sp_euler.theta = -(c_psi * cmd.x + s_psi * cmd.y) >> INT32_TRIG_FRAC;
         setStabilizationAttSpEuler(stab_att_sp_euler);
+//        System.out.println("JJJ stab_att_sp_euler psi,phi,theta = "+ stab_att_sp_euler.psi+","+stab_att_sp_euler.phi+","+stab_att_sp_euler.theta);
 
         Quat<Integer> stab_att_sp_quat = getStabilizationAttSpQuat();
         quat_from_earth_cmd_i(stab_att_sp_quat, cmd, heading);
+//        System.out.println("JJJ stab_att_sp_quat qi,qx,qy,qz = "+stab_att_sp_quat.qi+","+stab_att_sp_quat.qx+","+stab_att_sp_quat.qy+","+stab_att_sp_quat.qz);
+
         setStabilizationAttSpQuat(stab_att_sp_quat);
     }
 

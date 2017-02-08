@@ -1245,3 +1245,101 @@ JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_guidanceHTrajRun
   (JNIEnv *env, jclass thisClass, jboolean in_flight) {
   juav_guidance_h_traj_run_native(in_flight);
   }
+
+///////
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeRefEulerPsi
+  (JNIEnv *env, jclass thisClass) {
+	return get_att_ref_quat_i_euler_psi_juav();
+  }
+
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeRefEulerPhi
+  (JNIEnv *env, jclass thisClass) {
+	return get_att_ref_quat_i_euler_phi_juav();
+  }
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeRefEulerTheta
+  (JNIEnv *env, jclass thisClass) {
+	return get_att_ref_quat_i_euler_theta_juav();
+  }
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeRefModelTwoZetaOmegaP
+  (JNIEnv *env, jclass thisClass) {
+    return get_att_ref_quat_i_model_two_zeta_omega_p_juav();
+  }
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeRefModelTwoZetaOmegaQ
+  (JNIEnv *env, jclass thisClass) {
+    return get_att_ref_quat_i_model_two_zeta_omega_q_juav();
+  }
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeRefModelTwoZetaOmegaR
+  (JNIEnv *env, jclass thisClass) {
+    return get_att_ref_quat_i_model_two_zeta_omega_r_juav();
+  }
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeRefModelTwoOmega2P
+  (JNIEnv *env, jclass thisClass) {
+    return get_att_ref_quat_i_model_two_omega2_p_juav();
+  }
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeRefModelTwoOmega2Q
+  (JNIEnv *env, jclass thisClass) {
+    return get_att_ref_quat_i_model_two_omega2_q_juav();
+  }
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeRefModelTwoOmega2R
+  (JNIEnv *env, jclass thisClass) {
+    return get_att_ref_quat_i_model_two_omega2_r_juav();
+  }
+JNIEXPORT jfloat JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeRefModelZetaP
+  (JNIEnv *env, jclass thisClass) {
+    return get_att_ref_quat_i_model_zeta_p_juav();
+  }
+JNIEXPORT jfloat JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeRefModelZetaQ
+  (JNIEnv *env, jclass thisClass) {
+    return get_att_ref_quat_i_model_zeta_q_juav();
+  }
+JNIEXPORT jfloat JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeRefModelZetaR
+  (JNIEnv *env, jclass thisClass) {
+    return get_att_ref_quat_i_model_zeta_r_juav();
+  }
+JNIEXPORT jfloat JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeRefModelOmegaP
+  (JNIEnv *env, jclass thisClass) {
+    return get_att_ref_quat_i_model_omega_p_juav();
+  }
+JNIEXPORT jfloat JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeRefModelOmegaQ
+  (JNIEnv *env, jclass thisClass) {
+    return get_att_ref_quat_i_model_omega_q_juav();
+  }
+JNIEXPORT jfloat JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeRefModelOmegaR
+  (JNIEnv *env, jclass thisClass) {
+    return get_att_ref_quat_i_model_omega_r_juav();
+  }
+
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeRefSaturationMaxAccelP
+  (JNIEnv *env, jclass thisClass) {
+  return get_att_ref_quat_i_saturation_max_accel_p_juav();
+  }
+
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeRefSaturationMaxAccelQ
+  (JNIEnv *env, jclass thisClass) {
+  return get_att_ref_quat_i_saturation_max_accel_q_juav();
+  }
+
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeRefSaturationMaxAccelR
+  (JNIEnv *env, jclass thisClass) {
+  return get_att_ref_quat_i_saturation_max_accel_r_juav();
+  }
+
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeRefSaturationMaxRateP
+  (JNIEnv *env, jclass thisClass) {
+  return get_att_ref_quat_i_saturation_max_rate_p_juav();
+  }
+
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeRefSaturationMaxRateQ
+  (JNIEnv *env, jclass thisClass) {
+  return get_att_ref_quat_i_saturation_max_rate_q_juav();
+  }
+
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeRefSaturationMaxRateR
+  (JNIEnv *env, jclass thisClass) {
+  return get_att_ref_quat_i_saturation_max_rate_r_juav();
+  }
+
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_guidanceHRunJuavCaseModeNav
+  (JNIEnv *env, jclass thisClass, jboolean in_flight) {
+  juav_guidance_h_mode_nav_case_in_run(in_flight);
+  }

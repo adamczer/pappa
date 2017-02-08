@@ -40,18 +40,22 @@ public class StabilizationAttitudeQuatTransformations {
         Vect3<Float> ov = Vect3.newFloat(cmd.y, -cmd.x, 0.0f);
   /* quaternion from that orientation vector */
         Quat<Float> q_rp = Quat.newFloat();
+
+//        System.out.println("J ov x,y,z = "+ov.x+","+ov.y+","+ov.z);
         float_quat_of_orientation_vect(q_rp, ov);
+//        System.out.println("J q_rp qi,qx,qy,qz= "+q_rp.qi+","+q_rp.qx+","+q_rp.qy+","+q_rp.qz);
 
   /* as rotation m */
         RMat<Float> R_rp = (RMat<Float>) RMat.newFloat();
         float_rmat_of_quat(R_rp, q_rp);
+//        System.out.println("J \n"+R_rp);
   /* body x-axis (before heading command) is first column */
         Vect3<Float> b_x = Vect3.newFloat();
         VECT3_ASSIGN(b_x, R_rp.getFlattendElement(0), R_rp.getFlattendElement(3), R_rp.getFlattendElement(6));
   /* body z-axis (thrust vect) is last column */
         Vect3<Float> thrust_vect = Vect3.newFloat();
         VECT3_ASSIGN(thrust_vect, R_rp.getFlattendElement(2), R_rp.getFlattendElement(5), R_rp.getFlattendElement(8));
-
+//        System.out.println("J thrust vector x,y,z= "+thrust_vect);
         /// @todo optimize yaw angle calculation
 
   /*
@@ -65,21 +69,25 @@ public class StabilizationAttitudeQuatTransformations {
    */
 
         // desired heading vect in earth x-y plane
-        Vect3 psi_vect = Vect3.newFloat((float) Math.cos(heading), (float) Math.sin(heading), 0.0f);
-
+        Vect3<Float> psi_vect = Vect3.newFloat((float) Math.cos(heading), (float) Math.sin(heading), 0.0f);
+//        System.out.println("J psi_vect x,y,z = "+psi_vect);
   /* projection of desired heading onto body x-y plane
    * b = v - dot(v,n)*n
    */
         float dot = VECT3_DOT_PRODUCT(psi_vect, thrust_vect).floatValue();
+//        System.out.println("J dot = "+dot);
         Vect3<Float> dotn = Vect3.newFloat();
         VECT3_SMUL(dotn, thrust_vect, dot);
-
+//        System.out.println("J dotn x,y,z = "+dotn);
         // b = v - dot(v,n)*n
         Vect3<Float> b = Vect3.newFloat();
         VECT3_DIFF(b, psi_vect, dotn);
+//        System.out.println("J b x,y,z = "+b);
         dot = VECT3_DOT_PRODUCT(b_x, b).floatValue();
-        Vect3 cross = Vect3.newFloat();
+//        System.out.println("J dot2 = "+dot);
+        Vect3<Float> cross = Vect3.newFloat();
         VECT3_CROSS_PRODUCT(cross, b_x, b);
+//        System.out.println("J cross x,y,z = "+cross); //not the same
         // norm of the cross product
         float nc = FLOAT_VECT3_NORM(cross);
         // angle = atan2(norm(cross(a,b)), dot(a,b))

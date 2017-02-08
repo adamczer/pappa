@@ -210,7 +210,7 @@ public class PprzAlgebra{
     public static void VECT3_CROSS_PRODUCT(Vect3 vo, Vect3 v1, Vect3 v2) {
         vo.setX(NumberMath.sub(NumberMath.mul(v1.getY(), v2.getZ()) , NumberMath.mul(v1.getZ(), v2.getY())));
         vo.setY(NumberMath.sub(NumberMath.mul(v1.getZ(), v2.getX()) , NumberMath.mul(v1.getX(), v2.getZ())));
-        vo.setY(NumberMath.sub(NumberMath.mul(v1.getX(), v2.getY()) , NumberMath.mul(v1.getY(), v2.getX())));
+        vo.setZ(NumberMath.sub(NumberMath.mul(v1.getX(), v2.getY()) , NumberMath.mul(v1.getY(), v2.getX())));
     }
 
     public static Number VECT3_DOT_PRODUCT(Vect3 v1, Vect3 v2) {

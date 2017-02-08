@@ -1767,6 +1767,182 @@ JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_guidanceHNavEnter
 JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_guidanceHTrajRun
   (JNIEnv *, jclass, jboolean);
 
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    getAttitudeRefEulerPsi
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeRefEulerPsi
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    getAttitudeRefEulerPhi
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeRefEulerPhi
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    getAttitudeRefEulerTheta
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeRefEulerTheta
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    getAttitudeRefModelTwoZetaOmegaP
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeRefModelTwoZetaOmegaP
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    getAttitudeRefModelTwoZetaOmegaQ
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeRefModelTwoZetaOmegaQ
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    getAttitudeRefModelTwoZetaOmegaR
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeRefModelTwoZetaOmegaR
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    getAttitudeRefModelTwoOmega2P
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeRefModelTwoOmega2P
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    getAttitudeRefModelTwoOmega2Q
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeRefModelTwoOmega2Q
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    getAttitudeRefModelTwoOmega2R
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeRefModelTwoOmega2R
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    getAttitudeRefModelZetaP
+ * Signature: ()F
+ */
+JNIEXPORT jfloat JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeRefModelZetaP
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    getAttitudeRefModelZetaQ
+ * Signature: ()F
+ */
+JNIEXPORT jfloat JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeRefModelZetaQ
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    getAttitudeRefModelZetaR
+ * Signature: ()F
+ */
+JNIEXPORT jfloat JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeRefModelZetaR
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    getAttitudeRefModelOmegaP
+ * Signature: ()F
+ */
+JNIEXPORT jfloat JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeRefModelOmegaP
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    getAttitudeRefModelOmegaQ
+ * Signature: ()F
+ */
+JNIEXPORT jfloat JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeRefModelOmegaQ
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    getAttitudeRefModelOmegaR
+ * Signature: ()F
+ */
+JNIEXPORT jfloat JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeRefModelOmegaR
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    getAttitudeRefSaturationMaxAccelP
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeRefSaturationMaxAccelP
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    getAttitudeRefSaturationMaxAccelQ
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeRefSaturationMaxAccelQ
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    getAttitudeRefSaturationMaxAccelR
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeRefSaturationMaxAccelR
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    getAttitudeRefSaturationMaxRateP
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeRefSaturationMaxRateP
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    getAttitudeRefSaturationMaxRateQ
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeRefSaturationMaxRateQ
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    getAttitudeRefSaturationMaxRateR
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeRefSaturationMaxRateR
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    guidanceHRunJuavCaseModeNav
+ * Signature: (Z)V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_guidanceHRunJuavCaseModeNav
+  (JNIEnv *, jclass, jboolean);
+
 #ifdef __cplusplus
 }
 #endif

@@ -60,4 +60,9 @@ public class Vect3<T extends Number> extends Vect2<T>{
         ret.setZ(z);
         return ret;
     }
+
+    @Override
+    public String toString() {
+        return x+", "+y+", "+z;
+    }
 }

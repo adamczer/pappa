@@ -323,23 +323,32 @@ public class NativeTasks {
     public static native void guidanceHTrajRun(boolean inFlight);
 
 
-//    public static native int getAttitudeRefEulerPsi();
-//    public static native int getAttitudeRefEulerPhi();
-//    public static native int getAttitudeRefEulerTheta();
-//
-//    public static native int getAttitudeRefModelTwoZetaOmegaP();
-//    public static native int getAttitudeRefModelTwoZetaOmegaQ();
-//    public static native int getAttitudeRefModelTwoZetaOmegaR();
-//
-//    public static native int getAttitudeRefModelTwoOmega2P();
-//    public static native int getAttitudeRefModelTwoOmega2Q();
-//    public static native int getAttitudeRefModelTwoOmega2R();
-//
-//    public static native float getAttitudeRefModelZetaP();
-//    public static native float getAttitudeRefModelZetaQ();
-//    public static native float getAttitudeRefModelZetaR();
-//
-//    public static native float getAttitudeRefModelOmegaP();
-//    public static native float getAttitudeRefModelOmegaQ();
-//    public static native float getAttitudeRefModelOmegaR();
+    public static native int getAttitudeRefEulerPsi();
+    public static native int getAttitudeRefEulerPhi();
+    public static native int getAttitudeRefEulerTheta();
+
+    public static native int getAttitudeRefModelTwoZetaOmegaP();
+    public static native int getAttitudeRefModelTwoZetaOmegaQ();
+    public static native int getAttitudeRefModelTwoZetaOmegaR();
+
+    public static native int getAttitudeRefModelTwoOmega2P();
+    public static native int getAttitudeRefModelTwoOmega2Q();
+    public static native int getAttitudeRefModelTwoOmega2R();
+
+    public static native float getAttitudeRefModelZetaP();
+    public static native float getAttitudeRefModelZetaQ();
+    public static native float getAttitudeRefModelZetaR();
+
+    public static native float getAttitudeRefModelOmegaP();
+    public static native float getAttitudeRefModelOmegaQ();
+    public static native float getAttitudeRefModelOmegaR();
+
+    public static native int getAttitudeRefSaturationMaxAccelP();
+    public static native int getAttitudeRefSaturationMaxAccelQ();
+    public static native int getAttitudeRefSaturationMaxAccelR();
+    public static native int getAttitudeRefSaturationMaxRateP();
+    public static native int getAttitudeRefSaturationMaxRateQ();
+    public static native int getAttitudeRefSaturationMaxRateR();
+
+    public static native void guidanceHRunJuavCaseModeNav(boolean inFlight);
 }
