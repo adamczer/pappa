@@ -151,10 +151,10 @@ public class NpsCyclicImpl extends AbstractNpsImpl {
     }
 
     public static void main(String[] args) {
-        File lib = new File("paparazzi-jni/bin/libpapa_native.so");
-        System.load(lib.getAbsolutePath());
-        File pprzLib = new File("paparazzi-jni/libs/libpprz.so");
+        File pprzLib = new File("/home/user/juav/working-code-02-13-2017/juav-autopilot/paparazzi-jni/libs/libpprz.so");
         System.load(pprzLib.getAbsolutePath());
+        File lib = new File("/home/user/juav/working-code-02-13-2017/juav-autopilot/paparazzi-jni/bin/libpapa_native.so");
+        System.load(lib.getAbsolutePath());
         NpsCyclicImpl nps = new NpsCyclicImpl();
         nps.init();
         nps.run();

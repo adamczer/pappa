@@ -151,10 +151,6 @@ public class PprzAlgebra{
         vo.setZ(NumberMath.mul(vi.getZ() , s));
     }
 
-    public static void main(String[] args) {
-        Vect3<Double> v1 = new Vect3<>();
-        System.out.println(v1.getX().getClass());
-    }
     /* vo =  vi / s */
     public static void VECT3_SDIV(Vect3 vo, Vect3 vi, Number s) {
         vo.setX(NumberMath.div(vi.getX(), s));
