@@ -1,6 +1,7 @@
 package juav.autopilot.radiocontrol;
 
 import ub.cse.juav.jni.tasks.NativeTasks;
+import ub.cse.juav.jni.tasks.NativeTasksWrapper;
 
 /**
  * Created by adamczer on 11/6/16.
@@ -37,12 +38,12 @@ public class RadioControl {
     public static RadioControl radio_control = new RadioControl();
 
     public int getValue(int index) {
-        int val = NativeTasks.getRadioControlValue(index);
+        int val = NativeTasksWrapper.getRadioControlValue(index);
         return val;
     }
 
     public short getStatus() {
-        short rcStatus = NativeTasks.getRadioControlStatus();
+        short rcStatus = NativeTasksWrapper.getRadioControlStatus();
 //        System.out.println("radioControl.status = "+rcStatus);
         return rcStatus;
     }

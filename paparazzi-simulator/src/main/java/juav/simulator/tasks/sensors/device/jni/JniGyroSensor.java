@@ -3,8 +3,9 @@ package juav.simulator.tasks.sensors.device.jni;
 import juav.simulator.nps.random.NpsRandom;
 import juav.simulator.tasks.sensors.ISensor;
 import juav.simulator.tasks.sensors.readings.GyroReading;
+import ub.cse.juav.jni.fdm.FdmWrapper;
 import ub.cse.juav.jni.fdm.JniFdm;
-import ub.cse.juav.jni.nps.PaparazziNps;
+import ub.cse.juav.jni.nps.PaparazziNpsWrapper;
 import ub.cse.juav.jni.tasks.NativeTasks;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebra;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebraDouble;
@@ -50,8 +51,8 @@ public class JniGyroSensor extends ISensor<GyroReading> {
 
     @Override
     protected void executePeriodic() {
-        double time = PaparazziNps.getNpsMainSimTime();
-//        NativeTasks.npsSensorFdmCopyGyro(time);
+        double time = PaparazziNpsWrapper.getNpsMainSimTime();
+//        NativeTasksWrapper.npsSensorFdmCopyGyro(time);
 
         if(time<data.getNext_update()) {
             return;
@@ -60,13 +61,13 @@ public class JniGyroSensor extends ISensor<GyroReading> {
         RMat<Double> bodyToImu = RMat.RMatDouble();
         for(int i = 0; i<3; i++)
             for(int j = 0; j<3 ; j++)
-                bodyToImu.setElement(JniFdm.getFdmBodyToImu(i,j),i,j);
+                bodyToImu.setElement(FdmWrapper.getFdmBodyToImu(i,j),i,j);
 
         /* transform body rates to IMU frame */
         Vect3<Double> rateBody = new Vect3<>();
-        rateBody.setX(JniFdm.getFdmBodyInertialRotVelP());
-        rateBody.setY(JniFdm.getFdmBodyInertialRotVelQ());
-        rateBody.setZ(JniFdm.getFdmBodyInertialRotVelR());
+        rateBody.setX(FdmWrapper.getFdmBodyInertialRotVelP());
+        rateBody.setY(FdmWrapper.getFdmBodyInertialRotVelQ());
+        rateBody.setZ(FdmWrapper.getFdmBodyInertialRotVelR());
 
         Vect3<Double> rateImu = new Vect3<>();
         PprzAlgebra.MAT33_VECT3_MULT(rateImu,bodyToImu,rateBody);
@@ -100,7 +101,7 @@ public class JniGyroSensor extends ISensor<GyroReading> {
 
     @Override
     public void init() {
-//        NativeTasks.npsSensorInitGyro(0);
+//        NativeTasksWrapper.npsSensorInitGyro(0);
         data = new GyroReading();
         data.setMin(NPS_GYRO_MIN);
         data.setMax(NPS_GYRO_MAX);

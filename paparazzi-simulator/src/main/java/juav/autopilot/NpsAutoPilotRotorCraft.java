@@ -4,8 +4,9 @@ import juav.autopilot.gps.GpsSimNps;
 import juav.autopilot.imu.JniImuNps;
 import juav.simulator.tasks.PeriodicTask;
 import juav.simulator.tasks.sensors.device.jni.*;
-import ub.cse.juav.jni.nps.PaparazziNps;
+import ub.cse.juav.jni.nps.PaparazziNpsWrapper;
 import ub.cse.juav.jni.tasks.NativeTasks;
+import ub.cse.juav.jni.tasks.NativeTasksWrapper;
 
 /**
  * Created by adamczer on 5/30/16.
@@ -22,27 +23,27 @@ public class NpsAutoPilotRotorCraft extends PeriodicTask {
 
     @Override
     public void execute() {
-        double time = PaparazziNps.getNpsMainSimTime();
+        double time = PaparazziNpsWrapper.getNpsMainSimTime();
         npsAutopilotRunStep(time);
     }
 
     private void npsAutopilotRunStep(double time) {
         //Not needed it should decrement battery
-        NativeTasks.npsElectricalRunStep(time);
+        NativeTasksWrapper.npsElectricalRunStep(time);
 
 
-        if(NativeTasks.npsAutopilotRunRadioStepAndShouldRunMainEvent(time)) {
+        if(NativeTasksWrapper.npsAutopilotRunRadioStepAndShouldRunMainEvent(time)) {
             main_event();
         }
 
-//        NativeTasks.npsSensorFeedStepGyro();
+//        NativeTasksWrapper.npsSensorFeedStepGyro();
         if (gyroSensor.getData().isData_available()) {
             jniImuNps.imuFeedGyro(gyroSensor.getData());
             main_event();
             gyroSensor.getData().setData_available(false);
         }
 
-//        NativeTasks.npsSensorFeedStepAccel();
+//        NativeTasksWrapper.npsSensorFeedStepAccel();
         if (accelSensor.getData().isData_available()) {
             jniImuNps.imuFeedAccel(accelSensor.getData());
             main_event();
@@ -50,17 +51,17 @@ public class NpsAutoPilotRotorCraft extends PeriodicTask {
         }
 
 
-//        NativeTasks.npsSensorFeedStepMag();
+//        NativeTasksWrapper.npsSensorFeedStepMag();
         if (magSensor.getData().isData_available()) {
             jniImuNps.imuFeedMag(magSensor.getData());
             main_event();
             magSensor.getData().setData_available(false);
         }
 
-//        NativeTasks.npsSensorFeedStepBaro();
+//        NativeTasksWrapper.npsSensorFeedStepBaro();
         if (baroSensor.getData().isData_available()) {
             float pressure = (float) baroSensor.getData().getValue();
-            NativeTasks.sendBarometricReading(pressure);
+            NativeTasksWrapper.sendBarometricReading(pressure);
             main_event();
             baroSensor.getData().setData_available(false);
         }
@@ -78,52 +79,52 @@ public class NpsAutoPilotRotorCraft extends PeriodicTask {
 //            }
 //            #endif
 
-//        NativeTasks.npsSensorFeedStepGps();
+//        NativeTasksWrapper.npsSensorFeedStepGps();
         if (gpsSensor.getData().isData_available()) {
             gpsSimNps.gpsFeedValue(gpsSensor.getData());
             main_event();
             gpsSensor.getData().setData_available(false);
         }
-        NativeTasks.npsAutopilotRunStepOverwriteAhrs();
-        NativeTasks.npsAutopilotRunStepOverwriteIns();
+        NativeTasksWrapper.npsAutopilotRunStepOverwriteAhrs();
+        NativeTasksWrapper.npsAutopilotRunStepOverwriteIns();
 /***************************************************************/
-        if(NativeTasks.sysTimeCheckAndAckTimerMainPeriodicJuav()) {
+        if(NativeTasksWrapper.sysTimeCheckAndAckTimerMainPeriodicJuav()) {
             newControlLoop();
-            NativeTasks.mainPeriodicJuavAutopilotPost();
-            NativeTasks.handlePeriodicTasksFollowingMainPeriodicJuav();
-            NativeTasks.npsAutopilotRunStepConvertMotorMixingCommandsToAutopilotCommands();
+            NativeTasksWrapper.mainPeriodicJuavAutopilotPost();
+            NativeTasksWrapper.handlePeriodicTasksFollowingMainPeriodicJuav();
+            NativeTasksWrapper.npsAutopilotRunStepConvertMotorMixingCommandsToAutopilotCommands();
         }
 //        oldControlLoop();
     }
 
     private void oldControlLoop() {
-        NativeTasks.mainPeriodicJuavAutopilotPrior();
-        if(NativeTasks.sysTimeCheckAndAckTimerMainPeriodicJuav()) {
-//            NativeTasks.mainPeriodicJuavTest();//TEST main periodic
-            NativeTasks.autopilotPeriodicPriorJuav();
-            if(!NativeTasks.isAutopilotModeApModeKillJuav()) {
-                boolean inFlight = NativeTasks.getAutopilotInFlightJuav();
-                NativeTasks.guidanceHRunJuav(inFlight);
-                if(NativeTasks.runStabilizationAttitudeRunJuav()) {
-                    NativeTasks.guidanceHRunNativeTestJuav(inFlight); // test plumbing
-//                    NativeTasks.guidanceHRunJuav(inFlight);
+        NativeTasksWrapper.mainPeriodicJuavAutopilotPrior();
+        if(NativeTasksWrapper.sysTimeCheckAndAckTimerMainPeriodicJuav()) {
+//            NativeTasksWrapper.mainPeriodicJuavTest();//TEST main periodic
+            NativeTasksWrapper.autopilotPeriodicPriorJuav();
+            if(!NativeTasksWrapper.isAutopilotModeApModeKillJuav()) {
+                boolean inFlight = NativeTasksWrapper.getAutopilotInFlightJuav();
+                NativeTasksWrapper.guidanceHRunJuav(inFlight);
+                if(NativeTasksWrapper.runStabilizationAttitudeRunJuav()) {
+                    NativeTasksWrapper.guidanceHRunNativeTestJuav(inFlight); // test plumbing
+//                    NativeTasksWrapper.guidanceHRunJuav(inFlight);
 //                    stabilization_attitude_run_old(inFlight);
                 }
             }
-            NativeTasks.autopilotPeriodicPostJuav();//finaizes after guidance_h.c run
+            NativeTasksWrapper.autopilotPeriodicPostJuav();//finaizes after guidance_h.c run
         }
     }
 
     private void newControlLoop() {
         autopilot.autopilot_periodic();
-//        NativeTasks.juavAutopilotPeriodic();
+//        NativeTasksWrapper.juavAutopilotPeriodic();
     }
 
     private void main_event() {
-        PaparazziNps.mainEventPrior();
+        PaparazziNpsWrapper.mainEventPrior();
         autopilot.autopilot_on_rc_frame();
-        PaparazziNps.mainEventPost();
-//        PaparazziNps.mainEvent();
+        PaparazziNpsWrapper.mainEventPost();
+//        PaparazziNpsWrapper.mainEvent();
     }
 
 

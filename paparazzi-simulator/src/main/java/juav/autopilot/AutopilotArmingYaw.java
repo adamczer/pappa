@@ -1,6 +1,7 @@
 package juav.autopilot;
 
 import ub.cse.juav.jni.tasks.NativeTasks;
+import ub.cse.juav.jni.tasks.NativeTasksWrapper;
 
 import static juav.autopilot.Autopilot.*;
 import static juav.autopilot.AutopilotArmingYaw.arming_state.*;
@@ -47,11 +48,11 @@ public class AutopilotArmingYaw {
     }
 
     static void setAutopilotCheckMotorStatus(arming_state newValue) {
-        NativeTasks.juavSetAutopilotCheckMotorStatus(newValue.ordinal());
+        NativeTasksWrapper.juavSetAutopilotCheckMotorStatus(newValue.ordinal());
     }
 
     static arming_state getAutopilotCheckMotorStatus() {
-        int tmp = NativeTasks.juavGetAutopilotCheckMotorStatus();
+        int tmp = NativeTasksWrapper.juavGetAutopilotCheckMotorStatus();
         switch (tmp) {
             case 0:
                 return STATUS_INITIALISE_RC;
@@ -77,10 +78,10 @@ public class AutopilotArmingYaw {
     }
 
     static void setAutopilotMotorsOnCounter(int newCount) {
-        NativeTasks.juavSetAutopilotMotorsOnCounter(newCount);
+        NativeTasksWrapper.juavSetAutopilotMotorsOnCounter(newCount);
     }
     static int getAutopilotMotorsOnCounter() {
-        return NativeTasks.juavGetAutopilotMotorsOnCounter();
+        return NativeTasksWrapper.juavGetAutopilotMotorsOnCounter();
     }
 
 

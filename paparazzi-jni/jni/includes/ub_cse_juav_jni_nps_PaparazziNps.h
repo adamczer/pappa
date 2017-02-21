@@ -9,6 +9,14 @@ extern "C" {
 #endif
 /*
  * Class:     ub_cse_juav_jni_nps_PaparazziNps
+ * Method:    someFunction
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_nps_PaparazziNps_someFunction
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_nps_PaparazziNps
  * Method:    npsInit
  * Signature: ()V
  */

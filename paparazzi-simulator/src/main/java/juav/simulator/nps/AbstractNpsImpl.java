@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public abstract class AbstractNpsImpl implements INps{
     protected List<ITask> tasks;
-    protected AtomicBoolean run = new AtomicBoolean(true);
+    protected boolean run = true;
     protected ITimeHandler timeHandler;
 
     /**
@@ -28,7 +28,7 @@ public abstract class AbstractNpsImpl implements INps{
      */
     @Override
     public void stopExecution() {
-        run.set(false);
+        run = false;
     }
 
     @Override

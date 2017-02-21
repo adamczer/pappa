@@ -3,8 +3,9 @@ package juav.simulator.tasks.sensors.device.jni;
 import juav.simulator.nps.random.NpsRandom;
 import juav.simulator.tasks.sensors.ISensor;
 import juav.simulator.tasks.sensors.readings.AccelerometerReading;
+import ub.cse.juav.jni.fdm.FdmWrapper;
 import ub.cse.juav.jni.fdm.JniFdm;
-import ub.cse.juav.jni.nps.PaparazziNps;
+import ub.cse.juav.jni.nps.PaparazziNpsWrapper;
 import ub.cse.juav.jni.tasks.NativeTasks;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebra;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebraDouble;
@@ -60,8 +61,8 @@ public class JniAccelSensor extends ISensor<AccelerometerReading> {
 
     @Override
     protected void executePeriodic() {
-        double time = PaparazziNps.getNpsMainSimTime();
-//        NativeTasks.npsSensorFdmCopyAccel(time);
+        double time = PaparazziNpsWrapper.getNpsMainSimTime();
+//        NativeTasksWrapper.npsSensorFdmCopyAccel(time);
 
         if(time<data.getNext_update()) {
             return;
@@ -70,14 +71,14 @@ public class JniAccelSensor extends ISensor<AccelerometerReading> {
         RMat<Double> bodyToImu = RMat.RMatDouble();
         for(int i = 0; i<3; i++)
             for(int j = 0; j<3 ; j++)
-                bodyToImu.setElement(JniFdm.getFdmBodyToImu(i,j),i,j);
+                bodyToImu.setElement(FdmWrapper.getFdmBodyToImu(i,j),i,j);
 //        System.out.println("bodytoimu = \n"+ bodyToImu);
 
 // aquire required vector over jni
         Vect3<Double> bodyAccel = new Vect3<>();
-        bodyAccel.setX(JniFdm.getFdmBodyAccelX());
-        bodyAccel.setY(JniFdm.getFdmBodyAccelY());
-        bodyAccel.setZ(JniFdm.getFdmBodyAccelZ());
+        bodyAccel.setX(FdmWrapper.getFdmBodyAccelX());
+        bodyAccel.setY(FdmWrapper.getFdmBodyAccelY());
+        bodyAccel.setZ(FdmWrapper.getFdmBodyAccelZ());
 
   /* transform to imu frame */
         Vect3<Double> accelero_imu = new Vect3<>();
@@ -115,7 +116,7 @@ public class JniAccelSensor extends ISensor<AccelerometerReading> {
 
     @Override
     public void init() {
-//        NativeTasks.npsSensorInitAccel(0);
+//        NativeTasksWrapper.npsSensorInitAccel(0);
         data = new AccelerometerReading();
         Vect3<Double> value = new Vect3<>();
         PprzAlgebra.VECT3_ASSIGN(value, 0.d, 0.d, 0.d);

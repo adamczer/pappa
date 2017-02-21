@@ -1,6 +1,7 @@
 package juav.autopilot.guidance.structures;
 
 import ub.cse.juav.jni.tasks.NativeTasks;
+import ub.cse.juav.jni.tasks.NativeTasksWrapper;
 import ub.juav.airborne.math.structs.algebra.Vect2;
 
 /**
@@ -17,33 +18,33 @@ public class HorizontalGuidanceReference {
 
     public Vect2<Integer> getPos() {
         Vect2<Integer> ret = Vect2.newIntVect2();
-        ret.setX(NativeTasks.getHorizantialGuidanceReferencePosX());
-        ret.setY(NativeTasks.getHorizantialGuidanceReferencePosY());
+        ret.setX(NativeTasksWrapper.getHorizantialGuidanceReferencePosX());
+        ret.setY(NativeTasksWrapper.getHorizantialGuidanceReferencePosY());
         return ret;
     }
     public void setPos(Vect2<Integer> newPos) {
-        NativeTasks.setHorizantialGuidanceReferencePosX(newPos.getX());
-        NativeTasks.setHorizantialGuidanceReferencePosY(newPos.getY());
+        NativeTasksWrapper.setHorizantialGuidanceReferencePosX(newPos.getX());
+        NativeTasksWrapper.setHorizantialGuidanceReferencePosY(newPos.getY());
     }
     public Vect2<Integer> getSpeed() {
         Vect2<Integer> ret = Vect2.newIntVect2();
-        ret.setX(NativeTasks.getHorizantialGuidanceReferenceSpeedX());
-        ret.setY(NativeTasks.getHorizantialGuidanceReferenceSpeedY());
+        ret.setX(NativeTasksWrapper.getHorizantialGuidanceReferenceSpeedX());
+        ret.setY(NativeTasksWrapper.getHorizantialGuidanceReferenceSpeedY());
         return ret;
     }
     public void setSpeed(Vect2<Integer> newSpeed) {
-        NativeTasks.setHorizantialGuidanceReferenceSpeedX(newSpeed.getX());
-        NativeTasks.setHorizantialGuidanceReferenceSpeedY(newSpeed.getY());
+        NativeTasksWrapper.setHorizantialGuidanceReferenceSpeedX(newSpeed.getX());
+        NativeTasksWrapper.setHorizantialGuidanceReferenceSpeedY(newSpeed.getY());
     }
     public Vect2<Integer> getAccel() {
         Vect2<Integer> ret = Vect2.newIntVect2();
-        ret.setX(NativeTasks.getHorizantialGuidanceReferenceAccelX());
-        ret.setY(NativeTasks.getHorizantialGuidanceReferenceAccelY());
+        ret.setX(NativeTasksWrapper.getHorizantialGuidanceReferenceAccelX());
+        ret.setY(NativeTasksWrapper.getHorizantialGuidanceReferenceAccelY());
         return ret;
     }
     public void setAccel(Vect2<Integer> newAccel) {
-        NativeTasks.setHorizantialGuidanceReferenceAccelX(newAccel.getX());
-        NativeTasks.setHorizantialGuidanceReferenceAccelY(newAccel.getY());
+        NativeTasksWrapper.setHorizantialGuidanceReferenceAccelX(newAccel.getX());
+        NativeTasksWrapper.setHorizantialGuidanceReferenceAccelY(newAccel.getY());
     }
 
 

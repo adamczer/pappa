@@ -41,7 +41,7 @@ public class FlightDynamicModelJsbSim extends PeriodicTask {
         String rootDir = System.getenv("PAPARAZZI_HOME");
         System.out.println("PAPARAZZI_HOME="+rootDir);
         System.out.println("calling JNI");
-//        JniFdm.FGFDMExecInit();
+//        FdmWrapper.FGFDMExecInit();
         System.out.println("called JNI");
     }
 
@@ -70,6 +70,6 @@ public class FlightDynamicModelJsbSim extends PeriodicTask {
 //        init_ltp();
 
 //        System.out.println("ssssssssss");
-//        JniFdm.init();
+//        FdmWrapper.init();
     }
 }

@@ -9,7 +9,6 @@
 #define SIM_DT (1./1000)
 #define DISPLAY_DT (1./30.)
 
-
 JNIEXPORT void JNICALL Java_ub_cse_juav_jni_nps_PaparazziNps_npsInit
   (JNIEnv *env, jclass thisClass) {
     nps_main_parse_options_juav();

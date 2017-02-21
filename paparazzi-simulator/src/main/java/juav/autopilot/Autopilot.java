@@ -3,6 +3,7 @@ package juav.autopilot;
 import juav.autopilot.stabilization.Stabilization;
 import juav.autopilot.state.State;
 import ub.cse.juav.jni.tasks.NativeTasks;
+import ub.cse.juav.jni.tasks.NativeTasksWrapper;
 
 import static juav.autopilot.AutopilotArmingYaw.autopilot_arming_check_motors_on;
 import static juav.autopilot.AutopilotArmingYaw.autopilot_arming_init;
@@ -63,7 +64,7 @@ public class Autopilot {
 
 //    boolean   autopilot_in_flight;
     public static boolean getAutopilotInFlight() {
-        boolean ret = NativeTasks.getAutopilotInFlightJuav();
+        boolean ret = NativeTasksWrapper.getAutopilotInFlightJuav();
         return ret;
     }
     long autopilot_in_flight_counter;
@@ -80,11 +81,11 @@ public class Autopilot {
 //
 //    }
     public static void setAutopilotGroundDetected(boolean b) {
-        NativeTasks.setAutopilotGroundDetected(b);
+        NativeTasksWrapper.setAutopilotGroundDetected(b);
     }
 //    boolean   autopilot_detect_ground_once;
     public static void setAutopilotDetectGroundOnce(boolean b) {
-        NativeTasks.setAutopilotDetectGroundOnce(b);
+        NativeTasksWrapper.setAutopilotDetectGroundOnce(b);
     }
 
     public static final short MODE_STARTUP = AP_MODE_KILL;
@@ -347,11 +348,11 @@ public class Autopilot {
             SetCommands(commands_failsafe);
         } else {
             boolean inFlight = getAutopilotInFlight();
-//            NativeTasks.guidanceVRunJuav(inFlight);
+//            NativeTasksWrapper.guidanceVRunJuav(inFlight);
             guidanceV.guidance_v_run(inFlight);
-//            NativeTasks.guidanceHRunNativeTestJuav(inFlight);
+//            NativeTasksWrapper.guidanceHRunNativeTestJuav(inFlight);
             guidanceH.guidance_h_run(inFlight);//TODO
-            NativeTasks.autopilotPeriodicPostJuav(); //->SetRotorcraftCommands(stabilization_cmd, getAutopilotInFlight(), getAutopilotMotorsOn());
+            NativeTasksWrapper.autopilotPeriodicPostJuav(); //->SetRotorcraftCommands(stabilization_cmd, getAutopilotInFlight(), getAutopilotMotorsOn());
 
 //            guidanceV.guidance_v_run(getAutopilotInFlight());
 //            guidanceH.guidance_h_run(getAutopilotInFlight());//TODO
@@ -367,7 +368,7 @@ public class Autopilot {
     }
 
     public static boolean getAutopilotMotorsOn() {
-        return NativeTasks.getAutopilotMotorsOnJuav();
+        return NativeTasksWrapper.getAutopilotMotorsOnJuav();
     }
 
 
@@ -375,7 +376,7 @@ public class Autopilot {
 
     void autopilot_set_mode(short new_autopilot_mode)
     {
-//        NativeTasks.setAutopilotModeNativeLogic(new_autopilot_mode); autopilot_mode = new_autopilot_mode;
+//        NativeTasksWrapper.setAutopilotModeNativeLogic(new_autopilot_mode); autopilot_mode = new_autopilot_mode;
 //        System.out.println("JAVA autopilot_set_mode = " +new_autopilot_mode);
 
   /* force startup mode (default is kill) as long as AHRS is not aligned */
@@ -493,7 +494,7 @@ public class Autopilot {
             }
             autopilot_mode = new_autopilot_mode;
 
-            NativeTasks.setAutopilotMode(new_autopilot_mode);
+            NativeTasksWrapper.setAutopilotMode(new_autopilot_mode);
         }
 
     }
@@ -551,7 +552,7 @@ public class Autopilot {
 //    }
 
     public static void setAutopilotMotorsOn(boolean b) {
-        NativeTasks.juavSetAutopilotMotorsOn(b);
+        NativeTasksWrapper.juavSetAutopilotMotorsOn(b);
     }
 
 

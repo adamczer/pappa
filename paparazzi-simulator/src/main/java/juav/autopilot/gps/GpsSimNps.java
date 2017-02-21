@@ -2,7 +2,7 @@ package juav.autopilot.gps;
 
 import juav.simulator.tasks.sensors.readings.GpsReading;
 import ub.cse.juav.jni.gps.GpsNative;
-import ub.cse.juav.jni.nps.PaparazziNps;
+import ub.cse.juav.jni.nps.PaparazziNpsWrapper;
 import ub.juav.airborne.math.functions.geodetic.PprzGeodeticDouble;
 import ub.juav.airborne.math.structs.geodetic.LtpDef;
 import ub.juav.airborne.math.structs.geodetic.NedCoor;
@@ -15,7 +15,7 @@ public class GpsSimNps implements IGpsNps{
     @Override
     public void gpsFeedValue(GpsReading reading) {
         GpsNative.gps_feed_value_week_juav(1794);
-        GpsNative.gps_feed_value_tow_juav(PaparazziNps.getNpsMainSimTime());
+        GpsNative.gps_feed_value_tow_juav(PaparazziNpsWrapper.getNpsMainSimTime());
         GpsNative.gps_feed_value_ecef_pos_juav(reading.getEcef_pos().getX()*100.d,reading.getEcef_pos().getY()*100.d,reading.getEcef_pos().getZ()*100.d);
         GpsNative.gps_feed_value_ecef_vel_juav(reading.getEcef_vel().getX()*100.d,reading.getEcef_vel().getY()*100.d,reading.getEcef_vel().getZ()*100.d);
         GpsNative.gps_feed_value_lla_pos_juav(UtilityFunctions.DegOfRad(reading.getLla_pos().getLat())* 1e7,UtilityFunctions.DegOfRad(reading.getLla_pos().getLon())* 1e7,reading.getLla_pos().getAlt()*1000.d);

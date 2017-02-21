@@ -3,8 +3,9 @@ package juav.simulator.tasks.sensors.device.jni;
 import juav.simulator.nps.random.NpsRandom;
 import juav.simulator.tasks.sensors.ISensor;
 import juav.simulator.tasks.sensors.readings.BarometricReading;
+import ub.cse.juav.jni.fdm.FdmWrapper;
 import ub.cse.juav.jni.fdm.JniFdm;
-import ub.cse.juav.jni.nps.PaparazziNps;
+import ub.cse.juav.jni.nps.PaparazziNpsWrapper;
 import ub.cse.juav.jni.tasks.NativeTasks;
 import ub.juav.airborne.math.functions.isa.Pprz_isa;
 
@@ -16,15 +17,15 @@ public class JniBaroSensor extends ISensor<BarometricReading> {
     private static final double NPS_BARO_DT = 1./50.;// nps_sensor_params_default.h
     @Override
     protected void executePeriodic() {
-        double time = PaparazziNps.getNpsMainSimTime();
+        double time = PaparazziNpsWrapper.getNpsMainSimTime();
 
-//        NativeTasks.npsSensorFdmCopyBaro(time);
+//        NativeTasksWrapper.npsSensorFdmCopyBaro(time);
         if(time<data.getNext_update()) {
             return;
         }
 
   /* pressure in Pascal TODO this was a float*/
-        double tmp =Pprz_isa.pprz_isa_pressure_of_altitude(JniFdm.getHmsl());
+        double tmp =Pprz_isa.pprz_isa_pressure_of_altitude(FdmWrapper.getHmsl());
   /* add noise with std dev Pascal */
         data.setValue(tmp + NpsRandom.get_gaussian_noise() * data.getNoise_std_dev());
 
@@ -34,7 +35,7 @@ public class JniBaroSensor extends ISensor<BarometricReading> {
 
     @Override
     public void init() {
-//        NativeTasks.npsSensorInitBaro(0);
+//        NativeTasksWrapper.npsSensorInitBaro(0);
         data = new BarometricReading();
         data.setValue(0.);
         data.setNoise_std_dev(NPS_BARO_NOISE_STD_DEV);

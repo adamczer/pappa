@@ -4,8 +4,8 @@
 #include <nps_main.h>
 #include <nps_fdm.h>
 #include <nps_autopilot.h>
-#include <guidance.h>
-#include <main.h>
+//#include <guidance.h>
+//#include <main.h>
 #include <autopilot.h>
 #include <stabilization_attitude_quat_int.h>
 //#include <radio_control.h>
@@ -1135,12 +1135,12 @@ JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setGuidanceHCmdEar
 
 JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getGuidanceHCmdEarthX
   (JNIEnv *env, jclass thisClass) {
-  juav_get_guidance_h_cmd_earth_x();
+  return juav_get_guidance_h_cmd_earth_x();
   }
 
 JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getGuidanceHCmdEarthY
   (JNIEnv *env, jclass thisClass) {
-  juav_get_guidance_h_cmd_earth_y();
+  return juav_get_guidance_h_cmd_earth_y();
   }
 
 JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getStabilizationAttSpQuatQi

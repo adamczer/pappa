@@ -3,6 +3,7 @@ package juav.autopilot.guidance;
 import juav.autopilot.stabilization.Stabilization;
 import juav.autopilot.telemetry.Telemetry;
 import ub.cse.juav.jni.tasks.NativeTasks;
+import ub.cse.juav.jni.tasks.NativeTasksWrapper;
 import ub.juav.airborne.math.structs.algebra.RMat;
 import ub.juav.airborne.math.structs.algebra.Vect3;
 
@@ -131,15 +132,15 @@ public class GuidanceV {
         } else {
             guidance_v_rc_zd_sp *= climb_scale;
         }
-        NativeTasks.setGuidanceVRcZdSp(guidance_v_rc_zd_sp);
-        NativeTasks.setGuidanceVRcDeltaT(guidance_v_rc_delta_t);
+        NativeTasksWrapper.setGuidanceVRcZdSp(guidance_v_rc_zd_sp);
+        NativeTasksWrapper.setGuidanceVRcDeltaT(guidance_v_rc_delta_t);
 //        System.out.println("guidance_v_rc_delta_t = "+ guidance_v_rc_delta_t);
 //        System.out.println("guidance_v_rc_zd_sp = "+ guidance_v_rc_zd_sp);
     }
 
     public void guidance_v_mode_changed(short new_mode)
     {
-//        NativeTasks.guidance_v_mode_changed_native(new_mode);
+//        NativeTasksWrapper.guidance_v_mode_changed_native(new_mode);
 //        if (new_mode == guidance_v_mode) {
 //            return;
 //        }
@@ -188,7 +189,7 @@ public class GuidanceV {
 
         guidance_v_mode = new_mode;
 
-        NativeTasks.setGuidanceVMode(new_mode);
+        NativeTasksWrapper.setGuidanceVMode(new_mode);
 
     }
 

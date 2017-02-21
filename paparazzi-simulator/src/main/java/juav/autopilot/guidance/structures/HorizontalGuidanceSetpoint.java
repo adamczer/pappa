@@ -1,6 +1,7 @@
 package juav.autopilot.guidance.structures;
 
 import ub.cse.juav.jni.tasks.NativeTasks;
+import ub.cse.juav.jni.tasks.NativeTasksWrapper;
 import ub.juav.airborne.math.structs.algebra.Vect2;
 
 /**
@@ -16,27 +17,27 @@ public class HorizontalGuidanceSetpoint {
 //    public int heading = 0;          ///< with #INT32_ANGLE_FRAC
     public Vect2<Integer> getPos() {
         Vect2<Integer> ret = Vect2.newIntVect2();
-        ret.setX(NativeTasks.getHorizantialGuidanceSetPointPosX());
-        ret.setY(NativeTasks.getHorizantialGuidanceSetPointPosY());
+        ret.setX(NativeTasksWrapper.getHorizantialGuidanceSetPointPosX());
+        ret.setY(NativeTasksWrapper.getHorizantialGuidanceSetPointPosY());
         return ret;
     }
     public void setPos(Vect2<Integer> newPos) {
-        NativeTasks.setHorizantialGuidanceSetPointPosX(newPos.getX());
-        NativeTasks.setHorizantialGuidanceSetPointPosY(newPos.getY());
+        NativeTasksWrapper.setHorizantialGuidanceSetPointPosX(newPos.getX());
+        NativeTasksWrapper.setHorizantialGuidanceSetPointPosY(newPos.getY());
     }
 
     public Vect2<Integer> getSpeed() {
         Vect2<Integer> ret = Vect2.newIntVect2();
-        ret.setX(NativeTasks.getHorizantialGuidanceSetPointSpeedX());
-        ret.setY(NativeTasks.getHorizantialGuidanceSetPointSpeedY());
+        ret.setX(NativeTasksWrapper.getHorizantialGuidanceSetPointSpeedX());
+        ret.setY(NativeTasksWrapper.getHorizantialGuidanceSetPointSpeedY());
         return ret;
     }
 
     public int getHeading() {
-        return NativeTasks.getHorizantialGuidanceHeading();
+        return NativeTasksWrapper.getHorizantialGuidanceHeading();
     }
 
     public void setHeading(int newHeading) {
-        NativeTasks.setHorizantialGuidanceHeading(newHeading);
+        NativeTasksWrapper.setHorizantialGuidanceHeading(newHeading);
     }
 }

@@ -1,6 +1,7 @@
 package juav.autopilot.commands;
 
 import ub.cse.juav.jni.tasks.NativeTasks;
+import ub.cse.juav.jni.tasks.NativeTasksWrapper;
 
 /**
  * Created by adamczer on 10/28/16.
@@ -20,7 +21,7 @@ public class Commands {
             setCommand(i,t[i]);
     }
     public static void setCommand(int commandIndex, int command) {
-        NativeTasks.setStabilizationCommand(commandIndex,command);
+        NativeTasksWrapper.setStabilizationCommand(commandIndex,command);
     }
 
     public static void SetRotorcraftCommands(int[] _cmd, boolean _in_flight,  boolean _motor_on) {

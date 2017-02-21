@@ -1,6 +1,6 @@
 package juav.simulator.time;
 
-import ub.cse.juav.jni.nps.PaparazziNps;
+import ub.cse.juav.jni.nps.PaparazziNpsWrapper;
 
 /**
  * Created by adamczer on 1/24/16.
@@ -15,7 +15,7 @@ public class TimeHandler implements ITimeHandler {
 
     @Override
     public double getTime() {
-        return PaparazziNps.getNpsMainSimTime();
+        return PaparazziNpsWrapper.getNpsMainSimTime();
     }
 
     @Override

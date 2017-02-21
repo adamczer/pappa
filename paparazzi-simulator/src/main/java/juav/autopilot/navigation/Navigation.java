@@ -2,6 +2,7 @@ package juav.autopilot.navigation;
 
 import juav.simulator.tasks.runonceevery.RunOnceEvery;
 import ub.cse.juav.jni.tasks.NativeTasks;
+import ub.cse.juav.jni.tasks.NativeTasksWrapper;
 import ub.juav.airborne.math.structs.geodetic.EnuCoor;
 
 /**
@@ -22,79 +23,79 @@ public class Navigation {
     public static final int NAV_FREQ = 16;
 
     public static float getDist2ToHome() {
-        return NativeTasks.navigationGetDist2ToHome();
+        return NativeTasksWrapper.navigationGetDist2ToHome();
     }
 
     public static boolean getTooFarFromHome() {
-        return NativeTasks.navigationGetTooFarFromHome();
+        return NativeTasksWrapper.navigationGetTooFarFromHome();
     }
 
     public static short getHorizantalMode() {
-        return NativeTasks.navigationGetHorizontalMode();
+        return NativeTasksWrapper.navigationGetHorizontalMode();
     }
 
     public static int getNavRoll() {
-        return NativeTasks.navigationGetNavRoll();
+        return NativeTasksWrapper.navigationGetNavRoll();
     }
 
     public static int getNavPitch() {
-        return NativeTasks.navigationGetNavPitch();
+        return NativeTasksWrapper.navigationGetNavPitch();
     }
 
     public static int getNavHeading() {
-        return NativeTasks.navigationGetNavHeading();
+        return NativeTasksWrapper.navigationGetNavHeading();
     }
 
     public static void setNavHeading(int newHeading) {
-        NativeTasks.navigationSetNavHeading(newHeading);
+        NativeTasksWrapper.navigationSetNavHeading(newHeading);
     }
 
     public static int getNavVerticleMode() {
-        return NativeTasks.navigationGetNavVerticleMode();
+        return NativeTasksWrapper.navigationGetNavVerticleMode();
     }
 
     public static int getNavClimb() {
-        return NativeTasks.navigationGetNavClimb();
+        return NativeTasksWrapper.navigationGetNavClimb();
     }
 
     public static int getNavFlightAltitude() {
-        return NativeTasks.navigationGetNavFlightAltitude();
+        return NativeTasksWrapper.navigationGetNavFlightAltitude();
     }
 
     public static int getNavThrottle() {
-        return NativeTasks.navigationGetNavThrottle();
+        return NativeTasksWrapper.navigationGetNavThrottle();
     }
 
     public static RunOnceEvery nav_periodic_task = new RunOnceEvery() {
         @Override
         protected void work() {
-            NativeTasks.navPeriodicTask();
+            NativeTasksWrapper.navPeriodicTask();
         }
     };
 
     public static RunOnceEvery nav_home = new RunOnceEvery() {
         @Override
         protected void work() {
-            NativeTasks.navHome();
+            NativeTasksWrapper.navHome();
         }
     };
 
     public static RunOnceEvery compute_dist2_to_home = new RunOnceEvery() {
         @Override
         protected void work() {
-            NativeTasks.computeDist2ToHome();
+            NativeTasksWrapper.computeDist2ToHome();
         }
     };
 
     public static void nav_init() {
-        NativeTasks.navInit();
+        NativeTasksWrapper.navInit();
     }
 
     public static EnuCoor<Integer> getNavigationCarrot() {
         EnuCoor<Integer> ret = EnuCoor.newInteger();
-        ret.setX(NativeTasks.getNavigationCarrotX());
-        ret.setY(NativeTasks.getNavigationCarrotY());
-        ret.setZ(NativeTasks.getNavigationCarrotZ());
+        ret.setX(NativeTasksWrapper.getNavigationCarrotX());
+        ret.setY(NativeTasksWrapper.getNavigationCarrotY());
+        ret.setZ(NativeTasksWrapper.getNavigationCarrotZ());
 //        System.out.println("NavigationCarrot x,y,z = "+ret.getX()+","+ret.getY()+","+ret.getZ());
         return ret;
     }

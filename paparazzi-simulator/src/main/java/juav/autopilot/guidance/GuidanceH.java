@@ -4,6 +4,7 @@ import juav.autopilot.guidance.structures.HorizantalGuidance;
 import juav.autopilot.guidance.structures.HorizontalGuidanceReference;
 import juav.autopilot.stabilization.Stabilization;
 import ub.cse.juav.jni.tasks.NativeTasks;
+import ub.cse.juav.jni.tasks.NativeTasksWrapper;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebraInt;
 import ub.juav.airborne.math.structs.algebra.Eulers;
 import ub.juav.airborne.math.structs.algebra.Vect2;
@@ -34,13 +35,13 @@ public class GuidanceH {
     private static HorizantalGuidance guidance_h;
     private Vect2<Integer> getGuidanceHCmdEarth() {
         Vect2<Integer> ret = Vect2.newIntVect2();
-        ret.x = NativeTasks.getGuidanceHCmdEarthX();
-        ret.y = NativeTasks.getGuidanceHCmdEarthY();
+        ret.x = NativeTasksWrapper.getGuidanceHCmdEarthX();
+        ret.y = NativeTasksWrapper.getGuidanceHCmdEarthY();
         return ret;
     }
     private void setGuidanceHCmdEarth(Vect2<Integer> newGuidanceHCmdEarth) {
-        NativeTasks.setGuidanceHCmdEarthX(newGuidanceHCmdEarth.getX());
-        NativeTasks.setGuidanceHCmdEarthY(newGuidanceHCmdEarth.getY());
+        NativeTasksWrapper.setGuidanceHCmdEarthX(newGuidanceHCmdEarth.getX());
+        NativeTasksWrapper.setGuidanceHCmdEarthY(newGuidanceHCmdEarth.getY());
     }
     private Vect2<Integer> guidance_h_pos_err;
     private Vect2<Integer> guidance_h_speed_err;
@@ -125,7 +126,7 @@ public class GuidanceH {
 
     public void guidance_h_traj_run(boolean inFlight)
     {
-//        NativeTasks.guidanceHTrajRun(inFlight);
+//        NativeTasksWrapper.guidanceHTrajRun(inFlight);
         Vect2<Integer> guidance_h_cmd_earth = Vect2.newIntVect2();
   /* maximum bank angle: default 20 deg, max 40 deg*/
         int traj_max_bank = Math.min(BFP_OF_REAL(GUIDANCE_H_MAX_BANK, INT32_ANGLE_FRAC),
@@ -214,7 +215,7 @@ public class GuidanceH {
 
     public void guidance_h_mode_changed(short new_mode)
     {
-//        NativeTasks.guidance_h_mode_changed_native(new_mode);
+//        NativeTasksWrapper.guidance_h_mode_changed_native(new_mode);
 //        if (new_mode == guidance_h.mode) {
 //            return;
 //        }
@@ -238,14 +239,14 @@ public class GuidanceH {
 
         guidance_h.mode = new_mode;
 
-        NativeTasks.setGuidanceHMode(new_mode);
+        NativeTasksWrapper.setGuidanceHMode(new_mode);
 
     }
 
 
     public void guidance_h_read_rc(boolean in_flight)
     {
-//        NativeTasks.guidanceHReadRc(in_flight);
+//        NativeTasksWrapper.guidanceHReadRc(in_flight);
         switch (guidance_h.mode) {
             case GUIDANCE_H_MODE_ATTITUDE: //TODO
                 stabilization_attitude_read_rc(in_flight, false, false);
@@ -295,7 +296,7 @@ public class GuidanceH {
                     stabilization_attitude_set_earth_cmd_i(getGuidanceHCmdEarth(),
                             newHeading);
                 }
-//                NativeTasks.guidanceHRunJuavCaseModeNav(in_flight);
+//                NativeTasksWrapper.guidanceHRunJuavCaseModeNav(in_flight);
                 stabilization_attitude_run(in_flight);
                 break;
 
@@ -352,7 +353,7 @@ public class GuidanceH {
 
     static void guidance_h_nav_enter()
     {
-//        NativeTasks.guidanceHNavEnter(); //test function
+//        NativeTasksWrapper.guidanceHNavEnter(); //test function
   /* horizontal position setpoint from navigation/flightplan */
         Vect2<Integer> newPos = Vect2.newIntVect2();
         INT32_VECT2_NED_OF_ENU(newPos, getNavigationCarrot());

@@ -3,8 +3,9 @@ package juav.simulator.tasks.sensors.device.jni;
 import juav.simulator.nps.random.NpsRandom;
 import juav.simulator.tasks.sensors.ISensor;
 import juav.simulator.tasks.sensors.readings.SonarReading;
+import ub.cse.juav.jni.fdm.FdmWrapper;
 import ub.cse.juav.jni.fdm.JniFdm;
-import ub.cse.juav.jni.nps.PaparazziNps;
+import ub.cse.juav.jni.nps.PaparazziNpsWrapper;
 
 /**
  * Created by adamczer on 5/25/16.
@@ -15,13 +16,13 @@ public class JniSonarSensor extends ISensor<SonarReading>{
     private static final double NPS_SONAR_DT = (1./10.);
     @Override
     protected void executePeriodic() {
-        double time = PaparazziNps.getNpsMainSimTime();
+        double time = PaparazziNpsWrapper.getNpsMainSimTime();
 
         if(time<data.getNext_update())
             return;
 
   /* agl in meters */
-        data.setValue(JniFdm.getFdmAgl()+data.getOffset());
+        data.setValue(FdmWrapper.getFdmAgl()+data.getOffset());
   /* add noise with std dev meters */
         data.setValue(data.getValue() + NpsRandom.get_gaussian_noise() * data.getNoise_std_dev());
 

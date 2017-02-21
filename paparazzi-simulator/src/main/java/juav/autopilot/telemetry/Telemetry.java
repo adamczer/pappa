@@ -1,6 +1,7 @@
 package juav.autopilot.telemetry;
 
 import ub.cse.juav.jni.tasks.NativeTasks;
+import ub.cse.juav.jni.tasks.NativeTasksWrapper;
 
 /**
  * Created by adamczer on 11/6/16.
@@ -57,91 +58,91 @@ public class Telemetry {
 
 
     public static void registerPeriodicTelemetrySendGh() {
-        NativeTasks.periodicTelemetrySendGh();
+        NativeTasksWrapper.periodicTelemetrySendGh();
     }
 
     public static void registerPeriodicTelemetrySendHoverLoop() {
-        NativeTasks.periodicTelemetrySendHoverLoop();
+        NativeTasksWrapper.periodicTelemetrySendHoverLoop();
     }
 
     public static void registerPeriodicTelemetrySendHref() {
-        NativeTasks.periodicTelemetrySendHref();
+        NativeTasksWrapper.periodicTelemetrySendHref();
     }
 
     public static void registerPeriodicTelemetrySendTuneHover() {
-        NativeTasks.periodicTelemetrySendTuneHover();
+        NativeTasksWrapper.periodicTelemetrySendTuneHover();
     }
 // Autopilot
     public static void registerPeriodicTelemetrySendAutopilotVersion() {
-        System.out.println("NativeTasks.periodicTelemetrySendAutopilotVersion()");
-        NativeTasks.periodicTelemetrySendAutopilotVersion();
+        System.out.println("NativeTasksWrapper.periodicTelemetrySendAutopilotVersion()");
+        NativeTasksWrapper.periodicTelemetrySendAutopilotVersion();
     }
 
     public static void registerPeriodicTelemetrySendAlive() {
-        NativeTasks.periodicTelemetrySendAlive();
+        NativeTasksWrapper.periodicTelemetrySendAlive();
     }
 
 
     public static void registerPeriodicTelemetrySendStatus() {
-        NativeTasks.periodicTelemetrySendStatus();
+        NativeTasksWrapper.periodicTelemetrySendStatus();
     }
 
     public static void registerPeriodicTelemetrySendAttitude() {
-        NativeTasks.periodicTelemetrySendAttitude();
+        NativeTasksWrapper.periodicTelemetrySendAttitude();
     }
 
     public static void registerPeriodicTelemetrySendEnergy() {
-        NativeTasks.periodicTelemetrySendEnergy();
+        NativeTasksWrapper.periodicTelemetrySendEnergy();
     }
 
     public static void registerPeriodicTelemetrySendFp() {
-        NativeTasks.periodicTelemetrySendFp();
+        NativeTasksWrapper.periodicTelemetrySendFp();
     }
 
     public static void registerPeriodicTelemetrySendRotorcraftCmd() {
-        NativeTasks.periodicTelemetrySendRotorcraftCmd();
+        NativeTasksWrapper.periodicTelemetrySendRotorcraftCmd();
     }
 
     public static void registerPeriodicTelemetrySendDlValue() {
-        NativeTasks.periodicTelemetrySendDlValue();
+        NativeTasksWrapper.periodicTelemetrySendDlValue();
     }
 
     public static void registerPeriodicTelemetrySendActuators() {
-        NativeTasks.periodicTelemetrySendActuators();
+        NativeTasksWrapper.periodicTelemetrySendActuators();
     }
 
     public static void registerPeriodicTelemetrySendRc() {
-        NativeTasks.periodicTelemetrySendRc();
+        NativeTasksWrapper.periodicTelemetrySendRc();
     }
 
     public static void registerPeriodicTelemetrySendRotorcraftRc() {
-        NativeTasks.periodicTelemetrySendRotorcraftRc();
+        NativeTasksWrapper.periodicTelemetrySendRotorcraftRc();
     }
 //Guidance V
     public static void registerPeriodicTelemetrySendVertLoop() {
-        NativeTasks.periodicTelemetrySendVertLoop();
+        NativeTasksWrapper.periodicTelemetrySendVertLoop();
     }
 
     public static void registerPeriodicTelemetrySendTuneVert() {
-        NativeTasks.periodicTelemetrySendTuneVert();
+        NativeTasksWrapper.periodicTelemetrySendTuneVert();
     }
 //    Stabiliztaion Attitude Quat Int
 
     public static void registerPeriodicTelemetrySendAtt() {
-        NativeTasks.periodicTelemetrySendAtt();
+        NativeTasksWrapper.periodicTelemetrySendAtt();
     }
 
     public static void registerPeriodicTelemetrySendAttRef() {
-        NativeTasks.periodicTelemetrySendAttRef();
+        NativeTasksWrapper.periodicTelemetrySendAttRef();
     }
 
     public static void registerPeriodicTelemetrySendAhrsRefQuat() {
-        NativeTasks.periodicTelemetrySendAhrsRefQuat();
+        NativeTasksWrapper.periodicTelemetrySendAhrsRefQuat();
     }
 
 // Stabilization Rate
     public static void registerPeriodicTelemetrySendRate() {
-        NativeTasks.periodicTelemetrySendRate();
+        NativeTasksWrapper.periodicTelemetrySendRate();
     }
 
 }

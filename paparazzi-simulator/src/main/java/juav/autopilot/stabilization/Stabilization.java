@@ -1,6 +1,7 @@
 package juav.autopilot.stabilization;
 
 import ub.cse.juav.jni.tasks.NativeTasks;
+import ub.cse.juav.jni.tasks.NativeTasksWrapper;
 
 /**
  * Created by adamczer on 10/28/16.
@@ -20,11 +21,11 @@ public class Stabilization {
     }
 
     public static void setStabilizationCommand(int index, int newValue) {
-        NativeTasks.setStabilizationCmd(index,newValue);
+        NativeTasksWrapper.setStabilizationCmd(index,newValue);
     }
 
     public static int getStabilizationCommand(int index) {
-        return NativeTasks.getStabilizationCmd(index);
+        return NativeTasksWrapper.getStabilizationCmd(index);
     }
 
 }

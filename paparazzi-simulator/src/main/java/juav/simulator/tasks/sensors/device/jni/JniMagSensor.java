@@ -2,8 +2,9 @@ package juav.simulator.tasks.sensors.device.jni;
 
 import juav.simulator.tasks.sensors.ISensor;
 import juav.simulator.tasks.sensors.readings.MagneticReading;
+import ub.cse.juav.jni.fdm.FdmWrapper;
 import ub.cse.juav.jni.fdm.JniFdm;
-import ub.cse.juav.jni.nps.PaparazziNps;
+import ub.cse.juav.jni.nps.PaparazziNpsWrapper;
 import ub.cse.juav.jni.tasks.NativeTasks;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebra;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebraDouble;
@@ -55,8 +56,8 @@ public class JniMagSensor extends ISensor<MagneticReading> {
     @Override
     protected void executePeriodic() {
 
-        double time = PaparazziNps.getNpsMainSimTime();
-//        NativeTasks.npsSensorFdmCopyMag(time);
+        double time = PaparazziNpsWrapper.getNpsMainSimTime();
+//        NativeTasksWrapper.npsSensorFdmCopyMag(time);
 
         if(time<data.getNext_update()) {
             return;
@@ -66,19 +67,19 @@ public class JniMagSensor extends ISensor<MagneticReading> {
         RMat<Double> bodyToImu = RMat.RMatDouble();
         for(int i = 0; i<3; i++)
             for(int j = 0; j<3 ; j++)
-                bodyToImu.setElement(JniFdm.getFdmBodyToImu(i,j),i,j);
+                bodyToImu.setElement(FdmWrapper.getFdmBodyToImu(i,j),i,j);
 
   /* transform magnetic field to body frame */
 
         Quat<Double> fdmLtpToBodyQuat = new Quat<>();
-        fdmLtpToBodyQuat.setQi(JniFdm.getFdmLtpToBodyQuatQi());
-        fdmLtpToBodyQuat.setQx(JniFdm.getFdmLtpToBodyQuatQx());
-        fdmLtpToBodyQuat.setQy(JniFdm.getFdmLtpToBodyQuatQy());
-        fdmLtpToBodyQuat.setQz(JniFdm.getFdmLtpToBodyQuatQz());
+        fdmLtpToBodyQuat.setQi(FdmWrapper.getFdmLtpToBodyQuatQi());
+        fdmLtpToBodyQuat.setQx(FdmWrapper.getFdmLtpToBodyQuatQx());
+        fdmLtpToBodyQuat.setQy(FdmWrapper.getFdmLtpToBodyQuatQy());
+        fdmLtpToBodyQuat.setQz(FdmWrapper.getFdmLtpToBodyQuatQz());
         Vect3<Double> fdmLptH = new Vect3<>();
-        fdmLptH.setX(JniFdm.getFdmLtpHX());
-        fdmLptH.setY(JniFdm.getFdmLtpHY());
-        fdmLptH.setZ(JniFdm.getFdmLtpHZ());
+        fdmLptH.setX(FdmWrapper.getFdmLtpHX());
+        fdmLptH.setY(FdmWrapper.getFdmLtpHY());
+        fdmLptH.setZ(FdmWrapper.getFdmLtpHZ());
 
         Vect3<Double> hBody = new Vect3<>();
         PprzAlgebraDouble.double_quat_vmult(hBody, fdmLtpToBodyQuat, fdmLptH);
@@ -107,7 +108,7 @@ public class JniMagSensor extends ISensor<MagneticReading> {
 
     @Override
     public void init() {
-//        NativeTasks.npsSensorInitMag(0);
+//        NativeTasksWrapper.npsSensorInitMag(0);
         data = new MagneticReading();
 
         Vect3<Double> value = new Vect3<>();

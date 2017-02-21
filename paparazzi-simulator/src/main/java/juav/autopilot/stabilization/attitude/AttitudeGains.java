@@ -1,6 +1,7 @@
 package juav.autopilot.stabilization.attitude;
 
 import ub.cse.juav.jni.tasks.NativeTasks;
+import ub.cse.juav.jni.tasks.NativeTasksWrapper;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebra;
 import ub.juav.airborne.math.structs.algebra.Vect3;
 
@@ -60,18 +61,18 @@ public class AttitudeGains<T extends Number> {
 
     public static AttitudeGains<Integer> getIntegerFromJni() {
         AttitudeGains<Integer> gains = newInteger();
-        gains.p.setX(NativeTasks.getAttitudeGainPX());
-        gains.p.setY(NativeTasks.getAttitudeGainPY());
-        gains.p.setZ(NativeTasks.getAttitudeGainPZ());
-        gains.d.setX(NativeTasks.getAttitudeGainDX());
-        gains.d.setY(NativeTasks.getAttitudeGainDY());
-        gains.d.setZ(NativeTasks.getAttitudeGainDZ());
-        gains.dd.setX(NativeTasks.getAttitudeGainDdX());
-        gains.dd.setY(NativeTasks.getAttitudeGainDdY());
-        gains.dd.setZ(NativeTasks.getAttitudeGainDdZ());
-        gains.i.setX(NativeTasks.getAttitudeGainIX());
-        gains.i.setY(NativeTasks.getAttitudeGainIY());
-        gains.i.setZ(NativeTasks.getAttitudeGainIZ());
+        gains.p.setX(NativeTasksWrapper.getAttitudeGainPX());
+        gains.p.setY(NativeTasksWrapper.getAttitudeGainPY());
+        gains.p.setZ(NativeTasksWrapper.getAttitudeGainPZ());
+        gains.d.setX(NativeTasksWrapper.getAttitudeGainDX());
+        gains.d.setY(NativeTasksWrapper.getAttitudeGainDY());
+        gains.d.setZ(NativeTasksWrapper.getAttitudeGainDZ());
+        gains.dd.setX(NativeTasksWrapper.getAttitudeGainDdX());
+        gains.dd.setY(NativeTasksWrapper.getAttitudeGainDdY());
+        gains.dd.setZ(NativeTasksWrapper.getAttitudeGainDdZ());
+        gains.i.setX(NativeTasksWrapper.getAttitudeGainIX());
+        gains.i.setY(NativeTasksWrapper.getAttitudeGainIY());
+        gains.i.setZ(NativeTasksWrapper.getAttitudeGainIZ());
         return gains;
     }
 }

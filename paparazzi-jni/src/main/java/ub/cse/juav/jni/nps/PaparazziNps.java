@@ -4,6 +4,7 @@ package ub.cse.juav.jni.nps;
  * Created by adamczer on 4/9/16.
  */
 public class PaparazziNps {
+
     public static native void npsInit();
 
     public static native void npsMainPeriodicJuavNative();
@@ -30,6 +31,7 @@ public class PaparazziNps {
 
 
     // mainEvent function located within the rotorcraft`s main.c
+
     public static native void mainEvent(); //full main event
 
     public static native void mainEventPrior(); //beginning main event up to autopilot rc
