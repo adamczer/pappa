@@ -7,6 +7,7 @@ import ub.cse.juav.jni.fdm.FdmWrapper;
 import ub.cse.juav.jni.fdm.JniFdm;
 import ub.cse.juav.jni.nps.PaparazziNpsWrapper;
 import ub.cse.juav.jni.tasks.NativeTasks;
+import ub.cse.juav.jni.tasks.NativeTasksWrapper;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebra;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebraDouble;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebraInt;
@@ -53,16 +54,16 @@ public class JniAccelSensor extends ISensor<AccelerometerReading> {
     private static final double NPS_ACCEL_NOISE_STD_DEV_Y = 5.e-2;
     private static final double NPS_ACCEL_NOISE_STD_DEV_Z = 5.e-2;
     ///* ms-2 */
-    private static final double NPS_ACCEL_BIAS_X = 0;
-    private static final double NPS_ACCEL_BIAS_Y = 0;
-    private static final double NPS_ACCEL_BIAS_Z = 0;
+    private static final double NPS_ACCEL_BIAS_X = 0.05;
+    private static final double NPS_ACCEL_BIAS_Y = 0.05;
+    private static final double NPS_ACCEL_BIAS_Z = 0.05;
     ///* s */
     private static final double NPS_ACCEL_DT = (1. / 512.);
 
     @Override
     protected void executePeriodic() {
         double time = PaparazziNpsWrapper.getNpsMainSimTime();
-//        NativeTasksWrapper.npsSensorFdmCopyAccel(time);
+//        NativeTasksWrapper.npsSensorFdmCopyAccel(time); if (true)return;
 
         if(time<data.getNext_update()) {
             return;

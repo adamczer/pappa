@@ -6,6 +6,7 @@ import ub.cse.juav.jni.fdm.FdmWrapper;
 import ub.cse.juav.jni.fdm.JniFdm;
 import ub.cse.juav.jni.nps.PaparazziNpsWrapper;
 import ub.cse.juav.jni.tasks.NativeTasks;
+import ub.cse.juav.jni.tasks.NativeTasksWrapper;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebra;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebraDouble;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebraInt;
@@ -20,13 +21,13 @@ public class JniMagSensor extends ISensor<MagneticReading> {
     private static final double IMU_MAG_Y_SIGN = -1;
     private static final double IMU_MAG_Z_SIGN = 1;
 
-    private static final double IMU_MAG_X_SENS =4.17334785618;//airframe.h
-    private static final double IMU_MAG_Y_SENS =3.98885954135;//airframe.h
-    private static final double IMU_MAG_Z_SENS =4.40442339014;//airframe.h
+    private static final double IMU_MAG_X_SENS =4.359;//airframe.h
+    private static final double IMU_MAG_Y_SENS =4.359;//airframe.h
+    private static final double IMU_MAG_Z_SENS =4.359;//airframe.h
 
-    private static final int IMU_MAG_X_NEUTRAL =-179;//airframe.h
-    private static final int IMU_MAG_Y_NEUTRAL =-21;//airframe.h
-    private static final int IMU_MAG_Z_NEUTRAL =79;//airframe.h
+    private static final int IMU_MAG_X_NEUTRAL =0;//airframe.h
+    private static final int IMU_MAG_Y_NEUTRAL =0;//airframe.h
+    private static final int IMU_MAG_Z_NEUTRAL =-180;//airframe.h
 
     /*
  *  Magnetometer
@@ -57,7 +58,7 @@ public class JniMagSensor extends ISensor<MagneticReading> {
     protected void executePeriodic() {
 
         double time = PaparazziNpsWrapper.getNpsMainSimTime();
-//        NativeTasksWrapper.npsSensorFdmCopyMag(time);
+//        NativeTasksWrapper.npsSensorFdmCopyMag(time); if (true) return;
 
         if(time<data.getNext_update()) {
             return;

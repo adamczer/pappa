@@ -7,6 +7,7 @@ import ub.cse.juav.jni.fdm.FdmWrapper;
 import ub.cse.juav.jni.fdm.JniFdm;
 import ub.cse.juav.jni.nps.PaparazziNpsWrapper;
 import ub.cse.juav.jni.tasks.NativeTasks;
+import ub.cse.juav.jni.tasks.NativeTasksWrapper;
 import ub.juav.airborne.math.functions.isa.Pprz_isa;
 
 /**
@@ -19,7 +20,7 @@ public class JniBaroSensor extends ISensor<BarometricReading> {
     protected void executePeriodic() {
         double time = PaparazziNpsWrapper.getNpsMainSimTime();
 
-//        NativeTasksWrapper.npsSensorFdmCopyBaro(time);
+//        NativeTasksWrapper.npsSensorFdmCopyBaro(time);if (true)return;
         if(time<data.getNext_update()) {
             return;
         }

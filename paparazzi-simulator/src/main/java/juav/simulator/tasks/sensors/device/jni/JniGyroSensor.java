@@ -7,6 +7,7 @@ import ub.cse.juav.jni.fdm.FdmWrapper;
 import ub.cse.juav.jni.fdm.JniFdm;
 import ub.cse.juav.jni.nps.PaparazziNpsWrapper;
 import ub.cse.juav.jni.tasks.NativeTasks;
+import ub.cse.juav.jni.tasks.NativeTasksWrapper;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebra;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebraDouble;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebraInt;
@@ -52,7 +53,7 @@ public class JniGyroSensor extends ISensor<GyroReading> {
     @Override
     protected void executePeriodic() {
         double time = PaparazziNpsWrapper.getNpsMainSimTime();
-//        NativeTasksWrapper.npsSensorFdmCopyGyro(time);
+//        NativeTasksWrapper.npsSensorFdmCopyGyro(time);if (true)return;
 
         if(time<data.getNext_update()) {
             return;

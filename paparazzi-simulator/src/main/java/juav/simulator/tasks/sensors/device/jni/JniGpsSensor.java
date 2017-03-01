@@ -8,6 +8,7 @@ import ub.cse.juav.jni.fdm.JniFdm;
 import ub.cse.juav.jni.gps.GpsNative;
 import ub.cse.juav.jni.nps.PaparazziNpsWrapper;
 import ub.cse.juav.jni.tasks.NativeTasks;
+import ub.cse.juav.jni.tasks.NativeTasksWrapper;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebra;
 import ub.juav.airborne.math.functions.geodetic.PprzGeodeticDouble;
 import ub.juav.airborne.math.structs.algebra.Vect3;
@@ -36,7 +37,7 @@ public class JniGpsSensor extends ISensor<GpsReading> {
     @Override
     protected void executePeriodic() {
         double time = PaparazziNpsWrapper.getNpsMainSimTime();
-//        NativeTasksWrapper.npsSensorFdmCopyGps(time);
+//        NativeTasksWrapper.npsSensorFdmCopyGps(time);if(true)return;
 
         if (time < data.getNext_update()) {
             return;
