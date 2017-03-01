@@ -5,25 +5,21 @@ import juav.autopilot.stabilization.attitude.AttitudeRef;
 import juav.autopilot.stabilization.attitude.StabilizationCommand;
 import juav.autopilot.state.State;
 import juav.autopilot.telemetry.Telemetry;
-import ub.cse.juav.jni.tasks.NativeTasks;
 import ub.cse.juav.jni.tasks.NativeTasksWrapper;
-import ub.juav.airborne.math.functions.algebra.PprzAlgebra;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebraInt;
 import ub.juav.airborne.math.structs.algebra.Eulers;
 import ub.juav.airborne.math.structs.algebra.Quat;
 import ub.juav.airborne.math.structs.algebra.Rates;
 import ub.juav.airborne.math.structs.algebra.Vect2;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.lang.management.ManagementFactory;
 
 import static juav.autopilot.guidance.GuidanceH.MAX_PPRZ;
 import static juav.autopilot.stabilization.StabilizationAttitudeQuatTransformations.quat_from_earth_cmd_i;
 import static juav.autopilot.stabilization.StabilizationAttitudeRcSetpoint.stabilization_attitude_get_heading_i;
 import static juav.autopilot.stabilization.StabilizationAttitudeRcSetpoint.stabilization_attitude_read_rc_setpoint_quat_f;
-import static juav.autopilot.stabilization.StabilizationAttitudeRefQuatInt.attitude_ref_quat_int_enter;
-import static juav.autopilot.stabilization.StabilizationAttitudeRefQuatInt.attitude_ref_quat_int_init;
-import static juav.autopilot.stabilization.StabilizationAttitudeRefQuatInt.attitude_ref_quat_int_update;
+import static juav.autopilot.stabilization.StabilizationAttitudeRefQuatInt.*;
 import static juav.autopilot.stabilization.StabilizationRate.OFFSET_AND_ROUND;
 import static juav.autopilot.state.State.stateGetNedToBodyEulers_i;
 import static ub.juav.airborne.math.functions.algebra.PprzAlgebra.QUAT_BFP_OF_REAL;
@@ -85,8 +81,14 @@ public static Eulers<Integer> getStabilizationAttSpEuler() {
     public static AttitudeRef<Integer> att_ref_quat_i = AttitudeRef.newInteger();
     public static Quat<Integer> stabilization_att_sum_err_quat = Quat.newInteger();
 
+//    private static FileOutputStream timingLog;
     public static void stabilization_attitude_init()
     {
+//        try {
+//            timingLog = new FileOutputStream("stabilization_run.log");
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
         attitude_ref_quat_int_init(att_ref_quat_i);
 
         int32_quat_identity(stabilization_att_sum_err_quat);
@@ -118,15 +120,21 @@ public static Eulers<Integer> getStabilizationAttSpEuler() {
     }
 
     public static void stabilization_attitude_run(boolean enable_integrator) {
-//        NativeTasksWrapper.juavStabilizationAttitudeRunNative(enable_integrator);
+//        NativeTasksWrapper.juavStabilizationAttitudeRunNative(enable_integrator);if(true)return;
+        Quat<Integer> att_quat = State.getNedToBodyQuatI();
+        Rates<Integer> body_rate = State.stateGetBodyRates_i();
+        Quat<Integer> stab_att_sp_quat = getStabilizationAttSpQuat();
+        AttitudeRef<Integer> att_ref_quat_i = AttitudeRef.getIntegerFromJni();
+        AttitudeGains<Integer> stabilization_gains = AttitudeGains.getIntegerFromJni();
+//        long start = System.nanoTime();
         /*
    * Update reference
    * Warning: dt is currently not used in the quat_int ref impl
    * PERIODIC_FREQUENCY is assumed to be 512Hz
    */
         float dt = (1.f/PERIODIC_FREQUENCY);
-        Quat<Integer> stab_att_sp_quat = getStabilizationAttSpQuat();
-        AttitudeRef<Integer> att_ref_quat_i = AttitudeRef.getIntegerFromJni();
+//        Quat<Integer> stab_att_sp_quat = getStabilizationAttSpQuat();
+//        AttitudeRef<Integer> att_ref_quat_i = AttitudeRef.getIntegerFromJni();
         attitude_ref_quat_int_update(att_ref_quat_i, stab_att_sp_quat, dt);
 
 //        System.out.println("stab_att_sp_quat qi,qx,qy,qz = "+
@@ -134,14 +142,14 @@ public static Eulers<Integer> getStabilizationAttSpEuler() {
 //                stab_att_sp_quat.qx+","+
 //                stab_att_sp_quat.qy+","+
 //                stab_att_sp_quat.qz);
-        setStabilizationAttSpQuat(stab_att_sp_quat);
+//        setStabilizationAttSpQuat(stab_att_sp_quat);
 
   /*
    * Compute errors for feedback
    */
 
   /* attitude error                          */
-        Quat<Integer> att_quat = State.getNedToBodyQuatI();
+//        Quat<Integer> att_quat = State.getNedToBodyQuatI();
 //        System.out.println(att_quat);
         Quat<Integer> att_err = Quat.newInteger();
         PprzAlgebraInt.int32_quat_inv_comp(att_err, att_quat, att_ref_quat_i.getQuat());
@@ -157,7 +165,7 @@ public static Eulers<Integer> getStabilizationAttSpEuler() {
                 OFFSET_AND_ROUND(att_ref_quat_i.rate.r, (REF_RATE_FRAC - INT32_RATE_FRAC))
         );
         Rates<Integer> rate_err = Rates.newInteger();
-        Rates<Integer> body_rate = State.stateGetBodyRates_i();
+//        Rates<Integer> body_rate = State.stateGetBodyRates_i();
         RATES_DIFF(rate_err, rate_ref_scaled, (body_rate));
 
         int INTEGRATOR_BOUND = 100000;
@@ -176,7 +184,7 @@ public static Eulers<Integer> getStabilizationAttSpEuler() {
 
   /* compute the feed forward command */
         StabilizationCommand<Integer> stabilization_att_ff_cmd = StabilizationCommand.newInteger();
-        AttitudeGains<Integer> stabilization_gains = AttitudeGains.getIntegerFromJni();
+//        AttitudeGains<Integer> stabilization_gains = AttitudeGains.getIntegerFromJni();
         attitude_run_ff(stabilization_att_ff_cmd, stabilization_gains, att_ref_quat_i.accel);
 //        System.out.println("Stabilization Cmd roll,pitch,yaw = "+stabilization_att_ff_cmd.getRoll()+","+stabilization_att_ff_cmd.getPitch()+", "+stabilization_att_ff_cmd.getYaw());
 //        System.out.println("att_ref_quat_i.accel p,q,r = "+att_ref_quat_i.accel.p+","+att_ref_quat_i.accel.q+","+att_ref_quat_i.accel.r);
@@ -194,6 +202,14 @@ public static Eulers<Integer> getStabilizationAttSpEuler() {
         stabilization_cmd.setRoll(BoundAbs(stabilization_cmd.getRoll(), MAX_PPRZ));
         stabilization_cmd.setPitch(BoundAbs(stabilization_cmd.getPitch(), MAX_PPRZ));
         stabilization_cmd.setYaw(BoundAbs(stabilization_cmd.getYaw(), MAX_PPRZ));
+//        long end = System.nanoTime();
+//        try {
+//            timingLog.write(((end - start) + "\n").getBytes());
+//            timingLog.flush();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+        setStabilizationAttSpQuat(stab_att_sp_quat);
         sendResultsBack(stabilization_att_sum_err_quat,att_ref_quat_i,stabilization_cmd);
     }
 
@@ -264,7 +280,7 @@ public static Eulers<Integer> getStabilizationAttSpEuler() {
 
     public static void stabilization_attitude_set_rpy_setpoint_i(Eulers<Integer> rpy)//TODO PORT
     {
-//        setStabilizationAttitudeSetRpySetpointINative(rpy);
+//        setStabilizationAttitudeSetRpySetpointINative(rpy); if(true)return;
 
 //  printf("stabilization_attitude_set_rpy_setpoint_i\n");
         // stab_att_sp_euler.psi still used in ref..
@@ -329,6 +345,5 @@ public static Eulers<Integer> getStabilizationAttSpEuler() {
                 stabilization_cmd.getPitch(),
                 stabilization_cmd.getRoll()
         );
-
     }
 }

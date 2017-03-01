@@ -12,6 +12,8 @@ unzip paparazzi-jni-1.0-SNAPSHOT.jar
 rm -rf META-INF
 unzip paparazzi-nps-1.0-SNAPSHOT.jar
 rm -rf META-INF
+cp /home/adamczer/juav/fiji/fivm/lib/rtsj.jar .
+unzip rtsj.jar
 cd ..
 mkdir build
 find juav-jars/ -name \*.class -exec cp {} build/ \;
@@ -50,6 +52,10 @@ cp $PAPARAZZI_HOME/sw/airborne/firmwares/rotorcraft/stabilization/stabilization_
 --extra-include-dir $PAPARAZZI_HOME/var/include/ \
 --extra-include-dir $PAPARAZZI_HOME/var/aircrafts/Quad_LisaM_2/nps/ \
 --extra-include-dir $PAPARAZZI_HOME/sw/airborne/modules/ \
+--more-opt \
+--c-opt SPEED \
+--g-def-max-mem 8601560 \
+--gc CMR  \
 --link-dir /home/adamczer/juav/working-code-02-13-2017/juav-autopilot-fiji/juav-fiji/libs -o JuavFiji ./build/*.class --extra-include 'nps_main.h' --link-dynamic pprz --extra-include 'nps_autopilot.h' --link-dynamic pprz --extra-include 'nps_fdm.h' --link-dynamic pprz --extra-include 'autopilot.h' --link-dynamic pprz --extra-include 'stabilization_attitude_quat_int.h' --link-dynamic pprz
 export LD_LIBRARY_PATH=/lib:/usr/lib:/usr/local/lib
 sudo cp libs/libpprz.so /usr/local/lib/

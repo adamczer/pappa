@@ -145,6 +145,8 @@ public class GuidanceHRef {
     public static void gh_update_ref_from_pos_sp(Vect2<Integer> pos_sp)
     {
 
+//        System.out.println("J gh_ref.pos x,y= "+gh_ref.pos.x+","+gh_ref.pos.y);
+//        System.out.println("J gh_ref.speed x,y= "+gh_ref.speed.x+","+gh_ref.speed.y);
         VECT2_ADD(gh_ref.pos, gh_ref.speed);
         VECT2_ADD(gh_ref.speed, gh_ref.accel);
 

@@ -8,6 +8,10 @@ import ub.cse.juav.jni.nps.PaparazziNpsWrapper;
 import ub.cse.juav.jni.tasks.NativeTasks;
 import ub.cse.juav.jni.tasks.NativeTasksWrapper;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 /**
  * Created by adamczer on 5/30/16.
  */
@@ -85,14 +89,22 @@ public class NpsAutoPilotRotorCraft extends PeriodicTask {
             main_event();
             gpsSensor.getData().setData_available(false);
         }
+
         NativeTasksWrapper.npsAutopilotRunStepOverwriteAhrs();
         NativeTasksWrapper.npsAutopilotRunStepOverwriteIns();
 /***************************************************************/
+        long mainPeriodicStart = System.nanoTime();
         if(NativeTasksWrapper.sysTimeCheckAndAckTimerMainPeriodicJuav()) {
             newControlLoop();
             NativeTasksWrapper.mainPeriodicJuavAutopilotPost();
             NativeTasksWrapper.handlePeriodicTasksFollowingMainPeriodicJuav();
             NativeTasksWrapper.npsAutopilotRunStepConvertMotorMixingCommandsToAutopilotCommands();
+        }
+        long mainPeriodicEnd = System.nanoTime();
+        try {
+            fis.write((""+(iterationCount++)+" "+mainPeriodicStart+" "+mainPeriodicEnd+" "+(mainPeriodicEnd-mainPeriodicStart)+"\n").getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 //        oldControlLoop();
     }
@@ -127,9 +139,16 @@ public class NpsAutoPilotRotorCraft extends PeriodicTask {
 //        PaparazziNpsWrapper.mainEvent();
     }
 
-
+    private FileOutputStream fis;
+    private long iterationCount;
     @Override
     public void init() {
+        iterationCount =0;
+        try {
+            fis = new FileOutputStream("main_periodic.log");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         autopilot = new Autopilot();
         autopilot.autopilot_init();
     }

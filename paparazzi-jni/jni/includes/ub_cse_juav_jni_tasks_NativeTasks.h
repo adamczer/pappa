@@ -1943,6 +1943,14 @@ JNIEXPORT jint JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_getAttitudeRefSatu
 JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_guidanceHRunJuavCaseModeNav
   (JNIEnv *, jclass, jboolean);
 
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    ghUpdateRefFromPosSpJuav
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_ghUpdateRefFromPosSpJuav
+  (JNIEnv *, jclass);
+
 #ifdef __cplusplus
 }
 #endif

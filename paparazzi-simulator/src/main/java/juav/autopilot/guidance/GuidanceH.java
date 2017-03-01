@@ -65,7 +65,7 @@ public class GuidanceH {
     private static final short GUIDANCE_H_MODE_MODULE   =   8;
     private static final short GUIDANCE_H_MODE_FLIP     =   9;
     private static final short GUIDANCE_H_MODE_GUIDED   =   10;
-    private boolean GUIDANCE_H_USE_REF = false;
+    private boolean GUIDANCE_H_USE_REF = true;
     private boolean GUIDANCE_H_APPROX_FORCE_BY_THRUST = false;
     private int GUIDANCE_H_PGAIN = 50;
     private int  GUIDANCE_H_DGAIN =100;
@@ -308,6 +308,7 @@ public class GuidanceH {
 
     public static void guidance_h_update_reference()
     {
+//        NativeTasksWrapper.guidanceHUpdateReference();if(true)return;//TODO fix me error...
   /* compute reference even if usage temporarily disabled via guidance_h_use_ref */
 //        #if GUIDANCE_H_USE_REF
 //        #if GUIDANCE_H_USE_SPEED_REF
@@ -349,11 +350,12 @@ public class GuidanceH {
             guidance_h.sp.setPos(newPos);
         }
 //        #endif
+//        NativeTasksWrapper.guidanceHUpdateReference();
     }
 
     static void guidance_h_nav_enter()
     {
-//        NativeTasksWrapper.guidanceHNavEnter(); //test function
+//        NativeTasksWrapper.guidanceHNavEnter();if(true)return; //test function
   /* horizontal position setpoint from navigation/flightplan */
         Vect2<Integer> newPos = Vect2.newIntVect2();
         INT32_VECT2_NED_OF_ENU(newPos, getNavigationCarrot());

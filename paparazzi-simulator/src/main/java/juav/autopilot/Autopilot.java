@@ -5,6 +5,10 @@ import juav.autopilot.state.State;
 import ub.cse.juav.jni.tasks.NativeTasks;
 import ub.cse.juav.jni.tasks.NativeTasksWrapper;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 import static juav.autopilot.AutopilotArmingYaw.autopilot_arming_check_motors_on;
 import static juav.autopilot.AutopilotArmingYaw.autopilot_arming_init;
 import static juav.autopilot.AutopilotRcHelpers.kill_switch_is_on;
@@ -26,6 +30,9 @@ import static juav.autopilot.stabilization.StabilizationRate.stabilization_rate_
  * Created by adamczer on 11/29/16.
  */
 public class Autopilot {
+    FileOutputStream autoPilotPeriodicLog;
+    FileOutputStream guidanceHRunLog;
+    FileOutputStream guidanceVRunLog;
     public static final short AP_MODE_KILL =             0;
     public static final short AP_MODE_FAILSAFE         = 1;
     public static final short AP_MODE_HOME            =  2;
@@ -217,9 +224,19 @@ public class Autopilot {
     }*/
     //// Above must be in c ^^
 
-
+    private int autopilotIterCount;
     public void autopilot_init()//TODO PORT
     {
+        autopilotIterCount=0;
+        try {
+            autoPilotPeriodicLog = new FileOutputStream("autopilot_periodic.log");
+            guidanceHRunLog = new FileOutputStream("guidance_h_run.log");
+            guidanceVRunLog = new FileOutputStream("guidance_v_run.log");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 //    printf("autopilot_init*********************************************************************************\n");
   /* mode is finally set at end of init if MODE_STARTUP is not KILL */
         autopilot_mode = AP_MODE_KILL;
@@ -291,6 +308,7 @@ public class Autopilot {
 
     void autopilot_periodic()
     {
+        long autopilotStart = System.nanoTime();
 //        System.out.println("autopilot_mode = "+autopilot_mode);
 
 //        RunOnceEvery(NAV_PRESCALER, compute_dist2_to_home()); // not needed
@@ -344,14 +362,22 @@ public class Autopilot {
    * If in FAILSAFE mode, run normal loops with failsafe attitude and
    * downwards velocity setpoints.
    */
+        long guidanceVRunStart = -1;
+        long guidanceHRunStart = -1;
+        long guidanceVRunEnd = -1;
+        long guidanceHRunEnd = -1;
         if (autopilot_mode == AP_MODE_KILL) {
             SetCommands(commands_failsafe);
         } else {
             boolean inFlight = getAutopilotInFlight();
 //            NativeTasksWrapper.guidanceVRunJuav(inFlight);
+            guidanceVRunStart = System.nanoTime();
             guidanceV.guidance_v_run(inFlight);
-//            NativeTasksWrapper.guidanceHRunNativeTestJuav(inFlight);
+            guidanceVRunEnd = System.nanoTime();
+            guidanceHRunStart = System.nanoTime();
             guidanceH.guidance_h_run(inFlight);//TODO
+//            NativeTasksWrapper.guidanceHRunNativeTestJuav(inFlight);
+            guidanceHRunEnd = System.nanoTime();
             NativeTasksWrapper.autopilotPeriodicPostJuav(); //->SetRotorcraftCommands(stabilization_cmd, getAutopilotInFlight(), getAutopilotMotorsOn());
 
 //            guidanceV.guidance_v_run(getAutopilotInFlight());
@@ -364,7 +390,35 @@ public class Autopilot {
 ////            System.out.println("Stabilzation Commands [0],[1],[2],[3] = "+stabilization_cmd[0]+", "+stabilization_cmd[1]+", "+stabilization_cmd[2]+", "+stabilization_cmd[3]+", ");
 //            SetRotorcraftCommands(stabilization_cmd, getAutopilotInFlight(), getAutopilotMotorsOn());
         }
+        long autopilotEnd = System.nanoTime();
+        if (guidanceHRunStart != -1) {
+            try {
+                guidanceHRunLog.write((autopilotIterCount+" "+(guidanceHRunEnd - guidanceHRunStart) + "\n").getBytes());
+                guidanceHRunLog.flush();
+                guidanceVRunLog.write((autopilotIterCount+" "+(guidanceVRunEnd - guidanceVRunStart) + "\n").getBytes());
+                guidanceVRunLog.flush();
 
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                guidanceHRunLog.write((autopilotIterCount+" "+(-1) + "\n").getBytes());
+                guidanceHRunLog.flush();
+                guidanceVRunLog.write((autopilotIterCount+" "+(-1) + "\n").getBytes());
+                guidanceVRunLog.flush();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        try {
+            autoPilotPeriodicLog.write((autopilotIterCount+" "+(autopilotEnd - autopilotStart) + "\n").getBytes());
+            autoPilotPeriodicLog.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        autopilotIterCount++;
     }
 
     public static boolean getAutopilotMotorsOn() {
