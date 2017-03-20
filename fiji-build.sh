@@ -12,7 +12,7 @@ unzip paparazzi-jni-1.0-SNAPSHOT.jar
 rm -rf META-INF
 unzip paparazzi-nps-1.0-SNAPSHOT.jar
 rm -rf META-INF
-cp /home/adamczer/juav/fiji/fivm/lib/rtsj.jar .
+cp $FIJI_HOME/lib/rtsj.jar .
 unzip rtsj.jar
 cd ..
 mkdir build
@@ -29,7 +29,7 @@ cp $PAPARAZZI_HOME/sw/simulator/nps/nps_fdm.h includes/
 cp $PAPARAZZI_HOME/sw/airborne/firmwares/rotorcraft/autopilot.h includes/
 cp $PAPARAZZI_HOME/sw/airborne/firmwares/rotorcraft/stabilization/stabilization_attitude_quat_int.h includes/
 $FIJI_HOME/bin/fivmc \
---extra-include-dir /home/adamczer/juav/working-code-02-13-2017/juav-autopilot-fiji/juav-fiji/includes \
+--extra-include-dir includes \
 --extra-include-dir $PAPARAZZI_HOME/modules \
 --extra-include-dir $PAPARAZZI_HOME/arch/sim/modules \
 --extra-include-dir $PAPARAZZI_HOME/sw/include/ \
