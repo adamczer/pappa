@@ -1,9 +1,9 @@
 package juav.autopilot.guidance;
 
+import juav.logging.JiveStateLog;
 import juav.autopilot.guidance.structures.HorizantalGuidance;
 import juav.autopilot.guidance.structures.HorizontalGuidanceReference;
 import juav.autopilot.stabilization.Stabilization;
-import ub.cse.juav.jni.tasks.NativeTasks;
 import ub.cse.juav.jni.tasks.NativeTasksWrapper;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebraInt;
 import ub.juav.airborne.math.structs.algebra.Eulers;
@@ -86,6 +86,7 @@ public class GuidanceH {
         thrust_cmd_filt = 0;
         guidance_h = new HorizantalGuidance();
         guidance_h.mode = GUIDANCE_H_MODE_KILL;
+        JiveStateLog.setGuidanceHMode(GUIDANCE_H_MODE_KILL);
         guidance_h.use_ref = GUIDANCE_H_USE_REF;
         guidance_h.approx_force_by_thrust = GUIDANCE_H_APPROX_FORCE_BY_THRUST;
 //        INT_VECT2_ZERO(guidance_h.sp.pos);
@@ -240,6 +241,7 @@ public class GuidanceH {
         guidance_h.mode = new_mode;
 
         NativeTasksWrapper.setGuidanceHMode(new_mode);
+        JiveStateLog.setGuidanceHMode(new_mode);
 
     }
 

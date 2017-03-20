@@ -1,6 +1,6 @@
 package juav.autopilot;
 
-import ub.cse.juav.jni.tasks.NativeTasks;
+import juav.logging.JiveStateLog;
 import ub.cse.juav.jni.tasks.NativeTasksWrapper;
 
 import static juav.autopilot.Autopilot.*;
@@ -12,7 +12,7 @@ import static juav.autopilot.AutopilotRcHelpers.*;
  */
 public class AutopilotArmingYaw {
 
-    enum arming_state {
+    public enum arming_state {
         STATUS_INITIALISE_RC,
         STATUS_MOTORS_AUTOMATICALLY_OFF,
         STATUS_MOTORS_AUTOMATICALLY_OFF_SAFETY_WAIT,
@@ -48,6 +48,7 @@ public class AutopilotArmingYaw {
     }
 
     static void setAutopilotCheckMotorStatus(arming_state newValue) {
+        JiveStateLog.setMotorStatus(newValue);
         NativeTasksWrapper.juavSetAutopilotCheckMotorStatus(newValue.ordinal());
     }
 

@@ -1,8 +1,7 @@
 package juav.autopilot;
 
-import juav.autopilot.stabilization.Stabilization;
+import juav.logging.JiveStateLog;
 import juav.autopilot.state.State;
-import ub.cse.juav.jni.tasks.NativeTasks;
 import ub.cse.juav.jni.tasks.NativeTasksWrapper;
 
 import java.io.FileNotFoundException;
@@ -13,14 +12,12 @@ import static juav.autopilot.AutopilotArmingYaw.autopilot_arming_check_motors_on
 import static juav.autopilot.AutopilotArmingYaw.autopilot_arming_init;
 import static juav.autopilot.AutopilotRcHelpers.kill_switch_is_on;
 import static juav.autopilot.commands.Commands.SetCommands;
-import static juav.autopilot.commands.Commands.SetRotorcraftCommands;
 import static juav.autopilot.commands.Commands.commands_failsafe;
 import static juav.autopilot.guidance.GuidanceH.*;
 import static juav.autopilot.guidance.GuidanceV.*;
 import static juav.autopilot.navigation.Navigation.*;
 import static juav.autopilot.radiocontrol.RadioControl.RADIO_MODE;
 import static juav.autopilot.radiocontrol.RadioControl.radio_control;
-import static juav.autopilot.stabilization.Stabilization.stabilization_init;
 import static juav.autopilot.stabilization.StabilizationAttitudeQuatInt.PERIODIC_FREQUENCY;
 import static juav.autopilot.stabilization.StabilizationAttitudeQuatInt.stabilization_attitude_init;
 import static juav.autopilot.stabilization.StabilizationNone.stabilization_none_init;
@@ -240,6 +237,7 @@ public class Autopilot {
 //    printf("autopilot_init*********************************************************************************\n");
   /* mode is finally set at end of init if MODE_STARTUP is not KILL */
         autopilot_mode = AP_MODE_KILL;
+        JiveStateLog.setAutopilotMode(AP_MODE_KILL);
 //        autopilot_motors_on = false;
         kill_throttle = ! getAutopilotMotorsOn();
 //        autopilot_in_flight = false; //todo modified by c commands
@@ -549,6 +547,7 @@ public class Autopilot {
             autopilot_mode = new_autopilot_mode;
 
             NativeTasksWrapper.setAutopilotMode(new_autopilot_mode);
+            JiveStateLog.setAutopilotMode(new_autopilot_mode);
         }
 
     }
@@ -606,6 +605,7 @@ public class Autopilot {
 //    }
 
     public static void setAutopilotMotorsOn(boolean b) {
+        JiveStateLog.setMotorsOn(b);
         NativeTasksWrapper.juavSetAutopilotMotorsOn(b);
     }
 
@@ -695,7 +695,9 @@ public class Autopilot {
 
     static boolean ahrs_is_aligned()
     {
-        return State.stateIsAttitudeValid();
+        boolean ret = State.stateIsAttitudeValid();
+        JiveStateLog.setAhrsIsAligned(ret);
+        return ret;
     }
 
 }

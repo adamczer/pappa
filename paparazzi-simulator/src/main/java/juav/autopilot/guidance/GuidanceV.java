@@ -1,11 +1,10 @@
 package juav.autopilot.guidance;
 
+import juav.logging.JiveStateLog;
 import juav.autopilot.stabilization.Stabilization;
 import juav.autopilot.telemetry.Telemetry;
-import ub.cse.juav.jni.tasks.NativeTasks;
 import ub.cse.juav.jni.tasks.NativeTasksWrapper;
 import ub.juav.airborne.math.structs.algebra.RMat;
-import ub.juav.airborne.math.structs.algebra.Vect3;
 
 import static juav.autopilot.commands.Commands.COMMAND_THRUST;
 import static juav.autopilot.guidance.GuidanceH.MAX_PPRZ;
@@ -88,7 +87,7 @@ public class GuidanceV {
     }
     public void init() {
         guidance_v_mode = GUIDANCE_V_MODE_KILL;
-
+        JiveStateLog.setGuidanceVMode(GUIDANCE_V_MODE_KILL);
         guidance_v_kp = GUIDANCE_V_HOVER_KP;
         guidance_v_kd = GUIDANCE_V_HOVER_KD;
         guidance_v_ki = GUIDANCE_V_HOVER_KI;
@@ -190,6 +189,7 @@ public class GuidanceV {
         guidance_v_mode = new_mode;
 
         NativeTasksWrapper.setGuidanceVMode(new_mode);
+        JiveStateLog.setGuidanceVMode(new_mode);
 
     }
 
