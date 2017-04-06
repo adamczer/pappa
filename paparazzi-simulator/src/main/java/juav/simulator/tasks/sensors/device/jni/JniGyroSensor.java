@@ -1,5 +1,5 @@
 package juav.simulator.tasks.sensors.device.jni;
-
+import juav.logging.JiveStateLog;
 import juav.simulator.nps.random.NpsRandom;
 import juav.simulator.tasks.sensors.ISensor;
 import juav.simulator.tasks.sensors.readings.GyroReading;
@@ -52,6 +52,7 @@ public class JniGyroSensor extends ISensor<GyroReading> {
 
     @Override
     protected void executePeriodic() {
+    	JiveStateLog.setjniSensors("GyroSensor_execute_Periodic");
         double time = PaparazziNpsWrapper.getNpsMainSimTime();
 //        NativeTasksWrapper.npsSensorFdmCopyGyro(time);if (true)return;
 
@@ -102,6 +103,7 @@ public class JniGyroSensor extends ISensor<GyroReading> {
 
     @Override
     public void init() {
+    	JiveStateLog.setjniSensors("GyroSensor_init");
 //        NativeTasksWrapper.npsSensorInitGyro(0);
         data = new GyroReading();
         data.setMin(NPS_GYRO_MIN);

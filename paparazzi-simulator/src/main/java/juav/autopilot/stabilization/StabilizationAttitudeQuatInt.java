@@ -1,5 +1,5 @@
 package juav.autopilot.stabilization;
-
+import juav.logging.JiveStateLog;
 import juav.autopilot.stabilization.attitude.AttitudeGains;
 import juav.autopilot.stabilization.attitude.AttitudeRef;
 import juav.autopilot.stabilization.attitude.StabilizationCommand;
@@ -84,6 +84,7 @@ public static Eulers<Integer> getStabilizationAttSpEuler() {
 //    private static FileOutputStream timingLog;
     public static void stabilization_attitude_init()
     {
+    	JiveStateLog.setStabilizationAttitude("stabilization_attitude_init");
 //        try {
 //            timingLog = new FileOutputStream("stabilization_run.log");
 //        } catch (IOException e) {
@@ -106,6 +107,7 @@ public static Eulers<Integer> getStabilizationAttSpEuler() {
     }
 
     public static void stabilization_attitude_enter() {
+    	JiveStateLog.setStabilizationAttitude("stabilization_attitude_enter");
           /* reset psi setpoint to current psi angle */
         Eulers<Integer> stab_att_sp_euler = getStabilizationAttSpEuler();
         stab_att_sp_euler.psi = stabilization_attitude_get_heading_i();
@@ -120,6 +122,7 @@ public static Eulers<Integer> getStabilizationAttSpEuler() {
     }
 
     public static void stabilization_attitude_run(boolean enable_integrator) {
+    	JiveStateLog.setStabilizationAttitude("stabilization_attitude_run");
 //        NativeTasksWrapper.juavStabilizationAttitudeRunNative(enable_integrator);if(true)return;
         Quat<Integer> att_quat = State.getNedToBodyQuatI();
         Rates<Integer> body_rate = State.stateGetBodyRates_i();
@@ -262,6 +265,7 @@ public static Eulers<Integer> getStabilizationAttSpEuler() {
 
     public static void stabilization_attitude_read_rc(boolean in_flight, boolean in_carefree, boolean coordinated_turn)
     {
+    	JiveStateLog.setStabilizationAttitude("stabilization_atiitude_read_rc");
 //  printf("stabilization_attitude_read_rc\n");
         Quat<Float> q_sp = Quat.newFloat();
 //        #if USE_EARTH_BOUND_RC_SETPOINT
@@ -275,6 +279,7 @@ public static Eulers<Integer> getStabilizationAttSpEuler() {
     }
 
     public static void setStabilizationAttitudeSetRpySetpointINative(Eulers<Integer> rpy) {
+    	JiveStateLog.setStabilizationAttitude("set_stabilization_attitude_setRpy_setpoint_I");
         NativeTasksWrapper.setStabilizationAttitudeSetRpySetpointI(rpy.psi,rpy.phi,rpy.theta);
     }
 
@@ -293,6 +298,7 @@ public static Eulers<Integer> getStabilizationAttSpEuler() {
 
     public static void stabilization_attitude_set_earth_cmd_i(Vect2<Integer> cmd, int heading)
     {
+    	JiveStateLog.setStabilizationAttitude("stabilization_attitude_set_earth_cmd_i");
 //  printf("stabilization_attitude_set_earth_cmd_i\n");
         // stab_att_sp_euler.psi still used in ref..
         Eulers<Integer> stab_att_sp_euler = Eulers.newInteger();
@@ -320,7 +326,8 @@ public static Eulers<Integer> getStabilizationAttSpEuler() {
     ///// communication
 
     private static void sendResultsBack(Quat<Integer> stabilization_att_sum_err_quat, AttitudeRef<Integer> att_ref_quat_i, StabilizationCommand<Integer> stabilization_cmd) {
-        //sum error quat
+    	JiveStateLog.setStabilizationAttitude("stabilization_sendResultsBack");
+    	//sum error quat
         NativeTasksWrapper.setStabilizationAttSumErrQuatQi(stabilization_att_sum_err_quat.getQi());
         NativeTasksWrapper.setStabilizationAttSumErrQuatQx(stabilization_att_sum_err_quat.getQx());
         NativeTasksWrapper.setStabilizationAttSumErrQuatQy(stabilization_att_sum_err_quat.getQy());

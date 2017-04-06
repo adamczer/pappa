@@ -1,5 +1,6 @@
 package juav.simulator.tasks.sensors.device.jni;
 
+import juav.logging.JiveStateLog;
 import juav.simulator.nps.random.NpsRandom;
 import juav.simulator.tasks.sensors.ISensor;
 import juav.simulator.tasks.sensors.readings.AccelerometerReading;
@@ -62,6 +63,7 @@ public class JniAccelSensor extends ISensor<AccelerometerReading> {
 
     @Override
     protected void executePeriodic() {
+    	JiveStateLog.setjniSensors("AccelSensor_execute_Periodic");
         double time = PaparazziNpsWrapper.getNpsMainSimTime();
 //        NativeTasksWrapper.npsSensorFdmCopyAccel(time); if (true)return;
 
@@ -117,6 +119,7 @@ public class JniAccelSensor extends ISensor<AccelerometerReading> {
 
     @Override
     public void init() {
+    	JiveStateLog.setjniSensors("AccelSensor_init");
 //        NativeTasksWrapper.npsSensorInitAccel(0);
         data = new AccelerometerReading();
         Vect3<Double> value = new Vect3<>();

@@ -2,6 +2,7 @@ package ub.cse.juav.jni.nps;
 
 import ub.cse.juav.fijiorjni.NativeSwitch;
 
+
 /**
  * Created by adamczer on 2/19/17.
  */

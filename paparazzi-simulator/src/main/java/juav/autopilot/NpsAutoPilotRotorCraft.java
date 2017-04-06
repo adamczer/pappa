@@ -1,5 +1,5 @@
 package juav.autopilot;
-
+import juav.logging.JiveStateLog;
 import juav.autopilot.gps.GpsSimNps;
 import juav.autopilot.imu.JniImuNps;
 import juav.simulator.tasks.PeriodicTask;
@@ -25,6 +25,8 @@ public class NpsAutoPilotRotorCraft extends PeriodicTask {
     GpsSimNps gpsSimNps;
     Autopilot autopilot;
 
+    String sensorState;
+    
     @Override
     public void execute() {
         double time = PaparazziNpsWrapper.getNpsMainSimTime();
@@ -32,6 +34,8 @@ public class NpsAutoPilotRotorCraft extends PeriodicTask {
     }
 
     private void npsAutopilotRunStep(double time) {
+    	sensorState = "nps_autopilot_run_step";
+        JiveStateLog.setsensorState(sensorState);
         //Not needed it should decrement battery
         NativeTasksWrapper.npsElectricalRunStep(time);
 
@@ -42,6 +46,8 @@ public class NpsAutoPilotRotorCraft extends PeriodicTask {
 
 //        NativeTasksWrapper.npsSensorFeedStepGyro();
         if (gyroSensor.getData().isData_available()) {
+        	//sensorState = "gyroSensor reading available";
+        	//JiveStateLog.setsensorState(sensorState);
             jniImuNps.imuFeedGyro(gyroSensor.getData());
             main_event();
             gyroSensor.getData().setData_available(false);
@@ -49,6 +55,8 @@ public class NpsAutoPilotRotorCraft extends PeriodicTask {
 
 //        NativeTasksWrapper.npsSensorFeedStepAccel();
         if (accelSensor.getData().isData_available()) {
+        	//sensorState = "accelSensor reading available";
+        	//JiveStateLog.setsensorState(sensorState);
             jniImuNps.imuFeedAccel(accelSensor.getData());
             main_event();
             accelSensor.getData().setData_available(false);
@@ -57,6 +65,8 @@ public class NpsAutoPilotRotorCraft extends PeriodicTask {
 
 //        NativeTasksWrapper.npsSensorFeedStepMag();
         if (magSensor.getData().isData_available()) {
+        	//sensorState = "magSensor reading available";
+        	//JiveStateLog.setsensorState(sensorState);
             jniImuNps.imuFeedMag(magSensor.getData());
             main_event();
             magSensor.getData().setData_available(false);
@@ -64,6 +74,8 @@ public class NpsAutoPilotRotorCraft extends PeriodicTask {
 
 //        NativeTasksWrapper.npsSensorFeedStepBaro();
         if (baroSensor.getData().isData_available()) {
+        	//sensorState = "magSensor reading available";
+        	//JiveStateLog.setsensorState(sensorState);
             float pressure = (float) baroSensor.getData().getValue();
             NativeTasksWrapper.sendBarometricReading(pressure);
             main_event();
@@ -85,6 +97,8 @@ public class NpsAutoPilotRotorCraft extends PeriodicTask {
 
 //        NativeTasksWrapper.npsSensorFeedStepGps();
         if (gpsSensor.getData().isData_available()) {
+        	//sensorState = "gpsSensor reading available";
+        	//JiveStateLog.setsensorState(sensorState);
             gpsSimNps.gpsFeedValue(gpsSensor.getData());
             main_event();
             gpsSensor.getData().setData_available(false);
@@ -128,12 +142,15 @@ public class NpsAutoPilotRotorCraft extends PeriodicTask {
     }
 
     private void newControlLoop() {
+    	sensorState = "newControlLoop";
         autopilot.autopilot_periodic();
 //        NativeTasksWrapper.juavAutopilotPeriodic();
     }
 
     private void main_event() {
         PaparazziNpsWrapper.mainEventPrior();
+        sensorState = "nps_autopilot_main_event";
+        JiveStateLog.setsensorState(sensorState);
         autopilot.autopilot_on_rc_frame();
         PaparazziNpsWrapper.mainEventPost();
 //        PaparazziNpsWrapper.mainEvent();
@@ -143,41 +160,53 @@ public class NpsAutoPilotRotorCraft extends PeriodicTask {
     private long iterationCount;
     @Override
     public void init() {
-        iterationCount =0;
+    	
+    	 sensorState = "nps_autopilot_init";
+         JiveStateLog.setsensorState(sensorState);
+        
+         iterationCount =0;
         try {
             fis = new FileOutputStream("main_periodic.log");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+        
         autopilot = new Autopilot();
         autopilot.autopilot_init();
     }
 
     public void setGyroSensor(JniGyroSensor gyroSensor) {
+    	sensorState = "nps_setGyroSensor";
         this.gyroSensor = gyroSensor;
     }
 
     public void setMagSensor(JniMagSensor magSensor) {
+    	sensorState = "nps_setMagSensor";
         this.magSensor = magSensor;
     }
 
     public void setGpsSensor(JniGpsSensor gpsSensor) {
+    	sensorState = "nps_setGpsSensor";
         this.gpsSensor = gpsSensor;
     }
 
     public void setAccelSensor(JniAccelSensor accelSensor) {
+    	sensorState = "nps_setAccelSensor";
         this.accelSensor = accelSensor;
     }
 
     public void setJniImuNps(JniImuNps jniImuNps) {
+    	sensorState = "nps_setJniImuNps";
         this.jniImuNps = jniImuNps;
     }
 
     public void setGpsSimNps(GpsSimNps gpsSimNps) {
+    	sensorState = "nps_setGpsSimNps";
         this.gpsSimNps = gpsSimNps;
     }
 
     public void setBaroSensor(JniBaroSensor baroSensor) {
+    	sensorState = "nps_setBaroSensor";
         this.baroSensor = baroSensor;
     }
 }

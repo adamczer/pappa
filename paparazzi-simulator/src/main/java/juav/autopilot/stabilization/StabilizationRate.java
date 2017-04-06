@@ -1,5 +1,5 @@
 package juav.autopilot.stabilization;
-
+import juav.logging.JiveStateLog;
 import juav.autopilot.radiocontrol.RadioControl;
 import juav.autopilot.telemetry.Telemetry;
 import juav.autopilot.telemetry.TelemetryCb;
@@ -98,7 +98,7 @@ public class StabilizationRate {
 //    #endif
 
     public static void stabilization_rate_init() {
-
+    	JiveStateLog.setStabilizationNone("stabilization_rate_init");
         INT_RATES_ZERO(stabilization_rate_sp);
 
         RATES_ASSIGN(stabilization_rate_gain,
@@ -122,7 +122,7 @@ public class StabilizationRate {
 
 
     void stabilization_rate_read_rc() {
-
+    	JiveStateLog.setStabilizationNone("stabilization_rate_read_rc");
         if (ROLL_RATE_DEADBAND_EXCEEDED()) {
             stabilization_rate_sp.p = radio_control.getValue(RADIO_ROLL) * RATE_BFP_OF_REAL(STABILIZATION_RATE_SP_MAX_P) / MAX_PPRZ;
         } else {
@@ -165,10 +165,12 @@ public class StabilizationRate {
     }
 
     public static void stabilization_rate_enter() {
+    	JiveStateLog.setStabilizationNone("stabilization_rate_enter");
         INT_RATES_ZERO(stabilization_rate_sum_err);
     }
 
     void stabilization_rate_run(boolean in_flight) {
+    	JiveStateLog.setStabilizationNone("stabilization_rate_run");
   /* compute feed-back command */
         Rates<Integer> _error = Rates.newInteger();
         Rates<Integer> body_rate = stateGetBodyRates_i();

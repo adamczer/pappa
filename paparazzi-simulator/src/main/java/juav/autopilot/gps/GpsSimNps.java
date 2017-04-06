@@ -1,5 +1,6 @@
 package juav.autopilot.gps;
 
+import juav.logging.JiveStateLog;
 import juav.simulator.tasks.sensors.readings.GpsReading;
 import ub.cse.juav.jni.gps.GpsNative;
 import ub.cse.juav.jni.gps.GpsNativeWrapper;
@@ -15,6 +16,7 @@ import ub.juav.airborne.math.util.UtilityFunctions;
 public class GpsSimNps implements IGpsNps{
     @Override
     public void gpsFeedValue(GpsReading reading) {
+    	JiveStateLog.setGpsSimNps("Gps_SimNps_gpsFeedValue");
         GpsNativeWrapper.gps_feed_value_week_juav(1794);
         GpsNativeWrapper.gps_feed_value_tow_juav(PaparazziNpsWrapper.getNpsMainSimTime());
         GpsNativeWrapper.gps_feed_value_ecef_pos_juav(reading.getEcef_pos().getX()*100.d,reading.getEcef_pos().getY()*100.d,reading.getEcef_pos().getZ()*100.d);

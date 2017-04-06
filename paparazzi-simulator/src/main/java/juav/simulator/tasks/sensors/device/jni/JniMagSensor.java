@@ -1,5 +1,5 @@
 package juav.simulator.tasks.sensors.device.jni;
-
+import juav.logging.JiveStateLog;
 import juav.simulator.tasks.sensors.ISensor;
 import juav.simulator.tasks.sensors.readings.MagneticReading;
 import ub.cse.juav.jni.fdm.FdmWrapper;
@@ -56,7 +56,7 @@ public class JniMagSensor extends ISensor<MagneticReading> {
 
     @Override
     protected void executePeriodic() {
-
+    	JiveStateLog.setjniSensors("MagSensor_execute_Periodic");
         double time = PaparazziNpsWrapper.getNpsMainSimTime();
 //        NativeTasksWrapper.npsSensorFdmCopyMag(time); if (true) return;
 
@@ -109,6 +109,7 @@ public class JniMagSensor extends ISensor<MagneticReading> {
 
     @Override
     public void init() {
+    	JiveStateLog.setjniSensors("MagSensor_init");
 //        NativeTasksWrapper.npsSensorInitMag(0);
         data = new MagneticReading();
 

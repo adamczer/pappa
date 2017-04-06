@@ -994,6 +994,7 @@ public class NativeTasksWrapper {
     }
 
     public static void navInit() {
+    	
         if (NativeSwitch.isFiji()) {
             NativeTasksFiji.navInit();
         } else {

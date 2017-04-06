@@ -224,7 +224,8 @@ public class Autopilot {
     private int autopilotIterCount;
     public void autopilot_init()//TODO PORT
     {
-        autopilotIterCount=0;
+    	JiveStateLog.setAutopilotMode("Autopilot_init");
+    	autopilotIterCount=0;
         try {
             autoPilotPeriodicLog = new FileOutputStream("autopilot_periodic.log");
             guidanceHRunLog = new FileOutputStream("guidance_h_run.log");
@@ -236,8 +237,8 @@ public class Autopilot {
         }
 //    printf("autopilot_init*********************************************************************************\n");
   /* mode is finally set at end of init if MODE_STARTUP is not KILL */
-        autopilot_mode = AP_MODE_KILL;
-        JiveStateLog.setAutopilotMode(AP_MODE_KILL);
+       autopilot_mode = AP_MODE_KILL;
+       // JiveStateLog.setAutopilotMode("AP_MODE_KILL");
 //        autopilot_motors_on = false;
         kill_throttle = ! getAutopilotMotorsOn();
 //        autopilot_in_flight = false; //todo modified by c commands
@@ -253,7 +254,7 @@ public class Autopilot {
 //  gpio_setup_output(POWER_SWITCH_GPIO);
 //  gpio_clear(POWER_SWITCH_GPIO); // POWER OFF
 //#endif
-
+        
         autopilot_arming_init();
 
 //        if(1==1) throw new IllegalStateException("bisect nav_init(). ?");
@@ -268,7 +269,7 @@ public class Autopilot {
 
   /* set startup mode, propagates through to guidance h/v */
         autopilot_set_mode(MODE_STARTUP);
-
+        //JiveStateLog.setAutopilotMode("MODE_STARTUP");
         //TODO periodic telemetry
 //        throw new IllegalStateException("Implement periodic telemetry.");
 //        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_AUTOPILOT_VERSION, send_autopilot_version);
@@ -306,7 +307,8 @@ public class Autopilot {
 
     void autopilot_periodic()
     {
-        long autopilotStart = System.nanoTime();
+    	JiveStateLog.setAutopilotMode("AutoPilot_Periodic");
+    	long autopilotStart = System.nanoTime();
 //        System.out.println("autopilot_mode = "+autopilot_mode);
 
 //        RunOnceEvery(NAV_PRESCALER, compute_dist2_to_home()); // not needed
@@ -316,8 +318,10 @@ public class Autopilot {
             if (getTooFarFromHome()) {
                 if (getDist2ToHome() > failsafe_mode_dist2) {
                     autopilot_set_mode(FAILSAFE_MODE_TOO_FAR_FROM_HOME);
+                    //JiveStateLog.setAutopilotMode("FAILSAFE_MODE_TOO_FAR_FROM_HOME");
                 } else {
                     autopilot_set_mode(AP_MODE_HOME);
+                    //JiveStateLog.setAutopilotMode("AP_MODE_HOME");
                 }
             }
         }
@@ -339,6 +343,7 @@ public class Autopilot {
         if (autopilot_mode == AP_MODE_FAILSAFE) {
             if (!getAutopilotInFlight()) {
                 autopilot_set_mode(AP_MODE_KILL);
+                //JiveStateLog.setAutopilotMode("AP_MODE_KILL");
             }
 
 //            #if FAILSAFE_GROUND_DETECT
@@ -428,6 +433,7 @@ public class Autopilot {
 
     void autopilot_set_mode(short new_autopilot_mode)
     {
+    	JiveStateLog.setAutopilotMode("Autopilot_set_mode");
 //        NativeTasksWrapper.setAutopilotModeNativeLogic(new_autopilot_mode); autopilot_mode = new_autopilot_mode;
 //        System.out.println("JAVA autopilot_set_mode = " +new_autopilot_mode);
 
@@ -547,7 +553,6 @@ public class Autopilot {
             autopilot_mode = new_autopilot_mode;
 
             NativeTasksWrapper.setAutopilotMode(new_autopilot_mode);
-            JiveStateLog.setAutopilotMode(new_autopilot_mode);
         }
 
     }
@@ -588,6 +593,7 @@ public class Autopilot {
 //    }
 
     private void setAutopilotInFlight(boolean newInFlight) {
+    	JiveStateLog.setAutopilotMode("Autopilot_setAutopilotinFlight");
         throw new IllegalStateException("UNIMPLEMENTED");
     }
 
@@ -605,7 +611,8 @@ public class Autopilot {
 //    }
 
     public static void setAutopilotMotorsOn(boolean b) {
-        JiveStateLog.setMotorsOn(b);
+    	JiveStateLog.setAutopilotMode("Autopilot_setAutoPilotMotorsOn");
+        //JiveStateLog.setMotorsOn(b);
         NativeTasksWrapper.juavSetAutopilotMotorsOn(b);
     }
 
@@ -616,6 +623,7 @@ public class Autopilot {
     /** get autopilot mode as set by RADIO_MODE 3-way switch */
     static short ap_mode_of_3way_switch()
     {
+    	JiveStateLog.setAutopilotMode("Ap_mode_of_3way_switch");
 //        if (radio_control.values[RADIO_MODE] > THRESHOLD_2_PPRZ) {
         if (radio_control.getValue(RADIO_MODE) > THRESHOLD_2_PPRZ) {
             return autopilot_mode_auto2;
@@ -631,9 +639,10 @@ public class Autopilot {
 
     void autopilot_on_rc_frame()
     {
-
+    	JiveStateLog.setAutopilotMode("Autopilot_on_rc_frame");
         if (kill_switch_is_on()) {
             autopilot_set_mode(AP_MODE_KILL);
+            //JiveStateLog.setAutopilotMode("AP_MODE_KILL");
         } else {
 //            #ifdef RADIO_AUTO_MODE
 //            INFO("Using RADIO_AUTO_MODE to switch between AUTO1 and AUTO2.")
@@ -647,6 +656,7 @@ public class Autopilot {
       /* always allow to switch to manual */
                 if (new_autopilot_mode == MODE_MANUAL) {
                     autopilot_set_mode(new_autopilot_mode);
+                 //   JiveStateLog.setAutopilotMode("MODE_MANUAL");
                 }
       /* if in HOME mode, don't allow switching to non-manual modes */
                 else if ((autopilot_mode != AP_MODE_HOME)
@@ -656,6 +666,8 @@ public class Autopilot {
 //                #endif
                 ) {
                     autopilot_set_mode(new_autopilot_mode);
+                   
+                  //JIVE LOG new mode here
                 }
             }
         }
@@ -690,13 +702,15 @@ public class Autopilot {
     }
 
     private static boolean GpsIsLost() {
+    	JiveStateLog.setAutopilotMode("AP_GpsIsLost");
         return false;
     }
 
     static boolean ahrs_is_aligned()
     {
+    	JiveStateLog.setAutopilotMode("AutoPilot_ahrs_is_aligned");
         boolean ret = State.stateIsAttitudeValid();
-        JiveStateLog.setAhrsIsAligned(ret);
+       // JiveStateLog.setAhrsIsAligned(ret);
         return ret;
     }
 

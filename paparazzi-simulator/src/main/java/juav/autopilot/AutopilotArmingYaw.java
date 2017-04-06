@@ -31,6 +31,7 @@ public class AutopilotArmingYaw {
 
     public static void autopilot_arming_init()
     {
+    	JiveStateLog.setMotorStatus("autopilot_arming_init");
 //        autopilot_motors_on_counter = 0;
 //        autopilot_check_motor_status = STATUS_INITIALISE_RC;
     }
@@ -40,7 +41,8 @@ public class AutopilotArmingYaw {
  */
     static void autopilot_arming_set(boolean motors_on)
     {
-        if (motors_on) {
+    	JiveStateLog.setMotorStatus("set_autopilot_armingSet_motorStatus");
+    	if (motors_on) {
             setAutopilotCheckMotorStatus(STATUS_MOTORS_ON);
         } else {
             setAutopilotCheckMotorStatus(STATUS_MOTORS_AUTOMATICALLY_OFF);
@@ -48,11 +50,11 @@ public class AutopilotArmingYaw {
     }
 
     static void setAutopilotCheckMotorStatus(arming_state newValue) {
-        JiveStateLog.setMotorStatus(newValue);
         NativeTasksWrapper.juavSetAutopilotCheckMotorStatus(newValue.ordinal());
     }
 
     static arming_state getAutopilotCheckMotorStatus() {
+    	JiveStateLog.setMotorStatus("get_autopilot_checkMotorStatus");
         int tmp = NativeTasksWrapper.juavGetAutopilotCheckMotorStatus();
         switch (tmp) {
             case 0:
@@ -79,9 +81,11 @@ public class AutopilotArmingYaw {
     }
 
     static void setAutopilotMotorsOnCounter(int newCount) {
+    	JiveStateLog.setMotorStatus("setAutopilotMotorsOnCounter");
         NativeTasksWrapper.juavSetAutopilotMotorsOnCounter(newCount);
     }
     static int getAutopilotMotorsOnCounter() {
+    	JiveStateLog.setMotorStatus("getAutopilotMotorsOnCounter");
         return NativeTasksWrapper.juavGetAutopilotMotorsOnCounter();
     }
 
@@ -95,6 +99,7 @@ public class AutopilotArmingYaw {
  */
     static void autopilot_arming_check_motors_on()
     {
+    	JiveStateLog.setMotorStatus("autopilot_arming_check_motors_on");
   /* only allow switching motor if not in KILL mode */
         if (autopilot_mode != AP_MODE_KILL) {
 

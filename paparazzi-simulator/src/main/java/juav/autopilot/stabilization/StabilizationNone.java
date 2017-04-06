@@ -1,4 +1,5 @@
 package juav.autopilot.stabilization;
+import juav.logging.JiveStateLog;
 
 import ub.juav.airborne.math.structs.algebra.Rates;
 
@@ -12,15 +13,17 @@ import static ub.juav.airborne.math.functions.algebra.PprzAlgebraInt.INT_RATES_Z
  */
 public class StabilizationNone {
     public static Rates<Integer> stabilization_none_rc_cmd = Rates.newInteger();
-
+    
     public static void stabilization_none_init()
     {
+    	JiveStateLog.setStabilizationNone("stabilization_none_init");
         stabilization_none_rc_cmd = Rates.newInteger();
     }
 
     public static void stabilization_none_read_rc()
     {
         //TODO
+    	JiveStateLog.setStabilizationNone("stabilization_none_read_rc");
         stabilization_none_rc_cmd.p = radio_control.getValue(RADIO_ROLL);
         stabilization_none_rc_cmd.q = radio_control.getValue(RADIO_PITCH);
         stabilization_none_rc_cmd.r = radio_control.getValue(RADIO_YAW);
@@ -28,11 +31,13 @@ public class StabilizationNone {
 
     public static void stabilization_none_enter()
     {
+    	JiveStateLog.setStabilizationNone("stabilization_none_enter");
         INT_RATES_ZERO(stabilization_none_rc_cmd);
     }
 
     void stabilization_none_run(boolean in_flight/*UNUSED*/)
     {
+    	JiveStateLog.setStabilizationNone("stabilization_none_run");
   /* just directly pass rc commands through */
         setStabilizationCommand(COMMAND_ROLL, stabilization_none_rc_cmd.p);
         setStabilizationCommand(COMMAND_PITCH, stabilization_none_rc_cmd.q);

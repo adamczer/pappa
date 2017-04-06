@@ -86,7 +86,7 @@ public class GuidanceH {
         thrust_cmd_filt = 0;
         guidance_h = new HorizantalGuidance();
         guidance_h.mode = GUIDANCE_H_MODE_KILL;
-        JiveStateLog.setGuidanceHMode(GUIDANCE_H_MODE_KILL);
+        JiveStateLog.setGuidanceHMode("guidance_h_init");
         guidance_h.use_ref = GUIDANCE_H_USE_REF;
         guidance_h.approx_force_by_thrust = GUIDANCE_H_APPROX_FORCE_BY_THRUST;
 //        INT_VECT2_ZERO(guidance_h.sp.pos);
@@ -122,11 +122,13 @@ public class GuidanceH {
     }
 
     public static void stabilizationAttitudeRun(boolean inFlight) {
+    	 JiveStateLog.setGuidanceHMode("guidance_h_stabilization_attitude_run");
         stabilization_attitude_run(inFlight);
     }
 
     public void guidance_h_traj_run(boolean inFlight)
     {
+    	 JiveStateLog.setGuidanceHMode("guidance_h_traj_run");
 //        NativeTasksWrapper.guidanceHTrajRun(inFlight);
         Vect2<Integer> guidance_h_cmd_earth = Vect2.newIntVect2();
   /* maximum bank angle: default 20 deg, max 40 deg*/
@@ -201,6 +203,7 @@ public class GuidanceH {
 
     static void reset_guidance_reference_from_current_position()
     {
+    	 JiveStateLog.setGuidanceHMode("guidance_h_reset_guidance_reference");
         Vect2<Integer> newPos = Vect2.newIntVect2();
         VECT2_COPY(newPos, stateGetPositionNed_i());
         guidance_h.ref.setPos(newPos);
@@ -241,13 +244,14 @@ public class GuidanceH {
         guidance_h.mode = new_mode;
 
         NativeTasksWrapper.setGuidanceHMode(new_mode);
-        JiveStateLog.setGuidanceHMode(new_mode);
+        JiveStateLog.setGuidanceHMode("guidance_h_mode changed");
 
     }
 
 
     public void guidance_h_read_rc(boolean in_flight)
     {
+    	 JiveStateLog.setGuidanceHMode("guidance_h_read_rc");
 //        NativeTasksWrapper.guidanceHReadRc(in_flight);
         switch (guidance_h.mode) {
             case GUIDANCE_H_MODE_ATTITUDE: //TODO
@@ -268,6 +272,7 @@ public class GuidanceH {
 
     public void guidance_h_run(boolean  in_flight)
     {
+    	 JiveStateLog.setGuidanceHMode("guidance_h_run");
         switch (guidance_h.mode) {
             case GUIDANCE_H_MODE_ATTITUDE:
                 stabilization_attitude_run(in_flight);
@@ -310,6 +315,7 @@ public class GuidanceH {
 
     public static void guidance_h_update_reference()
     {
+    	 JiveStateLog.setGuidanceHMode("guidance_h_update_reference");
 //        NativeTasksWrapper.guidanceHUpdateReference();if(true)return;//TODO fix me error...
   /* compute reference even if usage temporarily disabled via guidance_h_use_ref */
 //        #if GUIDANCE_H_USE_REF
@@ -357,6 +363,7 @@ public class GuidanceH {
 
     static void guidance_h_nav_enter()
     {
+    	 JiveStateLog.setGuidanceHMode("guidance_h_nav_enter");
 //        NativeTasksWrapper.guidanceHNavEnter();if(true)return; //test function
   /* horizontal position setpoint from navigation/flightplan */
         Vect2<Integer> newPos = Vect2.newIntVect2();

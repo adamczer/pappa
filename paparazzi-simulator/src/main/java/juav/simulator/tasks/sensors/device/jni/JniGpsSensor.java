@@ -1,5 +1,5 @@
 package juav.simulator.tasks.sensors.device.jni;
-
+import juav.logging.JiveStateLog;
 import juav.simulator.nps.random.NpsRandom;
 import juav.simulator.tasks.sensors.ISensor;
 import juav.simulator.tasks.sensors.readings.GpsReading;
@@ -36,6 +36,7 @@ public class JniGpsSensor extends ISensor<GpsReading> {
 
     @Override
     protected void executePeriodic() {
+    	JiveStateLog.setjniSensors("GpsSensor_execute_Periodic");
         double time = PaparazziNpsWrapper.getNpsMainSimTime();
 //        NativeTasksWrapper.npsSensorFdmCopyGps(time);if(true)return;
 
@@ -111,7 +112,9 @@ public class JniGpsSensor extends ISensor<GpsReading> {
 
     @Override
     public void init() {
+    	JiveStateLog.setjniSensors("GpsSensor_init");
 //        NativeTasksWrapper.npsSensorInitGps(0);
+    	
         data = new GpsReading();
 
         EcefCoor<Double> ecef_pos = new EcefCoor<>();

@@ -82,12 +82,13 @@ public class GuidanceV {
 
     public static GuidanceV guidanceV;
     public static void guidance_v_init() {
+    	
         guidanceV = new GuidanceV();
         guidanceV.init();
     }
     public void init() {
         guidance_v_mode = GUIDANCE_V_MODE_KILL;
-        JiveStateLog.setGuidanceVMode(GUIDANCE_V_MODE_KILL);
+        JiveStateLog.setGuidanceVMode("Guidance_v_init");
         guidance_v_kp = GUIDANCE_V_HOVER_KP;
         guidance_v_kd = GUIDANCE_V_HOVER_KD;
         guidance_v_ki = GUIDANCE_V_HOVER_KI;
@@ -115,6 +116,7 @@ public class GuidanceV {
 
     public void guidance_v_read_rc() //CHECKED equal
     {
+    	JiveStateLog.setGuidanceVMode("Guidance_v_read_rc");
   /* used in RC_DIRECT directly and as saturation in CLIMB and HOVER */
         guidance_v_rc_delta_t = radio_control.getValue(RADIO_THROTTLE);
   /* used in RC_CLIMB */
@@ -139,6 +141,8 @@ public class GuidanceV {
 
     public void guidance_v_mode_changed(short new_mode)
     {
+    	
+    	
 //        NativeTasksWrapper.guidance_v_mode_changed_native(new_mode);
 //        if (new_mode == guidance_v_mode) {
 //            return;
@@ -189,7 +193,7 @@ public class GuidanceV {
         guidance_v_mode = new_mode;
 
         NativeTasksWrapper.setGuidanceVMode(new_mode);
-        JiveStateLog.setGuidanceVMode(new_mode);
+        JiveStateLog.setGuidanceVMode("guidance_v_mode changed");
 
     }
 
@@ -197,6 +201,7 @@ public class GuidanceV {
 
     public void guidance_v_run(boolean in_flight)
     {
+    	JiveStateLog.setGuidanceVMode("Guidance_v_run");
 //  printf("guidance_v_run\n");//TODO
 
         // FIXME... SATURATIONS NOT TAKEN INTO ACCOUNT
@@ -316,6 +321,7 @@ public class GuidanceV {
 
     /// get the cosine of the angle between thrust vector and gravity vector
     public static int get_vertical_thrust_coeff() {
+    	JiveStateLog.setGuidanceVMode("Guidance_v_get_vertical_thrust_coeff");
         // cos(30°) = 0.8660254
         int max_bank_coef = BFP_OF_REAL(0.8660254f, INT32_TRIG_FRAC);
 //        System.out.println("max_bank_coef = "+max_bank_coef);
@@ -347,7 +353,7 @@ public class GuidanceV {
     static void run_hover_loop(boolean in_flight)
     {
 //  printf("run_hover_loop\n");
-
+    	JiveStateLog.setGuidanceVMode("Guidance_v_run_hover_loop");
   /* convert our reference to generic representation */
         long tmp  = gv_z_ref >> (GV_Z_REF_FRAC - INT32_POS_FRAC);
         guidance_v_z_ref = (int)tmp;
@@ -401,6 +407,7 @@ public class GuidanceV {
     }
 
     static void GuidanceVSetRef(int _pos, int _speed, int _accel) {
+    	JiveStateLog.setGuidanceVMode("Guidance_v_setRef");
         gv_set_ref(_pos, _speed, _accel);
         guidance_v_z_ref = _pos;
         guidance_v_zd_ref = _speed;

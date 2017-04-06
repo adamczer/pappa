@@ -1,5 +1,5 @@
 package juav.simulator.tasks.sensors.device.jni;
-
+import juav.logging.JiveStateLog;
 import juav.simulator.nps.random.NpsRandom;
 import juav.simulator.tasks.sensors.ISensor;
 import juav.simulator.tasks.sensors.readings.BarometricReading;
@@ -18,6 +18,7 @@ public class JniBaroSensor extends ISensor<BarometricReading> {
     private static final double NPS_BARO_DT = 1./50.;// nps_sensor_params_default.h
     @Override
     protected void executePeriodic() {
+    	JiveStateLog.setjniSensors("BaroSensor_execute_Periodic");
         double time = PaparazziNpsWrapper.getNpsMainSimTime();
 
 //        NativeTasksWrapper.npsSensorFdmCopyBaro(time);if (true)return;
@@ -36,6 +37,7 @@ public class JniBaroSensor extends ISensor<BarometricReading> {
 
     @Override
     public void init() {
+    	JiveStateLog.setjniSensors("BaroSensor_init");
 //        NativeTasksWrapper.npsSensorInitBaro(0);
         data = new BarometricReading();
         data.setValue(0.);
