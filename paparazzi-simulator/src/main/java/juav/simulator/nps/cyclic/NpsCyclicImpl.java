@@ -224,9 +224,9 @@ public class NpsCyclicImpl extends AbstractNpsImpl {
 
 	public static void runSimulation(boolean isFiji) {
 		if (!isFiji) {
-			File pprzLib = new File("/home/manjusha/pappa/paparazzi-jni/libs/libpprz.so");
+			File pprzLib = new File("/home/adamczer/workspace/juav-autopilot-fiji/paparazzi-jni/libs/libpprz.so");
 			System.load(pprzLib.getAbsolutePath());
-			File lib = new File("/home/manjusha/pappa/paparazzi-jni/bin/libpapa_native.so");
+			File lib = new File("/home/adamczer/workspace/juav-autopilot-fiji/paparazzi-jni/bin/libpapa_native.so");
 			System.load(lib.getAbsolutePath());
 			isFiji = false;
 		}

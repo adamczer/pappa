@@ -63,13 +63,13 @@ public class JniAccelSensor extends ISensor<AccelerometerReading> {
 
     @Override
     protected void executePeriodic() {
-    	JiveStateLog.setjniSensors("AccelSensor_execute_Periodic");
         double time = PaparazziNpsWrapper.getNpsMainSimTime();
 //        NativeTasksWrapper.npsSensorFdmCopyAccel(time); if (true)return;
 
         if(time<data.getNext_update()) {
             return;
         }
+        JiveStateLog.setjniSensors("AccelSensor_execute_Periodic");
 
         RMat<Double> bodyToImu = RMat.RMatDouble();
         for(int i = 0; i<3; i++)

@@ -56,13 +56,13 @@ public class JniMagSensor extends ISensor<MagneticReading> {
 
     @Override
     protected void executePeriodic() {
-    	JiveStateLog.setjniSensors("MagSensor_execute_Periodic");
         double time = PaparazziNpsWrapper.getNpsMainSimTime();
 //        NativeTasksWrapper.npsSensorFdmCopyMag(time); if (true) return;
 
         if(time<data.getNext_update()) {
             return;
         }
+        JiveStateLog.setjniSensors("MagSensor_execute_Periodic");
 
 //        //TODO refactor this to be object updated prior to mag,gyro,accel and set on these sesors.
         RMat<Double> bodyToImu = RMat.RMatDouble();

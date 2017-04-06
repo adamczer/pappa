@@ -18,13 +18,13 @@ public class JniBaroSensor extends ISensor<BarometricReading> {
     private static final double NPS_BARO_DT = 1./50.;// nps_sensor_params_default.h
     @Override
     protected void executePeriodic() {
-    	JiveStateLog.setjniSensors("BaroSensor_execute_Periodic");
         double time = PaparazziNpsWrapper.getNpsMainSimTime();
 
 //        NativeTasksWrapper.npsSensorFdmCopyBaro(time);if (true)return;
         if(time<data.getNext_update()) {
             return;
         }
+        JiveStateLog.setjniSensors("BaroSensor_execute_Periodic");
 
   /* pressure in Pascal TODO this was a float*/
         double tmp =Pprz_isa.pprz_isa_pressure_of_altitude(FdmWrapper.getHmsl());

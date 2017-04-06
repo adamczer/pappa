@@ -36,13 +36,13 @@ public class JniGpsSensor extends ISensor<GpsReading> {
 
     @Override
     protected void executePeriodic() {
-    	JiveStateLog.setjniSensors("GpsSensor_execute_Periodic");
         double time = PaparazziNpsWrapper.getNpsMainSimTime();
 //        NativeTasksWrapper.npsSensorFdmCopyGps(time);if(true)return;
 
         if (time < data.getNext_update()) {
             return;
         }
+        JiveStateLog.setjniSensors("GpsSensor_execute_Periodic");
 
 
   /*
