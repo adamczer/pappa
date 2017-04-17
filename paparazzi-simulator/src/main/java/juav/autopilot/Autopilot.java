@@ -8,6 +8,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import jive.logging.StateTransitions;
+
 import static juav.autopilot.AutopilotArmingYaw.autopilot_arming_check_motors_on;
 import static juav.autopilot.AutopilotArmingYaw.autopilot_arming_init;
 import static juav.autopilot.AutopilotRcHelpers.kill_switch_is_on;
@@ -27,9 +29,9 @@ import static juav.autopilot.stabilization.StabilizationRate.stabilization_rate_
  * Created by adamczer on 11/29/16.
  */
 public class Autopilot {
-    FileOutputStream autoPilotPeriodicLog;
-    FileOutputStream guidanceHRunLog;
-    FileOutputStream guidanceVRunLog;
+//    FileOutputStream autoPilotPeriodicLog;
+//    FileOutputStream guidanceHRunLog;
+//    FileOutputStream guidanceVRunLog;
     public static final short AP_MODE_KILL =             0;
     public static final short AP_MODE_FAILSAFE         = 1;
     public static final short AP_MODE_HOME            =  2;
@@ -226,15 +228,15 @@ public class Autopilot {
     {
     	JiveStateLog.setAutopilotMode("Autopilot_init");
     	autopilotIterCount=0;
-        try {
-            autoPilotPeriodicLog = new FileOutputStream("autopilot_periodic.log");
-            guidanceHRunLog = new FileOutputStream("guidance_h_run.log");
-            guidanceVRunLog = new FileOutputStream("guidance_v_run.log");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            autoPilotPeriodicLog = new FileOutputStream("autopilot_periodic.log");
+//            guidanceHRunLog = new FileOutputStream("guidance_h_run.log");
+//            guidanceVRunLog = new FileOutputStream("guidance_v_run.log");
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 //    printf("autopilot_init*********************************************************************************\n");
   /* mode is finally set at end of init if MODE_STARTUP is not KILL */
        autopilot_mode = AP_MODE_KILL;
@@ -376,9 +378,11 @@ public class Autopilot {
 //            NativeTasksWrapper.guidanceVRunJuav(inFlight);
             guidanceVRunStart = System.nanoTime();
             guidanceV.guidance_v_run(inFlight);
+            StateTransitions.instance.add_transition(new String[]{"run guidance V"});
             guidanceVRunEnd = System.nanoTime();
             guidanceHRunStart = System.nanoTime();
             guidanceH.guidance_h_run(inFlight);//TODO
+            StateTransitions.instance.add_transition(new String[]{"run guidance H"});
 //            NativeTasksWrapper.guidanceHRunNativeTestJuav(inFlight);
             guidanceHRunEnd = System.nanoTime();
             NativeTasksWrapper.autopilotPeriodicPostJuav(); //->SetRotorcraftCommands(stabilization_cmd, getAutopilotInFlight(), getAutopilotMotorsOn());
@@ -394,33 +398,33 @@ public class Autopilot {
 //            SetRotorcraftCommands(stabilization_cmd, getAutopilotInFlight(), getAutopilotMotorsOn());
         }
         long autopilotEnd = System.nanoTime();
-        if (guidanceHRunStart != -1) {
-            try {
-                guidanceHRunLog.write((autopilotIterCount+" "+(guidanceHRunEnd - guidanceHRunStart) + "\n").getBytes());
-                guidanceHRunLog.flush();
-                guidanceVRunLog.write((autopilotIterCount+" "+(guidanceVRunEnd - guidanceVRunStart) + "\n").getBytes());
-                guidanceVRunLog.flush();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            try {
-                guidanceHRunLog.write((autopilotIterCount+" "+(-1) + "\n").getBytes());
-                guidanceHRunLog.flush();
-                guidanceVRunLog.write((autopilotIterCount+" "+(-1) + "\n").getBytes());
-                guidanceVRunLog.flush();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        try {
-            autoPilotPeriodicLog.write((autopilotIterCount+" "+(autopilotEnd - autopilotStart) + "\n").getBytes());
-            autoPilotPeriodicLog.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        if (guidanceHRunStart != -1) {
+//            try {
+//                guidanceHRunLog.write((autopilotIterCount+" "+(guidanceHRunEnd - guidanceHRunStart) + "\n").getBytes());
+//                guidanceHRunLog.flush();
+//                guidanceVRunLog.write((autopilotIterCount+" "+(guidanceVRunEnd - guidanceVRunStart) + "\n").getBytes());
+//                guidanceVRunLog.flush();
+//
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        } else {
+//            try {
+//                guidanceHRunLog.write((autopilotIterCount+" "+(-1) + "\n").getBytes());
+//                guidanceHRunLog.flush();
+//                guidanceVRunLog.write((autopilotIterCount+" "+(-1) + "\n").getBytes());
+//                guidanceVRunLog.flush();
+//
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        try {
+//            autoPilotPeriodicLog.write((autopilotIterCount+" "+(autopilotEnd - autopilotStart) + "\n").getBytes());
+//            autoPilotPeriodicLog.flush();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
         autopilotIterCount++;
     }
 

@@ -1,6 +1,8 @@
 package juav.simulator.nps.cyclic;
 
 import com.fiji.fivm.ThreadPriority;
+
+import jive.logging.StateTransitions;
 import juav.autopilot.NpsAutoPilotRotorCraft;
 import juav.autopilot.gps.GpsSimNps;
 import juav.autopilot.imu.JniImuNps;
@@ -43,15 +45,17 @@ public class NpsCyclicImpl extends AbstractNpsImpl {
 	public void run() {
 		cyclicStateLog = "nps_cyclic_run";
 		JiveStateLog.setcyclicStateLog(cyclicStateLog);
-	
+		StateTransitions.instance.add_transition(new String[]{"nps_cyclic_run"});
 		if (timeHandler == null) {
 			throw new IllegalStateException("Time handler must be set on Nps simulator.");
 		}
 		do {
 			
+			
 			PaparazziNpsWrapper.npsMainPeriodicJuavNative();
 			int cnt = 0;
 			while (PaparazziNpsWrapper.getNpsMainSimTime() <= PaparazziNpsWrapper.getNpsMainHostTimeElapsed()) {
+				StateTransitions.instance.add_transition(new String[]{"main loop"});
 				long cyclicExecutiveStart = System.nanoTime();
 				/** vv*** Entry point for periodic tasks***vv **/
 				long start;
@@ -59,6 +63,7 @@ public class NpsCyclicImpl extends AbstractNpsImpl {
 					start = System.nanoTime();
 				for (ITask task : tasks) {
 					if (task.isAvailiable()) {
+//						StateTransitions.instance.add_transition(new String[]{task.getClass().getSimpleName()+"run"});
 						task.execute();
 					}
 				}
@@ -72,12 +77,12 @@ public class NpsCyclicImpl extends AbstractNpsImpl {
 					// }
 				}
 				long cyclicExecutiveEnd = System.nanoTime();
-				try {
-					cyclicExecutiveLog.write(((cyclicExecutiveEnd - cyclicExecutiveStart) + "\n").getBytes());
-					cyclicExecutiveLog.flush();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+//				try {
+//					cyclicExecutiveLog.write(((cyclicExecutiveEnd - cyclicExecutiveStart) + "\n").getBytes());
+//					cyclicExecutiveLog.flush();
+//				} catch (IOException e) {
+//					e.printStackTrace();
+//				}
 				/** ^^*** Entry point for periodic tasks***^^ **/
 				PaparazziNpsWrapper.setNpsMainSimTime(
 						PaparazziNpsWrapper.getNpsMainSimTime() + PaparazziNpsWrapper.getNpsMainSimDt());
@@ -116,17 +121,18 @@ public class NpsCyclicImpl extends AbstractNpsImpl {
 	 * creates periodic tasks and ensures that they exist in the list in the
 	 * order they should execute.
 	 */
-	private FileOutputStream cyclicExecutiveLog;
+//	private FileOutputStream cyclicExecutiveLog;
 
 	@Override
 	public void init() {
 		cyclicStateLog = "nps_cyclic_init";
 		JiveStateLog.setcyclicStateLog(cyclicStateLog);
-		try {
-			cyclicExecutiveLog = new FileOutputStream("cyclic-executive.log");
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+		StateTransitions.instance.add_transition(new String[]{"nps_cyclic_init"});
+//		try {
+//			cyclicExecutiveLog = new FileOutputStream("cyclic-executive.log");
+//		} catch (FileNotFoundException e) {
+//			e.printStackTrace();
+//		}
 		//TB logged?
 		PaparazziNpsWrapper.npsInit();
 
@@ -187,7 +193,11 @@ public class NpsCyclicImpl extends AbstractNpsImpl {
 
 		// Initialize all tasks
 		for (ITask task : taskList) {
+			
+			StateTransitions.instance.add_transition(new String[]{task.getClass().getSimpleName()+"init"});
 			task.init();
+			//StateTransitions.instance.add_transition(new String[]{""
+			
 		}
 
 		setTasks(taskList);
@@ -197,9 +207,17 @@ public class NpsCyclicImpl extends AbstractNpsImpl {
 	}
 
 	public static void main(String[] args) {
-		cyclicStateLog = "nps_cyclic_main";
+		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				StateTransitions.instance.print();
+				
+			}
+		}));
+		cyclicStateLog = "main_pgm";
 		JiveStateLog.setcyclicStateLog(cyclicStateLog);
-
+		StateTransitions.instance.add_transition(new String[]{"Start_main"});
 		if (args.length == 1) {
 			runSimulation(false);
 		} else {
@@ -224,9 +242,9 @@ public class NpsCyclicImpl extends AbstractNpsImpl {
 
 	public static void runSimulation(boolean isFiji) {
 		if (!isFiji) {
-			File pprzLib = new File("/home/adamczer/workspace/juav-autopilot-fiji/paparazzi-jni/libs/libpprz.so");
+			File pprzLib = new File("/home/manjusha/pappa/paparazzi-jni/libs/libpprz.so");
 			System.load(pprzLib.getAbsolutePath());
-			File lib = new File("/home/adamczer/workspace/juav-autopilot-fiji/paparazzi-jni/bin/libpapa_native.so");
+			File lib = new File("/home/manjusha/pappa/paparazzi-jni/bin/libpapa_native.so");
 			System.load(lib.getAbsolutePath());
 			isFiji = false;
 		}

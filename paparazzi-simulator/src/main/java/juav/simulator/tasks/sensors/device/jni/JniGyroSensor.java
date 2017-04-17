@@ -1,4 +1,5 @@
 package juav.simulator.tasks.sensors.device.jni;
+import jive.logging.StateTransitions;
 import juav.logging.JiveStateLog;
 import juav.simulator.nps.random.NpsRandom;
 import juav.simulator.tasks.sensors.ISensor;
@@ -58,6 +59,7 @@ public class JniGyroSensor extends ISensor<GyroReading> {
         if(time<data.getNext_update()) {
             return;
         }
+        StateTransitions.instance.add_transition(new String[]{"Copy Gyro"});
         JiveStateLog.setjniSensors("GyroSensor_execute_Periodic");
 
         RMat<Double> bodyToImu = RMat.RMatDouble();
