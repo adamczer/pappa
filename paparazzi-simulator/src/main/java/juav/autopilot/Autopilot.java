@@ -52,7 +52,7 @@ public class Autopilot {
     public static final short AP_MODE_MODULE =           17;
     public static final short AP_MODE_FLIP =             18;
     public static final short AP_MODE_GUIDED =           19;
-
+    int counter = 0, counter1 = 0; 
 
     public static final float AUTOPILOT_IN_FLIGHT_MIN_THRUST = 500;
     public static final float AUTOPILOT_IN_FLIGHT_MIN_ACCEL = 2.0f;
@@ -310,6 +310,7 @@ public class Autopilot {
     void autopilot_periodic()
     {
     	JiveStateLog.setAutopilotMode("AutoPilot_Periodic");
+    	// StateTransitions.instance.add_transition(new String[]{"Running : AP_Periodic"});
     	long autopilotStart = System.nanoTime();
 //        System.out.println("autopilot_mode = "+autopilot_mode);
 
@@ -320,9 +321,11 @@ public class Autopilot {
             if (getTooFarFromHome()) {
                 if (getDist2ToHome() > failsafe_mode_dist2) {
                     autopilot_set_mode(FAILSAFE_MODE_TOO_FAR_FROM_HOME);
+                   // StateTransitions.instance.add_transition(new String[]{"AP_MODE : FAILSAFE"});
                     //JiveStateLog.setAutopilotMode("FAILSAFE_MODE_TOO_FAR_FROM_HOME");
                 } else {
                     autopilot_set_mode(AP_MODE_HOME);
+                   // StateTransitions.instance.add_transition(new String[]{"AP_MODE : HOME"});
                     //JiveStateLog.setAutopilotMode("AP_MODE_HOME");
                 }
             }
@@ -335,7 +338,10 @@ public class Autopilot {
         } else {
             // otherwise always call nav_periodic_task so that carrot is always updated in GCS for other modes
 //            RunOnceEvery(NAV_PRESCALER, nav_periodic_task());
-            nav_periodic_task.runOnceEvery((int) NAV_PRESCALER);
+        	 //StateTransitions.instance.add_transition(new String[]{"AP: run Navigation"});
+        	nav_periodic_task.runOnceEvery((int) NAV_PRESCALER);
+        	//StateTransitions.instance.add_transition(new String[]{"Running : AP_Periodic"});
+        	
         }
 
 
@@ -345,6 +351,7 @@ public class Autopilot {
         if (autopilot_mode == AP_MODE_FAILSAFE) {
             if (!getAutopilotInFlight()) {
                 autopilot_set_mode(AP_MODE_KILL);
+              //  StateTransitions.instance.add_transition(new String[]{"AP_MODE : KILL"});
                 //JiveStateLog.setAutopilotMode("AP_MODE_KILL");
             }
 
@@ -366,7 +373,7 @@ public class Autopilot {
   /* Set fixed "failsafe" commands from airframe file if in KILL mode.
    * If in FAILSAFE mode, run normal loops with failsafe attitude and
    * downwards velocity setpoints.
-   */
+   */   
         long guidanceVRunStart = -1;
         long guidanceHRunStart = -1;
         long guidanceVRunEnd = -1;
@@ -377,16 +384,20 @@ public class Autopilot {
             boolean inFlight = getAutopilotInFlight();
 //            NativeTasksWrapper.guidanceVRunJuav(inFlight);
             guidanceVRunStart = System.nanoTime();
+            StateTransitions.instance.add_iteration("GuidanceV");
+            //StateTransitions.instance.add_transition(new String[]{"AP :run guidance V"});
             guidanceV.guidance_v_run(inFlight);
-            StateTransitions.instance.add_transition(new String[]{"run guidance V"});
+            //StateTransitions.instance.add_transition(new String[]{"AP :run guidance V"});
             guidanceVRunEnd = System.nanoTime();
             guidanceHRunStart = System.nanoTime();
+            //StateTransitions.instance.add_transition(new String[]{"AP: run guidance H"});
+            StateTransitions.instance.add_iteration("GuidanceH");
             guidanceH.guidance_h_run(inFlight);//TODO
-            StateTransitions.instance.add_transition(new String[]{"run guidance H"});
+            //StateTransitions.instance.add_transition(new String[]{"Running : AP_Periodic"});
 //            NativeTasksWrapper.guidanceHRunNativeTestJuav(inFlight);
             guidanceHRunEnd = System.nanoTime();
             NativeTasksWrapper.autopilotPeriodicPostJuav(); //->SetRotorcraftCommands(stabilization_cmd, getAutopilotInFlight(), getAutopilotMotorsOn());
-
+            
 //            guidanceV.guidance_v_run(getAutopilotInFlight());
 //            guidanceH.guidance_h_run(getAutopilotInFlight());//TODO
 //            int[] stabilization_cmd = new int[4];
@@ -426,6 +437,7 @@ public class Autopilot {
 //            e.printStackTrace();
 //        }
         autopilotIterCount++;
+        
     }
 
     public static boolean getAutopilotMotorsOn() {

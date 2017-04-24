@@ -25,7 +25,8 @@ public class JniBaroSensor extends ISensor<BarometricReading> {
         if(time<data.getNext_update()) {
             return;
         }
-        StateTransitions.instance.add_transition(new String[]{"Copy Barometer"});
+        StateTransitions.instance.add_transition(new String[]{"Copy Sensor Values"});
+        //StateTransitions.instance.add_transition(new String[]{"Copy Barometer"});
         JiveStateLog.setjniSensors("BaroSensor_execute_Periodic");
 
   /* pressure in Pascal TODO this was a float*/

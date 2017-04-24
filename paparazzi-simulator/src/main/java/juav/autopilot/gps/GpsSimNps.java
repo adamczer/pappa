@@ -1,5 +1,6 @@
 package juav.autopilot.gps;
 
+import jive.logging.StateTransitions;
 import juav.logging.JiveStateLog;
 import juav.simulator.tasks.sensors.readings.GpsReading;
 import ub.cse.juav.jni.gps.GpsNative;
@@ -21,7 +22,14 @@ public class GpsSimNps implements IGpsNps{
         GpsNativeWrapper.gps_feed_value_tow_juav(PaparazziNpsWrapper.getNpsMainSimTime());
         GpsNativeWrapper.gps_feed_value_ecef_pos_juav(reading.getEcef_pos().getX()*100.d,reading.getEcef_pos().getY()*100.d,reading.getEcef_pos().getZ()*100.d);
         GpsNativeWrapper.gps_feed_value_ecef_vel_juav(reading.getEcef_vel().getX()*100.d,reading.getEcef_vel().getY()*100.d,reading.getEcef_vel().getZ()*100.d);
-        GpsNativeWrapper.gps_feed_value_lla_pos_juav(UtilityFunctions.DegOfRad(reading.getLla_pos().getLat())* 1e7,UtilityFunctions.DegOfRad(reading.getLla_pos().getLon())* 1e7,reading.getLla_pos().getAlt()*1000.d);
+
+        double lat = UtilityFunctions.DegOfRad(reading.getLla_pos().getLat())* 1e7;
+        double lon = UtilityFunctions.DegOfRad(reading.getLla_pos().getLon())* 1e7;
+        double alt = reading.getLla_pos().getAlt()*1000.d;
+        
+        StateTransitions.instance.add_points(lat,lon,alt);
+        
+        GpsNativeWrapper.gps_feed_value_lla_pos_juav(lat,lon,alt);
         GpsNativeWrapper.gps_feed_value_hmsl_juav(reading.getHmsl()*1000.d);
 ////
 ////        /* calc NED speed from ECEF */

@@ -12,7 +12,7 @@ public class JniNpsAutoPilotRunSystimeStep extends PeriodicTask {
     @Override
     public void execute() {
         NativeTasksWrapper.autoPilotRunSystimeStep();
-        StateTransitions.instance.add_transition(new String[]{"Run Sys Time"});
+       // StateTransitions.instance.add_transition(new String[]{"Run Sys Time"});
     }
 
     @Override

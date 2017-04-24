@@ -16,6 +16,8 @@ import static juav.autopilot.stabilization.Stabilization.setStabilizationCommand
 import static juav.autopilot.state.State.*;
 import static ub.juav.airborne.math.functions.algebra.PprzAlgebraInt.*;
 
+import jive.logging.StateTransitions;
+
 /**
  * Created by adamczer on 10/28/16.
  */
@@ -116,6 +118,7 @@ public class GuidanceV {
 
     public void guidance_v_read_rc() //CHECKED equal
     {
+    	// StateTransitions.instance.add_transition(new String[]{"GuidanceV_readRC"});
     	JiveStateLog.setGuidanceVMode("Guidance_v_read_rc");
   /* used in RC_DIRECT directly and as saturation in CLIMB and HOVER */
         guidance_v_rc_delta_t = radio_control.getValue(RADIO_THROTTLE);
@@ -191,8 +194,9 @@ public class GuidanceV {
 //        }
 
         guidance_v_mode = new_mode;
-
+        //StateTransitions.instance.add_transition(new String[]{"GuidanceV_setMode"});
         NativeTasksWrapper.setGuidanceVMode(new_mode);
+        
         JiveStateLog.setGuidanceVMode("guidance_v_mode changed");
 
     }
@@ -201,12 +205,14 @@ public class GuidanceV {
 
     public void guidance_v_run(boolean in_flight)
     {
+    	 //StateTransitions.instance.add_transition(new String[]{"Running Guidance_V"});
     	JiveStateLog.setGuidanceVMode("Guidance_v_run");
 //  printf("guidance_v_run\n");//TODO
 
         // FIXME... SATURATIONS NOT TAKEN INTO ACCOUNT
         // AKA SUPERVISION and co
         guidance_v_thrust_coeff = get_vertical_thrust_coeff();
+       // StateTransitions.instance.add_transition(new String[]{"Running Guidance_V"});
 //        System.out.println("guidance_v_thrust_coeff = "+guidance_v_thrust_coeff);
         if (in_flight) {
             int vertical_thrust = (Stabilization.getStabilizationCommand(COMMAND_THRUST) * guidance_v_thrust_coeff) >> INT32_TRIG_FRAC;
@@ -280,12 +286,16 @@ public class GuidanceV {
                     guidance_v_zd_sp = 0;
                     gv_update_ref_from_z_sp(guidance_v_z_sp);
                     run_hover_loop(in_flight);
+                   // StateTransitions.instance.add_transition(new String[]{"nav_getNav_VMode"});
+                    
                 } else if (getNavVerticleMode() == VERTICAL_MODE_CLIMB) {
 //        printf("vertical_mode == VERTICAL_MODE_CLIMB\n");
                     guidance_v_z_sp = stateGetPositionNed_i().z;
                     guidance_v_zd_sp = -getNavClimb();
                     gv_update_ref_from_zd_sp(guidance_v_zd_sp, stateGetPositionNed_i().z);
                     run_hover_loop(in_flight);
+                   // StateTransitions.instance.add_transition(new String[]{"nav_getNav_VMode"});
+                    
                 } else if (getNavVerticleMode() == VERTICAL_MODE_MANUAL) {
 //        System.out.println("vertical_mode == VERTICAL_MODE_MANUAL");
                     guidance_v_z_sp = stateGetPositionNed_i().z;
@@ -293,6 +303,8 @@ public class GuidanceV {
                     GuidanceVSetRef(guidance_v_z_sp, guidance_v_zd_sp, 0);
                     guidance_v_z_sum_err = 0;
                     guidance_v_delta_t = getNavThrottle();
+                  //  StateTransitions.instance.add_transition(new String[]{"nav_getNav_VMode"});
+                    
                 }
 //                #if !NO_RC_THRUST_LIMIT
 //      printf("!NO_RC_THRUST_LIMIT\n");
@@ -317,10 +329,12 @@ public class GuidanceV {
             default:
                 break;
         }
+        //StateTransitions.instance.add_transition(new String[]{"Running Guidance_V"});
     }
 
     /// get the cosine of the angle between thrust vector and gravity vector
     public static int get_vertical_thrust_coeff() {
+    	 //StateTransitions.instance.add_transition(new String[]{"GuidanceV_get_Vert_Coeff"});
     	JiveStateLog.setGuidanceVMode("Guidance_v_get_vertical_thrust_coeff");
         // cos(30°) = 0.8660254
         int max_bank_coef = BFP_OF_REAL(0.8660254f, INT32_TRIG_FRAC);
@@ -353,6 +367,7 @@ public class GuidanceV {
     static void run_hover_loop(boolean in_flight)
     {
 //  printf("run_hover_loop\n");
+    	// StateTransitions.instance.add_transition(new String[]{"GuidanceV_run_hover_loop"});
     	JiveStateLog.setGuidanceVMode("Guidance_v_run_hover_loop");
   /* convert our reference to generic representation */
         long tmp  = gv_z_ref >> (GV_Z_REF_FRAC - INT32_POS_FRAC);
@@ -407,6 +422,7 @@ public class GuidanceV {
     }
 
     static void GuidanceVSetRef(int _pos, int _speed, int _accel) {
+    	 //StateTransitions.instance.add_transition(new String[]{"GuidanceV_setRef"});
     	JiveStateLog.setGuidanceVMode("Guidance_v_setRef");
         gv_set_ref(_pos, _speed, _accel);
         guidance_v_z_ref = _pos;

@@ -63,7 +63,8 @@ public class JniMagSensor extends ISensor<MagneticReading> {
         if(time<data.getNext_update()) {
             return;
         }
-        StateTransitions.instance.add_transition(new String[]{"Copy Magnometer"});
+        StateTransitions.instance.add_transition(new String[]{"Copy Sensor Values"});
+        //StateTransitions.instance.add_transition(new String[]{"Copy Magnometer"});
         JiveStateLog.setjniSensors("MagSensor_execute_Periodic");
 
 //        //TODO refactor this to be object updated prior to mag,gyro,accel and set on these sesors.

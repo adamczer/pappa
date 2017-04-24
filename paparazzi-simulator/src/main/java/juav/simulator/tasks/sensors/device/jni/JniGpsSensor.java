@@ -43,7 +43,8 @@ public class JniGpsSensor extends ISensor<GpsReading> {
         if (time < data.getNext_update()) {
             return;
         }
-        StateTransitions.instance.add_transition(new String[]{"Copy GPS"});
+        StateTransitions.instance.add_transition(new String[]{"Copy Sensor Values"});
+        //StateTransitions.instance.add_transition(new String[]{"Copy GPS"});
         JiveStateLog.setjniSensors("GpsSensor_execute_Periodic");
 
 

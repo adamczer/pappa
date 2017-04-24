@@ -70,7 +70,8 @@ public class JniAccelSensor extends ISensor<AccelerometerReading> {
         if(time<data.getNext_update()) {
             return;
         }
-        StateTransitions.instance.add_transition(new String[]{"Copy Accel"});
+        StateTransitions.instance.add_transition(new String[]{"Copy Sensor Values"});
+       // StateTransitions.instance.add_transition(new String[]{"Copy Accel"});
         JiveStateLog.setjniSensors("AccelSensor_execute_Periodic");
 
         RMat<Double> bodyToImu = RMat.RMatDouble();

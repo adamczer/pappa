@@ -12,7 +12,7 @@ public class JniNpsFdmRunStep extends PeriodicTask {
     @Override
     public void execute() {
         NativeTasksWrapper.fdmRunStep();
-        StateTransitions.instance.add_transition(new String[]{"Run FDM"});
+       StateTransitions.instance.add_transition(new String[]{"Run FDM"});
     }
 
     @Override

@@ -1,9 +1,22 @@
 package jive.logging;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 public class StateTransitions {
 	Tree<Transition> trans;
 	String[] oldvalues;
+	private static int iterCount = 0;
+	public HashMap<String,ArrayList<Integer>> map = new HashMap<String,ArrayList<Integer>>();
+	
+	public HashMap<Integer,ArrayList<Double>> map1  = new HashMap<Integer,ArrayList<Double>>();
+	
+	public static void incrementIterCounter (){
+		iterCount++;
+	}
 	public static StateTransitions instance = new StateTransitions(new String[]{"Start"});
 	public StateTransitions(int[] a) {
 		int n = a.length;
@@ -36,6 +49,21 @@ public class StateTransitions {
 		oldvalues = newvalues;
 	}
 	
+	public synchronized void add_iteration(String methodName){
+		ArrayList temp = new ArrayList<Integer>();
+		if(map.containsKey(methodName)){
+			temp = map.get(methodName);
+			temp.add(iterCount);
+			map.put(methodName, temp);
+		}else{
+			if(temp.isEmpty()){
+				temp.add(1);
+				map.put(methodName,temp);
+			}	
+		}
+		
+	}
+	
 	synchronized void add_transition(int[] a) {
 		int n = a.length;
 		String[] newvalues = new String[n];
@@ -51,6 +79,27 @@ public class StateTransitions {
 		System.out.println("@startuml");
 		trans.print();
 		System.out.println("@enduml");
+		
+		print_map();
+		//TODO print position
+	}
+	
+	public synchronized void print_map(){
+	Set s = map.entrySet();
+	Iterator iter = s.iterator();
+	
+	while(iter.hasNext()){
+		Map.Entry m = (Map.Entry) iter.next();
+		System.out.println("Key:" +m.getKey()+ "     Value:" +m.getValue());
+	}
+	}
+
+	public void add_points(double lat, double lon, double alt) {
+		ArrayList<Double> val = new ArrayList();
+		val.add(lat);
+		val.add(lon);
+		val.add(alt);		
+		map1.put(iterCount, val);
 	}
 }
 
@@ -98,6 +147,8 @@ class Transition implements Comparable<Transition> {	 // need to compare transit
 			System.out.print("," + newvalues[i]);
  	    System.out.println(")");
 	}
+	
+	
 
 }
 

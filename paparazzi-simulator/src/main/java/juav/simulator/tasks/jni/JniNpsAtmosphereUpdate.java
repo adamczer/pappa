@@ -14,7 +14,7 @@ public class JniNpsAtmosphereUpdate extends PeriodicTask {
     public void execute() {
     	
         NativeTasksWrapper.atmosphereUpdate();
-        StateTransitions.instance.add_transition(new String[]{"Run Atmosphere"});
+       // StateTransitions.instance.add_transition(new String[]{"Run Atmosphere"});
     }
 
     @Override

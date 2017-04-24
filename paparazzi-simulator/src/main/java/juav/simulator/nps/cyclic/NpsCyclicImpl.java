@@ -44,8 +44,8 @@ public class NpsCyclicImpl extends AbstractNpsImpl {
 	@Override
 	public void run() {
 		cyclicStateLog = "nps_cyclic_run";
-		JiveStateLog.setcyclicStateLog(cyclicStateLog);
-		StateTransitions.instance.add_transition(new String[]{"nps_cyclic_run"});
+		//JiveStateLog.setcyclicStateLog(cyclicStateLog);
+		//StateTransitions.instance.add_transition(new String[]{"nps_cyclic_run"});
 		if (timeHandler == null) {
 			throw new IllegalStateException("Time handler must be set on Nps simulator.");
 		}
@@ -94,6 +94,7 @@ public class NpsCyclicImpl extends AbstractNpsImpl {
 							PaparazziNpsWrapper.getNpsMainDisplayTime() + PaparazziNpsWrapper.getNpsMainDisplayDt());
 				}
 				cnt++;
+				StateTransitions.incrementIterCounter();
 			}
 
 			/*
@@ -127,7 +128,7 @@ public class NpsCyclicImpl extends AbstractNpsImpl {
 	public void init() {
 		cyclicStateLog = "nps_cyclic_init";
 		JiveStateLog.setcyclicStateLog(cyclicStateLog);
-		StateTransitions.instance.add_transition(new String[]{"nps_cyclic_init"});
+		//StateTransitions.instance.add_transition(new String[]{"nps_cyclic_init"});
 //		try {
 //			cyclicExecutiveLog = new FileOutputStream("cyclic-executive.log");
 //		} catch (FileNotFoundException e) {
@@ -192,9 +193,10 @@ public class NpsCyclicImpl extends AbstractNpsImpl {
 		// taskList.add(new JniNpsAutoPilotRunStep());
 
 		// Initialize all tasks
+		StateTransitions.instance.add_transition(new String[]{"Initialization Tasks"});
 		for (ITask task : taskList) {
 			
-			StateTransitions.instance.add_transition(new String[]{task.getClass().getSimpleName()+"init"});
+			//StateTransitions.instance.add_transition(new String[]{task.getClass().getSimpleName()+"init"});
 			task.init();
 			//StateTransitions.instance.add_transition(new String[]{""
 			
@@ -217,7 +219,7 @@ public class NpsCyclicImpl extends AbstractNpsImpl {
 		}));
 		cyclicStateLog = "main_pgm";
 		JiveStateLog.setcyclicStateLog(cyclicStateLog);
-		StateTransitions.instance.add_transition(new String[]{"Start_main"});
+		//StateTransitions.instance.add_transition(new String[]{"Start_main"});
 		if (args.length == 1) {
 			runSimulation(false);
 		} else {
