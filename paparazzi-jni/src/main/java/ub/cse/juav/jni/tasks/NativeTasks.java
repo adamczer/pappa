@@ -351,4 +351,11 @@ public class NativeTasks {
     public static native int getAttitudeRefSaturationMaxRateR();
 
     public static native void guidanceHRunJuavCaseModeNav(boolean inFlight);
+
+    public static native boolean handelPeriodicTaskModulesJuav();
+    public static native boolean handelPeriodicTaskRadioJuav();
+    public static native boolean handelPeriodicTaskFailsafeJuav();
+    public static native boolean handelPeriodicTaskElectricalJuav();
+    public static native boolean handelPeriodicTaskTelemetryJuav();
+    public static native boolean handelPeriodicTaskBaroJuav();
 }

@@ -126,7 +126,25 @@ public class NpsAutoPilotRotorCraft extends PeriodicTask {
         if(NativeTasksWrapper.sysTimeCheckAndAckTimerMainPeriodicJuav()) {
             newControlLoop();
             NativeTasksWrapper.mainPeriodicJuavAutopilotPost();
-            NativeTasksWrapper.handlePeriodicTasksFollowingMainPeriodicJuav();
+//            NativeTasksWrapper.handlePeriodicTasksFollowingMainPeriodicJuav();
+            if(NativeTasksWrapper.handelPeriodicTaskModulesJuav()) {
+                //TODO true
+            }
+            if(NativeTasksWrapper.handelPeriodicTaskRadioJuav()) {
+                //TODO true
+            }
+            if(NativeTasksWrapper.handelPeriodicTaskFailsafeJuav()) {
+                //TODO true
+            }
+            if(NativeTasksWrapper.handelPeriodicTaskElectricalJuav()) {
+                //TODO true
+            }
+            if(NativeTasksWrapper.handelPeriodicTaskTelemetryJuav()) {
+                //TODO true
+            }
+            if(NativeTasksWrapper.handelPeriodicTaskBaroJuav()) {
+                //TODO true
+            }
             NativeTasksWrapper.npsAutopilotRunStepConvertMotorMixingCommandsToAutopilotCommands();
             StateTransitions.instance.add_transition(new String[]{"Commands to simulator"});
         }

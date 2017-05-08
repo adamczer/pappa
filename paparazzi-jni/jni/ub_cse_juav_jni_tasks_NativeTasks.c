@@ -1343,3 +1343,33 @@ JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_guidanceHRunJuavCa
   (JNIEnv *env, jclass thisClass, jboolean in_flight) {
   juav_guidance_h_mode_nav_case_in_run(in_flight);
   }
+
+JNIEXPORT jboolean JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_handelPeriodicTaskModulesJuav
+  (JNIEnv *env, jclass thisClass) {
+    return handel_periodic_task_modules_juav();
+  }
+
+JNIEXPORT jboolean JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_handelPeriodicTaskRadioJuav
+  (JNIEnv *env, jclass thisClass) {
+    return handel_periodic_task_radio_juav();
+  }
+
+JNIEXPORT jboolean JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_handelPeriodicTaskFailsafeJuav
+  (JNIEnv *env, jclass thisClass) {
+    return handel_periodic_task_failsafe_juav();
+  }
+
+JNIEXPORT jboolean JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_handelPeriodicTaskElectricalJuav
+  (JNIEnv *env, jclass thisClass) {
+    return handel_periodic_task_electrical_juav();
+  }
+
+JNIEXPORT jboolean JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_handelPeriodicTaskTelemetryJuav
+  (JNIEnv *env, jclass thisClass) {
+    return handel_periodic_task_telemetry_juav();
+  }
+
+JNIEXPORT jboolean JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_handelPeriodicTaskBaroJuav
+  (JNIEnv *env, jclass thisClass) {
+    return handel_periodic_task_baro_juav();
+  }
