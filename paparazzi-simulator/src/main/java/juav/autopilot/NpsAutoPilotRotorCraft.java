@@ -12,6 +12,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import jive.logging.StateTransitions;
+
 /**
  * Created by adamczer on 5/30/16.
  */
@@ -26,10 +28,11 @@ public class NpsAutoPilotRotorCraft extends PeriodicTask {
     Autopilot autopilot;
 
     String sensorState;
-    
+    int counter = 0;
     @Override
     public void execute() {
         double time = PaparazziNpsWrapper.getNpsMainSimTime();
+        StateTransitions.instance.add_transition(new String[]{"Run NpsAutopilot"});
         npsAutopilotRunStep(time);
     }
 
@@ -44,11 +47,14 @@ public class NpsAutoPilotRotorCraft extends PeriodicTask {
             main_event();
         }
 
+        
 //        NativeTasksWrapper.npsSensorFeedStepGyro();
         if (gyroSensor.getData().isData_available()) {
         	//sensorState = "gyroSensor reading available";
         	//JiveStateLog.setsensorState(sensorState);
             jniImuNps.imuFeedGyro(gyroSensor.getData());
+            StateTransitions.instance.add_transition(new String[]{"Feed Sensor Values"});
+            //StateTransitions.instance.add_transition(new String[]{"Feed Gyro"});
             main_event();
             gyroSensor.getData().setData_available(false);
         }
@@ -58,6 +64,8 @@ public class NpsAutoPilotRotorCraft extends PeriodicTask {
         	//sensorState = "accelSensor reading available";
         	//JiveStateLog.setsensorState(sensorState);
             jniImuNps.imuFeedAccel(accelSensor.getData());
+            StateTransitions.instance.add_transition(new String[]{"Feed Sensor Values"});
+            //StateTransitions.instance.add_transition(new String[]{"Feed Accel"});
             main_event();
             accelSensor.getData().setData_available(false);
         }
@@ -68,6 +76,8 @@ public class NpsAutoPilotRotorCraft extends PeriodicTask {
         	//sensorState = "magSensor reading available";
         	//JiveStateLog.setsensorState(sensorState);
             jniImuNps.imuFeedMag(magSensor.getData());
+            StateTransitions.instance.add_transition(new String[]{"Feed Sensor Values"});
+            //StateTransitions.instance.add_transition(new String[]{"Feed Magnometer"});
             main_event();
             magSensor.getData().setData_available(false);
         }
@@ -78,6 +88,8 @@ public class NpsAutoPilotRotorCraft extends PeriodicTask {
         	//JiveStateLog.setsensorState(sensorState);
             float pressure = (float) baroSensor.getData().getValue();
             NativeTasksWrapper.sendBarometricReading(pressure);
+            StateTransitions.instance.add_transition(new String[]{"Feed Sensor Values"});
+            //StateTransitions.instance.add_transition(new String[]{"Feed Barometer"});
             main_event();
             baroSensor.getData().setData_available(false);
         }
@@ -100,19 +112,41 @@ public class NpsAutoPilotRotorCraft extends PeriodicTask {
         	//sensorState = "gpsSensor reading available";
         	//JiveStateLog.setsensorState(sensorState);
             gpsSimNps.gpsFeedValue(gpsSensor.getData());
+            //StateTransitions.instance.add_transition(new String[]{"Feed GPS"});
             main_event();
             gpsSensor.getData().setData_available(false);
         }
 
         NativeTasksWrapper.npsAutopilotRunStepOverwriteAhrs();
+        StateTransitions.instance.add_transition(new String[]{"Overwrite AHRS"});
         NativeTasksWrapper.npsAutopilotRunStepOverwriteIns();
+        StateTransitions.instance.add_transition(new String[]{"Overwrite Ins"});
 /***************************************************************/
         long mainPeriodicStart = System.nanoTime();
         if(NativeTasksWrapper.sysTimeCheckAndAckTimerMainPeriodicJuav()) {
             newControlLoop();
             NativeTasksWrapper.mainPeriodicJuavAutopilotPost();
-            NativeTasksWrapper.handlePeriodicTasksFollowingMainPeriodicJuav();
+//            NativeTasksWrapper.handlePeriodicTasksFollowingMainPeriodicJuav();
+            if(NativeTasksWrapper.handelPeriodicTaskModulesJuav()) {
+                //TODO true
+            }
+            if(NativeTasksWrapper.handelPeriodicTaskRadioJuav()) {
+                //TODO true
+            }
+            if(NativeTasksWrapper.handelPeriodicTaskFailsafeJuav()) {
+                //TODO true
+            }
+            if(NativeTasksWrapper.handelPeriodicTaskElectricalJuav()) {
+                //TODO true
+            }
+            if(NativeTasksWrapper.handelPeriodicTaskTelemetryJuav()) {
+                //TODO true
+            }
+            if(NativeTasksWrapper.handelPeriodicTaskBaroJuav()) {
+                //TODO true
+            }
             NativeTasksWrapper.npsAutopilotRunStepConvertMotorMixingCommandsToAutopilotCommands();
+            StateTransitions.instance.add_transition(new String[]{"Commands to simulator"});
         }
         long mainPeriodicEnd = System.nanoTime();
         try {
@@ -143,7 +177,10 @@ public class NpsAutoPilotRotorCraft extends PeriodicTask {
 
     private void newControlLoop() {
     	sensorState = "newControlLoop";
+    	StateTransitions.instance.add_transition(new String[]{"run Autopilot"});
+    	StateTransitions.instance.add_iteration("AutoPilot");
         autopilot.autopilot_periodic();
+        
 //        NativeTasksWrapper.juavAutopilotPeriodic();
     }
 

@@ -1955,4 +1955,52 @@ public class NativeTasksWrapper {
             NativeTasks.guidanceHRunJuavCaseModeNav(inFlight);
         }
     }
+
+    public static boolean handelPeriodicTaskModulesJuav() {
+        if(NativeSwitch.isFiji()) {
+            throw new IllegalStateException("UNIMPLEMENTED");
+        } else {
+            return NativeTasks.handelPeriodicTaskModulesJuav();
+        }
+    }
+
+    public static boolean handelPeriodicTaskRadioJuav() {
+        if(NativeSwitch.isFiji()) {
+            throw new IllegalStateException("UNIMPLEMENTED");
+        } else {
+            return NativeTasks.handelPeriodicTaskRadioJuav();
+        }
+    }
+
+    public static boolean handelPeriodicTaskFailsafeJuav() {
+        if(NativeSwitch.isFiji()) {
+            throw new IllegalStateException("UNIMPLEMENTED");
+        } else {
+            return NativeTasks.handelPeriodicTaskFailsafeJuav();
+        }
+    }
+
+    public static boolean handelPeriodicTaskElectricalJuav() {
+        if(NativeSwitch.isFiji()) {
+            throw new IllegalStateException("UNIMPLEMENTED");
+        } else {
+            return NativeTasks.handelPeriodicTaskElectricalJuav();
+        }
+    }
+
+    public static boolean handelPeriodicTaskTelemetryJuav() {
+        if(NativeSwitch.isFiji()) {
+            throw new IllegalStateException("UNIMPLEMENTED");
+        } else {
+            return NativeTasks.handelPeriodicTaskTelemetryJuav();
+        }
+    }
+
+    public static boolean handelPeriodicTaskBaroJuav() {
+        if(NativeSwitch.isFiji()) {
+            throw new IllegalStateException("UNIMPLEMENTED");
+        } else {
+            return NativeTasks.handelPeriodicTaskBaroJuav();
+        }
+    }
 }

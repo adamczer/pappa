@@ -1945,10 +1945,50 @@ JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_guidanceHRunJuavCa
 
 /*
  * Class:     ub_cse_juav_jni_tasks_NativeTasks
- * Method:    ghUpdateRefFromPosSpJuav
- * Signature: ()V
+ * Method:    handelPeriodicTaskModulesJuav
+ * Signature: ()Z
  */
-JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_ghUpdateRefFromPosSpJuav
+JNIEXPORT jboolean JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_handelPeriodicTaskModulesJuav
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    handelPeriodicTaskRadioJuav
+ * Signature: ()Z
+ */
+JNIEXPORT jboolean JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_handelPeriodicTaskRadioJuav
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    handelPeriodicTaskFailsafeJuav
+ * Signature: ()Z
+ */
+JNIEXPORT jboolean JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_handelPeriodicTaskFailsafeJuav
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    handelPeriodicTaskElectricalJuav
+ * Signature: ()Z
+ */
+JNIEXPORT jboolean JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_handelPeriodicTaskElectricalJuav
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    handelPeriodicTaskTelemetryJuav
+ * Signature: ()Z
+ */
+JNIEXPORT jboolean JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_handelPeriodicTaskTelemetryJuav
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_tasks_NativeTasks
+ * Method:    handelPeriodicTaskBaroJuav
+ * Signature: ()Z
+ */
+JNIEXPORT jboolean JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_handelPeriodicTaskBaroJuav
   (JNIEnv *, jclass);
 
 #ifdef __cplusplus

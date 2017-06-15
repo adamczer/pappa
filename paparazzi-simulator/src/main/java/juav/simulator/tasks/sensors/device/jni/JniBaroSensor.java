@@ -1,4 +1,5 @@
 package juav.simulator.tasks.sensors.device.jni;
+import jive.logging.StateTransitions;
 import juav.logging.JiveStateLog;
 import juav.simulator.nps.random.NpsRandom;
 import juav.simulator.tasks.sensors.ISensor;
@@ -24,6 +25,8 @@ public class JniBaroSensor extends ISensor<BarometricReading> {
         if(time<data.getNext_update()) {
             return;
         }
+        StateTransitions.instance.add_transition(new String[]{"Copy Sensor Values"});
+        //StateTransitions.instance.add_transition(new String[]{"Copy Barometer"});
         JiveStateLog.setjniSensors("BaroSensor_execute_Periodic");
 
   /* pressure in Pascal TODO this was a float*/

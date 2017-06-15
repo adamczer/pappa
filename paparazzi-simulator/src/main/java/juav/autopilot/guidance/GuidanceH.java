@@ -24,6 +24,8 @@ import static ub.juav.airborne.math.functions.algebra.PprzAlgebraInt.*;
 import static ub.juav.airborne.math.functions.geodetic.PprzGeodeticInt.INT32_VECT2_NED_OF_ENU;
 import static ub.juav.airborne.math.util.UtilityFunctions.*;
 
+import jive.logging.StateTransitions;
+
 /**
  * Created by adamczer on 6/9/16.
  */
@@ -122,13 +124,16 @@ public class GuidanceH {
     }
 
     public static void stabilizationAttitudeRun(boolean inFlight) {
+    	// StateTransitions.instance.add_transition(new String[]{"GuidanceH_stabilizationAttitudeRun"});
     	 JiveStateLog.setGuidanceHMode("guidance_h_stabilization_attitude_run");
         stabilization_attitude_run(inFlight);
     }
 
     public void guidance_h_traj_run(boolean inFlight)
     {
-    	 JiveStateLog.setGuidanceHMode("guidance_h_traj_run");
+    	//StateTransitions.instance.add_transition(new String[]{"GuidanceH_Traj_Run"});
+    	
+    	JiveStateLog.setGuidanceHMode("guidance_h_traj_run");
 //        NativeTasksWrapper.guidanceHTrajRun(inFlight);
         Vect2<Integer> guidance_h_cmd_earth = Vect2.newIntVect2();
   /* maximum bank angle: default 20 deg, max 40 deg*/
@@ -251,7 +256,8 @@ public class GuidanceH {
 
     public void guidance_h_read_rc(boolean in_flight)
     {
-    	 JiveStateLog.setGuidanceHMode("guidance_h_read_rc");
+    	 //StateTransitions.instance.add_transition(new String[]{"GuidanceH_readRC"}); 
+    	JiveStateLog.setGuidanceHMode("guidance_h_read_rc");
 //        NativeTasksWrapper.guidanceHReadRc(in_flight);
         switch (guidance_h.mode) {
             case GUIDANCE_H_MODE_ATTITUDE: //TODO
@@ -272,7 +278,8 @@ public class GuidanceH {
 
     public void guidance_h_run(boolean  in_flight)
     {
-    	 JiveStateLog.setGuidanceHMode("guidance_h_run");
+    	 //StateTransitions.instance.add_transition(new String[]{"Running Guidance_H"}); 
+    	JiveStateLog.setGuidanceHMode("guidance_h_run");
         switch (guidance_h.mode) {
             case GUIDANCE_H_MODE_ATTITUDE:
                 stabilization_attitude_run(in_flight);
@@ -280,6 +287,7 @@ public class GuidanceH {
             case GUIDANCE_H_MODE_NAV:
                 if (!in_flight) {
                     guidance_h_nav_enter();
+                  // StateTransitions.instance.add_transition(new String[]{"Running Guidance_H"}); 
                 }
                 int horizantalMode = getHorizantalMode();
                 if (horizantalMode == HORIZONTAL_MODE_ATTITUDE) {
@@ -288,34 +296,41 @@ public class GuidanceH {
                     sp_cmd_i.theta = getNavPitch();
                     sp_cmd_i.psi = getNavHeading();
                     stabilization_attitude_set_rpy_setpoint_i(sp_cmd_i);
+                    //StateTransitions.instance.add_transition(new String[]{"Running Guidance_H"}); 
                 }else {
                     Vect2<Integer> newPosVect = Vect2.newIntVect2();
                     INT32_VECT2_NED_OF_ENU(newPosVect, getNavigationCarrot());
                     guidance_h.sp.setPos(newPosVect);//
                     guidance_h_update_reference();
+                    
         /* set psi command */
                     int newHeading = getNavHeading();
                     newHeading = INT32_ANGLE_NORMALIZE(newHeading);
                     guidance_h.sp.setHeading(newHeading);
         /* compute x,y earth commands */
                     guidance_h_traj_run(in_flight);
+                    
         /* set final attitude setpoint */
                     stabilization_attitude_set_earth_cmd_i(getGuidanceHCmdEarth(),
                             newHeading);
+                    //StateTransitions.instance.add_transition(new String[]{"Running Guidance_H"}); 
                 }
 //                NativeTasksWrapper.guidanceHRunJuavCaseModeNav(in_flight);
                 stabilization_attitude_run(in_flight);
+               //StateTransitions.instance.add_transition(new String[]{"Running Guidance_H"}); 
                 break;
 
             default:
                 break;
         }
+        //StateTransitions.instance.add_transition(new String[]{"Running Guidance_H"});
     }
 
 
     public static void guidance_h_update_reference()
     {
-    	 JiveStateLog.setGuidanceHMode("guidance_h_update_reference");
+    	// StateTransitions.instance.add_transition(new String[]{"GuidanceH_updateRef"}); 
+    	JiveStateLog.setGuidanceHMode("guidance_h_update_reference");
 //        NativeTasksWrapper.guidanceHUpdateReference();if(true)return;//TODO fix me error...
   /* compute reference even if usage temporarily disabled via guidance_h_use_ref */
 //        #if GUIDANCE_H_USE_REF
@@ -363,7 +378,8 @@ public class GuidanceH {
 
     static void guidance_h_nav_enter()
     {
-    	 JiveStateLog.setGuidanceHMode("guidance_h_nav_enter");
+    	// StateTransitions.instance.add_transition(new String[]{"GuidanceH_Nav"}); 
+    	JiveStateLog.setGuidanceHMode("guidance_h_nav_enter");
 //        NativeTasksWrapper.guidanceHNavEnter();if(true)return; //test function
   /* horizontal position setpoint from navigation/flightplan */
         Vect2<Integer> newPos = Vect2.newIntVect2();
@@ -373,5 +389,6 @@ public class GuidanceH {
         reset_guidance_reference_from_current_position();
 
         setNavHeading(stateGetNedToBodyEulers_i().psi);
+       // StateTransitions.instance.add_transition(new String[]{"GuidanceH_Nav"}); 
     }
 }
