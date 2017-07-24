@@ -33,7 +33,7 @@
             <artifactId>fiji-rtsj</artifactId>
             <version>1.0.0</version>
             <scope>system</scope>
-            <systemPath>/home/adamczer/juav/test/fivm/lib/rtsj.jar</systemPath>
+            <systemPath>/home/aniruddha/Desktop/pappa/libs/rtsj.jar</systemPath>
         </dependency>
         <!--<dependency>-->
             <!--<groupId>org.fiji</groupId>-->

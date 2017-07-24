@@ -1,4 +1,4 @@
-LOCAL_JAVA_HOME=/usr/lib/jvm/java-7-openjdk-i386/
+LOCAL_JAVA_HOME=/usr/lib/jvm/java-8-openjdk-i386/
 JNI_FLAGS=-I$(LOCAL_JAVA_HOME)/include -I$(LOCAL_JAVA_HOME)/include/linux/
 PPRZ_HOME=${PAPARAZZI_HOME}
 

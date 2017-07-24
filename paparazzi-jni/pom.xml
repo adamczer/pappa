@@ -25,7 +25,7 @@
             <artifactId>fiji-common</artifactId>
             <version>1.0.0</version>
             <scope>system</scope>
-            <systemPath>/home/adamczer/juav/test/fivm/lib/fivmcommon.jar</systemPath>
+            <systemPath>/home/aniruddha/Desktop/pappa/libs/fivmcommon.jar</systemPath>
         </dependency>
     </dependencies>
 </project>
