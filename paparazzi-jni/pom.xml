@@ -25,7 +25,7 @@
             <artifactId>fiji-common</artifactId>
             <version>1.0.0</version>
             <scope>system</scope>
-            <systemPath>/home/adamczer/juav/test/fivm/lib/fivmcommon.jar</systemPath>
+            <systemPath>${env.JUAV_SRC}/lib/fivmcommon.jar</systemPath>
         </dependency>
     </dependencies>
 </project>

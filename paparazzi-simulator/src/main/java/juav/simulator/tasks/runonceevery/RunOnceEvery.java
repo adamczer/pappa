@@ -8,6 +8,7 @@ public abstract class RunOnceEvery {
     public void runOnceEvery(int threshold) {
          if(counter++>=threshold) {
              work();
+             counter=0;
          }
     }
     protected abstract void work();

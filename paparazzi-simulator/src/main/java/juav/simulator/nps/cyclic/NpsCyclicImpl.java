@@ -201,9 +201,10 @@ public class NpsCyclicImpl extends AbstractNpsImpl {
 
     public static void runSimulation(boolean isFiji) {
         if(!isFiji) {
-            File pprzLib = new File("/home/adamczer/juav/working-code-02-13-2017/juav-autopilot-fiji/paparazzi-jni/libs/libpprz.so");
+            String juavSrc = System.getenv("JUAV_SRC"); /* SET ENVIRONMENT VARIABLE TO jUAV project root*/
+            File pprzLib = new File(juavSrc+"/paparazzi-jni/libs/libpprz.so");
             System.load(pprzLib.getAbsolutePath());
-            File lib = new File("/home/adamczer/juav/working-code-02-13-2017/juav-autopilot-fiji/paparazzi-jni/bin/libpapa_native.so");
+            File lib = new File(juavSrc + "/paparazzi-jni/bin/libpapa_native.so");
             System.load(lib.getAbsolutePath());
             isFiji = false;
         }

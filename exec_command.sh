@@ -1,4 +1,4 @@
 #! /bin/bash
 
-cd /home/adamczer/IdeaProjects/juav-autopilot/
+cd $JUAV_SRC
 ./paparazzi-deploy/project-root-run.sh

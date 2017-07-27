@@ -33,14 +33,7 @@
             <artifactId>fiji-rtsj</artifactId>
             <version>1.0.0</version>
             <scope>system</scope>
-            <systemPath>/home/adamczer/juav/test/fivm/lib/rtsj.jar</systemPath>
+            <systemPath>${env.JUAV_SRC}/lib/rtsj.jar</systemPath>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>org.fiji</groupId>-->
-            <!--<artifactId>fiji-scj</artifactId>-->
-            <!--<version>1.0.0</version>-->
-            <!--<scope>system</scope>-->
-            <!--<systemPath>/home/adamczer/juav/test/fivm/lib/scj.jar</systemPath>-->
-        <!--</dependency>-->
     </dependencies>
 </project>
