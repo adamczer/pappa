@@ -93,16 +93,19 @@ public class NpsAutoPilotRotorCraft extends PeriodicTask {
         NativeTasksWrapper.npsAutopilotRunStepOverwriteAhrs();
         NativeTasksWrapper.npsAutopilotRunStepOverwriteIns();
 /***************************************************************/
-        long mainPeriodicStart = System.nanoTime();
+        long mainPeriodicStart = -1;
+        long mainPeriodicEnd =-1;
         if(NativeTasksWrapper.sysTimeCheckAndAckTimerMainPeriodicJuav()) {
+            mainPeriodicStart = System.nanoTime();
             newControlLoop();
             NativeTasksWrapper.mainPeriodicJuavAutopilotPost();
+            mainPeriodicEnd=System.nanoTime();
             NativeTasksWrapper.handlePeriodicTasksFollowingMainPeriodicJuav();
             NativeTasksWrapper.npsAutopilotRunStepConvertMotorMixingCommandsToAutopilotCommands();
         }
-        long mainPeriodicEnd = System.nanoTime();
         try {
-            fis.write((""+(iterationCount++)+" "+mainPeriodicStart+" "+mainPeriodicEnd+" "+(mainPeriodicEnd-mainPeriodicStart)+"\n").getBytes());
+            if(mainPeriodicStart!=-1)
+                fis.write((""+(iterationCount++)+" "+mainPeriodicStart+" "+mainPeriodicEnd+" "+(mainPeriodicEnd-mainPeriodicStart)+"\n").getBytes());
         } catch (IOException e) {
             e.printStackTrace();
         }
