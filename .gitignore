@@ -10,6 +10,13 @@
 *.war
 *.ear
 
+# eclipse files
+*.project
+*.classpath
+*.gitignore
+*.settings
+*.log
+
 .idea/
 */target/*
 *.iml
