@@ -106,7 +106,7 @@ public class NpsCyclicImpl extends AbstractNpsImpl {
     @Override
     public void init() {
         try {
-            cyclicExecutiveLog = new FileOutputStream("cyclic-executive.log");
+            cyclicExecutiveLog = new FileOutputStream("cyclic_executive.log");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
