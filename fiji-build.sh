@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 rm -rf juav-fiji
 mkdir juav-fiji
 cd juav-fiji
@@ -55,7 +56,7 @@ $FIJI_HOME/bin/fivmc \
 --more-opt \
 --c-opt SPEED \
 --g-def-max-mem 8601560 \
---gc CMR  \
---link-dir libs -o JuavFiji ./build/*.class --extra-include 'nps_main.h' --link-dynamic pprz --extra-include 'nps_autopilot.h' --link-dynamic pprz --extra-include 'nps_fdm.h' --link-dynamic pprz --extra-include 'autopilot.h' --link-dynamic pprz --extra-include 'stabilization_attitude_quat_int.h' --link-dynamic pprz
+--gc CMR  --64 \
+--link-dir libs -o JuavFiji ./build/*.class --extra-include 'nps_main.h' --link-dynamic pprz --extra-include 'nps_autopilot.h' --extra-include 'nps_fdm.h' --extra-include 'autopilot.h' --extra-include 'stabilization_attitude_quat_int.h'
 export LD_LIBRARY_PATH=/lib:/usr/lib:/usr/local/lib
 sudo cp libs/libpprz.so /usr/local/lib/
