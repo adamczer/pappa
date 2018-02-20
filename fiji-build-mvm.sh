@@ -1,6 +1,6 @@
-rm -rf juav-fiji
-mkdir juav-fiji
-cd juav-fiji
+rm -rf juav-fiji-mvm
+mkdir juav-fiji-mvm
+cd juav-fiji-mvm
 mkdir juav-jars
 cp ../paparazzi-airborne/target/paparazzi-airborne-1.0-SNAPSHOT.jar juav-jars/
 cp ../paparazzi-jni/target/paparazzi-jni-1.0-SNAPSHOT.jar juav-jars/
@@ -21,7 +21,7 @@ find juav-jars/ -name \*.class -exec cp {} build/ \;
 mkdir libs
 #cp ../paparazzi-jni/bin/libpapa_native.so  libs/
 #cp ../paparazzi-jni/libs/libpprz.so libs/
-cp ${PAPARAZZI_HOME}/var/aircrafts/Quad_LisaM_2/nps/libpprz.a libs/
+cp ${PAPARAZZI_HOME}/var/aircrafts/Quad_LisaM_2/nps/libpprz.* libs/
 
 mkdir includes
 cp $PAPARAZZI_HOME/sw/simulator/nps/nps_main.h includes/
@@ -56,15 +56,18 @@ $FIJI_HOME/bin/fivmc \
 --more-opt \
 --c-opt SPEED \
 --g-def-max-mem 8601560 \
---gc CMR  \
+--gc CMR  --64 \
 --payload \
 --rt-library=RTSJ \
--o JuavFiji ./build/*.class --extra-include 'nps_main.h' --link /home/adamczer/workspace/juav-autopilot-fiji/juav-fiji/libs/libpprz.a --extra-include 'nps_autopilot.h' --extra-include 'nps_fdm.h' --extra-include 'autopilot.h' --extra-include 'stabilization_attitude_quat_int.h'
+-o JuavFiji ./build/*.class --extra-include 'nps_main.h' --link-dynamic pprz --extra-include 'nps_autopilot.h' --extra-include 'nps_fdm.h' --extra-include 'autopilot.h' --extra-include 'stabilization_attitude_quat_int.h'
 # This is the apps that you produced
-cp /home/adamczer/mvm-work/test-app/Apps.java .
-cp /home/adamczer/mvm-work/test-app/VMConfig.java .
+cp ../mvm/app/Apps.java .
+cp ../mvm/app/VMConfig.java .
 javac -cp ${FIJI_HOME}/lib/rtsj.jar Apps.java
 javac -cp ${FIJI_HOME}/lib/rtsj.jar:${FIJI_HOME}/lib/fivmr.jar:${FIJI_HOME}/lib/fivmcommon.jar VMConfig.java
 ${FIJI_HOME}/bin/fivmc --rt-library=RTSJ --payload -o apps Apps.class
 ${FIJI_HOME}/bin/fivmc -o mvm --link-payload JuavFiji --link-payload apps VMConfig.class
 #--link-dynamic pprz
+export LD_LIBRARY_PATH=/lib:/usr/lib:/usr/local/lib
+sudo cp libs/libpprz.so /usr/local/lib/
+echo "su as root then set PAPARAZZI_HOME then run ./mvm"

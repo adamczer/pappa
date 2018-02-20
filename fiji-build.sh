@@ -60,3 +60,4 @@ $FIJI_HOME/bin/fivmc \
 --link-dir libs -o JuavFiji ./build/*.class --extra-include 'nps_main.h' --link-dynamic pprz --extra-include 'nps_autopilot.h' --extra-include 'nps_fdm.h' --extra-include 'autopilot.h' --extra-include 'stabilization_attitude_quat_int.h'
 export LD_LIBRARY_PATH=/lib:/usr/lib:/usr/local/lib
 sudo cp libs/libpprz.so /usr/local/lib/
+echo "su as root then set PAPARAZZI_HOME then run ./JuavFiji"
