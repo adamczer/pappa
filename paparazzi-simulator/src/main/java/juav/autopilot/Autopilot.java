@@ -8,7 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import jive.logging.StateTransitions;
+import jive.StateTransitions;
 
 import static juav.autopilot.AutopilotArmingYaw.autopilot_arming_check_motors_on;
 import static juav.autopilot.AutopilotArmingYaw.autopilot_arming_init;
@@ -240,7 +240,7 @@ public class Autopilot {
 //    printf("autopilot_init*********************************************************************************\n");
   /* mode is finally set at end of init if MODE_STARTUP is not KILL */
        autopilot_mode = AP_MODE_KILL;
-       // JiveStateLog.setAutopilotMode("AP_MODE_KILL");
+       JiveStateLog.setAutopilotMode("AP_MODE_KILL");
 //        autopilot_motors_on = false;
         kill_throttle = ! getAutopilotMotorsOn();
 //        autopilot_in_flight = false; //todo modified by c commands
@@ -271,7 +271,7 @@ public class Autopilot {
 
   /* set startup mode, propagates through to guidance h/v */
         autopilot_set_mode(MODE_STARTUP);
-        //JiveStateLog.setAutopilotMode("MODE_STARTUP");
+        JiveStateLog.setAutopilotMode("MODE_STARTUP");
         //TODO periodic telemetry
 //        throw new IllegalStateException("Implement periodic telemetry.");
 //        register_periodic_telemetry(DefaultPeriodic, PPRZ_MSG_ID_AUTOPILOT_VERSION, send_autopilot_version);
@@ -310,7 +310,8 @@ public class Autopilot {
     void autopilot_periodic()
     {
     	JiveStateLog.setAutopilotMode("AutoPilot_Periodic");
-    	// StateTransitions.instance.add_transition(new String[]{"Running : AP_Periodic"});
+    	//Oct StateTransitions.instance.add_transition(new String[]{"AutoPilot Periodic"});
+    	//StateTransitions.instance.add_transition(new String[]{"AutoP Periodic"});
     	long autopilotStart = System.nanoTime();
 //        System.out.println("autopilot_mode = "+autopilot_mode);
 
@@ -322,11 +323,11 @@ public class Autopilot {
                 if (getDist2ToHome() > failsafe_mode_dist2) {
                     autopilot_set_mode(FAILSAFE_MODE_TOO_FAR_FROM_HOME);
                    // StateTransitions.instance.add_transition(new String[]{"AP_MODE : FAILSAFE"});
-                    //JiveStateLog.setAutopilotMode("FAILSAFE_MODE_TOO_FAR_FROM_HOME");
+                    JiveStateLog.setAutopilotMode("FAILSAFE_MODE_TOO_FAR_FROM_HOME");
                 } else {
                     autopilot_set_mode(AP_MODE_HOME);
                    // StateTransitions.instance.add_transition(new String[]{"AP_MODE : HOME"});
-                    //JiveStateLog.setAutopilotMode("AP_MODE_HOME");
+                    JiveStateLog.setAutopilotMode("AP_MODE_HOME");
                 }
             }
         }
@@ -338,8 +339,9 @@ public class Autopilot {
         } else {
             // otherwise always call nav_periodic_task so that carrot is always updated in GCS for other modes
 //            RunOnceEvery(NAV_PRESCALER, nav_periodic_task());
-        	 //StateTransitions.instance.add_transition(new String[]{"AP: run Navigation"});
+        	 
         	nav_periodic_task.runOnceEvery((int) NAV_PRESCALER);
+        	//StateTransitions.instance.add_transition(new String[]{"AutoPilot Periodic"});
         	//StateTransitions.instance.add_transition(new String[]{"Running : AP_Periodic"});
         	
         }
@@ -352,7 +354,7 @@ public class Autopilot {
             if (!getAutopilotInFlight()) {
                 autopilot_set_mode(AP_MODE_KILL);
               //  StateTransitions.instance.add_transition(new String[]{"AP_MODE : KILL"});
-                //JiveStateLog.setAutopilotMode("AP_MODE_KILL");
+                JiveStateLog.setAutopilotMode("AP_MODE_KILL");
             }
 
 //            #if FAILSAFE_GROUND_DETECT
@@ -384,15 +386,30 @@ public class Autopilot {
             boolean inFlight = getAutopilotInFlight();
 //            NativeTasksWrapper.guidanceVRunJuav(inFlight);
             guidanceVRunStart = System.nanoTime();
-            StateTransitions.instance.add_iteration("GuidanceV");
-            //StateTransitions.instance.add_transition(new String[]{"AP :run guidance V"});
+            //StateTransitions.instance.add_iteration("GuidanceV");
+          //Oct StateTransitions.instance.add_transition(new String[]{"Vertical Guidance"});
+            long startTime = System.nanoTime();
             guidanceV.guidance_v_run(inFlight);
+            long interval = (System.nanoTime()-startTime)/1000000; //In ms
+            if(interval > 0){
+            System.out.println("Vertical Guidance: " +interval);
+            }
+            
+            
+            
             //StateTransitions.instance.add_transition(new String[]{"AP :run guidance V"});
             guidanceVRunEnd = System.nanoTime();
             guidanceHRunStart = System.nanoTime();
-            //StateTransitions.instance.add_transition(new String[]{"AP: run guidance H"});
-            StateTransitions.instance.add_iteration("GuidanceH");
+          //Oct StateTransitions.instance.add_transition(new String[]{"Horizontal Guidance"});
+            //StateTransitions.instance.add_transition(new String[]{"AutoPilot Periodic"});
+            //StateTransitions.instance.add_iteration("GuidanceH");
+            startTime = System.nanoTime();
             guidanceH.guidance_h_run(inFlight);//TODO
+            interval = (System.nanoTime()-startTime)/1000000; //In ms
+            if(interval > 0){
+            System.out.println("Horizontal Guidance: " +interval);
+            }
+            
             //StateTransitions.instance.add_transition(new String[]{"Running : AP_Periodic"});
 //            NativeTasksWrapper.guidanceHRunNativeTestJuav(inFlight);
             guidanceHRunEnd = System.nanoTime();
@@ -449,7 +466,8 @@ public class Autopilot {
 
     void autopilot_set_mode(short new_autopilot_mode)
     {
-    	JiveStateLog.setAutopilotMode("Autopilot_set_mode");
+    	//StateTransitions.instance.add_transition(new String[]{"AutoPilot SetMode"});
+    JiveStateLog.setAutopilotMode("Autopilot_set_mode");
 //        NativeTasksWrapper.setAutopilotModeNativeLogic(new_autopilot_mode); autopilot_mode = new_autopilot_mode;
 //        System.out.println("JAVA autopilot_set_mode = " +new_autopilot_mode);
 
@@ -566,8 +584,8 @@ public class Autopilot {
                 default:
                     break;
             }
-            autopilot_mode = new_autopilot_mode;
-
+            
+           
             NativeTasksWrapper.setAutopilotMode(new_autopilot_mode);
         }
 
@@ -609,7 +627,7 @@ public class Autopilot {
 //    }
 
     private void setAutopilotInFlight(boolean newInFlight) {
-    	JiveStateLog.setAutopilotMode("Autopilot_setAutopilotinFlight");
+    	//JiveStateLog.setAutopilotMode("Autopilot_setAutopilotinFlight");
         throw new IllegalStateException("UNIMPLEMENTED");
     }
 
@@ -627,7 +645,7 @@ public class Autopilot {
 //    }
 
     public static void setAutopilotMotorsOn(boolean b) {
-    	JiveStateLog.setAutopilotMode("Autopilot_setAutoPilotMotorsOn");
+    	//JiveStateLog.setAutopilotMode("Autopilot_setAutoPilotMotorsOn");
         //JiveStateLog.setMotorsOn(b);
         NativeTasksWrapper.juavSetAutopilotMotorsOn(b);
     }
@@ -639,7 +657,7 @@ public class Autopilot {
     /** get autopilot mode as set by RADIO_MODE 3-way switch */
     static short ap_mode_of_3way_switch()
     {
-    	JiveStateLog.setAutopilotMode("Ap_mode_of_3way_switch");
+    	//JiveStateLog.setAutopilotMode("Ap_mode_of_3way_switch");
 //        if (radio_control.values[RADIO_MODE] > THRESHOLD_2_PPRZ) {
         if (radio_control.getValue(RADIO_MODE) > THRESHOLD_2_PPRZ) {
             return autopilot_mode_auto2;
@@ -655,7 +673,7 @@ public class Autopilot {
 
     void autopilot_on_rc_frame()
     {
-    	JiveStateLog.setAutopilotMode("Autopilot_on_rc_frame");
+    	//JiveStateLog.setAutopilotMode("Autopilot_on_rc_frame");
         if (kill_switch_is_on()) {
             autopilot_set_mode(AP_MODE_KILL);
             //JiveStateLog.setAutopilotMode("AP_MODE_KILL");
@@ -718,13 +736,13 @@ public class Autopilot {
     }
 
     private static boolean GpsIsLost() {
-    	JiveStateLog.setAutopilotMode("AP_GpsIsLost");
+    //	JiveStateLog.setAutopilotMode("AP_GpsIsLost");
         return false;
     }
 
     static boolean ahrs_is_aligned()
     {
-    	JiveStateLog.setAutopilotMode("AutoPilot_ahrs_is_aligned");
+    	//JiveStateLog.setAutopilotMode("AutoPilot_ahrs_is_aligned");
         boolean ret = State.stateIsAttitudeValid();
        // JiveStateLog.setAhrsIsAligned(ret);
         return ret;

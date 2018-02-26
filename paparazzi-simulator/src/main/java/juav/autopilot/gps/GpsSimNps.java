@@ -1,6 +1,7 @@
 package juav.autopilot.gps;
 
-import jive.logging.StateTransitions;
+import jive.StateTransitions;
+import juav.gpsLogging.gpsLogging;
 import juav.logging.JiveStateLog;
 import juav.simulator.tasks.sensors.readings.GpsReading;
 import ub.cse.juav.jni.gps.GpsNative;
@@ -27,7 +28,11 @@ public class GpsSimNps implements IGpsNps{
         double lon = UtilityFunctions.DegOfRad(reading.getLla_pos().getLon())* 1e7;
         double alt = reading.getLla_pos().getAlt()*1000.d;
         
-        StateTransitions.instance.add_points(lat,lon,alt);
+      
+      //Oct StateTransitions.instance.add_points(lat,lon,alt);
+       // JiveStateLog.setPosition(lat, lon, alt);
+        gpsLogging.setPosition(lat, lon, alt);
+        
         
         GpsNativeWrapper.gps_feed_value_lla_pos_juav(lat,lon,alt);
         GpsNativeWrapper.gps_feed_value_hmsl_juav(reading.getHmsl()*1000.d);

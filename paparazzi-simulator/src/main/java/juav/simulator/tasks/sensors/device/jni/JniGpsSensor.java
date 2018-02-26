@@ -1,5 +1,5 @@
 package juav.simulator.tasks.sensors.device.jni;
-import jive.logging.StateTransitions;
+import jive.StateTransitions;
 import juav.logging.JiveStateLog;
 import juav.simulator.nps.random.NpsRandom;
 import juav.simulator.tasks.sensors.ISensor;
@@ -43,7 +43,7 @@ public class JniGpsSensor extends ISensor<GpsReading> {
         if (time < data.getNext_update()) {
             return;
         }
-        StateTransitions.instance.add_transition(new String[]{"Copy Sensor Values"});
+        //StateTransitions.instance.add_transition(new String[]{"Copy Sensor Values"});
         //StateTransitions.instance.add_transition(new String[]{"Copy GPS"});
         JiveStateLog.setjniSensors("GpsSensor_execute_Periodic");
 
@@ -53,8 +53,12 @@ public class JniGpsSensor extends ISensor<GpsReading> {
    */
         EcefCoor<Double> cur_speed_reading = new EcefCoor<>();
         cur_speed_reading.setX(FdmWrapper.getFdmEcefEcefVelX());
+       
         cur_speed_reading.setY(FdmWrapper.getFdmEcefEcefVelY());
+        
         cur_speed_reading.setZ(FdmWrapper.getFdmEcefEcefVelZ());
+        
+      //  StateTransitions.instance.add_points(lat, lon, alt);
   /* add a gaussian noise */
         NpsRandom.double_vect3_add_gaussian_noise(cur_speed_reading, data.getSpeed_noise_std_dev());
 

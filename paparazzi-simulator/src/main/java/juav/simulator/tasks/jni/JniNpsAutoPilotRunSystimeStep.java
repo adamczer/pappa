@@ -1,6 +1,6 @@
 package juav.simulator.tasks.jni;
 
-import jive.logging.StateTransitions;
+import jive.StateTransitions;
 import juav.simulator.tasks.PeriodicTask;
 import ub.cse.juav.jni.tasks.NativeTasks;
 import ub.cse.juav.jni.tasks.NativeTasksWrapper;

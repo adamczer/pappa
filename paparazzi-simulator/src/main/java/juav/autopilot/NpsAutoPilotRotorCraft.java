@@ -12,7 +12,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import jive.logging.StateTransitions;
+import jive.StateTransitions;
 
 /**
  * Created by adamczer on 5/30/16.
@@ -32,13 +32,13 @@ public class NpsAutoPilotRotorCraft extends PeriodicTask {
     @Override
     public void execute() {
         double time = PaparazziNpsWrapper.getNpsMainSimTime();
-        StateTransitions.instance.add_transition(new String[]{"Run NpsAutopilot"});
+        //StateTransitions.instance.add_transition(new String[]{"Run NpsAutopilot"});
         npsAutopilotRunStep(time);
     }
 
     private void npsAutopilotRunStep(double time) {
     	sensorState = "nps_autopilot_run_step";
-        JiveStateLog.setsensorState(sensorState);
+        // Bfore BCI JiveStateLog.setsensorState(sensorState);
         //Not needed it should decrement battery
         NativeTasksWrapper.npsElectricalRunStep(time);
 
@@ -50,10 +50,10 @@ public class NpsAutoPilotRotorCraft extends PeriodicTask {
         
 //        NativeTasksWrapper.npsSensorFeedStepGyro();
         if (gyroSensor.getData().isData_available()) {
-        	//sensorState = "gyroSensor reading available";
-        	//JiveStateLog.setsensorState(sensorState);
+        	sensorState = "gyroSensor reading available";
+        	JiveStateLog.setsensorState(sensorState);
             jniImuNps.imuFeedGyro(gyroSensor.getData());
-            StateTransitions.instance.add_transition(new String[]{"Feed Sensor Values"});
+            //StateTransitions.instance.add_transition(new String[]{"Feed Sensor Values"});
             //StateTransitions.instance.add_transition(new String[]{"Feed Gyro"});
             main_event();
             gyroSensor.getData().setData_available(false);
@@ -61,10 +61,10 @@ public class NpsAutoPilotRotorCraft extends PeriodicTask {
 
 //        NativeTasksWrapper.npsSensorFeedStepAccel();
         if (accelSensor.getData().isData_available()) {
-        	//sensorState = "accelSensor reading available";
-        	//JiveStateLog.setsensorState(sensorState);
+        	sensorState = "accelSensor reading available";
+        	JiveStateLog.setsensorState(sensorState);
             jniImuNps.imuFeedAccel(accelSensor.getData());
-            StateTransitions.instance.add_transition(new String[]{"Feed Sensor Values"});
+           // StateTransitions.instance.add_transition(new String[]{"Feed Sensor Values"});
             //StateTransitions.instance.add_transition(new String[]{"Feed Accel"});
             main_event();
             accelSensor.getData().setData_available(false);
@@ -73,10 +73,10 @@ public class NpsAutoPilotRotorCraft extends PeriodicTask {
 
 //        NativeTasksWrapper.npsSensorFeedStepMag();
         if (magSensor.getData().isData_available()) {
-        	//sensorState = "magSensor reading available";
-        	//JiveStateLog.setsensorState(sensorState);
+        	sensorState = "magSensor reading available";
+        	JiveStateLog.setsensorState(sensorState);
             jniImuNps.imuFeedMag(magSensor.getData());
-            StateTransitions.instance.add_transition(new String[]{"Feed Sensor Values"});
+            //StateTransitions.instance.add_transition(new String[]{"Feed Sensor Values"});
             //StateTransitions.instance.add_transition(new String[]{"Feed Magnometer"});
             main_event();
             magSensor.getData().setData_available(false);
@@ -84,11 +84,11 @@ public class NpsAutoPilotRotorCraft extends PeriodicTask {
 
 //        NativeTasksWrapper.npsSensorFeedStepBaro();
         if (baroSensor.getData().isData_available()) {
-        	//sensorState = "magSensor reading available";
-        	//JiveStateLog.setsensorState(sensorState);
+        	sensorState = "magSensor reading available";
+        	JiveStateLog.setsensorState(sensorState);
             float pressure = (float) baroSensor.getData().getValue();
             NativeTasksWrapper.sendBarometricReading(pressure);
-            StateTransitions.instance.add_transition(new String[]{"Feed Sensor Values"});
+            //StateTransitions.instance.add_transition(new String[]{"F"});
             //StateTransitions.instance.add_transition(new String[]{"Feed Barometer"});
             main_event();
             baroSensor.getData().setData_available(false);
@@ -109,8 +109,8 @@ public class NpsAutoPilotRotorCraft extends PeriodicTask {
 
 //        NativeTasksWrapper.npsSensorFeedStepGps();
         if (gpsSensor.getData().isData_available()) {
-        	//sensorState = "gpsSensor reading available";
-        	//JiveStateLog.setsensorState(sensorState);
+        	sensorState = "gpsSensor reading available";
+        	JiveStateLog.setsensorState(sensorState);
             gpsSimNps.gpsFeedValue(gpsSensor.getData());
             //StateTransitions.instance.add_transition(new String[]{"Feed GPS"});
             main_event();
@@ -118,42 +118,68 @@ public class NpsAutoPilotRotorCraft extends PeriodicTask {
         }
 
         NativeTasksWrapper.npsAutopilotRunStepOverwriteAhrs();
-        StateTransitions.instance.add_transition(new String[]{"Overwrite AHRS"});
+        //StateTransitions.instance.add_transition(new String[]{"Overwrite AHRS"});
         NativeTasksWrapper.npsAutopilotRunStepOverwriteIns();
-        StateTransitions.instance.add_transition(new String[]{"Overwrite Ins"});
+        //StateTransitions.instance.add_transition(new String[]{"Overwrite Ins"});
 /***************************************************************/
         long mainPeriodicStart = System.nanoTime();
+        
         if(NativeTasksWrapper.sysTimeCheckAndAckTimerMainPeriodicJuav()) {
+        	//StateTransitions.instance.add_transition(new String[]{"Main Periodic"});
+        	JiveStateLog.setBCIStateLog("Main Periodic");
             newControlLoop();
             NativeTasksWrapper.mainPeriodicJuavAutopilotPost();
 //            NativeTasksWrapper.handlePeriodicTasksFollowingMainPeriodicJuav();
-            if(NativeTasksWrapper.handelPeriodicTaskModulesJuav()) {
-                //TODO true
-            }
-            if(NativeTasksWrapper.handelPeriodicTaskRadioJuav()) {
-                //TODO true
-            }
-            if(NativeTasksWrapper.handelPeriodicTaskFailsafeJuav()) {
-                //TODO true
-            }
-            if(NativeTasksWrapper.handelPeriodicTaskElectricalJuav()) {
-                //TODO true
-            }
-            if(NativeTasksWrapper.handelPeriodicTaskTelemetryJuav()) {
-                //TODO true
-            }
-            if(NativeTasksWrapper.handelPeriodicTaskBaroJuav()) {
-                //TODO true
-            }
+            long startTime = System.nanoTime();
+            
             NativeTasksWrapper.npsAutopilotRunStepConvertMotorMixingCommandsToAutopilotCommands();
-            StateTransitions.instance.add_transition(new String[]{"Commands to simulator"});
+            
+           //Oct  StateTransitions.instance.add_transition(new String[]{"Commands to FDM"});
+            long interval = (System.nanoTime()-startTime)/1000000; //In ms
+            if(interval > 0){
+            System.out.println("Commands to FDM: " +interval);
+            JiveStateLog.setBCIStateLog("Commands to FDM");
+            }
+            
         }
+        
         long mainPeriodicEnd = System.nanoTime();
         try {
             fis.write((""+(iterationCount++)+" "+mainPeriodicStart+" "+mainPeriodicEnd+" "+(mainPeriodicEnd-mainPeriodicStart)+"\n").getBytes());
         } catch (IOException e) {
             e.printStackTrace();
         }
+        
+        if(NativeTasksWrapper.handelPeriodicTaskModulesJuav()) {
+            //TODO true
+        	JiveStateLog.setBCIStateLog("HwWatchDogs");
+        	//StateTransitions.instance.add_transition(new String[]{"HwWatchDogs"});
+        }
+        if(NativeTasksWrapper.handelPeriodicTaskRadioJuav()) {
+            //TODO true
+        	JiveStateLog.setBCIStateLog("Radio Control");
+        	//StateTransitions.instance.add_transition(new String[]{"Radio Control"});
+        }
+        if(NativeTasksWrapper.handelPeriodicTaskFailsafeJuav()) {
+            //TODO true
+        	JiveStateLog.setBCIStateLog("FailSafe");
+        	//StateTransitions.instance.add_transition(new String[]{"FailSafe"});
+        }
+        if(NativeTasksWrapper.handelPeriodicTaskElectricalJuav()) {
+            //TODO true
+        	JiveStateLog.setBCIStateLog("Electrical");
+        	//StateTransitions.instance.add_transition(new String[]{"Electrical"});
+        }
+        if(NativeTasksWrapper.handelPeriodicTaskTelemetryJuav()) {
+            //TODO true
+        	JiveStateLog.setBCIStateLog("Telemetry");
+        	//StateTransitions.instance.add_transition(new String[]{"Telemetry"});
+        }
+        if(NativeTasksWrapper.handelPeriodicTaskBaroJuav()) {
+            //TODO true
+        }
+        
+        
 //        oldControlLoop();
     }
 
@@ -176,18 +202,22 @@ public class NpsAutoPilotRotorCraft extends PeriodicTask {
     }
 
     private void newControlLoop() {
-    	sensorState = "newControlLoop";
-    	StateTransitions.instance.add_transition(new String[]{"run Autopilot"});
-    	StateTransitions.instance.add_iteration("AutoPilot");
+    	sensorState = "AP ControlLoop";
+    	JiveStateLog.setsensorState(sensorState);
+    	//StateTransitions.instance.add_transition(new String[]{"Autopilot"});
+    	//StateTransitions.instance.add_iteration("AutoPilot");
+    	long startTime = System.nanoTime();
         autopilot.autopilot_periodic();
-        
+        long interval = (System.nanoTime()-startTime)/1000000; //In ms
+        if(interval > 0){
+        System.out.println("Autopilot: " +interval);
+        }
 //        NativeTasksWrapper.juavAutopilotPeriodic();
     }
 
     private void main_event() {
         PaparazziNpsWrapper.mainEventPrior();
-        sensorState = "nps_autopilot_main_event";
-        JiveStateLog.setsensorState(sensorState);
+        //sensorState = "nps_autopilot_main_event";
         autopilot.autopilot_on_rc_frame();
         PaparazziNpsWrapper.mainEventPost();
 //        PaparazziNpsWrapper.mainEvent();

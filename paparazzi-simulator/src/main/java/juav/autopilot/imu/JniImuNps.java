@@ -15,7 +15,7 @@ public class JniImuNps extends Imu implements IImuNps{
     boolean mag_available = false;
 
     public void imuFeedGyro(GyroReading gyroReading) {
-    	JiveStateLog.setJniImuNps("imuFeedGyro");
+    	//JiveStateLog.setJniImuNps("imuFeedGyro");
     	
         ImuWrapper.imuFeedGyro(gyroReading.getValue().getX(),gyroReading.getValue().getY(),gyroReading.getValue().getZ());
 //        PprzAlgebra.RATES_ASSIGN(imuReading.gyro_unscaled, gyroReading.getValue().getX(),gyroReading.getValue().getY(),gyroReading.getValue().getZ());
@@ -23,7 +23,7 @@ public class JniImuNps extends Imu implements IImuNps{
     }
 
     public void imuFeedAccel(AccelerometerReading accReading) {
-    	JiveStateLog.setJniImuNps("imuFeedAccel");
+    	//JiveStateLog.setJniImuNps("imuFeedAccel");
     	
 //        System.out.println("Accel Reading xyz = "+accReading.getValue().getX()+","+ accReading.getValue().getY()+","+ accReading.getValue().getZ());
         ImuWrapper.imuFeedAccel(accReading.getValue().getX(), accReading.getValue().getY(), accReading.getValue().getZ());
@@ -32,7 +32,7 @@ public class JniImuNps extends Imu implements IImuNps{
     }
 
     public void imuFeedMag(MagneticReading magReading) {
-    	JiveStateLog.setJniImuNps("imuFeedMag");
+    	//JiveStateLog.setJniImuNps("imuFeedMag");
     	
     	ImuWrapper.imuFeedMag(magReading.getValue().getX(),magReading.getValue().getY(),magReading.getValue().getZ());
 //        PprzAlgebra.VECT3_ASSIGN(imuReading.mag_unscaled,magReading.getValue().getX(),magReading.getValue().getY(),magReading.getValue().getZ());
@@ -46,7 +46,7 @@ public class JniImuNps extends Imu implements IImuNps{
 
     public void imuImplInit()
     {
-    	JiveStateLog.setJniImuNps("imuImplInit");
+    	//JiveStateLog.setJniImuNps("imuImplInit");
 
         gyro_available = false;
         mag_available = false;

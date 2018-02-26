@@ -1,5 +1,5 @@
 package juav.simulator.tasks.sensors.device.jni;
-import jive.logging.StateTransitions;
+import jive.StateTransitions;
 import juav.logging.JiveStateLog;
 import juav.simulator.tasks.sensors.ISensor;
 import juav.simulator.tasks.sensors.readings.MagneticReading;
@@ -63,7 +63,7 @@ public class JniMagSensor extends ISensor<MagneticReading> {
         if(time<data.getNext_update()) {
             return;
         }
-        StateTransitions.instance.add_transition(new String[]{"Copy Sensor Values"});
+       // StateTransitions.instance.add_transition(new String[]{"Copy Sensor Values"});
         //StateTransitions.instance.add_transition(new String[]{"Copy Magnometer"});
         JiveStateLog.setjniSensors("MagSensor_execute_Periodic");
 

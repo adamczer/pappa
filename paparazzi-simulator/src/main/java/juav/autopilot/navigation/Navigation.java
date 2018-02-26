@@ -1,5 +1,6 @@
 package juav.autopilot.navigation;
-import jive.logging.StateTransitions;
+import jive.RealJiveStateLog;
+import jive.StateTransitions;
 import juav.logging.JiveStateLog;
 import juav.simulator.tasks.runonceevery.RunOnceEvery;
 import ub.cse.juav.jni.tasks.NativeTasks;
@@ -26,7 +27,10 @@ public class Navigation {
     public static final int NAV_FREQ = 16;
     public static int counter2 = 0;
     public static String navigationStateLog;
-
+    
+    
+   // public static RealJiveStateLog log = new RealJiveStateLog();
+    
     public static float getDist2ToHome() {
     	// StateTransitions.instance.add_transition(new String[]{"nav_get_dist_to_home"});
     	JiveStateLog.setnavigationStateLog("navi_get_dist_to_home");
@@ -40,30 +44,37 @@ public class Navigation {
     }
 
     public static short getHorizantalMode() {
+    //	log.setnavigationStateLog("Nav_get_HMode");
+    	//Oct StateTransitions.instance.add_iteration("Nav_get_HMode");
     	// StateTransitions.instance.add_transition(new String[]{"nav_get_HMode"});
     	JiveStateLog.setnavigationStateLog("get_horizontal_mode");
         return NativeTasksWrapper.navigationGetHorizontalMode();
     }
 
     public static int getNavRoll() {
+  //  	RealJiveStateLog.log.setnavigationStateLog("Nev_getRoll");
+    	//Oct StateTransitions.instance.add_iteration("Nav_getNavRoll");
     	// StateTransitions.instance.add_transition(new String[]{"nav_getNavRoll"});
     	JiveStateLog.setnavigationStateLog("navi_getnavRoll");
         return NativeTasksWrapper.navigationGetNavRoll();
     }
 
     public static int getNavPitch() {
+    	//Oct StateTransitions.instance.add_iteration("Nav_getNavPitch");
     	// StateTransitions.instance.add_transition(new String[]{"nav_getNavPitch"});
     	JiveStateLog.setnavigationStateLog("navi_getNavPitch");
         return NativeTasksWrapper.navigationGetNavPitch();
     }
 
     public static int getNavHeading() {
+    	//Oct StateTransitions.instance.add_iteration("Nav_getNavHeading");
     	// StateTransitions.instance.add_transition(new String[]{"nav_getNavHeading"});
     	JiveStateLog.setnavigationStateLog("navi_getNavHeading");
         return NativeTasksWrapper.navigationGetNavHeading();
     }
 
     public static void setNavHeading(int newHeading) {
+    	//Oct StateTransitions.instance.add_iteration("Nav_setNavHeading");
     	// StateTransitions.instance.add_transition(new String[]{"nav_setNavHeading"});
     	JiveStateLog.setnavigationStateLog("navi_setNavHeading");
         NativeTasksWrapper.navigationSetNavHeading(newHeading);
@@ -71,14 +82,14 @@ public class Navigation {
 
     public static int getNavVerticleMode() {
     	// StateTransitions.instance.add_transition(new String[]{"nav_getNav_VMode"});
-    	StateTransitions.instance.add_iteration("getNav_VMode");
+    	//StateTransitions.instance.add_iteration("getNav_VMode");
     	JiveStateLog.setnavigationStateLog("navi_getNav_Verticle_mode");
         return NativeTasksWrapper.navigationGetNavVerticleMode();
     }
 
     public static int getNavClimb() {
     	// StateTransitions.instance.add_transition(new String[]{"nav_getNavClimb"});
-    	StateTransitions.instance.add_iteration("Nav_getClimb");
+    	//StateTransitions.instance.add_iteration("Nav_getClimb");
     	JiveStateLog.setnavigationStateLog("navi_getNavClimb");
         return NativeTasksWrapper.navigationGetNavClimb();
     }
@@ -86,13 +97,13 @@ public class Navigation {
     public static int getNavFlightAltitude() {
     	// StateTransitions.instance.add_transition(new String[]{"nav_get_nav_flight_altitude"});
     	JiveStateLog.setnavigationStateLog("navi_get_Nav_Flight_Altitude");
-    	StateTransitions.instance.add_iteration("Nav_Flight_Altitude");
+    	//StateTransitions.instance.add_iteration("Nav_Flight_Altitude");
         return NativeTasksWrapper.navigationGetNavFlightAltitude();
     }
 
     public static int getNavThrottle() {
     	 //StateTransitions.instance.add_transition(new String[]{"nav_getThrottle"});
-    	StateTransitions.instance.add_iteration("Nav_getThrottle");
+    	//StateTransitions.instance.add_iteration("Nav_getThrottle");
     	JiveStateLog.setnavigationStateLog("navi_getNavThrottle");
         return NativeTasksWrapper.navigationGetNavThrottle();
     }
@@ -100,10 +111,18 @@ public class Navigation {
     public static RunOnceEvery nav_periodic_task = new RunOnceEvery() {
         @Override
         protected void work() {
-        	JiveStateLog.setnavigationStateLog("nav_periodic_task");
+        //	RealJiveStateLog.setnavigationStateLog("navigaton_periodic");
+        	//Oct StateTransitions.instance.add_transition(new String[]{"Navigation"});
+        	long startTime = System.nanoTime();
         	 //StateTransitions.instance.add_transition(new String[]{"run navi_periodic"});
-        	StateTransitions.instance.add_iteration("Navigation");
+        	//StateTransitions.instance.add_iteration("Navigation Periodic");
+        	JiveStateLog.setnavigationStateLog("navi_periodic");
             NativeTasksWrapper.navPeriodicTask();
+            
+            long interval = (System.nanoTime()-startTime)/1000000; //In ms
+            if(interval > 0){
+            System.out.println("Navigation: " +interval);
+            }
         }
     };
 
@@ -111,6 +130,8 @@ public class Navigation {
         @Override
         protected void work() {
         	// StateTransitions.instance.add_transition(new String[]{"nav_home"});
+        	
+        	
         	JiveStateLog.setnavigationStateLog("nav_home");
             NativeTasksWrapper.navHome();
         }

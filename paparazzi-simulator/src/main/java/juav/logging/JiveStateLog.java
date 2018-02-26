@@ -1,12 +1,13 @@
 package juav.logging;
 
-import jive.logging.RealJiveStateLog;
+import jive.RealJiveStateLog;
 import juav.autopilot.AutopilotArmingYaw;
 
 /**
  * Created by adamczer on 3/19/17.
  */
 public class JiveStateLog {
+	
     private static boolean motorsOn;
     private static String motorStatus = "";
     private static String autopilotMode = "";
@@ -17,8 +18,8 @@ public class JiveStateLog {
     private static String stabilization_rate = "";
     private static String stabilization_attitude = "";
 
-    private static String navigationStateLog = "";
-
+    private static String navigationStateLog = "-";
+    
     //New variables
     private static String cyclicStateLog = ""; //NpsCyclicImpl
     private static String sensorState = ""; //npsAutoPilotRotorCraft
@@ -26,10 +27,35 @@ public class JiveStateLog {
 	private static String jniSensorStatus = "";
 	private static String gpsSimNps = "";
     
+	private static double lat, lon, alt;
+	
+	public static String bciLog = "";
+	
+	//FOR bci
+	
+	public static void setPosition(double x, double y, double z){
+		//if(!(JiveStateLog.lat == x && JiveStateLog.lon == y && JiveStateLog.alt == z)){
+		lat = x;
+		lon = y;
+		alt = z;
+		//}
+	}
+		
+	public static void setBCIStateLog(String s){
+		if(!JiveStateLog.bciLog.equals(s)){
+			JiveStateLog.bciLog = s;
+			RealJiveStateLog.bciLog = s;
+		}
+	}
+	
+	
+	
+	
     public static void setcyclicStateLog(String cyclicStateLog){
     	if(!JiveStateLog.cyclicStateLog.equals( cyclicStateLog )){
     	JiveStateLog.cyclicStateLog = cyclicStateLog;
     	 RealJiveStateLog.cyclicStateLog = (cyclicStateLog);
+    	// setBCIStateLog(cyclicStateLog);
     	}
     }
     
@@ -37,6 +63,7 @@ public class JiveStateLog {
     	if(!JiveStateLog.navigationStateLog.equals( navi )){
     	navigationStateLog = navi;
     	RealJiveStateLog.navigationStateLog = (navigationStateLog);
+    	//setBCIStateLog(navigationStateLog);
     	}
     	
     }
@@ -44,12 +71,14 @@ public class JiveStateLog {
     	if(!JiveStateLog.stabilization_none.equals( s )){
     	stabilization_none = s;
     	RealJiveStateLog.stabilization_none = (stabilization_none);
+    	//setBCIStateLog(stabilization_none);
     	}
     }
     public static void setStabilizationRate(String s){
     	if(!JiveStateLog.stabilization_rate.equals( s )){
     	stabilization_rate = s;
     	RealJiveStateLog.stabilization_rate = (stabilization_rate);
+    	//setBCIStateLog(stabilization_rate);
     	}
     }
     
@@ -57,6 +86,7 @@ public class JiveStateLog {
     	if(!JiveStateLog.stabilization_attitude.equals( s )){
     	stabilization_attitude = s;
     	RealJiveStateLog.stabilization_attitude=(stabilization_attitude);
+    	//setBCIStateLog(stabilization_attitude);
     	}
     }
     
@@ -64,6 +94,7 @@ public class JiveStateLog {
     	if(!JiveStateLog.sensorState.equals(sensorState )){
     	JiveStateLog.sensorState = sensorState;
     	 RealJiveStateLog.sensorState = (sensorState);
+    	 //setBCIStateLog(sensorState);
     	}
     }
     
@@ -76,6 +107,7 @@ public class JiveStateLog {
     	if(!JiveStateLog.motorStatus.equals( motorStatus)) {
             JiveStateLog.motorStatus = motorStatus;
             RealJiveStateLog.motorStatus = (motorStatus);
+          //  setBCIStateLog(motorStatus);
         }
 
     }
@@ -110,6 +142,7 @@ public class JiveStateLog {
     	if(!JiveStateLog.autopilotMode.equals( autopilotMode)) {
             JiveStateLog.autopilotMode = autopilotMode;
             RealJiveStateLog.autopilotMode = (autopilotMode);
+            //setBCIStateLog(autopilotMode);
         }
     }
 
@@ -121,6 +154,7 @@ public class JiveStateLog {
     	if(!JiveStateLog.guidanceHMode.equals( guidanceHMode)) {
             JiveStateLog.guidanceHMode = guidanceHMode;
             RealJiveStateLog.guidanceHMode = (guidanceHMode);
+            //setBCIStateLog(guidanceHMode);
     	}
     }
 
@@ -132,6 +166,7 @@ public class JiveStateLog {
     	if(!JiveStateLog.guidanceVMode.equals( guidanceVMode)) {
             JiveStateLog.guidanceVMode = guidanceVMode;
             RealJiveStateLog.guidanceVMode = (guidanceVMode);
+            //setBCIStateLog(guidanceVMode);
         }
     }
 
@@ -154,5 +189,6 @@ public class JiveStateLog {
 		JiveStateLog.gpsSimNps = string;
 		RealJiveStateLog.gpsSimNps = (gpsSimNps);
 		}
-	}
+	
+	} 
 }

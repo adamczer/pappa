@@ -24,7 +24,7 @@ import static ub.juav.airborne.math.functions.algebra.PprzAlgebraInt.*;
 import static ub.juav.airborne.math.functions.geodetic.PprzGeodeticInt.INT32_VECT2_NED_OF_ENU;
 import static ub.juav.airborne.math.util.UtilityFunctions.*;
 
-import jive.logging.StateTransitions;
+import jive.StateTransitions;
 
 /**
  * Created by adamczer on 6/9/16.
@@ -132,7 +132,7 @@ public class GuidanceH {
     public void guidance_h_traj_run(boolean inFlight)
     {
     	//StateTransitions.instance.add_transition(new String[]{"GuidanceH_Traj_Run"});
-    	
+    	//StateTransitions.instance.add_iteration("Guidance_H_Traj_Run");
     	JiveStateLog.setGuidanceHMode("guidance_h_traj_run");
 //        NativeTasksWrapper.guidanceHTrajRun(inFlight);
         Vect2<Integer> guidance_h_cmd_earth = Vect2.newIntVect2();
@@ -330,6 +330,7 @@ public class GuidanceH {
     public static void guidance_h_update_reference()
     {
     	// StateTransitions.instance.add_transition(new String[]{"GuidanceH_updateRef"}); 
+    	//StateTransitions.instance.add_iteration("Guidance_H_UpdateRef");
     	JiveStateLog.setGuidanceHMode("guidance_h_update_reference");
 //        NativeTasksWrapper.guidanceHUpdateReference();if(true)return;//TODO fix me error...
   /* compute reference even if usage temporarily disabled via guidance_h_use_ref */
@@ -380,6 +381,7 @@ public class GuidanceH {
     {
     	// StateTransitions.instance.add_transition(new String[]{"GuidanceH_Nav"}); 
     	JiveStateLog.setGuidanceHMode("guidance_h_nav_enter");
+    	//StateTransitions.instance.add_iteration("GuidanceH_Nav");
 //        NativeTasksWrapper.guidanceHNavEnter();if(true)return; //test function
   /* horizontal position setpoint from navigation/flightplan */
         Vect2<Integer> newPos = Vect2.newIntVect2();
