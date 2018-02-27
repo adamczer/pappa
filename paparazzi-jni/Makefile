@@ -1,4 +1,4 @@
-LOCAL_JAVA_HOME=/usr/lib/jvm/java-7-openjdk-i386/
+LOCAL_JAVA_HOME=${JAVA_HOME}
 JNI_FLAGS=-I$(LOCAL_JAVA_HOME)/include -I$(LOCAL_JAVA_HOME)/include/linux/
 PPRZ_HOME=${PAPARAZZI_HOME}
 
@@ -31,11 +31,11 @@ CFLAGS=-I$(PPRZ_HOME)/modules -I$(PPRZ_HOME)/arch/sim/modules \
 	   -I$(PPRZ_HOME)/var/include/ \
 	   -I$(PPRZ_HOME)/var/aircrafts/Quad_LisaM_2/nps/ \
 	   -I$(PPRZ_HOME)/sw/airborne/modules/ \
-	   -I/usr/include/JSBSim -I/usr/lib/i386-linux-gnu/glib-2.0/include/ \
+	   -I/usr/include/JSBSim -I/usr/lib/x86_64-linux-gnu/glib-2.0/include/ \
 	   -I/usr/include/glib-2.0 -DBOARD_CONFIG="$(PPRZ_HOME)/sw/airborne/boards/pc_sim.h" \
 	   -L./libs/
 
-LDFLAGS=-m32 -lglib-2.0 -lm -lglibivy -lpcre -lgsl -lgslcblas -lSDL -lJSBSim
+LDFLAGS=-m64 -lglib-2.0 -lm -lglibivy -lpcre -lgsl -lgslcblas -lSDL -lJSBSim
 
 paparazzi-port: libpapa_native.so 
 
