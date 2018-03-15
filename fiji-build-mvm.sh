@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 rm -rf juav-fiji-mvm
 mkdir juav-fiji-mvm
 cd juav-fiji-mvm
@@ -21,53 +22,29 @@ find juav-jars/ -name \*.class -exec cp {} build/ \;
 mkdir libs
 #cp ../paparazzi-jni/bin/libpapa_native.so  libs/
 #cp ../paparazzi-jni/libs/libpprz.so libs/
-cp ${PAPARAZZI_HOME}/var/aircrafts/Quad_LisaM_2/nps/libpprz.* libs/
+cp ${PAPARAZZI_HOME}/var/aircrafts/Quad_LisaM_2/nps/libpprz.a libs/
 
-mkdir includes
-cp $PAPARAZZI_HOME/sw/simulator/nps/nps_main.h includes/
-cp $PAPARAZZI_HOME/sw/simulator/nps/nps_autopilot.h includes/
-cp $PAPARAZZI_HOME/sw/simulator/nps/nps_fdm.h includes/
-cp $PAPARAZZI_HOME/sw/airborne/firmwares/rotorcraft/autopilot.h includes/
-cp $PAPARAZZI_HOME/sw/airborne/firmwares/rotorcraft/stabilization/stabilization_attitude_quat_int.h includes/
 $FIJI_HOME/bin/fivmc \
---extra-include-dir includes \
---extra-include-dir $PAPARAZZI_HOME/modules \
---extra-include-dir $PAPARAZZI_HOME/arch/sim/modules \
---extra-include-dir $PAPARAZZI_HOME/sw/include/ \
---extra-include-dir $PAPARAZZI_HOME/firmwares/rotorcraft \
---extra-include-dir $PAPARAZZI_HOME/boards/pc \
---extra-include-dir $PAPARAZZI_HOME/sw/airborne/arch/sim \
---extra-include-dir $PAPARAZZI_HOME/boards/pc \
---extra-include-dir $PAPARAZZI_HOME/sw/simulator \
---extra-include-dir $PAPARAZZI_HOME/sw/simulator/nps \
---extra-include-dir $PAPARAZZI_HOME/conf/simulator/nps \
---extra-include-dir $PAPARAZZI_HOME/sw/airborne/firmwares/rotorcraft \
---extra-include-dir $PAPARAZZI_HOME/sw/airborne/firmwares/rotorcraft/stabilization \
---extra-include-dir $PAPARAZZI_HOME/sw/airborne \
---extra-include-dir $PAPARAZZI_HOME/sw/airborne/subsystems/imu \
---extra-include-dir $PAPARAZZI_HOME/sw/airborne/subsystems/gps \
---extra-include-dir $PAPARAZZI_HOME/var/aircrafts/Quad_LisaM_2/nps/generated \
---extra-include-dir $PAPARAZZI_HOME/var/aircrafts/Quad_LisaM_2/nps \
---extra-include-dir $PAPARAZZI_HOME/sw/airborne/ \
---extra-include-dir $PAPARAZZI_HOME/sw/airborne/subsystems/datalink/ \
---extra-include-dir $PAPARAZZI_HOME/var/include/ \
---extra-include-dir $PAPARAZZI_HOME/var/aircrafts/Quad_LisaM_2/nps/ \
---extra-include-dir $PAPARAZZI_HOME/sw/airborne/modules/ \
 --more-opt \
 --c-opt SPEED \
 --g-def-max-mem 8601560 \
 --gc CMR  --64 \
 --payload \
 --rt-library=RTSJ \
--o JuavFiji ./build/*.class --extra-include 'nps_main.h' --link-dynamic pprz --extra-include 'nps_autopilot.h' --extra-include 'nps_fdm.h' --extra-include 'autopilot.h' --extra-include 'stabilization_attitude_quat_int.h'
+-o JuavFiji ./build/*.class
+#sed "/\tranlib libfivm.a/\
+#\t$(AR) cr libfivm.a $(TARGS) /home/adamczer/Desktop/libs-pprz/*.o\n
+#\t$(AR) cr libfivm.a $(TARGS) /home/adamczer/Desktop/libs-jsbsim/*.o\n
+#\t$(AR) cr libfivm.a $(TARGS) /home/adamczer/Desktop/ivy-libs/*.o\n
+#\tranlib libfivm.a/" JuavFiji.a.build/Makefile
 # This is the apps that you produced
 cp ../mvm/app/Apps.java .
 cp ../mvm/app/VMConfig.java .
 javac -cp ${FIJI_HOME}/lib/rtsj.jar Apps.java
 javac -cp ${FIJI_HOME}/lib/rtsj.jar:${FIJI_HOME}/lib/fivmr.jar:${FIJI_HOME}/lib/fivmcommon.jar VMConfig.java
-${FIJI_HOME}/bin/fivmc --rt-library=RTSJ --payload -o apps Apps.class
-${FIJI_HOME}/bin/fivmc -o mvm --link-payload JuavFiji --link-payload apps VMConfig.class
-#--link-dynamic pprz
-export LD_LIBRARY_PATH=/lib:/usr/lib:/usr/local/lib
-sudo cp libs/libpprz.so /usr/local/lib/
+${FIJI_HOME}/bin/fivmc --rt-library=RTSJ --64 --payload -o apps Apps.class
+${FIJI_HOME}/bin/fivmc -o mvm --sys-libs "-lpthread -ldl -lm -lstdc++ -lglib-2.0 -lpcre -lSDL -lgsl -lgslcblas" --64 --link-payload JuavFiji --link-payload apps VMConfig.class
+##--link-dynamic pprz
+#export LD_LIBRARY_PATH=/lib:/usr/lib:/usr/local/lib
+#sudo cp libs/libpprz.so /usr/local/lib/
 echo "su as root then set PAPARAZZI_HOME then run ./mvm"
