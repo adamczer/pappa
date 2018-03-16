@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-rm -rf juav-fiji
-mkdir juav-fiji
-cd juav-fiji
+rm -rf juav-fiji-mvm
+mkdir juav-fiji-mvm
+cd juav-fiji-mvm
 mkdir juav-jars
 cp ../paparazzi-airborne/target/paparazzi-airborne-1.0-SNAPSHOT.jar juav-jars/
 cp ../paparazzi-jni/target/paparazzi-jni-1.0-SNAPSHOT.jar juav-jars/
@@ -56,17 +56,17 @@ $FIJI_HOME/bin/fivmc \
 --extra-include-dir $PAPARAZZI_HOME/sw/airborne/modules/ \
 --more-opt \
 --c-opt SPEED \
---g-def-max-mem 200M \
---g-def-immortal-mem 100M \
+--g-def-max-mem 256M \
+--g-def-immortal-mem 128M \
 --gc CMR  \
 --payload \
 --rt-library=RTSJ \
 -o JuavFiji ./build/*.class --extra-include 'nps_main.h' --link-dynamic pprz --extra-include 'nps_autopilot.h' --extra-include 'nps_fdm.h' --extra-include 'autopilot.h' --extra-include 'stabilization_attitude_quat_int.h'
 # This is the apps that you produced
-cp /home/adamczer/mvm-work/test-app/Apps.java .
-cp /home/adamczer/mvm-work/test-app/VMConfig.java .
+cp ../mvm/app/Apps.java .
+cp ../mvm/app/VMConfig.java .
 javac -cp ${FIJI_HOME}/lib/rtsj.jar Apps.java
 javac -cp ${FIJI_HOME}/lib/rtsj.jar:${FIJI_HOME}/lib/fivmr.jar:${FIJI_HOME}/lib/fivmcommon.jar VMConfig.java
-${FIJI_HOME}/bin/fivmc --g-def-immortal-mem 100M --g-def-max-mem 200M --rt-library=RTSJ --payload -o apps Apps.class
+${FIJI_HOME}/bin/fivmc --g-def-immortal-mem 128M --g-def-max-mem 256M --rt-library=RTSJ --payload -o apps Apps.class
 ${FIJI_HOME}/bin/fivmc --g-def-immortal-mem 256M --g-def-max-mem 512M -o mvm --link-dynamic pprz --link-payload JuavFiji --link-payload apps VMConfig.class
 #--link-dynamic pprz
