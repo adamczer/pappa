@@ -306,7 +306,7 @@ public class Autopilot {
 
     public static final float NAV_PRESCALER = (PERIODIC_FREQUENCY / NAV_FREQ);
 
-    void autopilot_periodic()
+    public void autopilot_periodic()
     {
         long autopilotStart = System.nanoTime();
 //        System.out.println("autopilot_mode = "+autopilot_mode);
@@ -629,7 +629,7 @@ public class Autopilot {
         }
     }
 
-    void autopilot_on_rc_frame()
+    public void autopilot_on_rc_frame()
     {
 
         if (kill_switch_is_on()) {

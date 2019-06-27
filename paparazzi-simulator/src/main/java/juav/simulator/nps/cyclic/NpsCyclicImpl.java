@@ -1,6 +1,5 @@
 package juav.simulator.nps.cyclic;
 
-import com.fiji.fivm.ThreadPriority;
 import juav.autopilot.NpsAutoPilotRotorCraft;
 import juav.autopilot.gps.GpsSimNps;
 import juav.autopilot.imu.JniImuNps;
@@ -177,7 +176,7 @@ public class NpsCyclicImpl extends AbstractNpsImpl {
 
     public static void main(String[] args) {
         if(args.length==1) {
-            runSimulation(false);
+            runJuav(false);
         } else {
             RelativeTime rt =
                     new RelativeTime( 0 , 1953125 ) ;
@@ -199,7 +198,7 @@ public class NpsCyclicImpl extends AbstractNpsImpl {
         }
     }
 
-    public static void runSimulation(boolean isFiji) {
+    public static void runJuav(boolean isFiji) {
         if(!isFiji) {
             String juavSrc = System.getenv("JUAV_SRC"); /* SET ENVIRONMENT VARIABLE TO jUAV project root*/
             File pprzLib = new File(juavSrc+"/paparazzi-jni/libs/libpprz.so");
