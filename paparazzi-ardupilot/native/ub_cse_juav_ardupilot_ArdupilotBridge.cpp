@@ -12,6 +12,7 @@
 #include <AP_SerialManager/AP_SerialManager.h>
 #include <AP_HAL_Linux/UARTDriver.h>
 #include <AP_GPS/AP_GPS.h>
+#include <AP_Baro/AP_Baro.h>
 
 #include <unistd.h>             // for usleep
 #include <iostream>    // C++ standard IO header
@@ -197,8 +198,8 @@ JNIEXPORT jboolean JNICALL Java_ub_cse_juav_ardupilot_ArdupilotBridge_init_1gps
     AP_GPS &gps = AP::gps();
     gps.init(*serial_manager);
 
-    ((Linux::UARTDriver*)hal.HAL::uartB)->_timer_tick();
-    gps.update();
+//    ((Linux::UARTDriver*)hal.HAL::uartB)->_timer_tick();
+//    gps.update();
 
     cout << "----------------------------" << endl;
     cout << endl;
@@ -209,6 +210,7 @@ JNIEXPORT jboolean JNICALL Java_ub_cse_juav_ardupilot_ArdupilotBridge_init_1gps
 JNIEXPORT void JNICALL Java_ub_cse_juav_ardupilot_ArdupilotBridge_updateGps
   (JNIEnv *, jclass) {
     AP_GPS &gps = AP::gps();
+    ((Linux::UARTDriver*)hal.HAL::uartB)->_timer_tick();
     gps.update();
     const Location &loc = gps.location();
     gps_val = loc;
@@ -225,12 +227,12 @@ JNIEXPORT jlong JNICALL Java_ub_cse_juav_ardupilot_ArdupilotBridge_getGpsReadTim
 
 JNIEXPORT jdouble JNICALL Java_ub_cse_juav_ardupilot_ArdupilotBridge_getGpsLatitude
   (JNIEnv *, jclass) {
-    return gps_val.lat;
+    return ((double)gps_val.lat)/10000000UL;
   }
 
 JNIEXPORT jdouble JNICALL Java_ub_cse_juav_ardupilot_ArdupilotBridge_getGpsLongitude
   (JNIEnv *, jclass) {
-    return gps_val.lng;
+    return ((double)gps_val.lng)/10000000UL;
   }
 
 JNIEXPORT jdouble JNICALL Java_ub_cse_juav_ardupilot_ArdupilotBridge_getGpsAltitude
@@ -343,3 +345,46 @@ void update_compass() {
         compass_offset[1] = -(compass_max[1] + compass_min[1]) / 2;
         compass_offset[2] = -(compass_max[2] + compass_min[2]) / 2;
 }
+
+// BARO vv
+double baro_pressure;
+double baro_temperature;
+double baro_altitude;
+double baro_climb_rate;
+
+JNIEXPORT jboolean JNICALL Java_ub_cse_juav_ardupilot_ArdupilotBridge_initBaro
+  (JNIEnv *, jclass) {
+        cout << "=============================" << endl;
+        cout << "Initializing barometer sensor" << endl;
+        cout << "-----------------------------" << endl;
+
+        AP_Baro &baro = *AP_Baro::get_instance();
+        baro.init();
+        baro.calibrate();
+
+        if (!baro.healthy()) { cout << "not healthy!"; } else { cout << "OK!" ; }
+                cout << endl;
+
+        cout << "----------------------------" << endl;
+        cout << endl;
+        return true;
+  }
+
+JNIEXPORT void JNICALL Java_ub_cse_juav_ardupilot_ArdupilotBridge_updateBaro
+  (JNIEnv *, jclass){
+    AP_Baro &baro = *AP_Baro::get_instance();
+            baro.update();
+            baro_pressure = baro.get_pressure();
+            baro_altitude = baro.get_altitude();
+            return;
+  }
+
+JNIEXPORT jdouble JNICALL Java_ub_cse_juav_ardupilot_ArdupilotBridge_getBaroPressure
+  (JNIEnv *, jclass){
+    return baro_pressure;
+  }
+
+JNIEXPORT jdouble JNICALL Java_ub_cse_juav_ardupilot_ArdupilotBridge_getBaroAltitude
+  (JNIEnv *, jclass){
+    return baro_altitude;
+  }

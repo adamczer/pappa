@@ -4,6 +4,8 @@ import juav.simulator.tasks.sensors.ISensor;
 import juav.simulator.tasks.sensors.device.jni.JniMagSensor;
 import juav.simulator.tasks.sensors.readings.MagneticReading;
 import ub.cse.juav.ardupilot.ArdupilotBridge;
+import ub.cse.juav.ardupilot.time.ParameterizeTimer;
+import ub.cse.juav.jni.nps.PaparazziNpsWrapper;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebra;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebraDouble;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebraInt;
@@ -52,7 +54,6 @@ public class ArdupilotJniMagSensor extends JniMagSensor {
 
     @Override
     protected void executePeriodic() {
-        ArdupilotBridge.updateCompass();
 
 //        double time = PaparazziNpsWrapper.getNpsMainSimTime();
 //
@@ -60,6 +61,10 @@ public class ArdupilotJniMagSensor extends JniMagSensor {
 //            return;
 //        }
 
+        if(!ParameterizeTimer.shouldReadMagSensor())
+            return;
+
+        ArdupilotBridge.updateCompass();
         Vect3<Double> magReading = new Vect3<>();
         magReading.setX(ArdupilotBridge.getMagX());
         magReading.setY(ArdupilotBridge.getMagY());
@@ -69,9 +74,9 @@ public class ArdupilotJniMagSensor extends JniMagSensor {
         PprzAlgebraDouble.DOUBLE_VECT3_ROUND(data.getValue());
   /* saturate                                       */
         PprzAlgebra.VECT3_BOUND_CUBE(data.getValue(), (double)data.getMin(), (double)data.getMax());
-
-        data.setNext_update(data.getNext_update()+ NPS_MAG_DT);
-        data.setData_available(true);
+//        System.out.println("Mag Time = "+System.currentTimeMillis());
+//        System.out.println("Mag: X,Y,Z - "+data.getValue().getX()+","+data.getValue().getY()+","+data.getValue().getZ());
+        data.setNext_update( data.getNext_update()+ NPS_MAG_DT);
     }
 
     @Override

@@ -6,6 +6,7 @@ import juav.autopilot.imu.JniImuNps;
 import juav.simulator.tasks.PeriodicTask;
 import juav.simulator.tasks.sensors.device.jni.*;
 import ub.cse.juav.ardupilot.sensors.*;
+import ub.cse.juav.ardupilot.time.ParameterizeTimer;
 import ub.cse.juav.jni.nps.PaparazziNpsWrapper;
 import ub.cse.juav.jni.tasks.NativeTasksWrapper;
 
@@ -21,6 +22,7 @@ public class ArdupilotAutopilotRotorcraft extends PeriodicTask {
     JniImuNps jniImu;
     GpsSimNps gpsSimNps;
     Autopilot autopilot;
+    private static double test = 0;
 
     @Override
     public void execute() {
@@ -29,7 +31,11 @@ public class ArdupilotAutopilotRotorcraft extends PeriodicTask {
 
     private void ardupilotAutopilotRunStep() {
 
+        NativeTasksWrapper.npsElectricalRunStep(test);
+
+        if(NativeTasksWrapper.npsAutopilotRunRadioStepAndShouldRunMainEvent(test+=1000)) {
             main_event();
+        }
 
         if (gyroSensor.getData().isData_available()) {
             jniImu.imuFeedGyro(gyroSensor.getData());
@@ -66,13 +72,9 @@ public class ArdupilotAutopilotRotorcraft extends PeriodicTask {
         NativeTasksWrapper.npsAutopilotRunStepOverwriteAhrs();
         NativeTasksWrapper.npsAutopilotRunStepOverwriteIns();
 /***************************************************************/
-        long mainPeriodicStart = -1;
-        long mainPeriodicEnd =-1;
-        if(NativeTasksWrapper.sysTimeCheckAndAckTimerMainPeriodicJuav()) {
-            mainPeriodicStart = System.nanoTime();
+        if(ParameterizeTimer.sysTimeCheckAndAckTimerMainPeriodic()) {
             newControlLoop();
             NativeTasksWrapper.mainPeriodicJuavAutopilotPost();
-            mainPeriodicEnd=System.nanoTime();
             NativeTasksWrapper.handlePeriodicTasksFollowingMainPeriodicJuav();
             NativeTasksWrapper.npsAutopilotRunStepConvertMotorMixingCommandsToAutopilotCommands();
         }
@@ -80,7 +82,6 @@ public class ArdupilotAutopilotRotorcraft extends PeriodicTask {
 
     private void newControlLoop() {
         autopilot.autopilot_periodic();
-//        NativeTasksWrapper.juavAutopilotPeriodic();
     }
 
     private void main_event() {
@@ -89,16 +90,8 @@ public class ArdupilotAutopilotRotorcraft extends PeriodicTask {
         PaparazziNpsWrapper.mainEventPost();
     }
 
-    private FileOutputStream fis;
-    private long iterationCount;
     @Override
     public void init() {
-        iterationCount =0;
-        try {
-            fis = new FileOutputStream("main_periodic.log");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
         autopilot = new Autopilot();
         autopilot.autopilot_init();
     }

@@ -84,4 +84,9 @@ public class ArdupilotBridge {
     }
 
     public static native void updateCompass();
+
+    public static native boolean initBaro();
+    public static native void updateBaro();
+    public static native double getBaroPressure();
+    public static native double getBaroAltitude();
 }

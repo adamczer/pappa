@@ -4,6 +4,8 @@ import juav.simulator.tasks.sensors.ISensor;
 import juav.simulator.tasks.sensors.device.jni.JniGyroSensor;
 import juav.simulator.tasks.sensors.readings.GyroReading;
 import ub.cse.juav.ardupilot.ArdupilotBridge;
+import ub.cse.juav.ardupilot.time.ParameterizeTimer;
+import ub.cse.juav.jni.nps.PaparazziNpsWrapper;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebra;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebraDouble;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebraInt;
@@ -42,16 +44,19 @@ public class ArdupilotJniGyroSensor extends JniGyroSensor {
     private static final double NPS_GYRO_BIAS_RANDOM_WALK_STD_DEV_R =UtilityFunctions.RadOfDeg(0.5);
     /* s */
     private static final double NPS_GYRO_DT =(1./512.);
-
     @Override
     protected void executePeriodic() {
-        ArdupilotBridge.updateInertial();
 //        double time = PaparazziNpsWrapper.getNpsMainSimTime();
 //        NativeTasksWrapper.npsSensorFdmCopyGyro(time);if (true)return;
 
 //        if(time<data.getNext_update()) {
 //            return;
 //        }
+
+        if(!ParameterizeTimer.shouldReadGyroSensor())
+            return;
+
+        ArdupilotBridge.updateInertial();
 
 //        RMat<Double> bodyToImu = RMat.RMatDouble();
 //        for(int i = 0; i<3; i++)
@@ -96,7 +101,8 @@ public class ArdupilotJniGyroSensor extends JniGyroSensor {
         data.setValue(rotations);
 
         PprzAlgebra.VECT3_BOUND_CUBE(data.getValue(), data.getMin(), data.getMax());
-
+//        System.out.println("gyro Time = "+System.currentTimeMillis());
+//        System.out.println("gyro: X,Y,Z - "+data.getValue().getX()+","+data.getValue().getY()+","+data.getValue().getZ());
         data.setNext_update( data.getNext_update()+ NPS_GYRO_DT);
         data.setData_available(true);
     }

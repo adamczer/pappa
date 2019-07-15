@@ -5,6 +5,7 @@ import juav.simulator.tasks.sensors.device.jni.JniGpsSensor;
 import juav.simulator.tasks.sensors.readings.GpsReading;
 import org.joda.time.DateTime;
 import ub.cse.juav.ardupilot.ArdupilotBridge;
+import ub.cse.juav.ardupilot.time.ParameterizeTimer;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebra;
 import ub.juav.airborne.math.functions.geodetic.PprzGeodeticDouble;
 import ub.juav.airborne.math.structs.algebra.Vect3;
@@ -31,14 +32,19 @@ public class ArdupilotJniGpsSensor extends JniGpsSensor {
 
     @Override
     protected void executePeriodic() {
+        if(!ParameterizeTimer.shouldReadGpsSensor())
+            return;
+
         ArdupilotBridge.updateGps();
 
         long readTime = ArdupilotBridge.getGpsReadTime();
         double latitude = ArdupilotBridge.getGpsLatitude();
         double longitude = ArdupilotBridge.getGpsLongitude();
         double altitude = ArdupilotBridge.getGpsAltitude();
-
+        
         double[] xyz = lla2ecef(latitude,longitude,altitude);
+//        System.out.println("Lat: "+latitude+", Lon: "+longitude+", Alt: "+altitude);
+//        System.out.println("X: "+xyz[0]+", Y: "+xyz[1]+", Z: "+xyz[2]);
 
         EcefCoor<Double> cur_pos_reading = EcefCoor.EcefCoorDouble();
         cur_pos_reading.setX(xyz[0]);
@@ -75,13 +81,14 @@ public class ArdupilotJniGpsSensor extends JniGpsSensor {
     }
     // from https://gist.github.com/klucar/1536194/49053140bb9df5956c5e9d8782e1d987cd2ae4c0
     // WGS84 ellipsoid constants
-    private final double a = 6378137; // radius
-    private final double e = 8.1819190842622e-2;  // eccentricity
+    private static final double a = 6378137; // radius
+    private static final double e = 8.1819190842622e-2;  // eccentricity
 
-    private final double esq = Math.pow(e,2);
+    private static final double esq = Math.pow(e,2);
 
-    private double[] lla2ecef(double lat, double lon, double alt){
-
+    private static double[] lla2ecef(double latD, double lonD, double alt){
+        double lat = Math.toRadians(latD);
+        double lon = Math.toRadians(lonD);
         double N = a / Math.sqrt(1 - esq * Math.pow(Math.sin(lat),2) );
 
         double x = (N+alt) * Math.cos(lat) * Math.cos(lon);

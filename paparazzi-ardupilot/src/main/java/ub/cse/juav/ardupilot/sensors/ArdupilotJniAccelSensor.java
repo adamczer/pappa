@@ -4,6 +4,8 @@ import juav.simulator.tasks.sensors.ISensor;
 import juav.simulator.tasks.sensors.device.jni.JniAccelSensor;
 import juav.simulator.tasks.sensors.readings.AccelerometerReading;
 import ub.cse.juav.ardupilot.ArdupilotBridge;
+import ub.cse.juav.ardupilot.time.ParameterizeTimer;
+import ub.cse.juav.jni.nps.PaparazziNpsWrapper;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebra;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebraDouble;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebraInt;
@@ -52,13 +54,10 @@ public class ArdupilotJniAccelSensor extends JniAccelSensor {
 
     @Override
     protected void executePeriodic() {
-        ArdupilotBridge.updateInertial();
+        if(!ParameterizeTimer.shouldReadAccelSensor())
+            return;
 
-//        RMat<Double> bodyToImu = RMat.RMatDouble();
-//        for(int i = 0; i<3; i++)
-//            for(int j = 0; j<3 ; j++)
-//                bodyToImu.setElement(ArdupilotBridge.getFdmBodyToImu(i,j),i,j);
-////        System.out.println("bodytoimu = \n"+ bodyToImu);
+        ArdupilotBridge.updateInertial();
 //
 //// aquire required vector over jni
         Vect3<Double> bodyAccel = new Vect3<>();
@@ -94,6 +93,9 @@ public class ArdupilotJniAccelSensor extends JniAccelSensor {
         PprzAlgebraDouble.DOUBLE_VECT3_ROUND(data.getValue());
   /* saturate                                       */
         PprzAlgebra.VECT3_BOUND_CUBE(data.getValue(), data.getMin(), data.getMax());
+
+//        System.out.println("Accel Time = "+System.currentTimeMillis());
+//        System.out.println("Accel: X,Y,Z - "+data.getValue().getX()+","+data.getValue().getY()+","+data.getValue().getZ());
 
         data.setNext_update(data.getNext_update()+ NPS_ACCEL_DT);
         data.setData_available(true);

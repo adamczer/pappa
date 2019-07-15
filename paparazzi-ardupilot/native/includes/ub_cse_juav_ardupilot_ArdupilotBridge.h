@@ -153,7 +153,7 @@ JNIEXPORT jdouble JNICALL Java_ub_cse_juav_ardupilot_ArdupilotBridge_getMagZ
 
 /*
  * Class:     ub_cse_juav_ardupilot_ArdupilotBridge
- * Method:    init_comapss
+ * Method:    init_compass
  * Signature: ()Z
  */
 JNIEXPORT jboolean JNICALL Java_ub_cse_juav_ardupilot_ArdupilotBridge_init_1compass
@@ -165,6 +165,38 @@ JNIEXPORT jboolean JNICALL Java_ub_cse_juav_ardupilot_ArdupilotBridge_init_1comp
  * Signature: ()V
  */
 JNIEXPORT void JNICALL Java_ub_cse_juav_ardupilot_ArdupilotBridge_updateCompass
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_ardupilot_ArdupilotBridge
+ * Method:    initBaro
+ * Signature: ()Z
+ */
+JNIEXPORT jboolean JNICALL Java_ub_cse_juav_ardupilot_ArdupilotBridge_initBaro
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_ardupilot_ArdupilotBridge
+ * Method:    updateBaro
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_ardupilot_ArdupilotBridge_updateBaro
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_ardupilot_ArdupilotBridge
+ * Method:    getBaroPressure
+ * Signature: ()D
+ */
+JNIEXPORT jdouble JNICALL Java_ub_cse_juav_ardupilot_ArdupilotBridge_getBaroPressure
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_ardupilot_ArdupilotBridge
+ * Method:    getBaroAltitude
+ * Signature: ()D
+ */
+JNIEXPORT jdouble JNICALL Java_ub_cse_juav_ardupilot_ArdupilotBridge_getBaroAltitude
   (JNIEnv *, jclass);
 
 #ifdef __cplusplus
