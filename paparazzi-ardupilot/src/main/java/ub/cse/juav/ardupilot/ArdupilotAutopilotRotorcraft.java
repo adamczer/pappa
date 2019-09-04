@@ -7,6 +7,7 @@ import juav.simulator.tasks.PeriodicTask;
 import juav.simulator.tasks.sensors.device.jni.*;
 import ub.cse.juav.ardupilot.sensors.*;
 import ub.cse.juav.ardupilot.time.ParameterizeTimer;
+import ub.cse.juav.jni.fdm.FdmWrapper;
 import ub.cse.juav.jni.nps.PaparazziNpsWrapper;
 import ub.cse.juav.jni.tasks.NativeTasksWrapper;
 
@@ -82,6 +83,16 @@ public class ArdupilotAutopilotRotorcraft extends PeriodicTask {
 
     private void newControlLoop() {
         autopilot.autopilot_periodic();
+        double [] rotorValues = new double[4];
+        rotorValues[0]= FdmWrapper.getRotor0Value();
+        rotorValues[1]= FdmWrapper.getRotor1Value();
+        rotorValues[2]= FdmWrapper.getRotor2Value();
+        rotorValues[3]= FdmWrapper.getRotor3Value();
+        ArdupilotBridge.setRcValue(0, Math.max((int) ((rotorValues[0]*1000) + 1000),1000));
+        ArdupilotBridge.setRcValue(1, Math.max((int) ((rotorValues[1]*1000) + 1000),1000));
+        ArdupilotBridge.setRcValue(2, Math.max((int) ((rotorValues[2]*1000) + 1000),1000));
+        ArdupilotBridge.setRcValue(3, Math.max((int) ((rotorValues[3]*1000) + 1000),1000));
+        ArdupilotBridge.flushRc();
     }
 
     private void main_event() {

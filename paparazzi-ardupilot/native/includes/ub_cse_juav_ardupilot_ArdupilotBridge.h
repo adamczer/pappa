@@ -199,6 +199,22 @@ JNIEXPORT jdouble JNICALL Java_ub_cse_juav_ardupilot_ArdupilotBridge_getBaroPres
 JNIEXPORT jdouble JNICALL Java_ub_cse_juav_ardupilot_ArdupilotBridge_getBaroAltitude
   (JNIEnv *, jclass);
 
+/*
+ * Class:     ub_cse_juav_ardupilot_ArdupilotBridge
+ * Method:    flushRc
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_ardupilot_ArdupilotBridge_flushRc
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_ardupilot_ArdupilotBridge
+ * Method:    setRcValue
+ * Signature: (II)V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_ardupilot_ArdupilotBridge_setRcValue
+  (JNIEnv *, jclass, jint, jint);
+
 #ifdef __cplusplus
 }
 #endif

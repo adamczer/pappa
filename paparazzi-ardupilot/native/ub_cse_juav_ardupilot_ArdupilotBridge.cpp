@@ -388,3 +388,21 @@ JNIEXPORT jdouble JNICALL Java_ub_cse_juav_ardupilot_ArdupilotBridge_getBaroAlti
   (JNIEnv *, jclass){
     return baro_altitude;
   }
+
+  // Rotors vv
+  JNIEXPORT void JNICALL Java_ub_cse_juav_ardupilot_ArdupilotBridge_flushRc
+    (JNIEnv *, jclass) {
+        hal.rcout->cork();
+        for (uint16_t i = 0; i < RCOUT_MOTORS_NUM; i++) {
+            hal.rcout->write(i, rcout_pwm[i]);
+            printf("motor[%d] set to: %d\n",i, rcout_pwm[i]);
+        }
+        hal.rcout->push();
+    }
+
+  JNIEXPORT void JNICALL Java_ub_cse_juav_ardupilot_ArdupilotBridge_setRcValue
+    (JNIEnv *env, jclass thisClass, jint channel, jint val) {
+        rcout_pwm[channel]=val;
+        return;
+    }
+

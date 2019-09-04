@@ -114,5 +114,23 @@
 		return get_fdm_agl_juav();
     }
 
+JNIEXPORT jdouble JNICALL Java_ub_cse_juav_jni_fdm_JniFdm_getRotor0Value
+  (JNIEnv *env, jclass thisClass) {
+    return get_rotor0_value();
+  }
+
+JNIEXPORT jdouble JNICALL Java_ub_cse_juav_jni_fdm_JniFdm_getRotor1Value
+  (JNIEnv *env, jclass thisClass) {
+    return get_rotor1_value();
+  }
+JNIEXPORT jdouble JNICALL Java_ub_cse_juav_jni_fdm_JniFdm_getRotor2Value
+  (JNIEnv *env, jclass thisClass) {
+    return get_rotor2_value();
+  }
+
+JNIEXPORT jdouble JNICALL Java_ub_cse_juav_jni_fdm_JniFdm_getRotor3Value
+  (JNIEnv *env, jclass thisClass) {
+    return get_rotor3_value();
+  }
 
 

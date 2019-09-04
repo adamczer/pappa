@@ -18,6 +18,10 @@ public class ArdupilotJniBaroSensor extends JniBaroSensor {
         if(!ParameterizeTimer.shouldReadBaroSensor())
             return;
         ArdupilotBridge.updateBaro();
+//        double tmp = Pprz_isa.pprz_isa_pressure_of_altitude(ArdupilotBridge.getGpsAltitude());
+//        double tmp = ArdupilotBridge.getBaroPressure();
+//        double tmp = Pprz_isa.pprz_isa_pressure_of_altitude(ArdupilotBridge.getBaroAltitude());
+
 //        double tmp = Pprz_isa.pprz_isa_pressure_of_altitude(ArdupilotBridge.getBaroAltitude());
         double tmp = ArdupilotBridge.getBaroPressure();
         data.setValue(tmp);
