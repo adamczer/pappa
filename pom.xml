@@ -12,6 +12,7 @@
         <module>paparazzi-airborne</module>
         <module>paparazzi-simulator</module>
         <module>paparazzi-jni</module>
+        <module>paparazzi-ardupilot</module>
     </modules>
 
     <repositories>

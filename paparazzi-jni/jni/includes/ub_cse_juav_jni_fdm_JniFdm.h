@@ -183,6 +183,38 @@ JNIEXPORT jdouble JNICALL Java_ub_cse_juav_jni_fdm_JniFdm_getFdmEcefPosZ
 JNIEXPORT jdouble JNICALL Java_ub_cse_juav_jni_fdm_JniFdm_getFdmAgl
   (JNIEnv *, jclass);
 
+/*
+ * Class:     ub_cse_juav_jni_fdm_JniFdm
+ * Method:    getRotor0Value
+ * Signature: ()D
+ */
+JNIEXPORT jdouble JNICALL Java_ub_cse_juav_jni_fdm_JniFdm_getRotor0Value
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_fdm_JniFdm
+ * Method:    getRotor1Value
+ * Signature: ()D
+ */
+JNIEXPORT jdouble JNICALL Java_ub_cse_juav_jni_fdm_JniFdm_getRotor1Value
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_fdm_JniFdm
+ * Method:    getRotor2Value
+ * Signature: ()D
+ */
+JNIEXPORT jdouble JNICALL Java_ub_cse_juav_jni_fdm_JniFdm_getRotor2Value
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_jni_fdm_JniFdm
+ * Method:    getRotor3Value
+ * Signature: ()D
+ */
+JNIEXPORT jdouble JNICALL Java_ub_cse_juav_jni_fdm_JniFdm_getRotor3Value
+  (JNIEnv *, jclass);
+
 #ifdef __cplusplus
 }
 #endif

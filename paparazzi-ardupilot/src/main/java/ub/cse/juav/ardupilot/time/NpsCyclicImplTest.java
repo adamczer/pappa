@@ -1,4 +1,4 @@
-package juav.simulator.nps.cyclic;
+package ub.cse.juav.ardupilot.time;
 
 import juav.autopilot.NpsAutoPilotRotorCraft;
 import juav.autopilot.gps.GpsSimNps;
@@ -10,10 +10,14 @@ import juav.simulator.tasks.jni.JniNpsAutoPilotRunSystimeStep;
 import juav.simulator.tasks.jni.JniNpsFdmRunStep;
 import juav.simulator.tasks.sensors.device.jni.*;
 import juav.simulator.time.TimeHandler;
+import ub.cse.juav.ardupilot.sensors.*;
 import ub.cse.juav.fijiorjni.NativeSwitch;
 import ub.cse.juav.jni.nps.PaparazziNpsWrapper;
 
-import javax.realtime.*;
+import javax.realtime.PeriodicParameters;
+import javax.realtime.PriorityParameters;
+import javax.realtime.RealtimeThread;
+import javax.realtime.RelativeTime;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -24,7 +28,7 @@ import java.util.List;
 /**
  * Created by adamczer on 1/24/16.
  */
-public class NpsCyclicImpl extends AbstractNpsImpl {
+public class NpsCyclicImplTest extends AbstractNpsImpl {
     private static int iter =1;
     private static final boolean logMainLoop = false;
 
@@ -117,38 +121,31 @@ public class NpsCyclicImpl extends AbstractNpsImpl {
         taskList.add(new JniNpsAtmosphereUpdate());
         taskList.add(new JniNpsAutoPilotRunSystimeStep());
         taskList.add(new JniNpsFdmRunStep());
-        JniGpsSensor gpsSensor = new JniGpsSensor();
+        JniGpsSensor gpsSensor = new ArdupilotJniGpsSensor();
         gpsSensor.setTimeHandler(timeHandler);
-        JniAccelSensor accelSensor = new JniAccelSensor();
+//        JniGpsSensor gpsSensor = new JniGpsSensor();
+//        gpsSensor.setTimeHandler(timeHandler);
+//        JniAccelSensor accelSensor = new JniAccelSensor();
+//        accelSensor.setTimeHandler(timeHandler);
+//        JniGyroSensor gyroSensor = new JniGyroSensor();
+//        gyroSensor.setTimeHandler(timeHandler);
+        JniAccelSensor accelSensor = new ArdupilotJniAccelSensor();
         accelSensor.setTimeHandler(timeHandler);
-        JniGyroSensor gyroSensor = new JniGyroSensor();
+        JniGyroSensor gyroSensor = new ArdupilotJniGyroSensor();
         gyroSensor.setTimeHandler(timeHandler);
-        JniMagSensor magSensor = new JniMagSensor();
+        JniMagSensor magSensor = new ArdupilotJniMagSensor();
         magSensor.setTimeHandler(timeHandler);
-        JniBaroSensor baroSensor = new JniBaroSensor();
+//        JniMagSensor magSensor = new JniMagSensor();
+//        magSensor.setTimeHandler(timeHandler);
+//        JniBaroSensor baroSensor = new JniBaroSensor();
+//        baroSensor.setTimeHandler(timeHandler);
+        JniBaroSensor baroSensor = new ArdupilotJniBaroSensor();
         baroSensor.setTimeHandler(timeHandler);
         taskList.add(gpsSensor);
         taskList.add(accelSensor);
         taskList.add(gyroSensor);
         taskList.add(magSensor);
         taskList.add(baroSensor);
-        new ITask(){
-
-            @Override
-            public void execute() {
-
-            }
-
-            @Override
-            public boolean isAvailiable() {
-                return false;
-            }
-
-            @Override
-            public void init() {
-
-            }
-        };
         NpsAutoPilotRotorCraft npsAutoPilotRotorCraft = new NpsAutoPilotRotorCraft();
         npsAutoPilotRotorCraft.setAccelSensor(accelSensor);
         npsAutoPilotRotorCraft.setGpsSensor(gpsSensor);
@@ -186,7 +183,7 @@ public class NpsCyclicImpl extends AbstractNpsImpl {
                 @Override
                 public void run() {
                     NativeSwitch.setIsFiji(true);
-                    NpsCyclicImpl nps = new NpsCyclicImpl();
+                    NpsCyclicImplTest nps = new NpsCyclicImplTest();
                     nps.init();
                     while (true) {
                         nps.run();
@@ -205,10 +202,14 @@ public class NpsCyclicImpl extends AbstractNpsImpl {
             System.load(pprzLib.getAbsolutePath());
             File lib = new File(juavSrc + "/paparazzi-jni/bin/libpapa_native.so");
             System.load(lib.getAbsolutePath());
+            File ardulib = new File(juavSrc + "/paparazzi-ardupilot/native/lib/libArduCopter.so");
+            System.load(ardulib.getAbsolutePath());
+            File ardujni = new File(juavSrc + "/paparazzi-ardupilot/native/libArduJni.so");
+            System.load(ardujni.getAbsolutePath());
             isFiji = false;
         }
         NativeSwitch.setIsFiji(isFiji);
-        NpsCyclicImpl nps = new NpsCyclicImpl();
+        NpsCyclicImplTest nps = new NpsCyclicImplTest();
         nps.init();
         nps.run();
     }

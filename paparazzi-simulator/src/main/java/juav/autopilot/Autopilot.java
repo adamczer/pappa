@@ -306,7 +306,7 @@ public class Autopilot {
 
     public static final float NAV_PRESCALER = (PERIODIC_FREQUENCY / NAV_FREQ);
 
-    void autopilot_periodic()
+    public void autopilot_periodic()
     {
         long autopilotStart = System.nanoTime();
 //        System.out.println("autopilot_mode = "+autopilot_mode);
@@ -391,33 +391,33 @@ public class Autopilot {
 //            SetRotorcraftCommands(stabilization_cmd, getAutopilotInFlight(), getAutopilotMotorsOn());
         }
         long autopilotEnd = System.nanoTime();
-        if (guidanceHRunStart != -1) {
-            try {
-                guidanceHRunLog.write((autopilotIterCount+" "+(guidanceHRunEnd - guidanceHRunStart) + "\n").getBytes());
-                guidanceHRunLog.flush();
-                guidanceVRunLog.write((autopilotIterCount+" "+(guidanceVRunEnd - guidanceVRunStart) + "\n").getBytes());
-                guidanceVRunLog.flush();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            try {
-                guidanceHRunLog.write((autopilotIterCount+" "+(-1) + "\n").getBytes());
-                guidanceHRunLog.flush();
-                guidanceVRunLog.write((autopilotIterCount+" "+(-1) + "\n").getBytes());
-                guidanceVRunLog.flush();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        try {
-            autoPilotPeriodicLog.write((autopilotIterCount+" "+(autopilotEnd - autopilotStart) + "\n").getBytes());
-            autoPilotPeriodicLog.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        if (guidanceHRunStart != -1) {
+//            try {
+//                guidanceHRunLog.write((autopilotIterCount+" "+(guidanceHRunEnd - guidanceHRunStart) + "\n").getBytes());
+//                guidanceHRunLog.flush();
+//                guidanceVRunLog.write((autopilotIterCount+" "+(guidanceVRunEnd - guidanceVRunStart) + "\n").getBytes());
+//                guidanceVRunLog.flush();
+//
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        } else {
+//            try {
+//                guidanceHRunLog.write((autopilotIterCount+" "+(-1) + "\n").getBytes());
+//                guidanceHRunLog.flush();
+//                guidanceVRunLog.write((autopilotIterCount+" "+(-1) + "\n").getBytes());
+//                guidanceVRunLog.flush();
+//
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        try {
+//            autoPilotPeriodicLog.write((autopilotIterCount+" "+(autopilotEnd - autopilotStart) + "\n").getBytes());
+//            autoPilotPeriodicLog.flush();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
         autopilotIterCount++;
     }
 
@@ -629,7 +629,7 @@ public class Autopilot {
         }
     }
 
-    void autopilot_on_rc_frame()
+    public void autopilot_on_rc_frame()
     {
 
         if (kill_switch_is_on()) {

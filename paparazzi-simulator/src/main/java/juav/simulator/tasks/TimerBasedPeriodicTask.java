@@ -12,7 +12,7 @@ public abstract class TimerBasedPeriodicTask extends AbstractPeriodicTask {
     @Override
     public boolean isAvailiable() {
         double now = timeHadler.getTime();
-        if(lastExecution <0 || (now-lastExecution)>interval) {
+        if(lastExecution <0 || (now-lastExecution)>=interval) {
             return true;
         }
         return false;

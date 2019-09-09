@@ -31,11 +31,12 @@ CFLAGS=-I$(PPRZ_HOME)/modules -I$(PPRZ_HOME)/arch/sim/modules \
 	   -I$(PPRZ_HOME)/var/include/ \
 	   -I$(PPRZ_HOME)/var/aircrafts/Quad_LisaM_2/nps/ \
 	   -I$(PPRZ_HOME)/sw/airborne/modules/ \
-	   -I/usr/include/JSBSim -I/usr/lib/x86_64-linux-gnu/glib-2.0/include/ \
+	   -I/usr/include/JSBSim -I/usr/lib/arm-linux-gnueabihf/glib-2.0/include/ \
 	   -I/usr/include/glib-2.0 -DBOARD_CONFIG="$(PPRZ_HOME)/sw/airborne/boards/pc_sim.h" \
-	   -L./libs/
+	   -L./libs/ -L/opt/jsbsim/lib/
 
-LDFLAGS=-m64 -lglib-2.0 -lm -lglibivy -lpcre -lgsl -lgslcblas -lSDL -lJSBSim
+#LDFLAGS=-m64 -lglib-2.0 -lm -lglibivy -lpcre -lgsl -lgslcblas -lSDL -lJSBSim
+LDFLAGS= -lglib-2.0 -lm -lglibivy -lpcre -lgsl -lgslcblas -lSDL -lJSBSim
 
 paparazzi-port: libpapa_native.so 
 

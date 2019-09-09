@@ -42,4 +42,9 @@ public class JniFdm {
     public static native double getFdmEcefPosZ();
 
     public static native double getFdmAgl();
+
+    public static native double getRotor0Value();
+    public static native double getRotor1Value();
+    public static native double getRotor2Value();
+    public static native double getRotor3Value();
 }

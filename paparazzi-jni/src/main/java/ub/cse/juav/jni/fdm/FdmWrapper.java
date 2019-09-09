@@ -189,4 +189,18 @@ public class FdmWrapper {
             return JniFdm.getFdmAgl();
         }
     }
+
+
+    public static double getRotor0Value() {
+        return JniFdm.getRotor0Value();
+    }
+    public static double getRotor1Value() {
+        return JniFdm.getRotor1Value();
+    }
+    public static double getRotor2Value() {
+        return JniFdm.getRotor2Value();
+    }
+    public static double getRotor3Value() {
+        return JniFdm.getRotor3Value();
+    }
 }
