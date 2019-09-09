@@ -104,7 +104,7 @@ public class ArdupilotJniAccelSensor extends JniAccelSensor {
 //	data.getValue().setX(0.0);
 //	data.getValue().setY(0.0);
 //	data.getValue().setZ(0.0);
-        
+
 //	System.out.println("Accel: X,Y,Z - "+data.getValue().getX()+","+data.getValue().getY()+","+data.getValue().getZ());
 
         data.setNext_update(data.getNext_update()+ NPS_ACCEL_DT);
