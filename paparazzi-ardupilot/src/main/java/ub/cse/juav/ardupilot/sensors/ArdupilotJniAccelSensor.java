@@ -1,11 +1,10 @@
 package ub.cse.juav.ardupilot.sensors;
 
-import juav.simulator.tasks.sensors.ISensor;
 import juav.simulator.tasks.sensors.device.jni.JniAccelSensor;
+import juav.simulator.tasks.sensors.device.jni.SensorLoggings;
 import juav.simulator.tasks.sensors.readings.AccelerometerReading;
 import ub.cse.juav.ardupilot.ArdupilotBridge;
 import ub.cse.juav.ardupilot.time.ParameterizeTimer;
-import ub.cse.juav.jni.nps.PaparazziNpsWrapper;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebra;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebraDouble;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebraInt;
@@ -17,14 +16,18 @@ public class ArdupilotJniAccelSensor extends JniAccelSensor {
     private static final double IMU_ACCEL_Y_SIGN = 1.d;
     private static final double IMU_ACCEL_Z_SIGN = 1.d;
 
+
     private static final double IMU_ACCEL_X_SENS = 37.91d;
     private static final double IMU_ACCEL_Y_SENS = 37.91d;
     private static final double IMU_ACCEL_Z_SENS = 39.24d;
 
 
-    private static final double IMU_ACCEL_X_NEUTRAL =  26.095821;
-    private static final double IMU_ACCEL_Y_NEUTRAL =  26.095821;
-    private static final double IMU_ACCEL_Z_NEUTRAL =  26.095821;
+   // private static final double IMU_ACCEL_X_NEUTRAL =  26.095821;
+   // private static final double IMU_ACCEL_Y_NEUTRAL =  26.095821;
+   // private static final double IMU_ACCEL_Z_NEUTRAL =  26.095821;
+    private static final double IMU_ACCEL_X_NEUTRAL =  0;
+    private static final double IMU_ACCEL_Y_NEUTRAL =  0;
+    private static final double IMU_ACCEL_Z_NEUTRAL =  0;
     //nps-sensor-params-default
     /*
  * Accelerometer
@@ -52,6 +55,9 @@ public class ArdupilotJniAccelSensor extends JniAccelSensor {
     ///* s */
     private static final double NPS_ACCEL_DT = (1. / 512.);
 
+    private int count = 0;
+    private double x=0,y=0,z = 0;
+
     @Override
     protected void executePeriodic() {
         if(!ParameterizeTimer.shouldReadAccelSensor())
@@ -75,20 +81,20 @@ public class ArdupilotJniAccelSensor extends JniAccelSensor {
 
 
   /* compute accelero readings */
-        PprzAlgebra.MAT33_VECT3_MULT(data.getValue(), data.getSensitivity(), accelero_imu);
-  //      PprzAlgebra.VECT3_ADD(data.getValue(), data.getNeutral());
+       PprzAlgebra.MAT33_VECT3_MULT(data.getValue(), data.getSensitivity(), accelero_imu);
+       PprzAlgebra.VECT3_ADD(data.getValue(), data.getNeutral());
 
   /* Compute sensor error */
-        Vect3<Double> accelero_error = new Vect3<>();
+//new        Vect3<Double> accelero_error = new Vect3<>();
   /* constant bias */
-        PprzAlgebra.VECT3_COPY(accelero_error, data.getBias());
+//new        PprzAlgebra.VECT3_COPY(accelero_error, data.getBias());
   /* scale */
-        Vect3<Double> gain = new Vect3<>();
-        gain.setX(data.getSensitivity().getElement(0,0));
-        gain.setY(data.getSensitivity().getElement(1,1));
-        gain.setZ(data.getSensitivity().getElement(2,2));
+//new        Vect3<Double> gain = new Vect3<>();
+//new        gain.setX(data.getSensitivity().getElement(0,0));
+//new        gain.setY(data.getSensitivity().getElement(1,1));
+//new        gain.setZ(data.getSensitivity().getElement(2,2));
 
-        PprzAlgebra.VECT3_EW_MUL(accelero_error, accelero_error, gain);
+//new        PprzAlgebra.VECT3_EW_MUL(accelero_error, accelero_error, gain);
   /* add error */
 //        PprzAlgebra.VECT3_ADD(data.getValue(), accelero_error);
 
@@ -97,7 +103,10 @@ public class ArdupilotJniAccelSensor extends JniAccelSensor {
   /* saturate                                       */
         PprzAlgebra.VECT3_BOUND_CUBE(data.getValue(), data.getMin(), data.getMax());
 
-     //   System.out.println("Accel Time = "+System.currentTimeMillis());
+//	System.out.println("accel X = "+ data.getValue().getX());
+//	System.out.println("accel Y = "+ data.getValue().getY());
+//	System.out.println("accel Z = "+ data.getValue().getZ());
+
 	//data.getValue().setX(data.getValue().getX()*-4);
 	//data.getValue().setY(data.getValue().getY()*-3);
 	//data.getValue().setZ(data.getValue().getZ()*.9);
@@ -109,6 +118,7 @@ public class ArdupilotJniAccelSensor extends JniAccelSensor {
 
         data.setNext_update(data.getNext_update()+ NPS_ACCEL_DT);
         data.setData_available(true);
+        SensorLoggings.setAccelerations(data);
     }
 
     @Override

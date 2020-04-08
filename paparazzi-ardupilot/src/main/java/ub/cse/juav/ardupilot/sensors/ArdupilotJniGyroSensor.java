@@ -1,18 +1,18 @@
 package ub.cse.juav.ardupilot.sensors;
 
-import juav.simulator.tasks.sensors.ISensor;
 import juav.simulator.tasks.sensors.device.jni.JniGyroSensor;
+import juav.simulator.tasks.sensors.device.jni.SensorLoggings;
 import juav.simulator.tasks.sensors.readings.GyroReading;
 import ub.cse.juav.ardupilot.ArdupilotBridge;
 import ub.cse.juav.ardupilot.time.ParameterizeTimer;
-import ub.cse.juav.jni.nps.PaparazziNpsWrapper;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebra;
-import ub.juav.airborne.math.functions.algebra.PprzAlgebraDouble;
 import ub.juav.airborne.math.functions.algebra.PprzAlgebraInt;
 import ub.juav.airborne.math.structs.algebra.Mat33;
-import ub.juav.airborne.math.structs.algebra.RMat;
 import ub.juav.airborne.math.structs.algebra.Vect3;
 import ub.juav.airborne.math.util.UtilityFunctions;
+import ub.juav.airborne.math.structs.algebra.RMat;
+import ub.juav.airborne.math.functions.algebra.PprzAlgebraDouble;
+import juav.simulator.nps.random.NpsRandom;
 
 public class ArdupilotJniGyroSensor extends JniGyroSensor {
     private static final double NPS_GYRO_MIN = -32767;
@@ -64,47 +64,43 @@ public class ArdupilotJniGyroSensor extends JniGyroSensor {
 //                bodyToImu.setElement(FdmWrapper.getFdmBodyToImu(i,j),i,j);
 
         /* transform body rates to IMU frame */
-//        Vect3<Double> rateBody = new Vect3<>();
-//        rateBody.setX(ArdupilotBridge.getFdmBodyInertialRotVelP());
-//        rateBody.setY(ArdupilotBridge.getFdmBodyInertialRotVelQ());
-//        rateBody.setZ(ArdupilotBridge.getFdmBodyInertialRotVelR());
-
-//        Vect3<Double> rateImu = new Vect3<>();
+        Vect3<Double> rateBody = new Vect3<>();
+        rateBody.setX(ArdupilotBridge.getFdmBodyInertialRotVelP());
+        rateBody.setY(ArdupilotBridge.getFdmBodyInertialRotVelQ());
+        rateBody.setZ(ArdupilotBridge.getFdmBodyInertialRotVelR());
+//System.out.println("gyro orig: X,Y,Z - \n"+rateBody.getX()+",\n"+rateBody.getY()+",\n"+rateBody.getZ());
+        Vect3<Double> rateImu = new Vect3<>();
 //        PprzAlgebra.MAT33_VECT3_MULT(rateImu,bodyToImu,rateBody);
+	rateImu = rateBody;
 //        /* compute gyros readings */
-//        PprzAlgebra.MAT33_VECT3_MULT(data.getValue(),data.getSensitivity(),rateImu);
-//        PprzAlgebra.VECT3_ADD(data.getValue(),data.getNeutral());
+        PprzAlgebra.MAT33_VECT3_MULT(data.getValue(),data.getSensitivity(),rateImu);
+        PprzAlgebra.VECT3_ADD(data.getValue(),data.getNeutral());
 //        /* compute gyro error readings */
-//        Vect3<Double> gyro_error = new Vect3<>();
-//        PprzAlgebra.VECT3_COPY(gyro_error, data.getBias_initial());
-//        NpsRandom.double_vect3_add_gaussian_noise(gyro_error, data.getNoise_std_dev());
-//        NpsRandom.double_vect3_update_random_walk(data.getBias_random_walk_value(), data.getBias_random_walk_std_dev(),
-//                NPS_GYRO_DT, 5.);
-//        PprzAlgebra.VECT3_ADD(gyro_error, data.getBias_random_walk_value());
-//
-//        Vect3<Double> gain = new Vect3<>();
-//        gain.setX(data.getSensitivity().getElement(0,0));
-//        gain.setY(data.getSensitivity().getElement(1,1));
-//        gain.setZ(data.getSensitivity().getElement(2,2));
-//        PprzAlgebra.VECT3_EW_MUL(gyro_error, gyro_error, gain);
-//
-//        PprzAlgebra.VECT3_ADD(data.getValue(), gyro_error);
+        Vect3<Double> gyro_error = new Vect3<>();
+        PprzAlgebra.VECT3_COPY(gyro_error, data.getBias_initial());
+        NpsRandom.double_vect3_add_gaussian_noise(gyro_error, data.getNoise_std_dev());
+        NpsRandom.double_vect3_update_random_walk(data.getBias_random_walk_value(), data.getBias_random_walk_std_dev(),
+                NPS_GYRO_DT, 5.);
+        PprzAlgebra.VECT3_ADD(gyro_error, data.getBias_random_walk_value());
+
+        Vect3<Double> gain = new Vect3<>();
+        gain.setX(data.getSensitivity().getElement(0,0));
+        gain.setY(data.getSensitivity().getElement(1,1));
+        gain.setZ(data.getSensitivity().getElement(2,2));
+        PprzAlgebra.VECT3_EW_MUL(gyro_error, gyro_error, gain);
+
+        PprzAlgebra.VECT3_ADD(data.getValue(), gyro_error);
 
   /* round signal to account for adc discretisation */
-//        PprzAlgebraDouble.DOUBLE_VECT3_ROUND(data.getValue());
+        PprzAlgebraDouble.DOUBLE_VECT3_ROUND(data.getValue());
   /* saturate                                       */
 
-        Vect3<Double> rotations = new Vect3();
-        rotations.setX(ArdupilotBridge.getFdmBodyInertialRotVelP()*1000);
-        rotations.setY(ArdupilotBridge.getFdmBodyInertialRotVelQ()*1000);
-        rotations.setZ(ArdupilotBridge.getFdmBodyInertialRotVelR()*1000);
-        data.setValue(rotations);
-
-//        PprzAlgebra.VECT3_BOUND_CUBE(data.getValue(), data.getMin(), data.getMax());
+        PprzAlgebra.VECT3_BOUND_CUBE(data.getValue(), data.getMin(), data.getMax());
 //        System.out.println("gyro Time = "+System.currentTimeMillis());
-        System.out.println("gyro: X,Y,Z - "+data.getValue().getX()+","+data.getValue().getY()+","+data.getValue().getZ());
+//        System.out.println("gyro: X,Y,Z - \n"+data.getValue().getX()+",\n"+data.getValue().getY()+",\n"+data.getValue().getZ());
         data.setNext_update( data.getNext_update()+ NPS_GYRO_DT);
         data.setData_available(true);
+        SensorLoggings.setGyroReadings(data);
     }
 
     @Override

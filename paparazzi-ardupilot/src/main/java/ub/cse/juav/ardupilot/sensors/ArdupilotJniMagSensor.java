@@ -2,6 +2,7 @@ package ub.cse.juav.ardupilot.sensors;
 
 import juav.simulator.tasks.sensors.ISensor;
 import juav.simulator.tasks.sensors.device.jni.JniMagSensor;
+import juav.simulator.tasks.sensors.device.jni.SensorLoggings;
 import juav.simulator.tasks.sensors.readings.MagneticReading;
 import ub.cse.juav.ardupilot.ArdupilotBridge;
 import ub.cse.juav.ardupilot.time.ParameterizeTimer;
@@ -77,6 +78,8 @@ public class ArdupilotJniMagSensor extends JniMagSensor {
 //        System.out.println("Mag Time = "+System.currentTimeMillis());
 //        System.out.println("Mag: X,Y,Z - "+data.getValue().getX()+","+data.getValue().getY()+","+data.getValue().getZ());
         data.setNext_update( data.getNext_update()+ NPS_MAG_DT);
+        data.setData_available(true);
+        SensorLoggings.setMagneticReading(data);
     }
 
     @Override

@@ -5,7 +5,8 @@ import org.joda.time.DateTime;
 import static juav.autopilot.stabilization.StabilizationAttitudeQuatInt.PERIODIC_FREQUENCY;
 
 public class ParameterizeTimer {
-    public static final int MAIN_PERIODIC_FREQUENCY = (int) ((1/PERIODIC_FREQUENCY) * 1000 * 1000);
+    private static final int multiplier = 1000000000;
+    public static final int MAIN_PERIODIC_FREQUENCY = (int) ((1/512) * multiplier);
 
     public static long last_main_periodic_time_ns = 0;
 
@@ -21,7 +22,7 @@ public class ParameterizeTimer {
         return false;
     }
 
-    public static final int ACCEL_FREQUENCY = (int) ((1/512) * 1000 * 1000);
+    public static final int ACCEL_FREQUENCY = (int) ((1/512) *multiplier);
     public static long last_accel_time_ns = 0;
     public static boolean shouldReadAccelSensor() {
         long nowNano = System.nanoTime();
@@ -35,7 +36,7 @@ public class ParameterizeTimer {
         return false;
     }
 
-    public static final int BARO_FREQUENCY = (int) ((1/50) * 1000 * 1000);
+    public static final int BARO_FREQUENCY = (int) ((1/50) * multiplier);
     public static long last_baro_time_ns = 0;
     public static boolean shouldReadBaroSensor() {
         long nowNano = System.nanoTime();
@@ -49,7 +50,7 @@ public class ParameterizeTimer {
         return false;
     }
 
-    public static final int GPS_FREQUENCY = (int) ((1/4) * 1000 * 1000);
+    public static final int GPS_FREQUENCY = (int) ((1/4) * multiplier);
     public static long last_gps_time_ns = 0;
     public static boolean shouldReadGpsSensor() {
         long nowNano = System.nanoTime();
@@ -64,7 +65,7 @@ public class ParameterizeTimer {
     }
 
 
-    public static final int GYRO_FREQUENCY = (int) ((1/512) * 1000 * 1000);
+    public static final int GYRO_FREQUENCY = (int) ((1/512) * multiplier);
     public static long last_gyro_time_ns = 0;
     public static boolean shouldReadGyroSensor() {
         long nowNano = System.nanoTime();
@@ -78,7 +79,7 @@ public class ParameterizeTimer {
         return false;
     }
 
-    public static final int MAG_FREQUENCY = (int) ((1/100) * 1000 * 1000);
+    public static final int MAG_FREQUENCY = (int) ((1/100) * multiplier);
     public static long last_mag_time_ns = 0;
     public static boolean shouldReadMagSensor() {
         long nowNano = System.nanoTime();

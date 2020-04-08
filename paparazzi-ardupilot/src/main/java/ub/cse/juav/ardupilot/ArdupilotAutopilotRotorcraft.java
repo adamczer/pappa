@@ -5,6 +5,7 @@ import juav.autopilot.gps.GpsSimNps;
 import juav.autopilot.imu.JniImuNps;
 import juav.simulator.tasks.PeriodicTask;
 import juav.simulator.tasks.sensors.device.jni.*;
+import ub.cse.juav.ardupilot.rcinput.RCInputReading;
 import ub.cse.juav.ardupilot.sensors.*;
 import ub.cse.juav.ardupilot.time.ParameterizeTimer;
 import ub.cse.juav.jni.fdm.FdmWrapper;
@@ -24,6 +25,7 @@ public class ArdupilotAutopilotRotorcraft extends PeriodicTask {
     GpsSimNps gpsSimNps;
     Autopilot autopilot;
     private static double test = 0;
+    private RCInputReading RCInput;
 
     @Override
     public void execute() {
@@ -80,33 +82,107 @@ public class ArdupilotAutopilotRotorcraft extends PeriodicTask {
             NativeTasksWrapper.npsAutopilotRunStepConvertMotorMixingCommandsToAutopilotCommands();
         }
     }
-
+    private static final int samples = 50;
+    private static int printt = 0;
+    private static double[] rotorVals = {0.0,0.0,0.0,0.0}; 
     private void newControlLoop() {
         autopilot.autopilot_periodic();
+        double [] rV = new double[4];
+        rV[0]= FdmWrapper.getRotor0Value();
+        rV[1]= FdmWrapper.getRotor1Value();
+        rV[2]= FdmWrapper.getRotor2Value();
+        rV[3]= FdmWrapper.getRotor3Value();
+	
+//	System.out.println("rV0="+rV[0]+" rV1="+rV[1]+"rV2="+rV[2]+"rV3="+rV[3]);
+
+        /*rotorVals[0]+= rV[0];
+        rotorVals[1]+= rV[1];
+        rotorVals[2]+= rV[2];
+        rotorVals[3]+= rV[3];
+*/
+        rotorVals[0]= rV[0];
+        rotorVals[1]= rV[1];
+        rotorVals[2]= rV[2];
+        rotorVals[3]= rV[3];
+        //rotorVals[0]+= FdmWrapper.getRotor0Value();
+        //rotorVals[1]+= FdmWrapper.getRotor1Value();
+        //rotorVals[2]+= FdmWrapper.getRotor2Value();
+        //rotorVals[3]+= FdmWrapper.getRotor3Value();
+
+//	int[] readings = RCInput.getRotorValue();
+//	System.out.println("rc0="+readings[0]+" rc1="+readings[1]+"rc2="+readings[2]+"rc3="+readings[3]);
+//        rotorVals[0]+= readings[0];
+//        rotorVals[1]+= readings[1];
+//        rotorVals[2]+= readings[2];
+//        rotorVals[3]+= readings[3];
+	if(++printt%samples == 0) {
+	
         double [] rotorValues = new double[4];
-        rotorValues[0]= FdmWrapper.getRotor0Value();
-        rotorValues[1]= FdmWrapper.getRotor1Value();
-        rotorValues[2]= FdmWrapper.getRotor2Value();
-        rotorValues[3]= FdmWrapper.getRotor3Value();
-//	System.out.println("rotors 0,1,2,3 = "+rotorValues[0]+", "+rotorValues[1]+", "+rotorValues[2]+", "+rotorValues[3]);
+        /*rotorValues[0]= rotorVals[0]/samples; 
+        rotorValues[1]= rotorVals[1]/samples;
+        rotorValues[2]= rotorVals[2]/samples;
+        rotorValues[3]= rotorVals[3]/samples;
+*/
+        rotorValues[0]= rotorVals[0]; 
+        rotorValues[1]= rotorVals[1];
+        rotorValues[2]= rotorVals[2];
+        rotorValues[3]= rotorVals[3];
+
+	//System.out.println("rc0="+rotorValues[0]+" rc1="+rotorValues[1]+"rc2="+rotorValues[2]+"rc3="+rotorValues[3]);
+	rotorVals[0]=0.0;
+	rotorVals[1]=0.0;
+	rotorVals[2]=0.0;
+	rotorVals[3]=0.0;
+//		System.out.println(System.currentTimeMillis());
+//		System.out.println("rotors 0,1,2,3 = "+rotorValues[0]+", "+rotorValues[1]+", "+rotorValues[2]+", "+rotorValues[3]);
 //	System.out.println("r0="+rotorValues[0]);
 //	System.out.println("r1="+rotorValues[1]);
 //	System.out.println("r2="+rotorValues[2]);
 //	System.out.println("r3="+rotorValues[3]);
-	int r0 = Math.max((int) ((rotorValues[0]*1000) + 1000),1000);
+
+	/*int r0 = Math.max((int) ((rotorValues[0]*1000) + 1000),1000);
 	int r1 = Math.max((int) ((rotorValues[1]*1000) + 1000),1000);
 	int r2 = Math.max((int) ((rotorValues[2]*1000) + 1000),1000);
-	int r3 = Math.max((int) ((rotorValues[3]*1000) + 1000),1000);
+	int r3 = Math.max((int) ((rotorValues[3]*1000) + 1000),1000);*/
+
+/*	int mult = 700;
+	int r0 = Math.min(1800,Math.max((int) ((rotorValues[0]*mult) + 1200),1000));
+	int r1 = Math.min(1800,Math.max((int) ((rotorValues[1]*mult) + 1200),1000));
+	int r2 = Math.min(1800,Math.max((int) ((rotorValues[2]*mult) + 1200),1000));
+	int r3 = Math.min(1800,Math.max((int) ((rotorValues[3]*mult) + 1200),1000));
+*/
+//	int r0 = Math.min(1800,Math.max((int) rotorValues[0] ,1000));
+//	int r1 = Math.min(1800,Math.max((int) rotorValues[1] ,1000));
+//	int r2 = Math.min(1800,Math.max((int) rotorValues[2] ,1000));
+//	int r3 = Math.min(1800,Math.max((int) rotorValues[3] ,1000));
+
+
 //	System.out.println("rotors pwm 0,1,2,3 = "+r0+", "+r1+", "+r2+", "+r3);
 //	System.out.println("r00="+r0);
 //        System.out.println("r11="+r1);
 //        System.out.println("r22="+r2);
 //        System.out.println("r33="+r3);
-	ArdupilotBridge.setRcValue(0, r0);
-        ArdupilotBridge.setRcValue(1, r1);
-        ArdupilotBridge.setRcValue(2, r2);
-        ArdupilotBridge.setRcValue(3, r3);
+	// arms red red white white (clockwise)
+	//ArdupilotBridge.setRcValue(3, r0);//back
+	double rcMult = (double)RCInput.getRotorValue()[2]/1000.0;
+	int r0 = (int)(rcMult * Math.max((int)((rotorValues[0]*800)+ 1100),1000));
+	int r1 = (int)(rcMult * Math.max((int)((rotorValues[1]*800)+ 1100),1000));
+	int r2 = (int)(rcMult * Math.max((int)((rotorValues[2]*800)+ 1100),1000));
+	int r3 = (int)(rcMult * Math.max((int)((rotorValues[3]*800)+ 1100),1000));
+        if (RCInput.isKilled()) {
+            for (int i = 0; i<4;i++)
+                ArdupilotBridge.setRcValue(i, 1000);
+        } else {
+	    if(printt%(3*samples)==0)
+	    	System.out.println("rotors pwm 0,1,2,3 = "+r0+", "+r1+", "+r2+", "+r3);
+            ArdupilotBridge.setRcValue(2, r0);//front - correct
+            ArdupilotBridge.setRcValue(0, r1);
+            ArdupilotBridge.setRcValue(3, r2);//back
+            ArdupilotBridge.setRcValue(1, r3);
+        }
         ArdupilotBridge.flushRc();
+
+	}
     }
 
     private void main_event() {
@@ -147,5 +223,9 @@ public class ArdupilotAutopilotRotorcraft extends PeriodicTask {
 
     public void setBaroSensor(JniBaroSensor baroSensor) {
         this.baroSensor = baroSensor;
+    }
+   
+    public void setRCInput(RCInputReading RCInput) {
+        this.RCInput = RCInput;
     }
 }

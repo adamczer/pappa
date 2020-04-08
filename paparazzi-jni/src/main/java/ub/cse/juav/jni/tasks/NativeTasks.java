@@ -351,4 +351,6 @@ public class NativeTasks {
     public static native int getAttitudeRefSaturationMaxRateR();
 
     public static native void guidanceHRunJuavCaseModeNav(boolean inFlight);
+
+    public static native void setRadioControlValue(int i, int val);
 }

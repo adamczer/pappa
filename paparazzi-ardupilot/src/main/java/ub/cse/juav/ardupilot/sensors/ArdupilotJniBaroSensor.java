@@ -1,13 +1,10 @@
 package ub.cse.juav.ardupilot.sensors;
 
-import juav.simulator.nps.random.NpsRandom;
-import juav.simulator.tasks.sensors.ISensor;
 import juav.simulator.tasks.sensors.device.jni.JniBaroSensor;
+import juav.simulator.tasks.sensors.device.jni.SensorLoggings;
 import juav.simulator.tasks.sensors.readings.BarometricReading;
 import ub.cse.juav.ardupilot.ArdupilotBridge;
 import ub.cse.juav.ardupilot.time.ParameterizeTimer;
-import ub.cse.juav.jni.fdm.FdmWrapper;
-import ub.cse.juav.jni.nps.PaparazziNpsWrapper;
 import ub.juav.airborne.math.functions.isa.Pprz_isa;
 
 public class ArdupilotJniBaroSensor extends JniBaroSensor {
@@ -27,6 +24,7 @@ public class ArdupilotJniBaroSensor extends JniBaroSensor {
         data.setData_available(true);
 //        System.out.println("baro time = "+System.currentTimeMillis());
 //        System.out.println("baro: "+data.getValue());
+        SensorLoggings.setBaroPressure(data);
     }
 
     @Override

@@ -14,6 +14,10 @@
 #include <AP_GPS/AP_GPS.h>
 #include <AP_Baro/AP_Baro.h>
 
+#include <AP_HAL_Linux/RCInput_RPI.h>
+
+#include <RC_Channel/RC_Channel.h>
+#include <AP_IOMCU/AP_IOMCU.h>
 #include <unistd.h>             // for usleep
 #include <iostream>    // C++ standard IO header
 using namespace std;
@@ -52,12 +56,22 @@ void update_rcout(uint8_t channel, uint16_t val); // function to update global v
 void flush_rcout();                     // function to send pwm values for all motors
 // rcout defs section ^^
 
+// rcin defs section vv
+#define RCIN_CHANNEL_COUNT      (uint8_t)       8       // num rc channels
+int16_t rcin_channels[RCIN_CHANNEL_COUNT];
+bool init_rcin();
+void update_rcin();
+void display_rcin();
+// rcin defs section ^^
+
+
+
 // Base initialization
 JNIEXPORT jboolean JNICALL Java_ub_cse_juav_ardupilot_ArdupilotBridge_init_1base
   (JNIEnv *, jclass) {
     hal.gpio->init();
     hal.rcout->init();
-    //  hal.rcin->init();
+    hal.rcin->init();
     hal.uartA->begin(115200);
     hal.uartE->begin(115200);
     hal.uartF->begin(115200);
@@ -406,4 +420,55 @@ JNIEXPORT jdouble JNICALL Java_ub_cse_juav_ardupilot_ArdupilotBridge_getBaroAlti
         rcout_pwm[channel]=val;
         return;
     }
+
+
+  JNIEXPORT jboolean JNICALL Java_ub_cse_juav_ardupilot_ArdupilotBridge_initRcIn
+    (JNIEnv *env, jclass thisClass) {
+                rc().init();
+                for (int i=0; i<RCIN_CHANNEL_COUNT; i++) {
+                     printf("CH%u: %u|%u\n",
+                                  (unsigned)i+1,
+                      (unsigned)rc().channel(i)->get_radio_min(),
+                                  (unsigned)rc().channel(i)->get_radio_max());
+                }
+                // set type of output, symmetrical angles or a number range;
+                rc().channel(CH_1)->set_angle(400);
+                rc().channel(CH_1)->set_default_dead_zone(20);
+                rc().channel(CH_2)->set_angle(400);
+                rc().channel(CH_2)->set_default_dead_zone(20);
+                rc().channel(CH_3)->set_range(1000);
+                rc().channel(CH_3)->set_default_dead_zone(20);
+                rc().channel(CH_4)->set_angle(400);
+                rc().channel(CH_4)->set_default_dead_zone(20);
+                rc().channel(CH_5)->set_range(1000);
+                rc().channel(CH_6)->set_range(1000);
+                rc().channel(CH_7)->set_range(1000);
+                rc().channel(CH_8)->set_range(1000);
+                return true;
+    }
+	static int printcount =0;
+  JNIEXPORT void JNICALL Java_ub_cse_juav_ardupilot_ArdupilotBridge_updateRcIn
+    (JNIEnv *env, jclass thisClass) {
+        ((Linux::RCInput_RPI*)hal.HAL::rcin)->_timer_tick();
+                rc().read_input();
+		int val =0;
+                for (uint8_t i=0; i<RCIN_CHANNEL_COUNT; i++) {
+                    val = 1000+(int)rc().channel(i)->get_control_in();
+                    if(i==0 || i == 1 || i==3)
+                        val +=500;
+                    rcin_channels[i]=val;
+                }
+//		if(printcount++%5000==0)
+//			cout << "rcin[3] " << rcin_channels[3] << ", val 3 = " << val << endl;
+		
+    }
+
+  JNIEXPORT jint JNICALL Java_ub_cse_juav_ardupilot_ArdupilotBridge_getRcValue
+    (JNIEnv *env, jclass thisClass, jint rcIndex) {
+	if(printcount++%5000==0)
+	cout << "rcin[3] " << rcin_channels[3] << endl;
+        return rcin_channels[rcIndex];
+    }
+
+
 

@@ -4,11 +4,11 @@ import juav.autopilot.gps.GpsSimNps;
 import juav.autopilot.imu.JniImuNps;
 import juav.simulator.nps.cyclic.NpsCyclicImpl;
 import juav.simulator.tasks.ITask;
-import juav.simulator.tasks.jni.JniNpsAtmosphereUpdate;
 import juav.simulator.tasks.jni.JniNpsAutoPilotRunSystimeStep;
-import juav.simulator.tasks.jni.JniNpsFdmRunStep;
 import juav.simulator.tasks.sensors.device.jni.*;
 import juav.simulator.time.TimeHandler;
+import ub.cse.juav.ardupilot.rcinput.RCInputTask;
+import ub.cse.juav.ardupilot.rcinput.RCInputReading;
 import ub.cse.juav.ardupilot.sensors.*;
 import ub.cse.juav.ardupilot.time.HardwareTimeHandler;
 import ub.cse.juav.fijiorjni.NativeSwitch;
@@ -38,6 +38,7 @@ public class ArdupilotCyclicImpl extends NpsCyclicImpl {
                         task.execute();
                     }
                 }
+//                SensorLoggings.writeIfDelta();
                 /**^^*** Entry point for periodic tasks***^^**/
         } while (!NativeSwitch.isFiji() && run);
     }
@@ -71,24 +72,14 @@ public class ArdupilotCyclicImpl extends NpsCyclicImpl {
         taskList.add(gyroSensor);
         taskList.add(magSensor);
         taskList.add(baroSensor);
-        new ITask(){
+        
+	RCInputReading rcReading = new RCInputReading();
+        RCInputTask rcInput = new RCInputTask();
+        rcInput.setReading(rcReading);
+        rcInput.setTimeHandler(timeHandler);
+        taskList.add(rcInput);
 
-            @Override
-            public void execute() {
-
-            }
-
-            @Override
-            public boolean isAvailiable() {
-                return false;
-            }
-
-            @Override
-            public void init() {
-
-            }
-        };
-        ArdupilotAutopilotRotorcraft npsAutoPilotRotorCraft = new ArdupilotAutopilotRotorcraft();
+	ArdupilotAutopilotRotorcraft npsAutoPilotRotorCraft = new ArdupilotAutopilotRotorcraft();
         npsAutoPilotRotorCraft.setAccelSensor(accelSensor);
         npsAutoPilotRotorCraft.setGpsSensor(gpsSensor);
         npsAutoPilotRotorCraft.setGyroSensor(gyroSensor);
@@ -96,6 +87,7 @@ public class ArdupilotCyclicImpl extends NpsCyclicImpl {
         npsAutoPilotRotorCraft.setBaroSensor(baroSensor);
         npsAutoPilotRotorCraft.setGpsSimNps(new GpsSimNps());
         npsAutoPilotRotorCraft.setJniImuNps(new JniImuNps());
+        npsAutoPilotRotorCraft.setRCInput(rcReading);
         taskList.add(npsAutoPilotRotorCraft);
 
         // Initialize all tasks

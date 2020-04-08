@@ -2,6 +2,7 @@ package ub.cse.juav.ardupilot.sensors;
 
 import juav.simulator.tasks.sensors.ISensor;
 import juav.simulator.tasks.sensors.device.jni.JniGpsSensor;
+import juav.simulator.tasks.sensors.device.jni.SensorLoggings;
 import juav.simulator.tasks.sensors.readings.GpsReading;
 import org.joda.time.DateTime;
 import ub.cse.juav.ardupilot.ArdupilotBridge;
@@ -82,6 +83,7 @@ public class ArdupilotJniGpsSensor extends JniGpsSensor {
 
         data.setNext_update(data.getNext_update()+NPS_GPS_DT);
         data.setData_available(true);
+        SensorLoggings.setGpsReadings(data);
     }
     // from https://gist.github.com/klucar/1536194/49053140bb9df5956c5e9d8782e1d987cd2ae4c0
     // WGS84 ellipsoid constants

@@ -41,8 +41,13 @@ public class StabilizationAttitudeQuatInt {
     private static final int IERROR_SCALE = 128;
 
     private static final int GAIN_PRESCALER_FF = 48;
-    private static final int GAIN_PRESCALER_P = 12;
-    private static final int GAIN_PRESCALER_D = 3;
+    //private static final int GAIN_PRESCALER_FF = 1;
+    //private static final int GAIN_PRESCALER_P = 12;
+    //private static final int GAIN_PRESCALER_P = 7;
+    private static final int GAIN_PRESCALER_P = 20;
+    //private static final int GAIN_PRESCALER_D = 3;
+    //private static final int GAIN_PRESCALER_D = 1;
+    private static final double GAIN_PRESCALER_D = 0.5;
     private static final int GAIN_PRESCALER_I = 3;
 
     private static boolean logTimeMetrics = false;
@@ -118,7 +123,7 @@ public static Eulers<Integer> getStabilizationAttSpEuler() {
 //                stab_att_sp_euler.phi+", "+
 //                stab_att_sp_euler.theta);
     }
-
+    //private static int countt =0;
     public static void stabilization_attitude_run(boolean enable_integrator) {
 //        NativeTasksWrapper.juavStabilizationAttitudeRunNative(enable_integrator);if(true)return;
         Quat<Integer> att_quat = State.getNedToBodyQuatI();
@@ -133,6 +138,8 @@ public static Eulers<Integer> getStabilizationAttSpEuler() {
    * PERIODIC_FREQUENCY is assumed to be 512Hz
    */
         float dt = (1.f/PERIODIC_FREQUENCY);
+	//if(countt++%100==0)
+	//	System.out.println(System.currentTimeMillis());
 //        Quat<Integer> stab_att_sp_quat = getStabilizationAttSpQuat();
 //        AttitudeRef<Integer> att_ref_quat_i = AttitudeRef.getIntegerFromJni();
         attitude_ref_quat_int_update(att_ref_quat_i, stab_att_sp_quat, dt);

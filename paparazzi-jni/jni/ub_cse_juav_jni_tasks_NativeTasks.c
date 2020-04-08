@@ -1343,3 +1343,8 @@ JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_guidanceHRunJuavCa
   (JNIEnv *env, jclass thisClass, jboolean in_flight) {
   juav_guidance_h_mode_nav_case_in_run(in_flight);
   }
+
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setRadioControlValue
+  (JNIEnv *env, jclass thisClass, jint index, jint value) {
+  juav_set_radio_control_value(index,value);
+  }

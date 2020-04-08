@@ -1954,4 +1954,12 @@ public class NativeTasksWrapper {
             NativeTasks.guidanceHRunJuavCaseModeNav(inFlight);
         }
     }
+
+    public static void setRadioControlValue(int i, int val) {
+        if (NativeSwitch.isFiji()) {
+//            NativeTasksFiji.setRadioControlValue(i,val);
+        } else {
+            NativeTasks.setRadioControlValue(i,val);
+        }
+    }
 }

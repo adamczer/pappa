@@ -92,4 +92,9 @@ public class ArdupilotBridge {
 
     public static native void flushRc();
     public static native void setRcValue(int channel, int val);
+
+//    READING FROM CONTROLLER
+    public static native boolean initRcIn();
+    public static native void updateRcIn();
+    public static native int getRcValue(int rcIndex);
 }

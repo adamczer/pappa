@@ -1945,11 +1945,11 @@ JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_guidanceHRunJuavCa
 
 /*
  * Class:     ub_cse_juav_jni_tasks_NativeTasks
- * Method:    ghUpdateRefFromPosSpJuav
- * Signature: ()V
+ * Method:    setRadioControlValue
+ * Signature: (II)V
  */
-JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_ghUpdateRefFromPosSpJuav
-  (JNIEnv *, jclass);
+JNIEXPORT void JNICALL Java_ub_cse_juav_jni_tasks_NativeTasks_setRadioControlValue
+  (JNIEnv *, jclass, jint, jint);
 
 #ifdef __cplusplus
 }

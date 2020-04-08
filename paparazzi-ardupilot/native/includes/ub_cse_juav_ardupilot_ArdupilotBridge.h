@@ -215,6 +215,30 @@ JNIEXPORT void JNICALL Java_ub_cse_juav_ardupilot_ArdupilotBridge_flushRc
 JNIEXPORT void JNICALL Java_ub_cse_juav_ardupilot_ArdupilotBridge_setRcValue
   (JNIEnv *, jclass, jint, jint);
 
+/*
+ * Class:     ub_cse_juav_ardupilot_ArdupilotBridge
+ * Method:    initRcIn
+ * Signature: ()Z
+ */
+JNIEXPORT jboolean JNICALL Java_ub_cse_juav_ardupilot_ArdupilotBridge_initRcIn
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_ardupilot_ArdupilotBridge
+ * Method:    updateRcIn
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_ub_cse_juav_ardupilot_ArdupilotBridge_updateRcIn
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     ub_cse_juav_ardupilot_ArdupilotBridge
+ * Method:    getRcValue
+ * Signature: (I)I
+ */
+JNIEXPORT jint JNICALL Java_ub_cse_juav_ardupilot_ArdupilotBridge_getRcValue
+  (JNIEnv *, jclass, jint);
+
 #ifdef __cplusplus
 }
 #endif
